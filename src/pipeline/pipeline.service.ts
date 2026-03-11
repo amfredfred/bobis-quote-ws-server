@@ -1,4 +1,6 @@
-import { Account } from '../common/types/account.types';
+'use strict'
+
+import { TradingAccount } from '../trading-account/trading-account.service';
 import { InboundSignal } from '../common/types/signal.types';
 import { Trade } from '../common/types/trade.types';
 import { RiskEngine } from '../risk/risk.engine';
@@ -39,7 +41,7 @@ export class PipelineService {
   private _accountEquity  = 0;
 
   constructor(
-    readonly account:             Account,
+    readonly account:             TradingAccount,
     private readonly metaApi:     MetaApiService,
     private readonly tradesSvc:   TradesService,
     metricsSvc:                   MetricsService,
@@ -47,7 +49,8 @@ export class PipelineService {
   ) {
     this.logger  = createLogger(`pipeline.${account.id.slice(0, 8)}`);
     this.metrics = metricsSvc.forAccount(account.id);
-    const cfg    = account.riskConfig;
+    const cfg    = account.riskConfig!;
+    const metaId = account.metaApiAccountId!; // guaranteed non-null — only autoTrade accounts start pipelines
 
     this.store        = new PositionStore();
     this.riskEngine   = new RiskEngine(cfg, account.id, this.metrics);
@@ -55,13 +58,13 @@ export class PipelineService {
 
     this.executionEngine = new ExecutionEngine(
       this.riskEngine, this.tradePlanner, this.store,
-      metaApi, account.metaApiAccountId, cfg, account.id,
+      metaApi, metaId, cfg, account.id,
       this.metrics, bus,
       (t) => this._onTradeOpened(t),
     );
 
     this.positionManager = new PositionManager(
-      this.store, metaApi, account.metaApiAccountId, cfg, account.id,
+      this.store, metaApi, metaId, cfg, account.id,
       this.metrics, bus,
       (t) => this._onTp1Hit(t),
       (t) => this._onTp2Hit(t),
@@ -74,10 +77,11 @@ export class PipelineService {
   // ── Lifecycle ──────────────────────────────────────────────────────────────
 
   async start(): Promise<void> {
-    await this.metaApi.connectAccount(this.account.metaApiAccountId);
+    const metaId = this.account.metaApiAccountId!;
+    await this.metaApi.connectAccount(metaId);
 
     try {
-      const info = await this.metaApi.getAccountInfo(this.account.metaApiAccountId);
+      const info = await this.metaApi.getAccountInfo(metaId);
       this._accountBalance = info.balance;
       this._accountEquity  = info.equity;
       this.positionManager.updateBalance(info.balance);
@@ -93,8 +97,8 @@ export class PipelineService {
 
     try {
       const pct = await this.metaApi.getDailyLossPct(
-        this.account.metaApiAccountId,
-        this.account.riskConfig.magicNumber,
+        metaId,
+        this.account.riskConfig!.magicNumber,
         undefined,
         this._accountBalance || undefined,
       );
@@ -112,7 +116,7 @@ export class PipelineService {
 
   async stop(): Promise<void> {
     this.positionManager.stop();
-    await this.metaApi.disconnectAccount(this.account.metaApiAccountId);
+    await this.metaApi.disconnectAccount(this.account.metaApiAccountId!);
     this.metrics.increment('pipeline.stops');
     this.logger.info('Pipeline stopped', { name: this.account.name });
   }
@@ -242,7 +246,7 @@ export class PipelineService {
 
     // Refresh balance/equity snapshot periodically via account info
     // so the cached balance passed to getDailyLossPct stays accurate.
-    this.metaApi.getAccountInfo(this.account.metaApiAccountId).then(info => {
+    this.metaApi.getAccountInfo(this.account.metaApiAccountId!).then(info => {
       this._accountBalance = info.balance;
       this._accountEquity  = info.equity;
       this.positionManager.updateBalance(info.balance);

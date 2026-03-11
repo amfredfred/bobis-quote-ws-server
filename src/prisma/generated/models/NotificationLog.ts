@@ -241,7 +241,7 @@ export type NotificationLogWhereInput = {
   delivered?: Prisma.BoolFilter<"NotificationLog"> | boolean
   opened?: Prisma.BoolFilter<"NotificationLog"> | boolean
   openedAt?: Prisma.DateTimeNullableFilter<"NotificationLog"> | Date | string | null
-  signalAlertId?: Prisma.StringNullableFilter<"NotificationLog"> | string | null
+  signalAlertId?: Prisma.UuidNullableFilter<"NotificationLog"> | string | null
   profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
   signalAlert?: Prisma.XOR<Prisma.SignalAlertNullableScalarRelationFilter, Prisma.SignalAlertWhereInput> | null
 }
@@ -280,7 +280,7 @@ export type NotificationLogWhereUniqueInput = Prisma.AtLeast<{
   delivered?: Prisma.BoolFilter<"NotificationLog"> | boolean
   opened?: Prisma.BoolFilter<"NotificationLog"> | boolean
   openedAt?: Prisma.DateTimeNullableFilter<"NotificationLog"> | Date | string | null
-  signalAlertId?: Prisma.StringNullableFilter<"NotificationLog"> | string | null
+  signalAlertId?: Prisma.UuidNullableFilter<"NotificationLog"> | string | null
   profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
   signalAlert?: Prisma.XOR<Prisma.SignalAlertNullableScalarRelationFilter, Prisma.SignalAlertWhereInput> | null
 }, "id">
@@ -320,7 +320,7 @@ export type NotificationLogScalarWhereWithAggregatesInput = {
   delivered?: Prisma.BoolWithAggregatesFilter<"NotificationLog"> | boolean
   opened?: Prisma.BoolWithAggregatesFilter<"NotificationLog"> | boolean
   openedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"NotificationLog"> | Date | string | null
-  signalAlertId?: Prisma.StringNullableWithAggregatesFilter<"NotificationLog"> | string | null
+  signalAlertId?: Prisma.UuidNullableWithAggregatesFilter<"NotificationLog"> | string | null
 }
 
 export type NotificationLogCreateInput = {
@@ -649,7 +649,7 @@ export type NotificationLogScalarWhereInput = {
   delivered?: Prisma.BoolFilter<"NotificationLog"> | boolean
   opened?: Prisma.BoolFilter<"NotificationLog"> | boolean
   openedAt?: Prisma.DateTimeNullableFilter<"NotificationLog"> | Date | string | null
-  signalAlertId?: Prisma.StringNullableFilter<"NotificationLog"> | string | null
+  signalAlertId?: Prisma.UuidNullableFilter<"NotificationLog"> | string | null
 }
 
 export type NotificationLogCreateWithoutSignalAlertInput = {

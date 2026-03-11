@@ -40,7 +40,7 @@ model Profile {
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  journalAccounts     JournalAccount[]
+  tradingAccounts     TradingAccount[]
   tradingStrategies   TradingStrategy[]
   tradingAnalytics    TradingAnalytics[]
   notificationLogs    NotificationLog[]
@@ -50,30 +50,67 @@ model Profile {
   @@schema("public")
 }
 
-// ── BB-Platform: execution accounts ──────────────────────────────────────────
+// ── Trading accounts (unified journal + execution) ────────────────────────────
 
-model Account {
-  id               String   @id @default(uuid())
-  userId           String   @map("user_id")
-  name             String
-  metaApiAccountId String   @map("meta_api_account_id")
-  active           Boolean  @default(true)
-  riskConfig       Json     @map("risk_config")
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @updatedAt @map("updated_at")
+model TradingAccount {
+  id             String             @id @default(uuid()) @db.Uuid
+  userId         String             @map("user_id") @db.Uuid
+  accountType    JournalAccountType @default(personal) @map("account_type")
+  name           String
+  accountNumber  String             @map("account_number")
+  currency       String             @default("usd")
+  startBalance   Float              @map("start_balance")
+  currentBalance Float?             @map("current_balance")
 
-  trades  Trade[]
-  signals Signal[]
+  // Broker connection — null = manual account
+  platform         BrokerPlatform?
+  metaApiAccountId String?         @unique @map("meta_api_account_id")
+  autoTradeEnabled Boolean         @default(false) @map("auto_trade_enabled")
+  riskConfig       Json?           @map("risk_config")
 
+  // Sync state
+  lastSyncAt  DateTime? @map("last_sync_at") @db.Timestamptz(6)
+  lastError   String?   @map("last_error")
+  lastErrorAt DateTime? @map("last_error_at")
+
+  // Challenge rules
+  maxDailyLoss     Float? @map("max_daily_loss")
+  maxTotalDrawdown Float? @map("max_total_drawdown")
+  minProfitTarget  Float? @map("min_profit_target")
+  maxTradesPerDay  Int?   @map("max_trades_per_day")
+  tradingDaysLeft  Int?   @map("trading_days_left")
+
+  // Warning thresholds
+  drawdownWarningPercent Float? @default(80) @map("drawdown_warning_percent")
+  profitWarningPercent   Float? @default(90) @map("profit_warning_percent")
+  tradesWarningThreshold Int?   @default(1) @map("trades_warning_threshold")
+  daysWarningThreshold   Int?   @default(5) @map("days_warning_threshold")
+
+  // Daily stats
+  todayTradeCount Int       @default(0) @map("today_trade_count")
+  todayPnl        Float     @default(0) @map("today_pnl")
+  lastStatsReset  DateTime? @map("last_stats_reset") @db.Timestamptz(6)
+
+  isActive  Boolean   @default(true) @map("is_active")
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  profile       Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  journalTrades JournalTrade[]
+  trades        Trade[]
+  signals       Signal[]
+
+  @@unique([userId, name])
+  @@unique([accountNumber])
   @@index([userId])
-  @@index([active])
-  @@map("accounts")
+  @@index([isActive])
+  @@map("trading_accounts")
   @@schema("public")
 }
 
 model Signal {
-  id          String          @id
-  accountId   String          @map("account_id")
+  id          String          @id @default(uuid()) @db.Uuid
+  accountId   String          @map("account_id") @db.Uuid
   symbol      String
   direction   SignalDirection
   status      SignalStatus
@@ -89,10 +126,10 @@ model Signal {
   receivedAt  BigInt          @map("received_at")
   triggeredAt BigInt?         @map("triggered_at")
   outcome     String?
-  tradeId     String?         @map("trade_id")
+  tradeId     String?         @map("trade_id") @db.Uuid
 
-  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  trade   Trade?  @relation(fields: [tradeId], references: [id], onDelete: SetNull)
+  account TradingAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  trade   Trade?         @relation(fields: [tradeId], references: [id], onDelete: SetNull)
 
   @@index([accountId, symbol])
   @@index([accountId, status])
@@ -102,9 +139,9 @@ model Signal {
 }
 
 model Trade {
-  id        String      @id @default(uuid())
-  accountId String      @map("account_id")
-  signalId  String      @map("signal_id")
+  id        String      @id @default(uuid()) @db.Uuid
+  accountId String      @map("account_id") @db.Uuid
+  signalId  String      @map("signal_id") @db.Uuid
   symbol    String
   side      OrderSide
   status    TradeStatus @default(OPEN)
@@ -135,7 +172,7 @@ model Trade {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  account Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  account TradingAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
   signals Signal[]
 
   @@index([openedAt])
@@ -143,54 +180,6 @@ model Trade {
   @@index([accountId, signalId])
   @@index([entryTicket])
   @@map("trades")
-  @@schema("public")
-}
-
-// ── Journal accounts ──────────────────────────────────────────────────────────
-
-model JournalAccount {
-  id             String             @id @default(uuid()) @db.Uuid
-  userId         String             @map("user_id") @db.Uuid
-  accountType    JournalAccountType @default(personal) @map("account_type")
-  name           String
-  accountNumber  String             @map("account_number")
-  currency       String             @default("usd")
-  startBalance   Float              @map("start_balance")
-  currentBalance Float?             @map("current_balance")
-
-  platform    BrokerPlatform?
-  lastError   String?         @map("last_error")
-  lastErrorAt DateTime?       @map("last_error_at")
-  lastSyncAt  DateTime?       @map("last_sync_at") @db.Timestamptz(6)
-
-  // Link to bb-platform execution account
-  bbAccountId String? @map("bb_account_id")
-
-  maxDailyLoss     Float? @map("max_daily_loss")
-  maxTotalDrawdown Float? @map("max_total_drawdown")
-  minProfitTarget  Float? @map("min_profit_target")
-  maxTradesPerDay  Int?   @map("max_trades_per_day")
-  tradingDaysLeft  Int?   @map("trading_days_left")
-
-  drawdownWarningPercent Float? @default(80) @map("drawdown_warning_percent")
-  profitWarningPercent   Float? @default(90) @map("profit_warning_percent")
-  tradesWarningThreshold Int?   @default(1) @map("trades_warning_threshold")
-  daysWarningThreshold   Int?   @default(5) @map("days_warning_threshold")
-
-  todayTradeCount Int       @default(0) @map("today_trade_count")
-  todayPnl        Float     @default(0) @map("today_pnl")
-  lastStatsReset  DateTime? @map("last_stats_reset") @db.Timestamptz(6)
-
-  isActive  Boolean   @default(true) @map("is_active")
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  profile       Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  journalTrades JournalTrade[]
-
-  @@unique([accountNumber])
-  @@unique([userId, name])
-  @@map("journal_accounts")
   @@schema("public")
 }
 
@@ -227,7 +216,7 @@ model JournalTrade {
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  account        JournalAccount         @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  account        TradingAccount         @relation(fields: [accountId], references: [id], onDelete: Cascade)
   strategy       TradingStrategy        @relation(fields: [strategyId], references: [id], onDelete: Cascade)
   checklistItems JournalChecklistItem[]
 
@@ -286,7 +275,7 @@ model TradingStrategy {
 // ── Signal alerts (app-facing) ────────────────────────────────────────────────
 
 model SignalAlert {
-  id        String            @id @default(uuid())
+  id        String            @id @default(uuid()) @db.Uuid
   engineId  String            @unique @map("engine_id")
   symbol    String
   direction SignalDirection
@@ -332,7 +321,7 @@ model SignalAlert {
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
 
-  zoneId           String?           @unique @map("zone_id")
+  zoneId           String?           @unique @map("zone_id") @db.Uuid
   zone             SignalZone?       @relation(fields: [zoneId], references: [id])
   notificationLogs NotificationLog[]
 
@@ -344,7 +333,7 @@ model SignalAlert {
 }
 
 model SignalZone {
-  id        String           @id @default(uuid())
+  id        String           @id @default(uuid()) @db.Uuid
   engineKey String           @unique @map("engine_key")
   symbol    String
   direction SignalDirection
@@ -364,7 +353,7 @@ model SignalZone {
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
 
-  signalId String?      @map("signal_id")
+  signalId String?      @map("signal_id") @db.Uuid
   signal   SignalAlert?
 
   @@index([symbol])
@@ -403,7 +392,7 @@ model NotificationLog {
   delivered        Boolean          @default(false)
   opened           Boolean          @default(false)
   openedAt         DateTime?        @map("opened_at") @db.Timestamptz(6)
-  signalAlertId    String?          @map("signal_alert_id")
+  signalAlertId    String?          @map("signal_alert_id") @db.Uuid
 
   profile     Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
   signalAlert SignalAlert? @relation(fields: [signalAlertId], references: [id])
@@ -417,9 +406,9 @@ model NotificationLog {
 // ── Analytics ─────────────────────────────────────────────────────────────────
 
 model TradingAnalytics {
-  id               String  @id @default(uuid())
+  id               String  @id @default(uuid()) @db.Uuid
   userId           String  @map("user_id") @db.Uuid
-  tradingAccountId String? @map("trading_account_id")
+  tradingAccountId String? @map("trading_account_id") @db.Uuid
 
   performanceSummary    String   @map("performance_summary")
   strengths             String[]

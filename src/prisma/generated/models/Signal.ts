@@ -330,8 +330,8 @@ export type SignalWhereInput = {
   AND?: Prisma.SignalWhereInput | Prisma.SignalWhereInput[]
   OR?: Prisma.SignalWhereInput[]
   NOT?: Prisma.SignalWhereInput | Prisma.SignalWhereInput[]
-  id?: Prisma.StringFilter<"Signal"> | string
-  accountId?: Prisma.StringFilter<"Signal"> | string
+  id?: Prisma.UuidFilter<"Signal"> | string
+  accountId?: Prisma.UuidFilter<"Signal"> | string
   symbol?: Prisma.StringFilter<"Signal"> | string
   direction?: Prisma.EnumSignalDirectionFilter<"Signal"> | $Enums.SignalDirection
   status?: Prisma.EnumSignalStatusFilter<"Signal"> | $Enums.SignalStatus
@@ -347,8 +347,8 @@ export type SignalWhereInput = {
   receivedAt?: Prisma.BigIntFilter<"Signal"> | bigint | number
   triggeredAt?: Prisma.BigIntNullableFilter<"Signal"> | bigint | number | null
   outcome?: Prisma.StringNullableFilter<"Signal"> | string | null
-  tradeId?: Prisma.StringNullableFilter<"Signal"> | string | null
-  account?: Prisma.XOR<Prisma.AccountScalarRelationFilter, Prisma.AccountWhereInput>
+  tradeId?: Prisma.UuidNullableFilter<"Signal"> | string | null
+  account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
   trade?: Prisma.XOR<Prisma.TradeNullableScalarRelationFilter, Prisma.TradeWhereInput> | null
 }
 
@@ -371,7 +371,7 @@ export type SignalOrderByWithRelationInput = {
   triggeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   outcome?: Prisma.SortOrderInput | Prisma.SortOrder
   tradeId?: Prisma.SortOrderInput | Prisma.SortOrder
-  account?: Prisma.AccountOrderByWithRelationInput
+  account?: Prisma.TradingAccountOrderByWithRelationInput
   trade?: Prisma.TradeOrderByWithRelationInput
 }
 
@@ -380,7 +380,7 @@ export type SignalWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.SignalWhereInput | Prisma.SignalWhereInput[]
   OR?: Prisma.SignalWhereInput[]
   NOT?: Prisma.SignalWhereInput | Prisma.SignalWhereInput[]
-  accountId?: Prisma.StringFilter<"Signal"> | string
+  accountId?: Prisma.UuidFilter<"Signal"> | string
   symbol?: Prisma.StringFilter<"Signal"> | string
   direction?: Prisma.EnumSignalDirectionFilter<"Signal"> | $Enums.SignalDirection
   status?: Prisma.EnumSignalStatusFilter<"Signal"> | $Enums.SignalStatus
@@ -396,8 +396,8 @@ export type SignalWhereUniqueInput = Prisma.AtLeast<{
   receivedAt?: Prisma.BigIntFilter<"Signal"> | bigint | number
   triggeredAt?: Prisma.BigIntNullableFilter<"Signal"> | bigint | number | null
   outcome?: Prisma.StringNullableFilter<"Signal"> | string | null
-  tradeId?: Prisma.StringNullableFilter<"Signal"> | string | null
-  account?: Prisma.XOR<Prisma.AccountScalarRelationFilter, Prisma.AccountWhereInput>
+  tradeId?: Prisma.UuidNullableFilter<"Signal"> | string | null
+  account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
   trade?: Prisma.XOR<Prisma.TradeNullableScalarRelationFilter, Prisma.TradeWhereInput> | null
 }, "id">
 
@@ -431,8 +431,8 @@ export type SignalScalarWhereWithAggregatesInput = {
   AND?: Prisma.SignalScalarWhereWithAggregatesInput | Prisma.SignalScalarWhereWithAggregatesInput[]
   OR?: Prisma.SignalScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SignalScalarWhereWithAggregatesInput | Prisma.SignalScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Signal"> | string
-  accountId?: Prisma.StringWithAggregatesFilter<"Signal"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"Signal"> | string
+  accountId?: Prisma.UuidWithAggregatesFilter<"Signal"> | string
   symbol?: Prisma.StringWithAggregatesFilter<"Signal"> | string
   direction?: Prisma.EnumSignalDirectionWithAggregatesFilter<"Signal"> | $Enums.SignalDirection
   status?: Prisma.EnumSignalStatusWithAggregatesFilter<"Signal"> | $Enums.SignalStatus
@@ -448,11 +448,11 @@ export type SignalScalarWhereWithAggregatesInput = {
   receivedAt?: Prisma.BigIntWithAggregatesFilter<"Signal"> | bigint | number
   triggeredAt?: Prisma.BigIntNullableWithAggregatesFilter<"Signal"> | bigint | number | null
   outcome?: Prisma.StringNullableWithAggregatesFilter<"Signal"> | string | null
-  tradeId?: Prisma.StringNullableWithAggregatesFilter<"Signal"> | string | null
+  tradeId?: Prisma.UuidNullableWithAggregatesFilter<"Signal"> | string | null
 }
 
 export type SignalCreateInput = {
-  id: string
+  id?: string
   symbol: string
   direction: $Enums.SignalDirection
   status: $Enums.SignalStatus
@@ -468,12 +468,12 @@ export type SignalCreateInput = {
   receivedAt: bigint | number
   triggeredAt?: bigint | number | null
   outcome?: string | null
-  account: Prisma.AccountCreateNestedOneWithoutSignalsInput
+  account: Prisma.TradingAccountCreateNestedOneWithoutSignalsInput
   trade?: Prisma.TradeCreateNestedOneWithoutSignalsInput
 }
 
 export type SignalUncheckedCreateInput = {
-  id: string
+  id?: string
   accountId: string
   symbol: string
   direction: $Enums.SignalDirection
@@ -510,7 +510,7 @@ export type SignalUpdateInput = {
   receivedAt?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   triggeredAt?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   outcome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  account?: Prisma.AccountUpdateOneRequiredWithoutSignalsNestedInput
+  account?: Prisma.TradingAccountUpdateOneRequiredWithoutSignalsNestedInput
   trade?: Prisma.TradeUpdateOneWithoutSignalsNestedInput
 }
 
@@ -536,7 +536,7 @@ export type SignalUncheckedUpdateInput = {
 }
 
 export type SignalCreateManyInput = {
-  id: string
+  id?: string
   accountId: string
   symbol: string
   direction: $Enums.SignalDirection
@@ -741,24 +741,8 @@ export type EnumSignalStatusFieldUpdateOperationsInput = {
   set?: $Enums.SignalStatus
 }
 
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type NullableEnumCandlePatternFieldUpdateOperationsInput = {
   set?: $Enums.CandlePattern | null
-}
-
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type BigIntFieldUpdateOperationsInput = {
@@ -820,7 +804,7 @@ export type SignalUncheckedUpdateManyWithoutTradeNestedInput = {
 }
 
 export type SignalCreateWithoutAccountInput = {
-  id: string
+  id?: string
   symbol: string
   direction: $Enums.SignalDirection
   status: $Enums.SignalStatus
@@ -840,7 +824,7 @@ export type SignalCreateWithoutAccountInput = {
 }
 
 export type SignalUncheckedCreateWithoutAccountInput = {
-  id: string
+  id?: string
   symbol: string
   direction: $Enums.SignalDirection
   status: $Enums.SignalStatus
@@ -889,8 +873,8 @@ export type SignalScalarWhereInput = {
   AND?: Prisma.SignalScalarWhereInput | Prisma.SignalScalarWhereInput[]
   OR?: Prisma.SignalScalarWhereInput[]
   NOT?: Prisma.SignalScalarWhereInput | Prisma.SignalScalarWhereInput[]
-  id?: Prisma.StringFilter<"Signal"> | string
-  accountId?: Prisma.StringFilter<"Signal"> | string
+  id?: Prisma.UuidFilter<"Signal"> | string
+  accountId?: Prisma.UuidFilter<"Signal"> | string
   symbol?: Prisma.StringFilter<"Signal"> | string
   direction?: Prisma.EnumSignalDirectionFilter<"Signal"> | $Enums.SignalDirection
   status?: Prisma.EnumSignalStatusFilter<"Signal"> | $Enums.SignalStatus
@@ -906,11 +890,11 @@ export type SignalScalarWhereInput = {
   receivedAt?: Prisma.BigIntFilter<"Signal"> | bigint | number
   triggeredAt?: Prisma.BigIntNullableFilter<"Signal"> | bigint | number | null
   outcome?: Prisma.StringNullableFilter<"Signal"> | string | null
-  tradeId?: Prisma.StringNullableFilter<"Signal"> | string | null
+  tradeId?: Prisma.UuidNullableFilter<"Signal"> | string | null
 }
 
 export type SignalCreateWithoutTradeInput = {
-  id: string
+  id?: string
   symbol: string
   direction: $Enums.SignalDirection
   status: $Enums.SignalStatus
@@ -926,11 +910,11 @@ export type SignalCreateWithoutTradeInput = {
   receivedAt: bigint | number
   triggeredAt?: bigint | number | null
   outcome?: string | null
-  account: Prisma.AccountCreateNestedOneWithoutSignalsInput
+  account: Prisma.TradingAccountCreateNestedOneWithoutSignalsInput
 }
 
 export type SignalUncheckedCreateWithoutTradeInput = {
-  id: string
+  id?: string
   accountId: string
   symbol: string
   direction: $Enums.SignalDirection
@@ -976,7 +960,7 @@ export type SignalUpdateManyWithWhereWithoutTradeInput = {
 }
 
 export type SignalCreateManyAccountInput = {
-  id: string
+  id?: string
   symbol: string
   direction: $Enums.SignalDirection
   status: $Enums.SignalStatus
@@ -1056,7 +1040,7 @@ export type SignalUncheckedUpdateManyWithoutAccountInput = {
 }
 
 export type SignalCreateManyTradeInput = {
-  id: string
+  id?: string
   accountId: string
   symbol: string
   direction: $Enums.SignalDirection
@@ -1092,7 +1076,7 @@ export type SignalUpdateWithoutTradeInput = {
   receivedAt?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   triggeredAt?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   outcome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  account?: Prisma.AccountUpdateOneRequiredWithoutSignalsNestedInput
+  account?: Prisma.TradingAccountUpdateOneRequiredWithoutSignalsNestedInput
 }
 
 export type SignalUncheckedUpdateWithoutTradeInput = {
@@ -1156,7 +1140,7 @@ export type SignalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   triggeredAt?: boolean
   outcome?: boolean
   tradeId?: boolean
-  account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   trade?: boolean | Prisma.Signal$tradeArgs<ExtArgs>
 }, ExtArgs["result"]["signal"]>
 
@@ -1179,7 +1163,7 @@ export type SignalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   triggeredAt?: boolean
   outcome?: boolean
   tradeId?: boolean
-  account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   trade?: boolean | Prisma.Signal$tradeArgs<ExtArgs>
 }, ExtArgs["result"]["signal"]>
 
@@ -1202,7 +1186,7 @@ export type SignalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   triggeredAt?: boolean
   outcome?: boolean
   tradeId?: boolean
-  account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   trade?: boolean | Prisma.Signal$tradeArgs<ExtArgs>
 }, ExtArgs["result"]["signal"]>
 
@@ -1229,22 +1213,22 @@ export type SignalSelectScalar = {
 
 export type SignalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "accountId" | "symbol" | "direction" | "status" | "entryPrice" | "stopLoss" | "tp1" | "tp2" | "riskReward" | "riskPips" | "pattern" | "wickRatio" | "rawJson" | "receivedAt" | "triggeredAt" | "outcome" | "tradeId", ExtArgs["result"]["signal"]>
 export type SignalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   trade?: boolean | Prisma.Signal$tradeArgs<ExtArgs>
 }
 export type SignalIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   trade?: boolean | Prisma.Signal$tradeArgs<ExtArgs>
 }
 export type SignalIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   trade?: boolean | Prisma.Signal$tradeArgs<ExtArgs>
 }
 
 export type $SignalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Signal"
   objects: {
-    account: Prisma.$AccountPayload<ExtArgs>
+    account: Prisma.$TradingAccountPayload<ExtArgs>
     trade: Prisma.$TradePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1660,7 +1644,7 @@ readonly fields: SignalFieldRefs;
  */
 export interface Prisma__SignalClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  account<T extends Prisma.AccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AccountDefaultArgs<ExtArgs>>): Prisma.Prisma__AccountClient<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  account<T extends Prisma.TradingAccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccountDefaultArgs<ExtArgs>>): Prisma.Prisma__TradingAccountClient<runtime.Types.Result.GetResult<Prisma.$TradingAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   trade<T extends Prisma.Signal$tradeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Signal$tradeArgs<ExtArgs>>): Prisma.Prisma__TradeClient<runtime.Types.Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.

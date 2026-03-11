@@ -1,12 +1,13 @@
+'use strict'
+
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { SignalBus } from '../signal/signal.bus';
 import { MetaApiService } from '../brokers/metaapi/metaapi.service';
-import { AccountsService } from '../accounts/accounts.service';
+import { TradingAccountService, TradingAccount } from '../trading-account/trading-account.service';
 import { TradesService } from '../trades/trades.service';
 import { MetricsService } from '../core/metrics/metrics.service';
 import { EventBus } from '../core/event-bus/event.bus';
 import { PipelineService, PipelineSnapshot } from './pipeline.service';
-import { Account } from '../common/types/account.types';
 import { InboundSignal } from '../common/types/signal.types';
 import { msUntilNextUtcMidnight } from '../common/utils/time.utils';
 import { createLogger } from '../common/logger/logger';
@@ -34,7 +35,7 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
   constructor(
     private readonly signalBus:   SignalBus,
     private readonly metaApi:     MetaApiService,
-    private readonly accountsSvc: AccountsService,
+    private readonly accountSvc:  TradingAccountService,
     private readonly tradesSvc:   TradesService,
     private readonly metrics:     MetricsService,
   ) {}
@@ -42,7 +43,7 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
   async onModuleInit(): Promise<void> {
     this.signalBus.onSignal((signal) => this._fanOut(signal));
 
-    const accounts = await this.accountsSvc.findAllActive();
+    const accounts = await this.accountSvc.findAllAutoTrade();
     logger.info('Starting pipelines', { count: accounts.length });
     await Promise.allSettled(accounts.map(a => this.startPipeline(a)));
 
@@ -63,7 +64,7 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
 
   // ── Pipeline lifecycle ─────────────────────────────────────────────────────
 
-  async startPipeline(account: Account): Promise<void> {
+  async startPipeline(account: TradingAccount): Promise<void> {
     if (this.pipelines.has(account.id)) {
       logger.warn('Pipeline already running', { accountId: account.id });
       return;
@@ -112,7 +113,7 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
     logger.info('Pipeline stopped', { accountId });
   }
 
-  async restartPipeline(account: Account): Promise<void> {
+  async restartPipeline(account: TradingAccount): Promise<void> {
     await this.stopPipeline(account.id);
     await this.startPipeline(account);
   }

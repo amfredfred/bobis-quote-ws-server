@@ -520,7 +520,7 @@ export type SignalAlertWhereInput = {
   AND?: Prisma.SignalAlertWhereInput | Prisma.SignalAlertWhereInput[]
   OR?: Prisma.SignalAlertWhereInput[]
   NOT?: Prisma.SignalAlertWhereInput | Prisma.SignalAlertWhereInput[]
-  id?: Prisma.StringFilter<"SignalAlert"> | string
+  id?: Prisma.UuidFilter<"SignalAlert"> | string
   engineId?: Prisma.StringFilter<"SignalAlert"> | string
   symbol?: Prisma.StringFilter<"SignalAlert"> | string
   direction?: Prisma.EnumSignalDirectionFilter<"SignalAlert"> | $Enums.SignalDirection
@@ -559,7 +559,7 @@ export type SignalAlertWhereInput = {
   closedAt?: Prisma.DateTimeNullableFilter<"SignalAlert"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SignalAlert"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SignalAlert"> | Date | string
-  zoneId?: Prisma.StringNullableFilter<"SignalAlert"> | string | null
+  zoneId?: Prisma.UuidNullableFilter<"SignalAlert"> | string | null
   zone?: Prisma.XOR<Prisma.SignalZoneNullableScalarRelationFilter, Prisma.SignalZoneWhereInput> | null
   notificationLogs?: Prisma.NotificationLogListRelationFilter
 }
@@ -709,7 +709,7 @@ export type SignalAlertScalarWhereWithAggregatesInput = {
   AND?: Prisma.SignalAlertScalarWhereWithAggregatesInput | Prisma.SignalAlertScalarWhereWithAggregatesInput[]
   OR?: Prisma.SignalAlertScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SignalAlertScalarWhereWithAggregatesInput | Prisma.SignalAlertScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"SignalAlert"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"SignalAlert"> | string
   engineId?: Prisma.StringWithAggregatesFilter<"SignalAlert"> | string
   symbol?: Prisma.StringWithAggregatesFilter<"SignalAlert"> | string
   direction?: Prisma.EnumSignalDirectionWithAggregatesFilter<"SignalAlert"> | $Enums.SignalDirection
@@ -748,7 +748,7 @@ export type SignalAlertScalarWhereWithAggregatesInput = {
   closedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SignalAlert"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SignalAlert"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SignalAlert"> | Date | string
-  zoneId?: Prisma.StringNullableWithAggregatesFilter<"SignalAlert"> | string | null
+  zoneId?: Prisma.UuidNullableWithAggregatesFilter<"SignalAlert"> | string | null
 }
 
 export type SignalAlertCreateInput = {

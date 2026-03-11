@@ -52,10 +52,9 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Profile: 'Profile',
-  Account: 'Account',
+  TradingAccount: 'TradingAccount',
   Signal: 'Signal',
   Trade: 'Trade',
-  JournalAccount: 'JournalAccount',
   JournalTrade: 'JournalTrade',
   JournalChecklistItem: 'JournalChecklistItem',
   TradingStrategy: 'TradingStrategy',
@@ -116,18 +115,40 @@ export const ProfileScalarFieldEnum = {
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
 
 
-export const AccountScalarFieldEnum = {
+export const TradingAccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  accountType: 'accountType',
   name: 'name',
+  accountNumber: 'accountNumber',
+  currency: 'currency',
+  startBalance: 'startBalance',
+  currentBalance: 'currentBalance',
+  platform: 'platform',
   metaApiAccountId: 'metaApiAccountId',
-  active: 'active',
+  autoTradeEnabled: 'autoTradeEnabled',
   riskConfig: 'riskConfig',
+  lastSyncAt: 'lastSyncAt',
+  lastError: 'lastError',
+  lastErrorAt: 'lastErrorAt',
+  maxDailyLoss: 'maxDailyLoss',
+  maxTotalDrawdown: 'maxTotalDrawdown',
+  minProfitTarget: 'minProfitTarget',
+  maxTradesPerDay: 'maxTradesPerDay',
+  tradingDaysLeft: 'tradingDaysLeft',
+  drawdownWarningPercent: 'drawdownWarningPercent',
+  profitWarningPercent: 'profitWarningPercent',
+  tradesWarningThreshold: 'tradesWarningThreshold',
+  daysWarningThreshold: 'daysWarningThreshold',
+  todayTradeCount: 'todayTradeCount',
+  todayPnl: 'todayPnl',
+  lastStatsReset: 'lastStatsReset',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+export type TradingAccountScalarFieldEnum = (typeof TradingAccountScalarFieldEnum)[keyof typeof TradingAccountScalarFieldEnum]
 
 
 export const SignalScalarFieldEnum = {
@@ -186,40 +207,6 @@ export const TradeScalarFieldEnum = {
 } as const
 
 export type TradeScalarFieldEnum = (typeof TradeScalarFieldEnum)[keyof typeof TradeScalarFieldEnum]
-
-
-export const JournalAccountScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  accountType: 'accountType',
-  name: 'name',
-  accountNumber: 'accountNumber',
-  currency: 'currency',
-  startBalance: 'startBalance',
-  currentBalance: 'currentBalance',
-  platform: 'platform',
-  lastError: 'lastError',
-  lastErrorAt: 'lastErrorAt',
-  lastSyncAt: 'lastSyncAt',
-  bbAccountId: 'bbAccountId',
-  maxDailyLoss: 'maxDailyLoss',
-  maxTotalDrawdown: 'maxTotalDrawdown',
-  minProfitTarget: 'minProfitTarget',
-  maxTradesPerDay: 'maxTradesPerDay',
-  tradingDaysLeft: 'tradingDaysLeft',
-  drawdownWarningPercent: 'drawdownWarningPercent',
-  profitWarningPercent: 'profitWarningPercent',
-  tradesWarningThreshold: 'tradesWarningThreshold',
-  daysWarningThreshold: 'daysWarningThreshold',
-  todayTradeCount: 'todayTradeCount',
-  todayPnl: 'todayPnl',
-  lastStatsReset: 'lastStatsReset',
-  isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type JournalAccountScalarFieldEnum = (typeof JournalAccountScalarFieldEnum)[keyof typeof JournalAccountScalarFieldEnum]
 
 
 export const JournalTradeScalarFieldEnum = {
@@ -501,19 +488,19 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

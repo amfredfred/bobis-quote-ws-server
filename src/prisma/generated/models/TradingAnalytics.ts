@@ -296,9 +296,9 @@ export type TradingAnalyticsWhereInput = {
   AND?: Prisma.TradingAnalyticsWhereInput | Prisma.TradingAnalyticsWhereInput[]
   OR?: Prisma.TradingAnalyticsWhereInput[]
   NOT?: Prisma.TradingAnalyticsWhereInput | Prisma.TradingAnalyticsWhereInput[]
-  id?: Prisma.StringFilter<"TradingAnalytics"> | string
+  id?: Prisma.UuidFilter<"TradingAnalytics"> | string
   userId?: Prisma.UuidFilter<"TradingAnalytics"> | string
-  tradingAccountId?: Prisma.StringNullableFilter<"TradingAnalytics"> | string | null
+  tradingAccountId?: Prisma.UuidNullableFilter<"TradingAnalytics"> | string | null
   performanceSummary?: Prisma.StringFilter<"TradingAnalytics"> | string
   strengths?: Prisma.StringNullableListFilter<"TradingAnalytics">
   weaknesses?: Prisma.StringNullableListFilter<"TradingAnalytics">
@@ -350,7 +350,7 @@ export type TradingAnalyticsWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.TradingAnalyticsWhereInput[]
   NOT?: Prisma.TradingAnalyticsWhereInput | Prisma.TradingAnalyticsWhereInput[]
   userId?: Prisma.UuidFilter<"TradingAnalytics"> | string
-  tradingAccountId?: Prisma.StringNullableFilter<"TradingAnalytics"> | string | null
+  tradingAccountId?: Prisma.UuidNullableFilter<"TradingAnalytics"> | string | null
   performanceSummary?: Prisma.StringFilter<"TradingAnalytics"> | string
   strengths?: Prisma.StringNullableListFilter<"TradingAnalytics">
   weaknesses?: Prisma.StringNullableListFilter<"TradingAnalytics">
@@ -403,9 +403,9 @@ export type TradingAnalyticsScalarWhereWithAggregatesInput = {
   AND?: Prisma.TradingAnalyticsScalarWhereWithAggregatesInput | Prisma.TradingAnalyticsScalarWhereWithAggregatesInput[]
   OR?: Prisma.TradingAnalyticsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TradingAnalyticsScalarWhereWithAggregatesInput | Prisma.TradingAnalyticsScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"TradingAnalytics"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"TradingAnalytics"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"TradingAnalytics"> | string
-  tradingAccountId?: Prisma.StringNullableWithAggregatesFilter<"TradingAnalytics"> | string | null
+  tradingAccountId?: Prisma.UuidNullableWithAggregatesFilter<"TradingAnalytics"> | string | null
   performanceSummary?: Prisma.StringWithAggregatesFilter<"TradingAnalytics"> | string
   strengths?: Prisma.StringNullableListFilter<"TradingAnalytics">
   weaknesses?: Prisma.StringNullableListFilter<"TradingAnalytics">
@@ -850,9 +850,9 @@ export type TradingAnalyticsScalarWhereInput = {
   AND?: Prisma.TradingAnalyticsScalarWhereInput | Prisma.TradingAnalyticsScalarWhereInput[]
   OR?: Prisma.TradingAnalyticsScalarWhereInput[]
   NOT?: Prisma.TradingAnalyticsScalarWhereInput | Prisma.TradingAnalyticsScalarWhereInput[]
-  id?: Prisma.StringFilter<"TradingAnalytics"> | string
+  id?: Prisma.UuidFilter<"TradingAnalytics"> | string
   userId?: Prisma.UuidFilter<"TradingAnalytics"> | string
-  tradingAccountId?: Prisma.StringNullableFilter<"TradingAnalytics"> | string | null
+  tradingAccountId?: Prisma.UuidNullableFilter<"TradingAnalytics"> | string | null
   performanceSummary?: Prisma.StringFilter<"TradingAnalytics"> | string
   strengths?: Prisma.StringNullableListFilter<"TradingAnalytics">
   weaknesses?: Prisma.StringNullableListFilter<"TradingAnalytics">

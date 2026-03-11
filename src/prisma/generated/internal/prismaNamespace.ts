@@ -385,10 +385,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Profile: 'Profile',
-  Account: 'Account',
+  TradingAccount: 'TradingAccount',
   Signal: 'Signal',
   Trade: 'Trade',
-  JournalAccount: 'JournalAccount',
   JournalTrade: 'JournalTrade',
   JournalChecklistItem: 'JournalChecklistItem',
   TradingStrategy: 'TradingStrategy',
@@ -417,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "profile" | "account" | "signal" | "trade" | "journalAccount" | "journalTrade" | "journalChecklistItem" | "tradingStrategy" | "signalAlert" | "signalZone" | "userSignalSubscription" | "notificationLog" | "tradingAnalytics" | "newsArticle" | "socialSentimentAggregate" | "queueJob" | "metricsCounter" | "metricsGauge"
+    modelProps: "profile" | "tradingAccount" | "signal" | "trade" | "journalTrade" | "journalChecklistItem" | "tradingStrategy" | "signalAlert" | "signalZone" | "userSignalSubscription" | "notificationLog" | "tradingAnalytics" | "newsArticle" | "socialSentimentAggregate" | "queueJob" | "metricsCounter" | "metricsGauge"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -495,77 +494,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Account: {
-      payload: Prisma.$AccountPayload<ExtArgs>
-      fields: Prisma.AccountFieldRefs
+    TradingAccount: {
+      payload: Prisma.$TradingAccountPayload<ExtArgs>
+      fields: Prisma.TradingAccountFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.AccountFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountPayload> | null
+          args: Prisma.TradingAccountFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.AccountFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountPayload>
+          args: Prisma.TradingAccountFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>
         }
         findFirst: {
-          args: Prisma.AccountFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountPayload> | null
+          args: Prisma.TradingAccountFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.AccountFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountPayload>
+          args: Prisma.TradingAccountFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>
         }
         findMany: {
-          args: Prisma.AccountFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountPayload>[]
+          args: Prisma.TradingAccountFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>[]
         }
         create: {
-          args: Prisma.AccountCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountPayload>
+          args: Prisma.TradingAccountCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>
         }
         createMany: {
-          args: Prisma.AccountCreateManyArgs<ExtArgs>
+          args: Prisma.TradingAccountCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.AccountCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountPayload>[]
+          args: Prisma.TradingAccountCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>[]
         }
         delete: {
-          args: Prisma.AccountDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountPayload>
+          args: Prisma.TradingAccountDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>
         }
         update: {
-          args: Prisma.AccountUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountPayload>
+          args: Prisma.TradingAccountUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>
         }
         deleteMany: {
-          args: Prisma.AccountDeleteManyArgs<ExtArgs>
+          args: Prisma.TradingAccountDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.AccountUpdateManyArgs<ExtArgs>
+          args: Prisma.TradingAccountUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.AccountUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountPayload>[]
+          args: Prisma.TradingAccountUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>[]
         }
         upsert: {
-          args: Prisma.AccountUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountPayload>
+          args: Prisma.TradingAccountUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>
         }
         aggregate: {
-          args: Prisma.AccountAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateAccount>
+          args: Prisma.TradingAccountAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTradingAccount>
         }
         groupBy: {
-          args: Prisma.AccountGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AccountGroupByOutputType>[]
+          args: Prisma.TradingAccountGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TradingAccountGroupByOutputType>[]
         }
         count: {
-          args: Prisma.AccountCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AccountCountAggregateOutputType> | number
+          args: Prisma.TradingAccountCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TradingAccountCountAggregateOutputType> | number
         }
       }
     }
@@ -714,80 +713,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TradeCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TradeCountAggregateOutputType> | number
-        }
-      }
-    }
-    JournalAccount: {
-      payload: Prisma.$JournalAccountPayload<ExtArgs>
-      fields: Prisma.JournalAccountFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.JournalAccountFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalAccountPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.JournalAccountFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalAccountPayload>
-        }
-        findFirst: {
-          args: Prisma.JournalAccountFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalAccountPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.JournalAccountFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalAccountPayload>
-        }
-        findMany: {
-          args: Prisma.JournalAccountFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalAccountPayload>[]
-        }
-        create: {
-          args: Prisma.JournalAccountCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalAccountPayload>
-        }
-        createMany: {
-          args: Prisma.JournalAccountCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.JournalAccountCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalAccountPayload>[]
-        }
-        delete: {
-          args: Prisma.JournalAccountDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalAccountPayload>
-        }
-        update: {
-          args: Prisma.JournalAccountUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalAccountPayload>
-        }
-        deleteMany: {
-          args: Prisma.JournalAccountDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.JournalAccountUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.JournalAccountUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalAccountPayload>[]
-        }
-        upsert: {
-          args: Prisma.JournalAccountUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalAccountPayload>
-        }
-        aggregate: {
-          args: Prisma.JournalAccountAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateJournalAccount>
-        }
-        groupBy: {
-          args: Prisma.JournalAccountGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.JournalAccountGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.JournalAccountCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.JournalAccountCountAggregateOutputType> | number
         }
       }
     }
@@ -1821,18 +1746,40 @@ export const ProfileScalarFieldEnum = {
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
 
 
-export const AccountScalarFieldEnum = {
+export const TradingAccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  accountType: 'accountType',
   name: 'name',
+  accountNumber: 'accountNumber',
+  currency: 'currency',
+  startBalance: 'startBalance',
+  currentBalance: 'currentBalance',
+  platform: 'platform',
   metaApiAccountId: 'metaApiAccountId',
-  active: 'active',
+  autoTradeEnabled: 'autoTradeEnabled',
   riskConfig: 'riskConfig',
+  lastSyncAt: 'lastSyncAt',
+  lastError: 'lastError',
+  lastErrorAt: 'lastErrorAt',
+  maxDailyLoss: 'maxDailyLoss',
+  maxTotalDrawdown: 'maxTotalDrawdown',
+  minProfitTarget: 'minProfitTarget',
+  maxTradesPerDay: 'maxTradesPerDay',
+  tradingDaysLeft: 'tradingDaysLeft',
+  drawdownWarningPercent: 'drawdownWarningPercent',
+  profitWarningPercent: 'profitWarningPercent',
+  tradesWarningThreshold: 'tradesWarningThreshold',
+  daysWarningThreshold: 'daysWarningThreshold',
+  todayTradeCount: 'todayTradeCount',
+  todayPnl: 'todayPnl',
+  lastStatsReset: 'lastStatsReset',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+export type TradingAccountScalarFieldEnum = (typeof TradingAccountScalarFieldEnum)[keyof typeof TradingAccountScalarFieldEnum]
 
 
 export const SignalScalarFieldEnum = {
@@ -1891,40 +1838,6 @@ export const TradeScalarFieldEnum = {
 } as const
 
 export type TradeScalarFieldEnum = (typeof TradeScalarFieldEnum)[keyof typeof TradeScalarFieldEnum]
-
-
-export const JournalAccountScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  accountType: 'accountType',
-  name: 'name',
-  accountNumber: 'accountNumber',
-  currency: 'currency',
-  startBalance: 'startBalance',
-  currentBalance: 'currentBalance',
-  platform: 'platform',
-  lastError: 'lastError',
-  lastErrorAt: 'lastErrorAt',
-  lastSyncAt: 'lastSyncAt',
-  bbAccountId: 'bbAccountId',
-  maxDailyLoss: 'maxDailyLoss',
-  maxTotalDrawdown: 'maxTotalDrawdown',
-  minProfitTarget: 'minProfitTarget',
-  maxTradesPerDay: 'maxTradesPerDay',
-  tradingDaysLeft: 'tradingDaysLeft',
-  drawdownWarningPercent: 'drawdownWarningPercent',
-  profitWarningPercent: 'profitWarningPercent',
-  tradesWarningThreshold: 'tradesWarningThreshold',
-  daysWarningThreshold: 'daysWarningThreshold',
-  todayTradeCount: 'todayTradeCount',
-  todayPnl: 'todayPnl',
-  lastStatsReset: 'lastStatsReset',
-  isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type JournalAccountScalarFieldEnum = (typeof JournalAccountScalarFieldEnum)[keyof typeof JournalAccountScalarFieldEnum]
 
 
 export const JournalTradeScalarFieldEnum = {
@@ -2206,19 +2119,19 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -2302,6 +2215,48 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'JournalAccountType'
+ */
+export type EnumJournalAccountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JournalAccountType'>
+    
+
+
+/**
+ * Reference to a field of type 'JournalAccountType[]'
+ */
+export type ListEnumJournalAccountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JournalAccountType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BrokerPlatform'
+ */
+export type EnumBrokerPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BrokerPlatform'>
+    
+
+
+/**
+ * Reference to a field of type 'BrokerPlatform[]'
+ */
+export type ListEnumBrokerPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BrokerPlatform[]'>
+    
+
+
+/**
  * Reference to a field of type 'Json'
  */
 export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -2340,20 +2295,6 @@ export type EnumSignalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'SignalStatus[]'
  */
 export type ListEnumSignalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SignalStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
@@ -2424,34 +2365,6 @@ export type EnumCloseReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'CloseReason[]'
  */
 export type ListEnumCloseReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CloseReason[]'>
-    
-
-
-/**
- * Reference to a field of type 'JournalAccountType'
- */
-export type EnumJournalAccountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JournalAccountType'>
-    
-
-
-/**
- * Reference to a field of type 'JournalAccountType[]'
- */
-export type ListEnumJournalAccountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JournalAccountType[]'>
-    
-
-
-/**
- * Reference to a field of type 'BrokerPlatform'
- */
-export type EnumBrokerPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BrokerPlatform'>
-    
-
-
-/**
- * Reference to a field of type 'BrokerPlatform[]'
- */
-export type ListEnumBrokerPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BrokerPlatform[]'>
     
 
 
@@ -2704,10 +2617,9 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   profile?: Prisma.ProfileOmit
-  account?: Prisma.AccountOmit
+  tradingAccount?: Prisma.TradingAccountOmit
   signal?: Prisma.SignalOmit
   trade?: Prisma.TradeOmit
-  journalAccount?: Prisma.JournalAccountOmit
   journalTrade?: Prisma.JournalTradeOmit
   journalChecklistItem?: Prisma.JournalChecklistItemOmit
   tradingStrategy?: Prisma.TradingStrategyOmit

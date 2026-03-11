@@ -8,7 +8,7 @@ import { MetaApiModule } from './brokers/metaapi/metaapi.module';
 import { AuthModule } from './auth/auth.module';
 import { SignalModule } from './signal/signal.module';
 import { TradesModule } from './trades/trades.module';
-import { AccountsModule } from './accounts/accounts.module';
+import { TradingAccountModule } from './trading-account/trading-account.module';
 import { PipelineModule } from './pipeline/pipeline.module';
 import { AdminModule } from './admin/admin.module';
 
@@ -30,10 +30,10 @@ import { GatewayModule } from './gateway/gateway.module';
     MetricsModule,
     MetaApiModule,
     AuthModule,
-    // BB-platform execution
+    // Execution
     SignalModule,
     TradesModule,
-    AccountsModule,
+    TradingAccountModule,
     PipelineModule,
     AdminModule,
     // Journal & app features

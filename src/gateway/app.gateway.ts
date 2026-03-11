@@ -31,11 +31,7 @@ import { Server, Socket } from 'socket.io';
 import { Injectable, Logger } from '@nestjs/common';
 import { JwtVerifierService } from '../auth/jwt-verifier.service';
 import { ProfileService, UpdateProfileDto } from '../profile/profile.service';
-import {
-  CreateJournalAccountDto,
-  JournalAccountService,
-  UpdateJournalAccountDto,
-} from '../journal/journal-account.service';
+import { TradingAccountService, CreateTradingAccountDto, UpdateTradingAccountDto } from '../trading-account/trading-account.service';
 import {
   CreateJournalTradeDto,
   JournalTradeFilters,
@@ -46,7 +42,7 @@ import { CreateStrategyDto, StrategyService, UpdateStrategyDto } from '../strate
 import { MarketService } from '../market/market.service';
 import { DashboardService } from '../dashboard/dashboard.service';
 import { NotificationsService } from '../notifications/notifications.service';
-import { AccountsService, UpdateAccountDto } from '../accounts/accounts.service';
+import { PipelineManager } from '../pipeline/pipeline.manager';
 
 // ── Payload shapes ────────────────────────────────────────────────────────────
 
@@ -64,18 +60,14 @@ interface Payloads {
   'profile.update': UpdateProfileDto;
   'profile.pushToken': { token: string };
 
-  // journal accounts
+  // trading accounts
   'accounts.list': { includeInactive?: boolean };
   'account.get': { id: string };
-  'account.create': CreateJournalAccountDto;
-  'account.update': { id: string } & UpdateJournalAccountDto;
+  'account.create': CreateTradingAccountDto;
+  'account.update': { id: string } & UpdateTradingAccountDto;
   'account.delete': { id: string };
   'account.stats': { id: string };
-
-  // bb execution accounts
-  'bb.accounts.list': Record<string, never>;
-  'bb.account.get': { id: string };
-  'bb.account.update': { id: string } & UpdateAccountDto;
+  'account.toggleAutoTrade': { id: string; enabled: boolean };
 
   // strategies
   'strategies.list': Record<string, never>;
@@ -144,15 +136,15 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   private readonly logger = new Logger(AppGateway.name);
 
   constructor(
-    private readonly jwtVerifier: JwtVerifierService,
-    private readonly profileSvc: ProfileService,
-    private readonly journalAccountSvc: JournalAccountService,
+    private readonly jwtVerifier:     JwtVerifierService,
+    private readonly profileSvc:      ProfileService,
+    private readonly accountSvc:      TradingAccountService,
     private readonly journalTradeSvc: JournalTradeService,
-    private readonly strategySvc: StrategyService,
-    private readonly marketSvc: MarketService,
-    private readonly dashboardSvc: DashboardService,
+    private readonly strategySvc:     StrategyService,
+    private readonly marketSvc:       MarketService,
+    private readonly dashboardSvc:    DashboardService,
     private readonly notificationsSvc: NotificationsService,
-    private readonly accountsSvc: AccountsService,
+    private readonly pipelineMgr:     PipelineManager,
   ) { }
 
   afterInit(): void {
@@ -242,20 +234,23 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'profile.update': (p) => this.profileSvc.update(userId, p),
       'profile.pushToken': (p) => this.profileSvc.updatePushToken(userId, p.token),
 
-      // ── Journal accounts ───────────────────────────────────────────────────
+      // ── Trading accounts ───────────────────────────────────────────────────
 
-      'accounts.list': (p) => this.journalAccountSvc.findAll(userId, Boolean(p.includeInactive)),
-      'account.get': (p) => this.journalAccountSvc.findOne(p.id, userId),
-      'account.create': (p) => this.journalAccountSvc.create(userId, p),
-      'account.update': (p) => { const { id, ...rest } = p; return this.journalAccountSvc.update(id, userId, rest); },
-      'account.delete': (p) => this.journalAccountSvc.delete(p.id, userId),
-      'account.stats': (p) => this.journalAccountSvc.getStats(p.id, userId),
-
-      // ── BB execution accounts ──────────────────────────────────────────────
-
-      'bb.accounts.list': () => this.accountsSvc.findByUserId(userId),
-      'bb.account.get': (p) => this.accountsSvc.findOne(p.id, userId),
-      'bb.account.update': (p) => { const { id, ...rest } = p; return this.accountsSvc.update(id, rest, userId); },
+      'accounts.list': (p) => this.accountSvc.findAll(userId, Boolean(p.includeInactive)),
+      'account.get': (p) => this.accountSvc.findOne(p.id, userId),
+      'account.create': (p) => this.accountSvc.create(userId, p),
+      'account.update': (p) => { const { id, ...rest } = p; return this.accountSvc.update(id, userId, rest); },
+      'account.delete': (p) => this.accountSvc.delete(p.id, userId),
+      'account.stats': (p) => this.accountSvc.getStats(p.id, userId),
+      'account.toggleAutoTrade': async (p) => {
+        const account = await this.accountSvc.setAutoTrade(p.id, userId, p.enabled);
+        if (p.enabled) {
+          await this.pipelineMgr.startPipeline(account);
+        } else {
+          await this.pipelineMgr.stopPipeline(p.id);
+        }
+        return account;
+      },
 
       // ── Strategies ─────────────────────────────────────────────────────────
 

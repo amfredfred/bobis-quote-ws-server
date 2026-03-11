@@ -420,7 +420,7 @@ export type JournalTradeWhereInput = {
   source?: Prisma.StringFilter<"JournalTrade"> | string
   createdAt?: Prisma.DateTimeFilter<"JournalTrade"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  account?: Prisma.XOR<Prisma.JournalAccountScalarRelationFilter, Prisma.JournalAccountWhereInput>
+  account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
   strategy?: Prisma.XOR<Prisma.TradingStrategyScalarRelationFilter, Prisma.TradingStrategyWhereInput>
   checklistItems?: Prisma.JournalChecklistItemListRelationFilter
 }
@@ -454,7 +454,7 @@ export type JournalTradeOrderByWithRelationInput = {
   source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  account?: Prisma.JournalAccountOrderByWithRelationInput
+  account?: Prisma.TradingAccountOrderByWithRelationInput
   strategy?: Prisma.TradingStrategyOrderByWithRelationInput
   checklistItems?: Prisma.JournalChecklistItemOrderByRelationAggregateInput
 }
@@ -491,7 +491,7 @@ export type JournalTradeWhereUniqueInput = Prisma.AtLeast<{
   source?: Prisma.StringFilter<"JournalTrade"> | string
   createdAt?: Prisma.DateTimeFilter<"JournalTrade"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  account?: Prisma.XOR<Prisma.JournalAccountScalarRelationFilter, Prisma.JournalAccountWhereInput>
+  account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
   strategy?: Prisma.XOR<Prisma.TradingStrategyScalarRelationFilter, Prisma.TradingStrategyWhereInput>
   checklistItems?: Prisma.JournalChecklistItemListRelationFilter
 }, "id">
@@ -593,7 +593,7 @@ export type JournalTradeCreateInput = {
   source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  account: Prisma.JournalAccountCreateNestedOneWithoutJournalTradesInput
+  account: Prisma.TradingAccountCreateNestedOneWithoutJournalTradesInput
   strategy: Prisma.TradingStrategyCreateNestedOneWithoutJournalTradesInput
   checklistItems?: Prisma.JournalChecklistItemCreateNestedManyWithoutTradeInput
 }
@@ -657,7 +657,7 @@ export type JournalTradeUpdateInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  account?: Prisma.JournalAccountUpdateOneRequiredWithoutJournalTradesNestedInput
+  account?: Prisma.TradingAccountUpdateOneRequiredWithoutJournalTradesNestedInput
   strategy?: Prisma.TradingStrategyUpdateOneRequiredWithoutJournalTradesNestedInput
   checklistItems?: Prisma.JournalChecklistItemUpdateManyWithoutTradeNestedInput
 }
@@ -1199,7 +1199,7 @@ export type JournalTradeCreateWithoutChecklistItemsInput = {
   source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  account: Prisma.JournalAccountCreateNestedOneWithoutJournalTradesInput
+  account: Prisma.TradingAccountCreateNestedOneWithoutJournalTradesInput
   strategy: Prisma.TradingStrategyCreateNestedOneWithoutJournalTradesInput
 }
 
@@ -1277,7 +1277,7 @@ export type JournalTradeUpdateWithoutChecklistItemsInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  account?: Prisma.JournalAccountUpdateOneRequiredWithoutJournalTradesNestedInput
+  account?: Prisma.TradingAccountUpdateOneRequiredWithoutJournalTradesNestedInput
   strategy?: Prisma.TradingStrategyUpdateOneRequiredWithoutJournalTradesNestedInput
 }
 
@@ -1339,7 +1339,7 @@ export type JournalTradeCreateWithoutStrategyInput = {
   source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  account: Prisma.JournalAccountCreateNestedOneWithoutJournalTradesInput
+  account: Prisma.TradingAccountCreateNestedOneWithoutJournalTradesInput
   checklistItems?: Prisma.JournalChecklistItemCreateNestedManyWithoutTradeInput
 }
 
@@ -1579,7 +1579,7 @@ export type JournalTradeUpdateWithoutStrategyInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  account?: Prisma.JournalAccountUpdateOneRequiredWithoutJournalTradesNestedInput
+  account?: Prisma.TradingAccountUpdateOneRequiredWithoutJournalTradesNestedInput
   checklistItems?: Prisma.JournalChecklistItemUpdateManyWithoutTradeNestedInput
 }
 
@@ -1704,7 +1704,7 @@ export type JournalTradeSelect<ExtArgs extends runtime.Types.Extensions.Internal
   source?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  account?: boolean | Prisma.JournalAccountDefaultArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.TradingStrategyDefaultArgs<ExtArgs>
   checklistItems?: boolean | Prisma.JournalTrade$checklistItemsArgs<ExtArgs>
   _count?: boolean | Prisma.JournalTradeCountOutputTypeDefaultArgs<ExtArgs>
@@ -1739,7 +1739,7 @@ export type JournalTradeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   source?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  account?: boolean | Prisma.JournalAccountDefaultArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.TradingStrategyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalTrade"]>
 
@@ -1772,7 +1772,7 @@ export type JournalTradeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   source?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  account?: boolean | Prisma.JournalAccountDefaultArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.TradingStrategyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalTrade"]>
 
@@ -1809,24 +1809,24 @@ export type JournalTradeSelectScalar = {
 
 export type JournalTradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "accountId" | "strategyId" | "symbol" | "direction" | "status" | "result" | "entryPrice" | "exitPrice" | "quantity" | "ticketId" | "pnl" | "pnlPercent" | "commission" | "swap" | "followedPlan" | "convictionLevel" | "emotionBefore" | "emotionAfter" | "notesBefore" | "notesAfter" | "screenshotUrls" | "tradeDate" | "closedAt" | "source" | "createdAt" | "updatedAt", ExtArgs["result"]["journalTrade"]>
 export type JournalTradeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  account?: boolean | Prisma.JournalAccountDefaultArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.TradingStrategyDefaultArgs<ExtArgs>
   checklistItems?: boolean | Prisma.JournalTrade$checklistItemsArgs<ExtArgs>
   _count?: boolean | Prisma.JournalTradeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type JournalTradeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  account?: boolean | Prisma.JournalAccountDefaultArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.TradingStrategyDefaultArgs<ExtArgs>
 }
 export type JournalTradeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  account?: boolean | Prisma.JournalAccountDefaultArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.TradingStrategyDefaultArgs<ExtArgs>
 }
 
 export type $JournalTradePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "JournalTrade"
   objects: {
-    account: Prisma.$JournalAccountPayload<ExtArgs>
+    account: Prisma.$TradingAccountPayload<ExtArgs>
     strategy: Prisma.$TradingStrategyPayload<ExtArgs>
     checklistItems: Prisma.$JournalChecklistItemPayload<ExtArgs>[]
   }
@@ -2253,7 +2253,7 @@ readonly fields: JournalTradeFieldRefs;
  */
 export interface Prisma__JournalTradeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  account<T extends Prisma.JournalAccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JournalAccountDefaultArgs<ExtArgs>>): Prisma.Prisma__JournalAccountClient<runtime.Types.Result.GetResult<Prisma.$JournalAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  account<T extends Prisma.TradingAccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccountDefaultArgs<ExtArgs>>): Prisma.Prisma__TradingAccountClient<runtime.Types.Result.GetResult<Prisma.$TradingAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   strategy<T extends Prisma.TradingStrategyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingStrategyDefaultArgs<ExtArgs>>): Prisma.Prisma__TradingStrategyClient<runtime.Types.Result.GetResult<Prisma.$TradingStrategyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   checklistItems<T extends Prisma.JournalTrade$checklistItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JournalTrade$checklistItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalChecklistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**

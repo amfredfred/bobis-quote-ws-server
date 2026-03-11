@@ -23,10 +23,10 @@ export * from './enums.js';
  */
 export type Profile = Prisma.ProfileModel
 /**
- * Model Account
+ * Model TradingAccount
  * 
  */
-export type Account = Prisma.AccountModel
+export type TradingAccount = Prisma.TradingAccountModel
 /**
  * Model Signal
  * 
@@ -37,11 +37,6 @@ export type Signal = Prisma.SignalModel
  * 
  */
 export type Trade = Prisma.TradeModel
-/**
- * Model JournalAccount
- * 
- */
-export type JournalAccount = Prisma.JournalAccountModel
 /**
  * Model JournalTrade
  * 

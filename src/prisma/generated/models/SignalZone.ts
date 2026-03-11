@@ -307,7 +307,7 @@ export type SignalZoneWhereInput = {
   AND?: Prisma.SignalZoneWhereInput | Prisma.SignalZoneWhereInput[]
   OR?: Prisma.SignalZoneWhereInput[]
   NOT?: Prisma.SignalZoneWhereInput | Prisma.SignalZoneWhereInput[]
-  id?: Prisma.StringFilter<"SignalZone"> | string
+  id?: Prisma.UuidFilter<"SignalZone"> | string
   engineKey?: Prisma.StringFilter<"SignalZone"> | string
   symbol?: Prisma.StringFilter<"SignalZone"> | string
   direction?: Prisma.EnumSignalDirectionFilter<"SignalZone"> | $Enums.SignalDirection
@@ -323,7 +323,7 @@ export type SignalZoneWhereInput = {
   triggeredAt?: Prisma.DateTimeNullableFilter<"SignalZone"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SignalZone"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SignalZone"> | Date | string
-  signalId?: Prisma.StringNullableFilter<"SignalZone"> | string | null
+  signalId?: Prisma.UuidNullableFilter<"SignalZone"> | string | null
   signal?: Prisma.XOR<Prisma.SignalAlertNullableScalarRelationFilter, Prisma.SignalAlertWhereInput> | null
 }
 
@@ -368,7 +368,7 @@ export type SignalZoneWhereUniqueInput = Prisma.AtLeast<{
   triggeredAt?: Prisma.DateTimeNullableFilter<"SignalZone"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SignalZone"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SignalZone"> | Date | string
-  signalId?: Prisma.StringNullableFilter<"SignalZone"> | string | null
+  signalId?: Prisma.UuidNullableFilter<"SignalZone"> | string | null
   signal?: Prisma.XOR<Prisma.SignalAlertNullableScalarRelationFilter, Prisma.SignalAlertWhereInput> | null
 }, "id" | "engineKey">
 
@@ -401,7 +401,7 @@ export type SignalZoneScalarWhereWithAggregatesInput = {
   AND?: Prisma.SignalZoneScalarWhereWithAggregatesInput | Prisma.SignalZoneScalarWhereWithAggregatesInput[]
   OR?: Prisma.SignalZoneScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SignalZoneScalarWhereWithAggregatesInput | Prisma.SignalZoneScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"SignalZone"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"SignalZone"> | string
   engineKey?: Prisma.StringWithAggregatesFilter<"SignalZone"> | string
   symbol?: Prisma.StringWithAggregatesFilter<"SignalZone"> | string
   direction?: Prisma.EnumSignalDirectionWithAggregatesFilter<"SignalZone"> | $Enums.SignalDirection
@@ -417,7 +417,7 @@ export type SignalZoneScalarWhereWithAggregatesInput = {
   triggeredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SignalZone"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SignalZone"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SignalZone"> | Date | string
-  signalId?: Prisma.StringNullableWithAggregatesFilter<"SignalZone"> | string | null
+  signalId?: Prisma.UuidNullableWithAggregatesFilter<"SignalZone"> | string | null
 }
 
 export type SignalZoneCreateInput = {

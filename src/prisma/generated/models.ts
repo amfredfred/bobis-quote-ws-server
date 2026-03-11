@@ -9,10 +9,9 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Profile.js'
-export type * from './models/Account.js'
+export type * from './models/TradingAccount.js'
 export type * from './models/Signal.js'
 export type * from './models/Trade.js'
-export type * from './models/JournalAccount.js'
 export type * from './models/JournalTrade.js'
 export type * from './models/JournalChecklistItem.js'
 export type * from './models/TradingStrategy.js'

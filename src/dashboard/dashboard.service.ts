@@ -9,7 +9,7 @@ export class DashboardService {
 
   async get(userId: string) {
     const [accounts, trades, signals] = await Promise.all([
-      this.prisma.journalAccount.findMany({ where: { userId, isActive: true } }),
+      this.prisma.tradingAccount.findMany({ where: { userId, isActive: true } }),
       this.prisma.journalTrade.findMany({ where: { userId }, orderBy: { tradeDate: 'desc' }, take: 500 }),
       this.prisma.signalAlert.findMany({ orderBy: { createdAt: 'desc' }, take: 100 }),
     ]);
@@ -112,7 +112,7 @@ export class DashboardService {
       if (endDate) where.closedAt.lte = new Date(endDate);
     }
 
-    const account = await this.prisma.journalAccount.findUnique({ where: { id: accountId } });
+    const account = await this.prisma.tradingAccount.findUnique({ where: { id: accountId } });
     if (!account) throw new Error('Account not found');
 
     const trades = await this.prisma.journalTrade.findMany({
