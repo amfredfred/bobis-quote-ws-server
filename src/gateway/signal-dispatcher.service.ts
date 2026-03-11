@@ -109,14 +109,14 @@ export class SignalDispatcherService implements OnModuleInit, OnModuleDestroy {
         // 2. Push the correct WS event name for this status
         this.gateway.pushToSymbol(symbol, STATUS_TO_WS_EVENT[status], signal);
 
-        // 2. Find all users subscribed to this symbol who have signal alerts enabled
+        // 3. Find all users subscribed to this symbol who have signal alerts enabled
         const subscribers = await this._getSubscribedUsers(symbol);
 
         if (!subscribers.length) return;
 
         this.logger.debug(`Notifying ${subscribers.length} subscribers for ${symbol}`);
 
-        // 3. Send push notifications concurrently (failures are isolated per user)
+        // 4. Send push notifications concurrently (failures are isolated per user)
         const notificationType = this._statusToNotificationType(status);
         const { title, body } = this._buildNotificationCopy(signal, symbol, status);
 
