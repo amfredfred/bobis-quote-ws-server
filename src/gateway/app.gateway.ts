@@ -210,8 +210,8 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     return {
       // ── Dashboard ──────────────────────────────────────────────────────────
 
-      'dashboard.get': () =>
-        this.dashboardSvc.get(userId),
+      'dashboard.get': (p) =>
+        this.dashboardSvc.get(userId, p.accountId),
 
       'dashboard.equity': (p) =>
         this.dashboardSvc.getEquityCurve(userId, p.accountId, p.startDate, p.endDate),

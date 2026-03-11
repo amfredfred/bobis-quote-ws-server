@@ -248,8 +248,8 @@ model TradingStrategy {
   description  String
   tradingStyle TradingStyle? @map("trading_style")
 
-  tradingHoursStart   String? @map("trading_hours_start")
-  tradingHoursEnd     String? @map("trading_hours_end")
+  tradingHoursStart   String? @map("trading_hours_start") @default("09:00")
+  tradingHoursEnd     String? @map("trading_hours_end") @default("16:00")
   sessionReminderMins Int?    @default(5) @map("session_reminder_mins")
 
   isDefault  Boolean @default(false) @map("is_default")

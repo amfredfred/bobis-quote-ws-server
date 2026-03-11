@@ -30,7 +30,7 @@ export interface CreateJournalTradeDto {
   checklistItems?: { text: string; answeredYes: boolean; note?: string }[];
 }
 
-export interface UpdateJournalTradeDto extends Partial<CreateJournalTradeDto> {}
+export type UpdateJournalTradeDto = Partial<CreateJournalTradeDto>;
 
 export interface JournalTradeFilters {
   accountId?: string;
@@ -46,19 +46,19 @@ export interface JournalTradeFilters {
 
 @Injectable()
 export class JournalTradeService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async findAll(userId: string, filters: JournalTradeFilters = {}) {
     const where: any = { userId };
-    if (filters.accountId)  where.accountId  = filters.accountId;
+    if (filters.accountId) where.accountId = filters.accountId;
     if (filters.strategyId) where.strategyId = filters.strategyId;
-    if (filters.symbol)     where.symbol     = filters.symbol;
-    if (filters.status)     where.status     = filters.status;
-    if (filters.result)     where.result     = filters.result;
+    if (filters.symbol) where.symbol = filters.symbol;
+    if (filters.status) where.status = filters.status;
+    if (filters.result) where.result = filters.result;
     if (filters.from || filters.to) {
       where.tradeDate = {};
       if (filters.from) where.tradeDate.gte = new Date(filters.from);
-      if (filters.to)   where.tradeDate.lte = new Date(filters.to);
+      if (filters.to) where.tradeDate.lte = new Date(filters.to);
     }
 
     return this.prisma.journalTrade.findMany({
@@ -181,10 +181,10 @@ export class JournalTradeService {
     if (accountId) where.accountId = accountId;
 
     const trades = await this.prisma.journalTrade.findMany({ where });
-    const total  = trades.length;
-    const wins   = trades.filter(t => t.result === 'profit').length;
+    const total = trades.length;
+    const wins = trades.filter(t => t.result === 'profit').length;
     const losses = trades.filter(t => t.result === 'loss').length;
-    const be     = trades.filter(t => t.result === 'breakeven').length;
+    const be = trades.filter(t => t.result === 'breakeven').length;
     const totalPnl = trades.reduce((s, t) => s + (t.pnl ?? 0), 0);
 
     const bySymbol: Record<string, { total: number; wins: number; pnl: number }> = {};

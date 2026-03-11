@@ -7,10 +7,10 @@ import { PrismaService } from '../prisma/prisma.service';
 export class DashboardService {
   constructor(private readonly prisma: PrismaService) { }
 
-  async get(userId: string) {
+  async get(userId: string, accountId: string) {
     const [accounts, trades, signals] = await Promise.all([
-      this.prisma.tradingAccount.findMany({ where: { userId, isActive: true } }),
-      this.prisma.journalTrade.findMany({ where: { userId }, orderBy: { tradeDate: 'desc' }, take: 500 }),
+      this.prisma.tradingAccount.findMany({ where: { userId, id: accountId } }),
+      this.prisma.journalTrade.findMany({ where: { userId, accountId }, orderBy: { tradeDate: 'desc' }, take: 500 }),
       this.prisma.signalAlert.findMany({ orderBy: { createdAt: 'desc' }, take: 100 }),
     ]);
 
