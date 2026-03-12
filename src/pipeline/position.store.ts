@@ -1,5 +1,5 @@
 import { Trade } from '../common/types/trade';
-import { nowMs } from '../common/utils/time-utils';
+import { nowMs } from '../common/utils/time.utils';
 
 export class PositionStore {
   private readonly trades = new Map<string, Trade>();

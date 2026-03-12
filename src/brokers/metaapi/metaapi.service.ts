@@ -154,9 +154,34 @@ export class MetaApiService implements OnModuleDestroy {
     const balance = accountBalance ?? (await this.getAccountInfo(metaApiAccountId)).balance;
     if (balance === 0) return 0;
 
+    const conn = this._conn(metaApiAccountId);
+
+    // ── Closed trades P&L for today (UTC) ────────────────────────────────
+    // history_deals covers realised P&L — this is what was missing before.
+    // Without this, a losing trade closed earlier today would not count
+    // against the daily loss limit.
+    let closedLoss = 0;
+    try {
+      const startOfDay = new Date();
+      startOfDay.setUTCHours(0, 0, 0, 0);
+      const deals = await conn.getHistoryOrdersByTimeRange(startOfDay, new Date()) as Array<{
+        magic?: number; profit?: number; swap?: number; commission?: number; type?: string;
+      }> ?? [];
+      closedLoss = deals
+        .filter(d => d.magic === magic && d.type !== 'DEAL_TYPE_BALANCE')
+        .reduce((sum, d) => sum + (d.profit ?? 0) + (d.swap ?? 0) + (d.commission ?? 0), 0);
+    } catch {
+      // history API unavailable — fall back to open P&L only
+      logger.warn('getDailyLossPct: history unavailable, using open P&L only', { metaApiAccountId });
+    }
+
+    // ── Open floating P&L ────────────────────────────────────────────────
     const allPositions = positions ?? await this.getOpenPositions(metaApiAccountId);
-    const filtered = allPositions.filter(p => p.magic === magic);
-    const totalLoss = filtered.reduce((sum, p) => sum + Math.min(0, p.profit + p.swap + p.commission), 0);
+    const openLoss = allPositions
+      .filter(p => p.magic === magic)
+      .reduce((sum, p) => sum + p.profit + p.swap + p.commission, 0);
+
+    const totalLoss = Math.min(0, closedLoss + openLoss);
     return (Math.abs(totalLoss) / balance) * 100;
   }
 
@@ -203,46 +228,65 @@ export class MetaApiService implements OnModuleDestroy {
     const result = await (params.side === 'BUY'
       ? conn.createMarketBuyOrder(symbol, params.volume, params.stopLoss, params.takeProfit, opts)
       : conn.createMarketSellOrder(symbol, params.volume, params.stopLoss, params.takeProfit, opts)
-    ) as { orderId?: string; openPrice?: number };
+    ) as { positionId?: string; orderId?: string; openPrice?: number };
 
-    // orderId from the SDK is the ORDER id, not the position ticket — they are
-    // different IDs in MetaTrader. We must look up the resulting position by
-    // matching on symbol + magic + volume rather than by ticket comparison.
-    let executedPrice = result.openPrice ?? 0;
-    let filledLots = params.volume;
-    let filledAt = Date.now();
-    let ticket = 0;
+    // MetaAPI returns positionId directly on market orders — use it.
+    // This avoids the fragile heuristic scan (magic+symbol+side+volume)
+    // that could match the wrong position when two signals fire simultaneously.
+    const positionId = result.positionId;
 
+    if (positionId) {
+      try {
+        const positions = await this.getOpenPositions(metaApiAccountId);
+        const filled = positions.find(p => String(p.ticket) === positionId);
+        if (filled) {
+          return {
+            ticket:        filled.ticket,
+            executedPrice: filled.openPrice,
+            filledLots:    filled.lots,
+            filledAt:      filled.openTime,
+          };
+        }
+        logger.warn('openOrder: positionId not found in open positions — using order result', { positionId, symbol });
+      } catch (err) {
+        logger.warn('openOrder: could not fetch fill by positionId', { error: String(err) });
+      }
+    }
+
+    // Fallback: heuristic scan (last resort — single-account low-frequency case)
+    logger.warn('openOrder: falling back to heuristic fill match', { symbol, side: params.side });
     try {
       const positions = await this.getOpenPositions(metaApiAccountId);
-      // Match by magic + symbol + side + approximate volume — the newest
-      // position that matches is the one we just opened.
       const candidates = positions.filter(
         p => p.magic === params.magic &&
              p.symbol === symbol &&
              p.side === params.side &&
              Math.abs(p.lots - params.volume) < params.volume * 0.01,
       );
-      // Pick the most recently opened position among candidates
       const filled = candidates.reduce<typeof candidates[0] | undefined>(
         (best, p) => (!best || p.openTime > best.openTime ? p : best),
         undefined,
       );
       if (filled) {
-        ticket       = filled.ticket;
-        executedPrice = filled.openPrice;
-        filledLots   = filled.lots;
-        filledAt     = filled.openTime;
-      } else {
-        logger.warn('Could not match fill — using order result values', {
-          symbol, side: params.side, magic: params.magic,
-        });
+        return {
+          ticket:        filled.ticket,
+          executedPrice: filled.openPrice,
+          filledLots:    filled.lots,
+          filledAt:      filled.openTime,
+        };
       }
     } catch (err) {
-      logger.warn('Could not fetch fill details — using order result', { error: String(err) });
+      logger.warn('openOrder: heuristic scan failed', { error: String(err) });
     }
 
-    return { ticket, executedPrice, filledLots, filledAt };
+    // Last resort: return what the SDK gave us with ticket=0
+    logger.error('openOrder: could not resolve position ticket — trade will become STUB on next poll', { symbol });
+    return {
+      ticket:        0,
+      executedPrice: result.openPrice ?? 0,
+      filledLots:    params.volume,
+      filledAt:      Date.now(),
+    };
   }
 
   async closePosition(metaApiAccountId: string, positionId: string): Promise<void> {

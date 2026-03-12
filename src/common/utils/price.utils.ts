@@ -1,7 +1,12 @@
 import { SymbolInfo } from '../types/position.types';
 
 export function pipSize(point: number, digits: number): number {
-  return (digits === 3 || digits === 5) ? point * 10 : point;
+  // 5-digit forex (EURUSD) or 3-digit JPY (USDJPY) — pip is 10x point
+  if (digits === 5 || digits === 3) return point * 10;
+  // 4-digit forex or 2-digit JPY — pip equals point
+  if (digits === 4 || digits === 2) return point;
+  // Metals, indices, crypto — pip equals point (no standard multiplier)
+  return point;
 }
 
 export function normaliseLots(lots: number, step: number, min: number, max: number): number {
