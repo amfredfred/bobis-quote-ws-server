@@ -25,6 +25,8 @@ import { NotificationsModule } from '../notifications/notifications.module';
 import { SignalModule } from '../signal/signal.module';
 import { PrismaModule } from '../prisma/prisma.module';
 import { PipelineModule } from '../pipeline/pipeline.module';
+import { AnalyticsHandler } from './handlers/analytics.handler';
+import { AnalyticsModule } from '@src/analytics/analytics.module';
 
 const HANDLERS = [
   DashboardHandler,
@@ -34,6 +36,7 @@ const HANDLERS = [
   JournalHandler,
   MarketHandler,
   NotificationsHandler,
+  AnalyticsHandler
 ];
 
 @Module({
@@ -48,6 +51,7 @@ const HANDLERS = [
     NotificationsModule,
     SignalModule,
     PrismaModule,
+    AnalyticsModule,
     forwardRef(() => PipelineModule),
   ],
   providers: [AppGateway, SignalDispatcherService, ...HANDLERS],

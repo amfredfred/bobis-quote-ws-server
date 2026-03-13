@@ -36,6 +36,7 @@ import { StrategyHandler } from './handlers/strategy.handler';
 import { JournalHandler } from './handlers/journal.handler';
 import { MarketHandler } from './handlers/market.handler';
 import { NotificationsHandler } from './handlers/notifications.handler';
+import { AnalyticsHandler } from './handlers/analytics.handler';
 
 import {
   CreateTradingAccountDto,
@@ -52,71 +53,81 @@ import { CreateStrategyDto, UpdateStrategyDto } from '../strategy/strategy.servi
 // ── Payload shapes ─────────────────────────────────────────────────────────────
 
 interface Payloads {
-  'dashboard.get':          { accountId?: string };
-  'dashboard.equity':       { accountId: string; startDate?: string; endDate?: string };
+  'dashboard.get': { accountId?: string };
+  'dashboard.equity': { accountId: string; startDate?: string; endDate?: string };
   'dashboard.monthlyStats': { accountId: string; year: number; month: number };
-  'dashboard.calendar':     { accountId: string; year: number; month: number };
-  'dashboard.metrics':      { accountId: string; startDate?: string; endDate?: string };
-  'dashboard.daily':        { accountId: string; date: string };
-  'profile.get':            Record<string, never>;
-  'profile.update':         UpdateProfileDto;
-  'profile.pushToken':      { token: string };
-  'accounts.list':          { includeInactive?: boolean };
-  'account.get':            { id: string };
-  'account.create':         CreateTradingAccountDto;
-  'account.update':         { id: string } & UpdateTradingAccountDto;
-  'account.delete':         { id: string };
-  'account.stats':          { id: string };
-  'account.toggleAutoTrade':{ id: string; enabled: boolean };
-  'strategies.list':        Record<string, never>;
-  'strategy.get':           { id: string };
-  'strategy.create':        CreateStrategyDto;
-  'strategy.update':        { id: string } & UpdateStrategyDto;
-  'strategy.delete':        { id: string };
-  'trades.list':            JournalTradeFilters;
-  'trade.get':              { id: string };
-  'trade.create':           CreateJournalTradeDto;
-  'trade.update':           { id: string } & UpdateJournalTradeDto;
-  'trade.delete':           { id: string };
-  'trades.analytics':       { accountId?: string };
-  'signals.list':           { symbol?: string; status?: string; limit?: number; offset?: number };
-  'signal.get':             { id: string };
-  'signals.dashboard':      Record<string, never>;
-  'trades.calendar':        { year: number; month: number };
-  'zones.list':             { symbol?: string; status?: string; limit?: number; offset?: number };
-  'subscriptions.get':      Record<string, never>;
-  'subscriptions.add':      { symbols: string[] };
-  'subscriptions.remove':   { symbols: string[] };
-  'notifications.list':     { limit?: number };
-  'notification.markOpened':{ id: string };
+  'dashboard.calendar': { accountId: string; year: number; month: number };
+  'dashboard.metrics': { accountId: string; startDate?: string; endDate?: string };
+  'dashboard.daily': { accountId: string; date: string };
+  'profile.get': Record<string, never>;
+  'profile.update': UpdateProfileDto;
+  'profile.pushToken': { token: string };
+  'accounts.list': { includeInactive?: boolean };
+  'account.get': { id: string };
+  'account.create': CreateTradingAccountDto;
+  'account.update': { id: string } & UpdateTradingAccountDto;
+  'account.delete': { id: string };
+  'account.stats': { id: string };
+  'account.toggleAutoTrade': { id: string; enabled: boolean };
+  'strategies.list': Record<string, never>;
+  'strategy.get': { id: string };
+  'strategy.create': CreateStrategyDto;
+  'strategy.update': { id: string } & UpdateStrategyDto;
+  'strategy.delete': { id: string };
+  'trades.list': JournalTradeFilters;
+  'trade.get': { id: string };
+  'trade.create': CreateJournalTradeDto;
+  'trade.update': { id: string } & UpdateJournalTradeDto;
+  'trade.delete': { id: string };
+  'trades.analytics': { accountId?: string };
+  'signals.list': { symbol?: string; status?: string; limit?: number; offset?: number };
+  'signal.get': { id: string };
+  'signals.dashboard': Record<string, never>;
+  'trades.calendar': { year: number; month: number };
+  'zones.list': { symbol?: string; status?: string; limit?: number; offset?: number };
+  'subscriptions.get': Record<string, never>;
+  'subscriptions.add': { symbols: string[] };
+  'subscriptions.remove': { symbols: string[] };
+  'notifications.list': { limit?: number };
+  'notification.markOpened': { id: string };
+  // Analytics
+  'analytics.ror': { accountId: string };
+  'analytics.equity': { accountId: string; startDate?: string; endDate?: string };
+  'analytics.rolling': { accountId: string };
+  'analytics.strategies': { accountId?: string };
+  'analytics.hours': { accountId?: string };
+  'analytics.streaks': { accountId?: string };
+  'analytics.patterns': { accountId?: string };
+  'analytics.monthly': { accountId?: string; months?: number };
+  'analytics.full': { accountId: string };
 }
 
-type Command    = keyof Payloads;
+type Command = keyof Payloads;
 type CommandMap = { [C in Command]: (p: Payloads[C]) => Promise<unknown> };
 
 interface WsMessage<C extends Command = Command> {
-  command:    C;
-  payload:    Payloads[C];
+  command: C;
+  payload: Payloads[C];
   requestId?: string;
 }
 
 interface WsResponse<T = unknown> {
-  command:    string;
+  command: string;
   requestId?: string;
-  ok:         boolean;
-  data?:      T;
-  error?:     string;
+  ok: boolean;
+  data?: T;
+  error?: string;
 }
 
 interface AuthSocket extends Socket {
-  userId?:     string;
+  userId?: string;
   commandMap?: CommandMap;
 }
 
 // ── Gateway ────────────────────────────────────────────────────────────────────
 
 @WebSocketGateway({
-  cors:      { origin: process.env['CORS_ORIGIN'] ?? '*', credentials: true },
+  cors: { origin: process.env['CORS_ORIGIN'] ?? '*', credentials: true },
   namespace: '/ws',
 })
 @Injectable()
@@ -126,16 +137,17 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   private readonly logger = new Logger(AppGateway.name);
 
   constructor(
-    private readonly jwtVerifier:      JwtVerifierService,
+    private readonly jwtVerifier: JwtVerifierService,
     private readonly dashboardHandler: DashboardHandler,
-    private readonly profileHandler:   ProfileHandler,
-    private readonly accountHandler:   AccountHandler,
-    private readonly strategyHandler:  StrategyHandler,
-    private readonly journalHandler:   JournalHandler,
-    private readonly marketHandler:    MarketHandler,
-    private readonly notifHandler:     NotificationsHandler,
-    private readonly marketSvc:        MarketService,
-  ) {}
+    private readonly profileHandler: ProfileHandler,
+    private readonly accountHandler: AccountHandler,
+    private readonly strategyHandler: StrategyHandler,
+    private readonly journalHandler: JournalHandler,
+    private readonly marketHandler: MarketHandler,
+    private readonly notifHandler: NotificationsHandler,
+    private readonly marketSvc: MarketService,
+    private readonly analyticsHandler: AnalyticsHandler,
+  ) { }
 
   afterInit(): void {
     this.logger.log('AppGateway initialised ✓');
@@ -149,8 +161,8 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
 
       if (!token) { client.disconnect(); return; }
 
-      const user        = await this.jwtVerifier.verifyAndGetUser(token as string);
-      client.userId     = user.id;
+      const user = await this.jwtVerifier.verifyAndGetUser(token as string);
+      client.userId = user.id;
       client.commandMap = this._buildCommandMap(user.id);
 
       await client.join(`user:${user.id}`);
@@ -197,50 +209,60 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   private _buildCommandMap(userId: string): CommandMap {
     return {
       // Dashboard
-      'dashboard.get':          (p) => this.dashboardHandler.get(userId, p.accountId),
-      'dashboard.equity':       (p) => this.dashboardHandler.equity(userId, p.accountId, p.startDate, p.endDate),
+      'dashboard.get': (p) => this.dashboardHandler.get(userId, p.accountId),
+      'dashboard.equity': (p) => this.dashboardHandler.equity(userId, p.accountId, p.startDate, p.endDate),
       'dashboard.monthlyStats': (p) => this.dashboardHandler.monthlyStats(userId, p.accountId, p.year, p.month),
-      'dashboard.calendar':     (p) => this.dashboardHandler.calendar(userId, p.accountId, p.year, p.month),
-      'dashboard.metrics':      (p) => this.dashboardHandler.metrics(userId, p.accountId, p.startDate, p.endDate),
-      'dashboard.daily':        (p) => this.dashboardHandler.daily(userId, p.accountId, p.date),
+      'dashboard.calendar': (p) => this.dashboardHandler.calendar(userId, p.accountId, p.year, p.month),
+      'dashboard.metrics': (p) => this.dashboardHandler.metrics(userId, p.accountId, p.startDate, p.endDate),
+      'dashboard.daily': (p) => this.dashboardHandler.daily(userId, p.accountId, p.date),
       // Profile
-      'profile.get':       ()  => this.profileHandler.get(userId),
-      'profile.update':    (p) => this.profileHandler.update(userId, p),
+      'profile.get': () => this.profileHandler.get(userId),
+      'profile.update': (p) => this.profileHandler.update(userId, p),
       'profile.pushToken': (p) => this.profileHandler.pushToken(userId, p.token),
       // Accounts
-      'accounts.list':           (p) => this.accountHandler.list(userId, Boolean(p.includeInactive)),
-      'account.get':             (p) => this.accountHandler.get(userId, p.id),
-      'account.create':          (p) => this.accountHandler.create(userId, p),
-      'account.update':          (p) => { const { id, ...rest } = p; return this.accountHandler.update(userId, id, rest); },
-      'account.delete':          (p) => this.accountHandler.delete(userId, p.id),
-      'account.stats':           (p) => this.accountHandler.stats(userId, p.id),
+      'accounts.list': (p) => this.accountHandler.list(userId, Boolean(p.includeInactive)),
+      'account.get': (p) => this.accountHandler.get(userId, p.id),
+      'account.create': (p) => this.accountHandler.create(userId, p),
+      'account.update': (p) => { const { id, ...rest } = p; return this.accountHandler.update(userId, id, rest); },
+      'account.delete': (p) => this.accountHandler.delete(userId, p.id),
+      'account.stats': (p) => this.accountHandler.stats(userId, p.id),
       'account.toggleAutoTrade': (p) => this.accountHandler.toggleAutoTrade(userId, p.id, p.enabled),
       // Strategies
-      'strategies.list':  ()  => this.strategyHandler.list(userId),
-      'strategy.get':     (p) => this.strategyHandler.get(userId, p.id),
-      'strategy.create':  (p) => this.strategyHandler.create(userId, p),
-      'strategy.update':  (p) => { const { id, ...rest } = p; return this.strategyHandler.update(userId, id, rest); },
-      'strategy.delete':  (p) => this.strategyHandler.delete(userId, p.id),
+      'strategies.list': () => this.strategyHandler.list(userId),
+      'strategy.get': (p) => this.strategyHandler.get(userId, p.id),
+      'strategy.create': (p) => this.strategyHandler.create(userId, p),
+      'strategy.update': (p) => { const { id, ...rest } = p; return this.strategyHandler.update(userId, id, rest); },
+      'strategy.delete': (p) => this.strategyHandler.delete(userId, p.id),
       // Journal
-      'trades.list':      (p) => this.journalHandler.list(userId, p),
-      'trade.get':        (p) => this.journalHandler.get(userId, p.id),
-      'trade.create':     (p) => this.journalHandler.create(userId, p),
-      'trade.update':     (p) => { const { id, ...rest } = p; return this.journalHandler.update(userId, id, rest); },
-      'trade.delete':     (p) => this.journalHandler.delete(userId, p.id),
+      'trades.list': (p) => this.journalHandler.list(userId, p),
+      'trade.get': (p) => this.journalHandler.get(userId, p.id),
+      'trade.create': (p) => this.journalHandler.create(userId, p),
+      'trade.update': (p) => { const { id, ...rest } = p; return this.journalHandler.update(userId, id, rest); },
+      'trade.delete': (p) => this.journalHandler.delete(userId, p.id),
       'trades.analytics': (p) => this.journalHandler.analytics(userId, p.accountId),
       // Market / signals
-      'signals.list':      (p) => this.marketHandler.listAlerts(p),
-      'signal.get':        (p) => this.marketHandler.getAlert(p.id),
-      'signals.dashboard': ()  => this.marketHandler.dashboardStats(),
-      'trades.calendar':   (p) => this.marketHandler.calendar(userId, p.year, p.month),
-      'zones.list':        (p) => this.marketHandler.listZones(p),
+      'signals.list': (p) => this.marketHandler.listAlerts(p),
+      'signal.get': (p) => this.marketHandler.getAlert(p.id),
+      'signals.dashboard': () => this.marketHandler.dashboardStats(),
+      'trades.calendar': (p) => this.marketHandler.calendar(userId, p.year, p.month),
+      'zones.list': (p) => this.marketHandler.listZones(p),
       // Subscriptions
-      'subscriptions.get':    ()  => this.marketHandler.getSubscriptions(userId),
-      'subscriptions.add':    (p) => this.marketHandler.subscribe(userId, p.symbols, this.server),
+      'subscriptions.get': () => this.marketHandler.getSubscriptions(userId),
+      'subscriptions.add': (p) => this.marketHandler.subscribe(userId, p.symbols, this.server),
       'subscriptions.remove': (p) => this.marketHandler.unsubscribe(userId, p.symbols, this.server),
       // Notifications
-      'notifications.list':      (p) => this.notifHandler.list(userId, p.limit),
+      'notifications.list': (p) => this.notifHandler.list(userId, p.limit),
       'notification.markOpened': (p) => this.notifHandler.markOpened(p.id),
+      // Analytics
+      'analytics.ror': (p) => this.analyticsHandler.ror(userId, p.accountId),
+      'analytics.equity': (p) => this.analyticsHandler.equity(userId, p.accountId, p.startDate, p.endDate),
+      'analytics.rolling': (p) => this.analyticsHandler.rolling(userId, p.accountId),
+      'analytics.strategies': (p) => this.analyticsHandler.strategies(userId, p.accountId),
+      'analytics.hours': (p) => this.analyticsHandler.hours(userId, p.accountId),
+      'analytics.streaks': (p) => this.analyticsHandler.streaks(userId, p.accountId),
+      'analytics.patterns': (p) => this.analyticsHandler.patterns(userId, p.accountId),
+      'analytics.monthly': (p) => this.analyticsHandler.monthly(userId, p.accountId, p.months),
+      'analytics.full': (p) => this.analyticsHandler.full(userId, p.accountId),
     };
   }
 
@@ -248,7 +270,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
 
   private async _joinUserSymbolRooms(client: AuthSocket, userId: string): Promise<void> {
     try {
-      const subs    = await this.marketSvc.getSubscriptions(userId);
+      const subs = await this.marketSvc.getSubscriptions(userId);
       const symbols: string[] = (subs as any)?.symbols ?? [];
       for (const s of symbols) {
         await client.join(`symbol:${s.toUpperCase()}`);
