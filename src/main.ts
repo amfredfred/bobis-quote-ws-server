@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { RequestMethod, ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { IoAdapter } from '@nestjs/platform-socket.io';
 
@@ -9,7 +9,7 @@ async function bootstrap() {
   app.useWebSocketAdapter(new IoAdapter(app));
 
   app.setGlobalPrefix('api/v1', {
-    exclude: ['admin/pipelines', 'admin/metrics', 'admin/metrics/:accountId', 'admin/health'],
+    exclude: [{ path: 'admin/(.*)', method: RequestMethod.ALL }]
   });
 
   app.useGlobalPipes(new ValidationPipe({
@@ -17,6 +17,12 @@ async function bootstrap() {
     whitelist: true,
     forbidNonWhitelisted: true,
   }));
+
+  app.enableCors({
+    origin: 'http://localhost:5173', // vite dev server
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    credentials: true,
+  });
 
   const port = process.env['PORT'] ?? 3000;
   await app.listen(port);
