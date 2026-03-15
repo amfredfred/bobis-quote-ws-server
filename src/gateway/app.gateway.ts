@@ -107,13 +107,13 @@ interface Payloads {
     avgWin?: number;
     avgLoss?: number;
     tradesPerMonth?: number;
-    riskPct?: number;
+    riskPct?: number; 
     months?: number;
     propPayoutTargetPct?: number;
-    propPayoutSplitPct?: number;
+    propPayoutSplitPct?: number;  
   };
 }
-
+ 
 type Command = keyof Payloads;
 type CommandMap = { [C in Command]: (p: Payloads[C]) => Promise<unknown> };
 
