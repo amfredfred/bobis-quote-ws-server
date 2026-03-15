@@ -90,6 +90,7 @@ interface Payloads {
   'subscriptions.remove': { symbols: string[] };
   'notifications.list': { limit?: number };
   'notification.markOpened': { id: string };
+  'notifications.markAllOpened': Record<string, never>;
   // Analytics
   'analytics.ror': { accountId: string };
   'analytics.equity': { accountId: string; startDate?: string; endDate?: string };
@@ -100,17 +101,6 @@ interface Payloads {
   'analytics.patterns': { accountId?: string };
   'analytics.monthly': { accountId?: string; months?: number };
   'analytics.full': { accountId: string };
-  'analytics.projection': {
-    accountId: string;
-    winRatePct?: number;
-    avgWin?: number;
-    avgLoss?: number;
-    tradesPerMonth?: number;
-    riskPct?: number;
-    months?: number;
-    propPayoutTargetPct?: number;
-    propPayoutSplitPct?: number;
-  };
 }
 
 type Command = keyof Payloads;
@@ -264,6 +254,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       // Notifications
       'notifications.list': (p) => this.notifHandler.list(userId, p.limit),
       'notification.markOpened': (p) => this.notifHandler.markOpened(p.id),
+      'notifications.markAllOpened': () => this.notifHandler.markAllOpened(userId),
       // Analytics
       'analytics.ror': (p) => this.analyticsHandler.ror(userId, p.accountId),
       'analytics.equity': (p) => this.analyticsHandler.equity(userId, p.accountId, p.startDate, p.endDate),
@@ -274,7 +265,6 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'analytics.patterns': (p) => this.analyticsHandler.patterns(userId, p.accountId),
       'analytics.monthly': (p) => this.analyticsHandler.monthly(userId, p.accountId, p.months),
       'analytics.full': (p) => this.analyticsHandler.full(userId, p.accountId),
-      'analytics.projection': (p) => this.analyticsHandler.projection(userId, p.accountId, p),
     };
   }
 

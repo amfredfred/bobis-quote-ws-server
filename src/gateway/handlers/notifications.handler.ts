@@ -7,11 +7,17 @@ import { NotificationsService } from '../../notifications/notifications.service'
 export class NotificationsHandler {
   constructor(private readonly svc: NotificationsService) {}
 
-  list(userId: string, limit?: number) {
-    return this.svc.getForUser(userId, limit);
+  async list(userId: string, limit = 50) {
+    const notifications = await this.svc.getForUser(userId, limit);
+    const unreadCount   = notifications.filter(n => !n.opened).length;
+    return { notifications, total: notifications.length, unread_count: unreadCount };
   }
 
   markOpened(id: string) {
     return this.svc.markOpened(id);
+  }
+
+  markAllOpened(userId: string) {
+    return this.svc.markAllOpened(userId);
   }
 }

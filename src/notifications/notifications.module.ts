@@ -7,9 +7,9 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule],
+  imports:     [PrismaModule, AuthModule],
   controllers: [NotificationsController],
-  providers: [NotificationsService],
-  exports: [NotificationsService],
+  providers:   [NotificationsService],
+  exports:     [NotificationsService],
 })
-export class NotificationsModule { }
+export class NotificationsModule {}
