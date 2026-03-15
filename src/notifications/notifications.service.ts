@@ -81,7 +81,7 @@ const TYPE_CONFIG: Record<NotificationType, NotificationConfig> = {
   SESSION_START: { priority: 'normal', dailyLimit: 3, prefFlag: 'sessionReminders' },
   STRATEGY_REMINDER: { priority: 'default', dailyLimit: 3, prefFlag: 'strategyReminders' },
   ACCOUNT_GENERAL: { priority: 'default', dailyLimit: 5, prefFlag: 'accountAlerts' },
-  SYSTEM_UPDATE: { priority: 'default', dailyLimit: 2, prefFlag: null },
+  SYSTEM_UPDATE: { priority: 'default', dailyLimit: 5, prefFlag: null },
 };
 
 // ── Service ───────────────────────────────────────────────────────────────────
