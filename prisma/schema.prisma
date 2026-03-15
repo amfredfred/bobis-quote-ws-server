@@ -45,6 +45,7 @@ model Profile {
   tradingAnalytics    TradingAnalytics[]
   notificationLogs    NotificationLog[]
   signalSubscriptions UserSignalSubscription[]
+  journalTrades       JournalTrade[]
 
   @@map("profiles")
   @@schema("public")
@@ -219,6 +220,8 @@ model JournalTrade {
   account        TradingAccount         @relation(fields: [accountId], references: [id], onDelete: Cascade)
   strategy       TradingStrategy        @relation(fields: [strategyId], references: [id], onDelete: Cascade)
   checklistItems JournalChecklistItem[]
+  profile        Profile?               @relation(fields: [profileUserId], references: [userId])
+  profileUserId  String?                @db.Uuid
 
   @@map("journal_trades")
   @@schema("public")
@@ -248,8 +251,8 @@ model TradingStrategy {
   description  String
   tradingStyle TradingStyle? @map("trading_style")
 
-  tradingHoursStart   String? @map("trading_hours_start") @default("09:00")
-  tradingHoursEnd     String? @map("trading_hours_end") @default("16:00")
+  tradingHoursStart   String? @default("09:00") @map("trading_hours_start")
+  tradingHoursEnd     String? @default("16:00") @map("trading_hours_end")
   sessionReminderMins Int?    @default(5) @map("session_reminder_mins")
 
   isDefault  Boolean @default(false) @map("is_default")

@@ -7,9 +7,10 @@ import { PipelineModule } from '../pipeline/pipeline.module';
 import { MetricsModule } from '../core/metrics/metrics.module';
 import { AuthModule } from '../auth/auth.module';
 import { PrismaModule } from '../prisma/prisma.module';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
-  imports: [PipelineModule, MetricsModule, AuthModule, PrismaModule],
+  imports:     [PipelineModule, MetricsModule, AuthModule, PrismaModule, NotificationsModule],
   controllers: [AdminController, RevenueCatWebhookController],
 })
-export class AdminModule { }
+export class AdminModule {}

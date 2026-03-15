@@ -74,6 +74,7 @@ export type JournalTradeMinAggregateOutputType = {
   source: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  profileUserId: string | null
 }
 
 export type JournalTradeMaxAggregateOutputType = {
@@ -104,6 +105,7 @@ export type JournalTradeMaxAggregateOutputType = {
   source: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  profileUserId: string | null
 }
 
 export type JournalTradeCountAggregateOutputType = {
@@ -135,6 +137,7 @@ export type JournalTradeCountAggregateOutputType = {
   source: number
   createdAt: number
   updatedAt: number
+  profileUserId: number
   _all: number
 }
 
@@ -187,6 +190,7 @@ export type JournalTradeMinAggregateInputType = {
   source?: true
   createdAt?: true
   updatedAt?: true
+  profileUserId?: true
 }
 
 export type JournalTradeMaxAggregateInputType = {
@@ -217,6 +221,7 @@ export type JournalTradeMaxAggregateInputType = {
   source?: true
   createdAt?: true
   updatedAt?: true
+  profileUserId?: true
 }
 
 export type JournalTradeCountAggregateInputType = {
@@ -248,6 +253,7 @@ export type JournalTradeCountAggregateInputType = {
   source?: true
   createdAt?: true
   updatedAt?: true
+  profileUserId?: true
   _all?: true
 }
 
@@ -366,6 +372,7 @@ export type JournalTradeGroupByOutputType = {
   source: string
   createdAt: Date
   updatedAt: Date | null
+  profileUserId: string | null
   _count: JournalTradeCountAggregateOutputType | null
   _avg: JournalTradeAvgAggregateOutputType | null
   _sum: JournalTradeSumAggregateOutputType | null
@@ -420,9 +427,11 @@ export type JournalTradeWhereInput = {
   source?: Prisma.StringFilter<"JournalTrade"> | string
   createdAt?: Prisma.DateTimeFilter<"JournalTrade"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
+  profileUserId?: Prisma.UuidNullableFilter<"JournalTrade"> | string | null
   account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
   strategy?: Prisma.XOR<Prisma.TradingStrategyScalarRelationFilter, Prisma.TradingStrategyWhereInput>
   checklistItems?: Prisma.JournalChecklistItemListRelationFilter
+  profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
 }
 
 export type JournalTradeOrderByWithRelationInput = {
@@ -454,9 +463,11 @@ export type JournalTradeOrderByWithRelationInput = {
   source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  profileUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   account?: Prisma.TradingAccountOrderByWithRelationInput
   strategy?: Prisma.TradingStrategyOrderByWithRelationInput
   checklistItems?: Prisma.JournalChecklistItemOrderByRelationAggregateInput
+  profile?: Prisma.ProfileOrderByWithRelationInput
 }
 
 export type JournalTradeWhereUniqueInput = Prisma.AtLeast<{
@@ -491,9 +502,11 @@ export type JournalTradeWhereUniqueInput = Prisma.AtLeast<{
   source?: Prisma.StringFilter<"JournalTrade"> | string
   createdAt?: Prisma.DateTimeFilter<"JournalTrade"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
+  profileUserId?: Prisma.UuidNullableFilter<"JournalTrade"> | string | null
   account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
   strategy?: Prisma.XOR<Prisma.TradingStrategyScalarRelationFilter, Prisma.TradingStrategyWhereInput>
   checklistItems?: Prisma.JournalChecklistItemListRelationFilter
+  profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
 }, "id">
 
 export type JournalTradeOrderByWithAggregationInput = {
@@ -525,6 +538,7 @@ export type JournalTradeOrderByWithAggregationInput = {
   source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  profileUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.JournalTradeCountOrderByAggregateInput
   _avg?: Prisma.JournalTradeAvgOrderByAggregateInput
   _max?: Prisma.JournalTradeMaxOrderByAggregateInput
@@ -564,6 +578,7 @@ export type JournalTradeScalarWhereWithAggregatesInput = {
   source?: Prisma.StringWithAggregatesFilter<"JournalTrade"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"JournalTrade"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"JournalTrade"> | Date | string | null
+  profileUserId?: Prisma.UuidNullableWithAggregatesFilter<"JournalTrade"> | string | null
 }
 
 export type JournalTradeCreateInput = {
@@ -596,6 +611,7 @@ export type JournalTradeCreateInput = {
   account: Prisma.TradingAccountCreateNestedOneWithoutJournalTradesInput
   strategy: Prisma.TradingStrategyCreateNestedOneWithoutJournalTradesInput
   checklistItems?: Prisma.JournalChecklistItemCreateNestedManyWithoutTradeInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutJournalTradesInput
 }
 
 export type JournalTradeUncheckedCreateInput = {
@@ -627,6 +643,7 @@ export type JournalTradeUncheckedCreateInput = {
   source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  profileUserId?: string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedCreateNestedManyWithoutTradeInput
 }
 
@@ -660,6 +677,7 @@ export type JournalTradeUpdateInput = {
   account?: Prisma.TradingAccountUpdateOneRequiredWithoutJournalTradesNestedInput
   strategy?: Prisma.TradingStrategyUpdateOneRequiredWithoutJournalTradesNestedInput
   checklistItems?: Prisma.JournalChecklistItemUpdateManyWithoutTradeNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutJournalTradesNestedInput
 }
 
 export type JournalTradeUncheckedUpdateInput = {
@@ -691,6 +709,7 @@ export type JournalTradeUncheckedUpdateInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedUpdateManyWithoutTradeNestedInput
 }
 
@@ -723,6 +742,7 @@ export type JournalTradeCreateManyInput = {
   source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  profileUserId?: string | null
 }
 
 export type JournalTradeUpdateManyMutationInput = {
@@ -783,6 +803,7 @@ export type JournalTradeUncheckedUpdateManyInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JournalTradeListRelationFilter = {
@@ -832,6 +853,7 @@ export type JournalTradeCountOrderByAggregateInput = {
   source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  profileUserId?: Prisma.SortOrder
 }
 
 export type JournalTradeAvgOrderByAggregateInput = {
@@ -872,6 +894,7 @@ export type JournalTradeMaxOrderByAggregateInput = {
   source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  profileUserId?: Prisma.SortOrder
 }
 
 export type JournalTradeMinOrderByAggregateInput = {
@@ -902,6 +925,7 @@ export type JournalTradeMinOrderByAggregateInput = {
   source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  profileUserId?: Prisma.SortOrder
 }
 
 export type JournalTradeSumOrderByAggregateInput = {
@@ -917,6 +941,48 @@ export type JournalTradeSumOrderByAggregateInput = {
 export type JournalTradeScalarRelationFilter = {
   is?: Prisma.JournalTradeWhereInput
   isNot?: Prisma.JournalTradeWhereInput
+}
+
+export type JournalTradeCreateNestedManyWithoutProfileInput = {
+  create?: Prisma.XOR<Prisma.JournalTradeCreateWithoutProfileInput, Prisma.JournalTradeUncheckedCreateWithoutProfileInput> | Prisma.JournalTradeCreateWithoutProfileInput[] | Prisma.JournalTradeUncheckedCreateWithoutProfileInput[]
+  connectOrCreate?: Prisma.JournalTradeCreateOrConnectWithoutProfileInput | Prisma.JournalTradeCreateOrConnectWithoutProfileInput[]
+  createMany?: Prisma.JournalTradeCreateManyProfileInputEnvelope
+  connect?: Prisma.JournalTradeWhereUniqueInput | Prisma.JournalTradeWhereUniqueInput[]
+}
+
+export type JournalTradeUncheckedCreateNestedManyWithoutProfileInput = {
+  create?: Prisma.XOR<Prisma.JournalTradeCreateWithoutProfileInput, Prisma.JournalTradeUncheckedCreateWithoutProfileInput> | Prisma.JournalTradeCreateWithoutProfileInput[] | Prisma.JournalTradeUncheckedCreateWithoutProfileInput[]
+  connectOrCreate?: Prisma.JournalTradeCreateOrConnectWithoutProfileInput | Prisma.JournalTradeCreateOrConnectWithoutProfileInput[]
+  createMany?: Prisma.JournalTradeCreateManyProfileInputEnvelope
+  connect?: Prisma.JournalTradeWhereUniqueInput | Prisma.JournalTradeWhereUniqueInput[]
+}
+
+export type JournalTradeUpdateManyWithoutProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.JournalTradeCreateWithoutProfileInput, Prisma.JournalTradeUncheckedCreateWithoutProfileInput> | Prisma.JournalTradeCreateWithoutProfileInput[] | Prisma.JournalTradeUncheckedCreateWithoutProfileInput[]
+  connectOrCreate?: Prisma.JournalTradeCreateOrConnectWithoutProfileInput | Prisma.JournalTradeCreateOrConnectWithoutProfileInput[]
+  upsert?: Prisma.JournalTradeUpsertWithWhereUniqueWithoutProfileInput | Prisma.JournalTradeUpsertWithWhereUniqueWithoutProfileInput[]
+  createMany?: Prisma.JournalTradeCreateManyProfileInputEnvelope
+  set?: Prisma.JournalTradeWhereUniqueInput | Prisma.JournalTradeWhereUniqueInput[]
+  disconnect?: Prisma.JournalTradeWhereUniqueInput | Prisma.JournalTradeWhereUniqueInput[]
+  delete?: Prisma.JournalTradeWhereUniqueInput | Prisma.JournalTradeWhereUniqueInput[]
+  connect?: Prisma.JournalTradeWhereUniqueInput | Prisma.JournalTradeWhereUniqueInput[]
+  update?: Prisma.JournalTradeUpdateWithWhereUniqueWithoutProfileInput | Prisma.JournalTradeUpdateWithWhereUniqueWithoutProfileInput[]
+  updateMany?: Prisma.JournalTradeUpdateManyWithWhereWithoutProfileInput | Prisma.JournalTradeUpdateManyWithWhereWithoutProfileInput[]
+  deleteMany?: Prisma.JournalTradeScalarWhereInput | Prisma.JournalTradeScalarWhereInput[]
+}
+
+export type JournalTradeUncheckedUpdateManyWithoutProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.JournalTradeCreateWithoutProfileInput, Prisma.JournalTradeUncheckedCreateWithoutProfileInput> | Prisma.JournalTradeCreateWithoutProfileInput[] | Prisma.JournalTradeUncheckedCreateWithoutProfileInput[]
+  connectOrCreate?: Prisma.JournalTradeCreateOrConnectWithoutProfileInput | Prisma.JournalTradeCreateOrConnectWithoutProfileInput[]
+  upsert?: Prisma.JournalTradeUpsertWithWhereUniqueWithoutProfileInput | Prisma.JournalTradeUpsertWithWhereUniqueWithoutProfileInput[]
+  createMany?: Prisma.JournalTradeCreateManyProfileInputEnvelope
+  set?: Prisma.JournalTradeWhereUniqueInput | Prisma.JournalTradeWhereUniqueInput[]
+  disconnect?: Prisma.JournalTradeWhereUniqueInput | Prisma.JournalTradeWhereUniqueInput[]
+  delete?: Prisma.JournalTradeWhereUniqueInput | Prisma.JournalTradeWhereUniqueInput[]
+  connect?: Prisma.JournalTradeWhereUniqueInput | Prisma.JournalTradeWhereUniqueInput[]
+  update?: Prisma.JournalTradeUpdateWithWhereUniqueWithoutProfileInput | Prisma.JournalTradeUpdateWithWhereUniqueWithoutProfileInput[]
+  updateMany?: Prisma.JournalTradeUpdateManyWithWhereWithoutProfileInput | Prisma.JournalTradeUpdateManyWithWhereWithoutProfileInput[]
+  deleteMany?: Prisma.JournalTradeScalarWhereInput | Prisma.JournalTradeScalarWhereInput[]
 }
 
 export type JournalTradeCreateNestedManyWithoutAccountInput = {
@@ -1050,7 +1116,7 @@ export type JournalTradeUncheckedUpdateManyWithoutStrategyNestedInput = {
   deleteMany?: Prisma.JournalTradeScalarWhereInput | Prisma.JournalTradeScalarWhereInput[]
 }
 
-export type JournalTradeCreateWithoutAccountInput = {
+export type JournalTradeCreateWithoutProfileInput = {
   id?: string
   userId: string
   symbol: string
@@ -1077,13 +1143,15 @@ export type JournalTradeCreateWithoutAccountInput = {
   source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  account: Prisma.TradingAccountCreateNestedOneWithoutJournalTradesInput
   strategy: Prisma.TradingStrategyCreateNestedOneWithoutJournalTradesInput
   checklistItems?: Prisma.JournalChecklistItemCreateNestedManyWithoutTradeInput
 }
 
-export type JournalTradeUncheckedCreateWithoutAccountInput = {
+export type JournalTradeUncheckedCreateWithoutProfileInput = {
   id?: string
   userId: string
+  accountId: string
   strategyId: string
   symbol: string
   direction: $Enums.TradeDirection
@@ -1112,30 +1180,30 @@ export type JournalTradeUncheckedCreateWithoutAccountInput = {
   checklistItems?: Prisma.JournalChecklistItemUncheckedCreateNestedManyWithoutTradeInput
 }
 
-export type JournalTradeCreateOrConnectWithoutAccountInput = {
+export type JournalTradeCreateOrConnectWithoutProfileInput = {
   where: Prisma.JournalTradeWhereUniqueInput
-  create: Prisma.XOR<Prisma.JournalTradeCreateWithoutAccountInput, Prisma.JournalTradeUncheckedCreateWithoutAccountInput>
+  create: Prisma.XOR<Prisma.JournalTradeCreateWithoutProfileInput, Prisma.JournalTradeUncheckedCreateWithoutProfileInput>
 }
 
-export type JournalTradeCreateManyAccountInputEnvelope = {
-  data: Prisma.JournalTradeCreateManyAccountInput | Prisma.JournalTradeCreateManyAccountInput[]
+export type JournalTradeCreateManyProfileInputEnvelope = {
+  data: Prisma.JournalTradeCreateManyProfileInput | Prisma.JournalTradeCreateManyProfileInput[]
   skipDuplicates?: boolean
 }
 
-export type JournalTradeUpsertWithWhereUniqueWithoutAccountInput = {
+export type JournalTradeUpsertWithWhereUniqueWithoutProfileInput = {
   where: Prisma.JournalTradeWhereUniqueInput
-  update: Prisma.XOR<Prisma.JournalTradeUpdateWithoutAccountInput, Prisma.JournalTradeUncheckedUpdateWithoutAccountInput>
-  create: Prisma.XOR<Prisma.JournalTradeCreateWithoutAccountInput, Prisma.JournalTradeUncheckedCreateWithoutAccountInput>
+  update: Prisma.XOR<Prisma.JournalTradeUpdateWithoutProfileInput, Prisma.JournalTradeUncheckedUpdateWithoutProfileInput>
+  create: Prisma.XOR<Prisma.JournalTradeCreateWithoutProfileInput, Prisma.JournalTradeUncheckedCreateWithoutProfileInput>
 }
 
-export type JournalTradeUpdateWithWhereUniqueWithoutAccountInput = {
+export type JournalTradeUpdateWithWhereUniqueWithoutProfileInput = {
   where: Prisma.JournalTradeWhereUniqueInput
-  data: Prisma.XOR<Prisma.JournalTradeUpdateWithoutAccountInput, Prisma.JournalTradeUncheckedUpdateWithoutAccountInput>
+  data: Prisma.XOR<Prisma.JournalTradeUpdateWithoutProfileInput, Prisma.JournalTradeUncheckedUpdateWithoutProfileInput>
 }
 
-export type JournalTradeUpdateManyWithWhereWithoutAccountInput = {
+export type JournalTradeUpdateManyWithWhereWithoutProfileInput = {
   where: Prisma.JournalTradeScalarWhereInput
-  data: Prisma.XOR<Prisma.JournalTradeUpdateManyMutationInput, Prisma.JournalTradeUncheckedUpdateManyWithoutAccountInput>
+  data: Prisma.XOR<Prisma.JournalTradeUpdateManyMutationInput, Prisma.JournalTradeUncheckedUpdateManyWithoutProfileInput>
 }
 
 export type JournalTradeScalarWhereInput = {
@@ -1170,6 +1238,97 @@ export type JournalTradeScalarWhereInput = {
   source?: Prisma.StringFilter<"JournalTrade"> | string
   createdAt?: Prisma.DateTimeFilter<"JournalTrade"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
+  profileUserId?: Prisma.UuidNullableFilter<"JournalTrade"> | string | null
+}
+
+export type JournalTradeCreateWithoutAccountInput = {
+  id?: string
+  userId: string
+  symbol: string
+  direction: $Enums.TradeDirection
+  status?: $Enums.JournalTradeStatus
+  result?: $Enums.JournalTradeResult | null
+  entryPrice: number
+  exitPrice?: number | null
+  quantity: number
+  ticketId?: string | null
+  pnl?: number | null
+  pnlPercent?: number | null
+  commission?: number
+  swap?: number
+  followedPlan?: boolean | null
+  convictionLevel?: $Enums.Conviction | null
+  emotionBefore?: $Enums.Emotion | null
+  emotionAfter?: $Enums.Emotion | null
+  notesBefore?: string | null
+  notesAfter?: string | null
+  screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
+  tradeDate?: Date | string | null
+  closedAt?: Date | string | null
+  source?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  strategy: Prisma.TradingStrategyCreateNestedOneWithoutJournalTradesInput
+  checklistItems?: Prisma.JournalChecklistItemCreateNestedManyWithoutTradeInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutJournalTradesInput
+}
+
+export type JournalTradeUncheckedCreateWithoutAccountInput = {
+  id?: string
+  userId: string
+  strategyId: string
+  symbol: string
+  direction: $Enums.TradeDirection
+  status?: $Enums.JournalTradeStatus
+  result?: $Enums.JournalTradeResult | null
+  entryPrice: number
+  exitPrice?: number | null
+  quantity: number
+  ticketId?: string | null
+  pnl?: number | null
+  pnlPercent?: number | null
+  commission?: number
+  swap?: number
+  followedPlan?: boolean | null
+  convictionLevel?: $Enums.Conviction | null
+  emotionBefore?: $Enums.Emotion | null
+  emotionAfter?: $Enums.Emotion | null
+  notesBefore?: string | null
+  notesAfter?: string | null
+  screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
+  tradeDate?: Date | string | null
+  closedAt?: Date | string | null
+  source?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  profileUserId?: string | null
+  checklistItems?: Prisma.JournalChecklistItemUncheckedCreateNestedManyWithoutTradeInput
+}
+
+export type JournalTradeCreateOrConnectWithoutAccountInput = {
+  where: Prisma.JournalTradeWhereUniqueInput
+  create: Prisma.XOR<Prisma.JournalTradeCreateWithoutAccountInput, Prisma.JournalTradeUncheckedCreateWithoutAccountInput>
+}
+
+export type JournalTradeCreateManyAccountInputEnvelope = {
+  data: Prisma.JournalTradeCreateManyAccountInput | Prisma.JournalTradeCreateManyAccountInput[]
+  skipDuplicates?: boolean
+}
+
+export type JournalTradeUpsertWithWhereUniqueWithoutAccountInput = {
+  where: Prisma.JournalTradeWhereUniqueInput
+  update: Prisma.XOR<Prisma.JournalTradeUpdateWithoutAccountInput, Prisma.JournalTradeUncheckedUpdateWithoutAccountInput>
+  create: Prisma.XOR<Prisma.JournalTradeCreateWithoutAccountInput, Prisma.JournalTradeUncheckedCreateWithoutAccountInput>
+}
+
+export type JournalTradeUpdateWithWhereUniqueWithoutAccountInput = {
+  where: Prisma.JournalTradeWhereUniqueInput
+  data: Prisma.XOR<Prisma.JournalTradeUpdateWithoutAccountInput, Prisma.JournalTradeUncheckedUpdateWithoutAccountInput>
+}
+
+export type JournalTradeUpdateManyWithWhereWithoutAccountInput = {
+  where: Prisma.JournalTradeScalarWhereInput
+  data: Prisma.XOR<Prisma.JournalTradeUpdateManyMutationInput, Prisma.JournalTradeUncheckedUpdateManyWithoutAccountInput>
 }
 
 export type JournalTradeCreateWithoutChecklistItemsInput = {
@@ -1201,6 +1360,7 @@ export type JournalTradeCreateWithoutChecklistItemsInput = {
   updatedAt?: Date | string | null
   account: Prisma.TradingAccountCreateNestedOneWithoutJournalTradesInput
   strategy: Prisma.TradingStrategyCreateNestedOneWithoutJournalTradesInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutJournalTradesInput
 }
 
 export type JournalTradeUncheckedCreateWithoutChecklistItemsInput = {
@@ -1232,6 +1392,7 @@ export type JournalTradeUncheckedCreateWithoutChecklistItemsInput = {
   source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  profileUserId?: string | null
 }
 
 export type JournalTradeCreateOrConnectWithoutChecklistItemsInput = {
@@ -1279,6 +1440,7 @@ export type JournalTradeUpdateWithoutChecklistItemsInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   account?: Prisma.TradingAccountUpdateOneRequiredWithoutJournalTradesNestedInput
   strategy?: Prisma.TradingStrategyUpdateOneRequiredWithoutJournalTradesNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutJournalTradesNestedInput
 }
 
 export type JournalTradeUncheckedUpdateWithoutChecklistItemsInput = {
@@ -1310,6 +1472,7 @@ export type JournalTradeUncheckedUpdateWithoutChecklistItemsInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JournalTradeCreateWithoutStrategyInput = {
@@ -1341,6 +1504,7 @@ export type JournalTradeCreateWithoutStrategyInput = {
   updatedAt?: Date | string | null
   account: Prisma.TradingAccountCreateNestedOneWithoutJournalTradesInput
   checklistItems?: Prisma.JournalChecklistItemCreateNestedManyWithoutTradeInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutJournalTradesInput
 }
 
 export type JournalTradeUncheckedCreateWithoutStrategyInput = {
@@ -1371,6 +1535,7 @@ export type JournalTradeUncheckedCreateWithoutStrategyInput = {
   source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  profileUserId?: string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedCreateNestedManyWithoutTradeInput
 }
 
@@ -1398,6 +1563,132 @@ export type JournalTradeUpdateWithWhereUniqueWithoutStrategyInput = {
 export type JournalTradeUpdateManyWithWhereWithoutStrategyInput = {
   where: Prisma.JournalTradeScalarWhereInput
   data: Prisma.XOR<Prisma.JournalTradeUpdateManyMutationInput, Prisma.JournalTradeUncheckedUpdateManyWithoutStrategyInput>
+}
+
+export type JournalTradeCreateManyProfileInput = {
+  id?: string
+  userId: string
+  accountId: string
+  strategyId: string
+  symbol: string
+  direction: $Enums.TradeDirection
+  status?: $Enums.JournalTradeStatus
+  result?: $Enums.JournalTradeResult | null
+  entryPrice: number
+  exitPrice?: number | null
+  quantity: number
+  ticketId?: string | null
+  pnl?: number | null
+  pnlPercent?: number | null
+  commission?: number
+  swap?: number
+  followedPlan?: boolean | null
+  convictionLevel?: $Enums.Conviction | null
+  emotionBefore?: $Enums.Emotion | null
+  emotionAfter?: $Enums.Emotion | null
+  notesBefore?: string | null
+  notesAfter?: string | null
+  screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
+  tradeDate?: Date | string | null
+  closedAt?: Date | string | null
+  source?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+}
+
+export type JournalTradeUpdateWithoutProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
+  status?: Prisma.EnumJournalTradeStatusFieldUpdateOperationsInput | $Enums.JournalTradeStatus
+  result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
+  entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  quantity?: Prisma.FloatFieldUpdateOperationsInput | number
+  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  commission?: Prisma.FloatFieldUpdateOperationsInput | number
+  swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
+  emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
+  emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
+  notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
+  tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  account?: Prisma.TradingAccountUpdateOneRequiredWithoutJournalTradesNestedInput
+  strategy?: Prisma.TradingStrategyUpdateOneRequiredWithoutJournalTradesNestedInput
+  checklistItems?: Prisma.JournalChecklistItemUpdateManyWithoutTradeNestedInput
+}
+
+export type JournalTradeUncheckedUpdateWithoutProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  accountId?: Prisma.StringFieldUpdateOperationsInput | string
+  strategyId?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
+  status?: Prisma.EnumJournalTradeStatusFieldUpdateOperationsInput | $Enums.JournalTradeStatus
+  result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
+  entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  quantity?: Prisma.FloatFieldUpdateOperationsInput | number
+  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  commission?: Prisma.FloatFieldUpdateOperationsInput | number
+  swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
+  emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
+  emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
+  notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
+  tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  checklistItems?: Prisma.JournalChecklistItemUncheckedUpdateManyWithoutTradeNestedInput
+}
+
+export type JournalTradeUncheckedUpdateManyWithoutProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  accountId?: Prisma.StringFieldUpdateOperationsInput | string
+  strategyId?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
+  status?: Prisma.EnumJournalTradeStatusFieldUpdateOperationsInput | $Enums.JournalTradeStatus
+  result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
+  entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  quantity?: Prisma.FloatFieldUpdateOperationsInput | number
+  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  commission?: Prisma.FloatFieldUpdateOperationsInput | number
+  swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
+  emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
+  emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
+  notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
+  tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type JournalTradeCreateManyAccountInput = {
@@ -1428,6 +1719,7 @@ export type JournalTradeCreateManyAccountInput = {
   source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  profileUserId?: string | null
 }
 
 export type JournalTradeUpdateWithoutAccountInput = {
@@ -1459,6 +1751,7 @@ export type JournalTradeUpdateWithoutAccountInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   strategy?: Prisma.TradingStrategyUpdateOneRequiredWithoutJournalTradesNestedInput
   checklistItems?: Prisma.JournalChecklistItemUpdateManyWithoutTradeNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutJournalTradesNestedInput
 }
 
 export type JournalTradeUncheckedUpdateWithoutAccountInput = {
@@ -1489,6 +1782,7 @@ export type JournalTradeUncheckedUpdateWithoutAccountInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedUpdateManyWithoutTradeNestedInput
 }
 
@@ -1520,6 +1814,7 @@ export type JournalTradeUncheckedUpdateManyWithoutAccountInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JournalTradeCreateManyStrategyInput = {
@@ -1550,6 +1845,7 @@ export type JournalTradeCreateManyStrategyInput = {
   source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  profileUserId?: string | null
 }
 
 export type JournalTradeUpdateWithoutStrategyInput = {
@@ -1581,6 +1877,7 @@ export type JournalTradeUpdateWithoutStrategyInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   account?: Prisma.TradingAccountUpdateOneRequiredWithoutJournalTradesNestedInput
   checklistItems?: Prisma.JournalChecklistItemUpdateManyWithoutTradeNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutJournalTradesNestedInput
 }
 
 export type JournalTradeUncheckedUpdateWithoutStrategyInput = {
@@ -1611,6 +1908,7 @@ export type JournalTradeUncheckedUpdateWithoutStrategyInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedUpdateManyWithoutTradeNestedInput
 }
 
@@ -1642,6 +1940,7 @@ export type JournalTradeUncheckedUpdateManyWithoutStrategyInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1704,9 +2003,11 @@ export type JournalTradeSelect<ExtArgs extends runtime.Types.Extensions.Internal
   source?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  profileUserId?: boolean
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.TradingStrategyDefaultArgs<ExtArgs>
   checklistItems?: boolean | Prisma.JournalTrade$checklistItemsArgs<ExtArgs>
+  profile?: boolean | Prisma.JournalTrade$profileArgs<ExtArgs>
   _count?: boolean | Prisma.JournalTradeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalTrade"]>
 
@@ -1739,8 +2040,10 @@ export type JournalTradeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   source?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  profileUserId?: boolean
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.TradingStrategyDefaultArgs<ExtArgs>
+  profile?: boolean | Prisma.JournalTrade$profileArgs<ExtArgs>
 }, ExtArgs["result"]["journalTrade"]>
 
 export type JournalTradeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1772,8 +2075,10 @@ export type JournalTradeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   source?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  profileUserId?: boolean
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.TradingStrategyDefaultArgs<ExtArgs>
+  profile?: boolean | Prisma.JournalTrade$profileArgs<ExtArgs>
 }, ExtArgs["result"]["journalTrade"]>
 
 export type JournalTradeSelectScalar = {
@@ -1805,22 +2110,26 @@ export type JournalTradeSelectScalar = {
   source?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  profileUserId?: boolean
 }
 
-export type JournalTradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "accountId" | "strategyId" | "symbol" | "direction" | "status" | "result" | "entryPrice" | "exitPrice" | "quantity" | "ticketId" | "pnl" | "pnlPercent" | "commission" | "swap" | "followedPlan" | "convictionLevel" | "emotionBefore" | "emotionAfter" | "notesBefore" | "notesAfter" | "screenshotUrls" | "tradeDate" | "closedAt" | "source" | "createdAt" | "updatedAt", ExtArgs["result"]["journalTrade"]>
+export type JournalTradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "accountId" | "strategyId" | "symbol" | "direction" | "status" | "result" | "entryPrice" | "exitPrice" | "quantity" | "ticketId" | "pnl" | "pnlPercent" | "commission" | "swap" | "followedPlan" | "convictionLevel" | "emotionBefore" | "emotionAfter" | "notesBefore" | "notesAfter" | "screenshotUrls" | "tradeDate" | "closedAt" | "source" | "createdAt" | "updatedAt" | "profileUserId", ExtArgs["result"]["journalTrade"]>
 export type JournalTradeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.TradingStrategyDefaultArgs<ExtArgs>
   checklistItems?: boolean | Prisma.JournalTrade$checklistItemsArgs<ExtArgs>
+  profile?: boolean | Prisma.JournalTrade$profileArgs<ExtArgs>
   _count?: boolean | Prisma.JournalTradeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type JournalTradeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.TradingStrategyDefaultArgs<ExtArgs>
+  profile?: boolean | Prisma.JournalTrade$profileArgs<ExtArgs>
 }
 export type JournalTradeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.TradingStrategyDefaultArgs<ExtArgs>
+  profile?: boolean | Prisma.JournalTrade$profileArgs<ExtArgs>
 }
 
 export type $JournalTradePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1829,6 +2138,7 @@ export type $JournalTradePayload<ExtArgs extends runtime.Types.Extensions.Intern
     account: Prisma.$TradingAccountPayload<ExtArgs>
     strategy: Prisma.$TradingStrategyPayload<ExtArgs>
     checklistItems: Prisma.$JournalChecklistItemPayload<ExtArgs>[]
+    profile: Prisma.$ProfilePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1859,6 +2169,7 @@ export type $JournalTradePayload<ExtArgs extends runtime.Types.Extensions.Intern
     source: string
     createdAt: Date
     updatedAt: Date | null
+    profileUserId: string | null
   }, ExtArgs["result"]["journalTrade"]>
   composites: {}
 }
@@ -2256,6 +2567,7 @@ export interface Prisma__JournalTradeClient<T, Null = never, ExtArgs extends run
   account<T extends Prisma.TradingAccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccountDefaultArgs<ExtArgs>>): Prisma.Prisma__TradingAccountClient<runtime.Types.Result.GetResult<Prisma.$TradingAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   strategy<T extends Prisma.TradingStrategyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingStrategyDefaultArgs<ExtArgs>>): Prisma.Prisma__TradingStrategyClient<runtime.Types.Result.GetResult<Prisma.$TradingStrategyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   checklistItems<T extends Prisma.JournalTrade$checklistItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JournalTrade$checklistItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalChecklistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  profile<T extends Prisma.JournalTrade$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JournalTrade$profileArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2313,6 +2625,7 @@ export interface JournalTradeFieldRefs {
   readonly source: Prisma.FieldRef<"JournalTrade", 'String'>
   readonly createdAt: Prisma.FieldRef<"JournalTrade", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"JournalTrade", 'DateTime'>
+  readonly profileUserId: Prisma.FieldRef<"JournalTrade", 'String'>
 }
     
 
@@ -2730,6 +3043,25 @@ export type JournalTrade$checklistItemsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.JournalChecklistItemScalarFieldEnum | Prisma.JournalChecklistItemScalarFieldEnum[]
+}
+
+/**
+ * JournalTrade.profile
+ */
+export type JournalTrade$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Profile
+   */
+  select?: Prisma.ProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Profile
+   */
+  omit?: Prisma.ProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
+  where?: Prisma.ProfileWhereInput
 }
 
 /**
