@@ -1,11 +1,22 @@
 'use strict';
 
+/**
+ * analytics.handler.ts — ADD this method to the existing AnalyticsHandler class,
+ * and inject ProjectionService in the constructor.
+ *
+ * Also register ProjectionService in analytics.module.ts providers.
+ */
+
 import { Injectable } from '@nestjs/common';
 import { AnalyticsService } from '../../analytics/analytics.service';
+import { ProjectionService, ProjectionInputs } from '../../analytics/projection.service';
 
 @Injectable()
 export class AnalyticsHandler {
-  constructor(private readonly svc: AnalyticsService) {}
+  constructor(
+    private readonly svc: AnalyticsService,
+    private readonly projectionSvc: ProjectionService,
+  ) {}
 
   ror(userId: string, accountId: string) {
     return this.svc.getRiskOfRuin(userId, accountId);
@@ -41,5 +52,11 @@ export class AnalyticsHandler {
 
   full(userId: string, accountId: string) {
     return this.svc.getFullAnalytics(userId, accountId);
+  }
+
+  // ── NEW ──────────────────────────────────────────────────────────────────────
+
+  projection(userId: string, accountId: string, overrides?: ProjectionInputs) {
+    return this.projectionSvc.getProjection(userId, accountId, overrides ?? {});
   }
 }

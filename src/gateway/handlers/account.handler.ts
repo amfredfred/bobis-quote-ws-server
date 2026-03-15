@@ -1,19 +1,21 @@
 'use strict';
 
-import { Injectable } from '@nestjs/common';
+import { Injectable, ForbiddenException } from '@nestjs/common';
 import {
   TradingAccountService,
   CreateTradingAccountDto,
   UpdateTradingAccountDto,
 } from '../../trading-account/trading-account.service';
 import { PipelineManager } from '../../pipeline/pipeline.manager';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class AccountHandler {
   constructor(
-    private readonly svc:         TradingAccountService,
+    private readonly svc: TradingAccountService,
     private readonly pipelineMgr: PipelineManager,
-  ) {}
+    private readonly prisma: PrismaService,
+  ) { }
 
   list(userId: string, includeInactive: boolean) {
     return this.svc.findAll(userId, includeInactive);
@@ -40,12 +42,29 @@ export class AccountHandler {
   }
 
   async toggleAutoTrade(userId: string, id: string, enabled: boolean) {
+    if (enabled) {
+      const profile = await this.prisma.profile.findUnique({
+        where: { userId },
+        select: { isPro: true, proExpiresAt: true },
+      });
+
+      const isProActive =
+        profile?.isPro &&
+        (profile.proExpiresAt === null || profile.proExpiresAt > new Date());
+
+      if (!isProActive) {
+        throw new ForbiddenException('Pro subscription required to enable auto trading');
+      }
+    }
+
     const account = await this.svc.setAutoTrade(id, userId, enabled);
+
     if (enabled) {
       await this.pipelineMgr.startPipeline(account);
     } else {
       await this.pipelineMgr.stopPipeline(id);
     }
+
     return account;
   }
 }
