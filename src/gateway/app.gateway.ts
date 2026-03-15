@@ -101,6 +101,17 @@ interface Payloads {
   'analytics.patterns': { accountId?: string };
   'analytics.monthly': { accountId?: string; months?: number };
   'analytics.full': { accountId: string };
+  'analytics.projection': {
+    accountId: string;
+    winRatePct?: number;
+    avgWin?: number;
+    avgLoss?: number;
+    tradesPerMonth?: number;
+    riskPct?: number;
+    months?: number;
+    propPayoutTargetPct?: number;
+    propPayoutSplitPct?: number;
+  };
 }
 
 type Command = keyof Payloads;
@@ -265,6 +276,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'analytics.patterns': (p) => this.analyticsHandler.patterns(userId, p.accountId),
       'analytics.monthly': (p) => this.analyticsHandler.monthly(userId, p.accountId, p.months),
       'analytics.full': (p) => this.analyticsHandler.full(userId, p.accountId),
+      'analytics.projection': (p) => this.analyticsHandler.projection(userId, p.accountId, p),
     };
   }
 
