@@ -9,7 +9,6 @@ import { MetricsService } from '../core/metrics/metrics.service';
 import { EventBus } from '../core/event-bus/event.bus';
 import { PipelineService, PipelineSnapshot } from './pipeline.service';
 import { InboundSignal } from '../common/types/signal.types';
-import { msUntilNextUtcMidnight } from '../common/utils/time.utils';
 import { createLogger } from '../common/logger/logger';
 
 const logger = createLogger('pipeline.manager');
@@ -30,7 +29,6 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
   private readonly degraded  = new Map<string, DegradedPipeline>();
 
   private readonly bus       = new EventBus();
-  private resetTimer?: ReturnType<typeof setTimeout>;
 
   constructor(
     private readonly signalBus:   SignalBus,
@@ -47,7 +45,6 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
     logger.info('Starting pipelines', { count: accounts.length });
     await Promise.allSettled(accounts.map(a => this.startPipeline(a)));
 
-    this._scheduleDailyReset();
     logger.info('PipelineManager ready', {
       pipelines: this.pipelines.size,
       degraded:  this.degraded.size,
@@ -55,10 +52,6 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
   }
 
   async onModuleDestroy(): Promise<void> {
-    if (this.resetTimer) {
-      clearTimeout(this.resetTimer);
-      this.resetTimer = undefined;
-    }
     await Promise.allSettled([...this.pipelines.keys()].map(id => this.stopPipeline(id)));
   }
 
@@ -140,6 +133,17 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
     return this.bus;
   }
 
+  /** Called by CronService at UTC midnight — resets daily loss counters on all running pipelines. */
+  resetAllDailyLoss(): void {
+    let count = 0;
+    for (const pipeline of this.pipelines.values()) {
+      pipeline.resetDailyLoss();
+      count++;
+    }
+    this.metrics.increment('system.daily_reset');
+    logger.info('Daily loss counters reset', { pipelines: count });
+  }
+
   // ── Signal fan-out ─────────────────────────────────────────────────────────
 
   private _fanOut(signal: InboundSignal): void {
@@ -152,15 +156,5 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  // ── Daily reset ────────────────────────────────────────────────────────────
-
-  private _scheduleDailyReset(): void {
-    this.resetTimer = setTimeout(() => {
-      this.resetTimer = undefined;
-      logger.info('Daily reset — clearing all pipeline loss counters');
-      for (const pipeline of this.pipelines.values()) pipeline.resetDailyLoss();
-      this.metrics.increment('system.daily_reset');
-      this._scheduleDailyReset();
-    }, msUntilNextUtcMidnight());
-  }
 }
+

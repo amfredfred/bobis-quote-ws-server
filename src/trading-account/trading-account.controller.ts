@@ -6,11 +6,13 @@ import {
   BadRequestException, NotFoundException, ConflictException,
   InternalServerErrorException, Logger,
 } from '@nestjs/common';
-import { IsString, IsOptional, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsIn, IsBoolean } from 'class-validator';
 import { JwtGuard, type AuthRequest } from '../auth/jwt-auth.guard';
+import { ProGuard } from '../auth/pro.guard';
 import { TradingAccountService } from './trading-account.service';
 import { MetaApiService } from '../brokers/metaapi/metaapi.service';
 import { PipelineManager } from '../pipeline/pipeline.manager';
+import { PrismaService } from '../prisma/prisma.service';
 import { RiskConfigDto } from '../common/dto/risk-config.dto';
 import { Type } from 'class-transformer';
 
@@ -22,6 +24,7 @@ export class ImportAccountDto {
   @IsString() password!: string;
   @IsString() server!: string;
   @IsIn(['mt4', 'mt5']) platform!: 'mt4' | 'mt5';
+  @IsOptional() @IsBoolean() autoTradeEnabled?: boolean;
   @IsOptional() @Type(() => RiskConfigDto) riskConfig?: RiskConfigDto;
 }
 
@@ -36,18 +39,41 @@ export class TradingAccountController {
     private readonly accountSvc: TradingAccountService,
     private readonly metaApi: MetaApiService,
     private readonly pipelineMgr: PipelineManager,
+    private readonly prisma: PrismaService,
+    private readonly proGuard: ProGuard,
   ) { }
 
   /**
-   * Import a broker account.
-   * 1. Deploy to MetaApi → get metaApiAccountId
-   * 2. Create a single TradingAccount row with all fields
-   * 3. Pipeline NOT started here — user must explicitly enable autoTrade
+   * Import a broker account via MetaApi.
+   *
+   * 1. Duplicate check (cheap DB) before expensive MetaApi call
+   * 2. Pro check only if autoTradeEnabled=true — free users can still import
+   * 3. Deploy MetaApi
+   * 4. Persist account
+   * 5. Start pipeline if autoTrade was requested
    */
   @Post('import')
   async importAccount(@Req() req: AuthRequest, @Body() dto: ImportAccountDto) {
-    let metaApiAccountId: string | undefined;
 
+    // 1. Duplicate check — before any external call
+    const existing = await this.prisma.tradingAccount.findFirst({
+      where: { userId: req.user.id, accountNumber: dto.login, isActive: true },
+      select: { id: true },
+    });
+    if (existing) {
+      throw new ConflictException(
+        `Account with login "${dto.login}" is already connected to your profile.`
+      );
+    }
+
+    // 2. Pro check — only for auto-trade path; free users can still import
+    const wantsAutoTrade = dto.autoTradeEnabled === true;
+    if (wantsAutoTrade) {
+      await this.proGuard.checkPro(req.user.id);
+    }
+
+    // 3. Deploy to MetaApi
+    let metaApiAccountId: string | undefined;
     try {
       ({ metaApiAccountId } = await this.metaApi.deployAccount({
         login: dto.login,
@@ -60,50 +86,51 @@ export class TradingAccountController {
       }));
     } catch (err: any) {
       this.logger.error('MetaApi deploy failed', err);
-
-      if (err?.code === 'ACCOUNT_ALREADY_EXISTS') {
+      if (err?.code === 'ACCOUNT_ALREADY_EXISTS')
         throw new ConflictException('A broker account with these credentials already exists.');
-      }
-      if (err?.code === 'INVALID_CREDENTIALS' || err?.statusCode === 401) {
-        throw new BadRequestException('Invalid broker credentials. Please check your login, password, and server.');
-      }
+      if (err?.code === 'INVALID_CREDENTIALS' || err?.statusCode === 401)
+        throw new BadRequestException('Invalid broker credentials. Check your login, password and server.');
       if (err?.name === 'ValidationError' && err?.message?.includes('.dat file for server')) {
         const match = err.message.match(/for server ([^\s]+)/);
-        const serverName = match?.[1] ?? dto.server;
         throw new BadRequestException(
-          `Broker server "${serverName}" was not found. Please check the exact server name from your broker (e.g. "ICMarkets-Demo" or "Pepperstone-Demo02").`,
+          `Broker server "${match?.[1] ?? dto.server}" not found. Check the exact server name from your broker.`
         );
       }
-      throw new InternalServerErrorException('Failed to connect to the broker. Please try again later.');
+      throw new InternalServerErrorException('Failed to connect to broker. Please try again later.');
     }
 
+    // 4. Persist account — rollback MetaApi on failure
+    let account: Awaited<ReturnType<TradingAccountService['create']>>;
     try {
-      const account = await this.accountSvc.create(req.user.id, {
+      account = await this.accountSvc.create(req.user.id, {
         name: dto.name,
         accountNumber: dto.login,
         startBalance: 0,
         platform: dto.platform,
         metaApiAccountId,
-        autoTradeEnabled: false,
+        autoTradeEnabled: wantsAutoTrade,
         riskConfig: dto.riskConfig,
       });
-
-      return account;
     } catch (err: any) {
-      this.logger.error('Account creation failed after MetaApi deploy — rolling back', err);
-
-      // Best-effort rollback: undeploy from MetaApi to avoid orphaned accounts
-      try {
-        await this.metaApi.undeployAccount(metaApiAccountId);
-      } catch (rollbackErr) {
-        this.logger.error('MetaApi rollback also failed', rollbackErr);
-      }
-
-      if (err?.code === 'P2002') {
+      this.logger.error('Account creation failed — rolling back MetaApi deploy', err);
+      await this.metaApi.undeployAccount(metaApiAccountId).catch(
+        e => this.logger.error('MetaApi rollback also failed', e)
+      );
+      if (err?.code === 'P2002')
         throw new ConflictException('An account with this name or number already exists.');
-      }
-      throw new InternalServerErrorException('Account was connected to the broker but could not be saved. Please contact support.');
+      throw new InternalServerErrorException(
+        'Account connected to broker but could not be saved. Contact support.'
+      );
     }
+
+    // 5. Start pipeline if requested — non-fatal if it fails
+    if (wantsAutoTrade) {
+      await this.pipelineMgr.startPipeline(account).catch(err =>
+        this.logger.error(`Pipeline start failed for account ${account.id}`, err)
+      );
+    }
+
+    return account;
   }
 
   @Get()
@@ -112,7 +139,7 @@ export class TradingAccountController {
       return await this.accountSvc.findAll(req.user.id, true);
     } catch (err) {
       this.logger.error('Failed to fetch accounts', err);
-      throw new InternalServerErrorException('Could not load your accounts. Please try again.');
+      throw new InternalServerErrorException('Could not load your accounts.');
     }
   }
 
@@ -123,7 +150,7 @@ export class TradingAccountController {
     } catch (err: any) {
       if (err instanceof NotFoundException) throw err;
       this.logger.error(`Failed to fetch account ${id}`, err);
-      throw new InternalServerErrorException('Could not load this account. Please try again.');
+      throw new InternalServerErrorException('Could not load this account.');
     }
   }
 
@@ -136,31 +163,31 @@ export class TradingAccountController {
       account = await this.accountSvc.findOne(id, req.user.id);
     } catch (err: any) {
       if (err instanceof NotFoundException) throw err;
-      this.logger.error(`Failed to find account ${id} for deletion`, err);
-      throw new InternalServerErrorException('Could not find this account. Please try again.');
+      throw new InternalServerErrorException('Could not find this account.');
     }
 
-    try {
-      await this.pipelineMgr.stopPipeline(id);
-    } catch (err) {
-      // Non-fatal — log and continue with deletion
-      this.logger.warn(`Failed to stop pipeline for account ${id}`, err);
-    }
+    await this.pipelineMgr.stopPipeline(id).catch(err =>
+      this.logger.warn(`Failed to stop pipeline for account ${id}`, err)
+    );
 
     if (account.metaApiAccountId) {
       try {
         await this.metaApi.undeployAccount(account.metaApiAccountId);
       } catch (err) {
         this.logger.error(`MetaApi undeploy failed for account ${id}`, err);
-        throw new InternalServerErrorException('Failed to disconnect from the broker. The account has not been deleted.');
+        throw new InternalServerErrorException(
+          'Failed to disconnect from broker. Account not deleted.'
+        );
       }
     }
 
     try {
       await this.accountSvc.delete(id, req.user.id);
     } catch (err) {
-      this.logger.error(`DB delete failed for account ${id} after MetaApi undeploy`, err);
-      throw new InternalServerErrorException('Broker account was disconnected but the record could not be deleted. Please contact support.');
+      this.logger.error(`DB delete failed for account ${id}`, err);
+      throw new InternalServerErrorException(
+        'Broker disconnected but record could not be deleted. Contact support.'
+      );
     }
   }
 
@@ -170,21 +197,18 @@ export class TradingAccountController {
       await this.accountSvc.findOne(id, req.user.id);
     } catch (err: any) {
       if (err instanceof NotFoundException) throw err;
-      this.logger.error(`Failed to verify account ${id} for pipeline status`, err);
-      throw new InternalServerErrorException('Could not verify account ownership. Please try again.');
+      throw new InternalServerErrorException('Could not verify account ownership.');
     }
 
     try {
       const degraded = this.pipelineMgr.getDegradedPipelines().find(d => d.accountId === id);
       if (degraded) return { status: 'degraded', error: degraded.error };
-
       const pipeline = this.pipelineMgr.getPipeline(id);
       if (pipeline) return { status: 'running', ...pipeline.getSnapshot() };
-
       return { status: 'stopped' };
     } catch (err) {
       this.logger.error(`Failed to get pipeline status for account ${id}`, err);
-      throw new InternalServerErrorException('Could not retrieve pipeline status. Please try again.');
+      throw new InternalServerErrorException('Could not retrieve pipeline status.');
     }
   }
 }

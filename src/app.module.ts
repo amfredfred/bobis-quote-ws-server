@@ -2,6 +2,7 @@
 
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { PrismaModule } from './prisma/prisma.module';
 import { MetricsModule } from './core/metrics/metrics.module';
 import { MetaApiModule } from './brokers/metaapi/metaapi.module';
@@ -11,6 +12,7 @@ import { TradesModule } from './trades/trades.module';
 import { TradingAccountModule } from './trading-account/trading-account.module';
 import { PipelineModule } from './pipeline/pipeline.module';
 import { AdminModule } from './admin/admin.module';
+import { CronModule } from './cron/cron.module';
 
 // Journal & app modules
 import { ProfileModule } from './profile/profile.module';
@@ -25,6 +27,7 @@ import { GatewayModule } from './gateway/gateway.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
+    ScheduleModule.forRoot(),
     // Core
     PrismaModule,
     MetricsModule,
@@ -44,6 +47,8 @@ import { GatewayModule } from './gateway/gateway.module';
     JournalModule,
     MarketModule,
     DashboardModule,
+    // Scheduled jobs
+    CronModule,
     // WS gateway (all client-facing commands)
     GatewayModule,
   ],

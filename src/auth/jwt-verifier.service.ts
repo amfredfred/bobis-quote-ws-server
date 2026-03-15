@@ -1,3 +1,5 @@
+'use strict';
+
 import { Injectable, UnauthorizedException, OnModuleInit } from '@nestjs/common';
 import * as jose from 'jose';
 import { PrismaService } from '../prisma/prisma.service';
@@ -6,10 +8,11 @@ import { createLogger } from '../common/logger/logger';
 const logger = createLogger('jwt-verifier');
 
 export interface VerifiedUser {
-  id:    string;
-  email: string;
-  role:  string;
+  id:      string;
+  email:   string;
+  role:    string;
   isAdmin: boolean;
+  isPro:   boolean; // false by default — ProGuard sets true after DB lookup
 }
 
 @Injectable()
@@ -35,7 +38,7 @@ export class JwtVerifierService implements OnModuleInit {
 
     if (!this.jwks && !this.secret) {
       throw new Error('Auth config error: set SUPABASE_JWKS_URI (recommended) or SUPABASE_JWT_SECRET');
-    } 
+    }
   }
 
   async verifyAndGetUser(token: string): Promise<VerifiedUser> {
@@ -77,11 +80,6 @@ export class JwtVerifierService implements OnModuleInit {
     const userId = payload.sub;
     if (!userId) throw new UnauthorizedException('Invalid token: missing sub claim');
 
-    // Admin role is stored in app_metadata.role inside the JWT — no network call needed.
-    // Grant via Supabase SQL:
-    //   UPDATE auth.users
-    //   SET raw_app_meta_data = raw_app_meta_data || '{"role":"admin"}'
-    //   WHERE id = '<user_id>';
     const appMeta = (payload['app_metadata'] as Record<string, unknown> | undefined) ?? {};
     const isAdmin = appMeta['role'] === 'admin';
 
@@ -90,6 +88,7 @@ export class JwtVerifierService implements OnModuleInit {
       email:   (payload['email'] as string) ?? '',
       role:    (payload['role']  as string) ?? 'authenticated',
       isAdmin,
+      isPro:   false, // ProGuard will set this to true after DB verification
     };
   }
 }
