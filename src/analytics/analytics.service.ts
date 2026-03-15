@@ -16,6 +16,7 @@
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { toLocalDateString, toLocalHour } from '../common/utils/time.utils';
 
 // ─── Response Types ────────────────────────────────────────────────────────────
 
@@ -276,8 +277,12 @@ export class AnalyticsService {
   // ── 2. Equity Curve + Drawdown ───────────────────────────────────────────────
 
   async getEquityCurve(userId: string, accountId: string, startDate?: string, endDate?: string): Promise<DrawdownStats> {
-    const account = await this.prisma.tradingAccount.findFirst({ where: { id: accountId, userId } });
+    const [account, profile] = await Promise.all([
+      this.prisma.tradingAccount.findFirst({ where: { id: accountId, userId } }),
+      this.prisma.profile.findUnique({ where: { userId }, select: { timezone: true } }),
+    ]);
     const startBalance = account?.startBalance ?? 0;
+    const tz           = profile?.timezone ?? 'UTC';
 
     const where: any = { userId, accountId, status: 'closed' };
     if (startDate) where.tradeDate = { ...where.tradeDate, gte: new Date(startDate) };
@@ -295,11 +300,12 @@ export class AnalyticsService {
       const dd    = Math.max(0, peak - running);
       const ddPct = startBalance > 0 ? (dd / startBalance) * 100 : 0;
       if (dd > maxDD) maxDD = dd;
+      const rawDate = t.tradeDate ?? t.createdAt;
       return {
-        date:         (t.tradeDate ?? t.createdAt).toISOString().split('T')[0],
-        equity:       Math.round((running - startBalance) * 100) / 100,
-        drawdown:     Math.round(dd * 100) / 100,
-        drawdownPct:  Math.round(ddPct * 10) / 10,
+        date:        toLocalDateString(rawDate, tz),
+        equity:      Math.round((running - startBalance) * 100) / 100,
+        drawdown:    Math.round(dd * 100) / 100,
+        drawdownPct: Math.round(ddPct * 10) / 10,
       };
     });
 
@@ -402,18 +408,22 @@ export class AnalyticsService {
     const where: any = { userId, status: 'closed' };
     if (accountId) where.accountId = accountId;
 
-    const trades = await this.prisma.journalTrade.findMany({ where, orderBy: { tradeDate: 'asc' } });
+    const [trades, profile] = await Promise.all([
+      this.prisma.journalTrade.findMany({ where, orderBy: { tradeDate: 'asc' } }),
+      this.prisma.profile.findUnique({ where: { userId }, select: { timezone: true } }),
+    ]);
+    const tz = profile?.timezone ?? 'UTC';
 
     const hourMap  = new Map<number, { wins: number; losses: number; pnl: number; trades: number }>();
     const sessMap  = new Map<string, { wins: number; losses: number; pnl: number; trades: number }>();
 
     for (const t of trades) {
-      const dt = t.tradeDate ?? t.createdAt;
-      const hour = dt.getUTCHours();
+      const dt      = t.tradeDate ?? t.createdAt;
+      const hour    = toLocalHour(dt, tz);
       const session = getSession(hour);
-      const isWin  = t.result === 'profit';
-      const isLoss = t.result === 'loss';
-      const pnl    = t.pnl ?? 0;
+      const isWin   = t.result === 'profit';
+      const isLoss  = t.result === 'loss';
+      const pnl     = t.pnl ?? 0;
 
       if (!hourMap.has(hour)) hourMap.set(hour, { wins: 0, losses: 0, pnl: 0, trades: 0 });
       const hb = hourMap.get(hour)!;
@@ -562,12 +572,17 @@ export class AnalyticsService {
     const where: any = { userId, status: 'closed' };
     if (accountId) where.accountId = accountId;
 
-    const trades = await this.prisma.journalTrade.findMany({ where, orderBy: { tradeDate: 'asc' } });
+    const [trades, profile] = await Promise.all([
+      this.prisma.journalTrade.findMany({ where, orderBy: { tradeDate: 'asc' } }),
+      this.prisma.profile.findUnique({ where: { userId }, select: { timezone: true } }),
+    ]);
+    const tz = profile?.timezone ?? 'UTC';
 
     const monthMap = new Map<string, typeof trades>();
     for (const t of trades) {
       const dt  = t.tradeDate ?? t.createdAt;
-      const key = `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, '0')}`;
+      // Use local date string (YYYY-MM-DD) and take the YYYY-MM part
+      const key = toLocalDateString(dt, tz).slice(0, 7);
       if (!monthMap.has(key)) monthMap.set(key, []);
       monthMap.get(key)!.push(t);
     }

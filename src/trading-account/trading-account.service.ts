@@ -197,30 +197,58 @@ export class TradingAccountService {
     const account = await this.findOne(id, userId);
     const trades = await this.prisma.journalTrade.findMany({
       where: { accountId: id, status: 'closed' },
+      orderBy: { tradeDate: 'asc' },
     });
 
     const closed = trades.length;
     const wins = trades.filter(t => t.result === 'profit').length;
     const totalPnl = trades.reduce((s, t) => s + (t.pnl ?? 0), 0);
-    const drawdown = account.startBalance > 0
-      ? ((account.startBalance - (account.currentBalance ?? account.startBalance)) / account.startBalance) * 100
-      : 0;
+
+    const startBalance = account.startBalance;
+    const currentBal = account.currentBalance ?? startBalance;
+
+    // Drawdown from peak — not from start balance
+    let peak = startBalance;
+    let equity = startBalance;
+    for (const t of trades) {
+      equity += t.pnl ?? 0;
+      if (equity > peak) peak = equity;
+    }
+    const drawdownAbs = Math.max(0, peak - currentBal);
+    const drawdownPct = peak > 0 ? (drawdownAbs / peak) * 100 : 0;
+
+    // maxTotalDrawdown and maxDailyLoss are stored as % — convert to $ for breach check
+    const maxDDDollar = account.maxTotalDrawdown != null
+      ? startBalance * (account.maxTotalDrawdown / 100) : null;
+    const maxDailyDollar = account.maxDailyLoss != null
+      ? startBalance * (account.maxDailyLoss / 100) : null;
 
     return {
       accountId: id,
       accountName: account.name,
       accountNumber: account.accountNumber,
-      startBalance: account.startBalance,
-      currentBalance: account.currentBalance,
+      startBalance,
+      currentBalance: currentBal,
       profitLoss: totalPnl,
-      profitLossPercent: account.startBalance > 0 ? (totalPnl / account.startBalance) * 100 : 0,
-      drawdownPercent: drawdown,
+      profitLossPercent: startBalance > 0 ? (totalPnl / startBalance) * 100 : 0,
+      drawdownPercent: drawdownPct,
+      drawdownAbs,
       winRate: closed > 0 ? (wins / closed) * 100 : 0,
       totalTrades: closed,
       isActive: account.isActive,
       tradingDaysLeft: account.tradingDaysLeft,
-      hasBreachedDrawdown: account.maxTotalDrawdown ? drawdown >= account.maxTotalDrawdown : false,
-      hasReachedProfitTarget: account.minProfitTarget ? totalPnl >= account.minProfitTarget : false,
+      // Limits (as stored — % for drawdown, $ for profit target)
+      maxTotalDrawdownPct: account.maxTotalDrawdown,
+      maxDailyLossPct: account.maxDailyLoss,
+      minProfitTarget: account.minProfitTarget,
+      maxTradesPerDay: account.maxTradesPerDay,
+      // Breach flags — correct unit comparison
+      hasBreachedDrawdown: maxDDDollar != null ? drawdownAbs >= maxDDDollar : false,
+      hasReachedProfitTarget: account.minProfitTarget != null ? totalPnl >= account.minProfitTarget : false,
+      todayPnl: account.todayPnl,
+      todayTradeCount: account.todayTradeCount,
+      hasHitDailyLoss: maxDailyDollar != null ? Math.abs(account.todayPnl) >= maxDailyDollar : false,
+      hasHitMaxTrades: account.maxTradesPerDay != null ? account.todayTradeCount >= account.maxTradesPerDay : false,
     };
   }
 

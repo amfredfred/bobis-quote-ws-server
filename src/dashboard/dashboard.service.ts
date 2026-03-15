@@ -2,6 +2,11 @@
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import {
+  toLocalDateString,
+  monthBoundariesInTz,
+  dayBoundariesInTz,
+} from '../common/utils/time.utils';
 
 @Injectable()
 export class DashboardService {
@@ -42,10 +47,11 @@ export class DashboardService {
     }
 
     // Daily PnL map
+    const tz = await this._getUserTimezone(userId);
     const dailyPnl: Record<string, number> = {};
     for (const t of closedTrades) {
       if (!t.tradeDate) continue;
-      const day = t.tradeDate.toISOString().split('T')[0];
+      const day = toLocalDateString(t.tradeDate, tz);
       dailyPnl[day] = (dailyPnl[day] ?? 0) + (t.pnl ?? 0);
     }
 
@@ -122,21 +128,32 @@ export class DashboardService {
     });
 
     let running = account.currentBalance ?? account.startBalance;
+    const tz     = await this._getUserTimezone(userId);
     const points = trades.map(t => {
       running += t.pnl ?? 0;
-      return { date: t.closedAt?.toISOString().split('T')[0] ?? '', equity: running };
+      return { date: t.closedAt ? toLocalDateString(t.closedAt, tz) : '', equity: running };
     });
 
     // Prepend starting point
-    points.unshift({ date: account.createdAt.toISOString().split('T')[0], equity: account.startBalance });
+    points.unshift({ date: toLocalDateString(account.createdAt, tz), equity: account.startBalance });
     return points;
+  }
+
+  // ── Timezone helper ────────────────────────────────────────────────────────
+
+  private async _getUserTimezone(userId: string): Promise<string> {
+    const profile = await this.prisma.profile.findUnique({
+      where:  { userId },
+      select: { timezone: true },
+    });
+    return profile?.timezone ?? 'UTC';
   }
 
   // ── Monthly stats ─────────────────────────────────────────────────────────
 
   async getMonthlyStats(userId: string, accountId: string, year: number, month: number) {
-    const from = new Date(year, month - 1, 1);
-    const to = new Date(year, month, 0, 23, 59, 59);
+    const tz = await this._getUserTimezone(userId);
+    const { from, to } = monthBoundariesInTz(year, month, tz);
 
     const trades = await this.prisma.journalTrade.findMany({
       where: { userId, accountId, status: 'closed', closedAt: { gte: from, lte: to } },
@@ -153,23 +170,23 @@ export class DashboardService {
   // ── Calendar heatmap ──────────────────────────────────────────────────────
 
   async getCalendar(userId: string, accountId: string, year: number, month: number) {
-    const from = new Date(year, month - 1, 1);
-    const to = new Date(year, month, 0, 23, 59, 59);
+    const tz = await this._getUserTimezone(userId);
+    const { from, to } = monthBoundariesInTz(year, month, tz);
 
     const trades = await this.prisma.journalTrade.findMany({
-      where: { userId, accountId, closedAt: { gte: from, lte: to } },
+      where:  { userId, accountId, closedAt: { gte: from, lte: to } },
       select: { closedAt: true, pnl: true, result: true },
     });
 
     const byDay: Record<string, { totalPnl: number; tradeCount: number; wins: number; losses: number }> = {};
     for (const t of trades) {
       if (!t.closedAt) continue;
-      const day = t.closedAt.toISOString().split('T')[0];
+      const day = toLocalDateString(t.closedAt, tz);
       if (!byDay[day]) byDay[day] = { totalPnl: 0, tradeCount: 0, wins: 0, losses: 0 };
       byDay[day].totalPnl += t.pnl ?? 0;
       byDay[day].tradeCount++;
       if (t.result === 'profit') byDay[day].wins++;
-      if (t.result === 'loss') byDay[day].losses++;
+      if (t.result === 'loss')   byDay[day].losses++;
     }
 
     return byDay;
@@ -226,8 +243,8 @@ export class DashboardService {
   // ── Daily breakdown ───────────────────────────────────────────────────────
 
   async getDailyBreakdown(userId: string, accountId: string, date: string) {
-    const from = new Date(`${date}T00:00:00`);
-    const to = new Date(`${date}T23:59:59`);
+    const tz = await this._getUserTimezone(userId);
+    const { from, to } = dayBoundariesInTz(date, tz);
 
     const trades = await this.prisma.journalTrade.findMany({
       where: { userId, accountId, closedAt: { gte: from, lte: to } },
