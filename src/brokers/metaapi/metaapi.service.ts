@@ -1,3 +1,5 @@
+'use strict'
+
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import MetaApi from 'metaapi.cloud-sdk';
@@ -15,15 +17,20 @@ type MetaApiAccount = any;
 const CONNECT_TIMEOUT_MS = 30_000;
 
 export interface DeployAccountParams {
-  login: string;        // MT4/MT5 account number
+  login: string;           // MT4/MT5 account number
   password: string;        // trading password
-  server: string;        // broker server e.g. "ICMarketsSC-Live"
+  server: string;          // broker server e.g. "ICMarketsSC-Live"
   platform: 'mt4' | 'mt5';
-  name: string;        // display name
+  name: string;            // display name
   magic: number;
-  region?: string;        // MetaApi region — defaults to 'vint-hill'
-  baseCurrency?: string;        // account base currency — defaults to 'USD'
+  region?: string;         // MetaApi region — defaults to 'vint-hill'
+  baseCurrency?: string;   // account base currency — defaults to 'USD'
+  autoTrade?: boolean;
 }
+
+// Cloud tier config — g1+regular for read-only sync, g2+high for auto-trade execution
+const SYNC_CLOUD = { type: 'cloud-g2', reliability: 'regular' } as const;  // sync only — no need for high reliability
+const EXEC_CLOUD = { type: 'cloud-g2', reliability: 'high' } as const;  // auto-trade — needs high for execution
 
 export interface DeployedAccount {
   metaApiAccountId: string;
@@ -50,9 +57,12 @@ export class MetaApiService implements OnModuleDestroy {
   async deployAccount(params: DeployAccountParams): Promise<DeployedAccount> {
     logger.info('Deploying account to MetaApi', { login: params.login, server: params.server, platform: params.platform });
 
+    const cloud = params.autoTrade ? EXEC_CLOUD : SYNC_CLOUD;
+    logger.info('Deploying account', { login: params.login, cloud: cloud.type, reliability: cloud.reliability });
+
     const account: MetaApiAccount = await this.api.metatraderAccountApi.createAccount({
       name: params.name,
-      type: 'cloud-g2',
+      type: cloud.type,
       login: params.login,
       password: params.password,
       server: params.server,
@@ -60,7 +70,7 @@ export class MetaApiService implements OnModuleDestroy {
       magic: params.magic,
       region: params.region ?? 'vint-hill',
       baseCurrency: params.baseCurrency ?? 'USD',
-      reliability: 'high',
+      reliability: cloud.reliability,
       quoteStreamingIntervalInSeconds: 2.5,
     });
 
@@ -87,6 +97,55 @@ export class MetaApiService implements OnModuleDestroy {
     } catch (err) {
       logger.warn('Could not undeploy account (may already be gone)', { metaApiAccountId, error: String(err) });
     }
+  }
+
+  /**
+   * Upgrade an existing g1 sync account to g2+high for auto-trade execution.
+   * Called when a user enables auto-trade on an existing account.
+   * MetaAPI does not support in-place type changes — we must remove and recreate.
+   * Returns the new metaApiAccountId so the caller can update the DB.
+   */
+  async upgradeToExec(
+    metaApiAccountId: string,
+    params: Omit<DeployAccountParams, 'autoTrade'>,
+  ): Promise<{ metaApiAccountId: string }> {
+    logger.info('Upgrading account to exec tier (g2+high)', { metaApiAccountId });
+
+    // 1. Disconnect and remove the g1 account
+    await this.undeployAccount(metaApiAccountId);
+    try {
+      const old = await this.api.metatraderAccountApi.getAccount(metaApiAccountId);
+      await old.remove();
+    } catch (err) {
+      logger.warn('Could not remove old g1 account — may already be gone', { metaApiAccountId, error: String(err) });
+    }
+
+    // 2. Redeploy on g2+high
+    return this.deployAccount({ ...params, autoTrade: true });
+  }
+
+  /**
+   * Downgrade an existing g2 exec account back to g1+regular when auto-trade is disabled.
+   * Saves ~$12/account/month for accounts that no longer need execution capability.
+   * Returns the new metaApiAccountId.
+   */
+  async downgradeToSync(
+    metaApiAccountId: string,
+    params: Omit<DeployAccountParams, 'autoTrade'>,
+  ): Promise<{ metaApiAccountId: string }> {
+    logger.info('Downgrading account to sync tier (g1+regular)', { metaApiAccountId });
+
+    // 1. Disconnect and remove the g2 account
+    await this.undeployAccount(metaApiAccountId);
+    try {
+      const old = await this.api.metatraderAccountApi.getAccount(metaApiAccountId);
+      await old.remove();
+    } catch (err) {
+      logger.warn('Could not remove old g2 account — may already be gone', { metaApiAccountId, error: String(err) });
+    }
+
+    // 2. Redeploy on g1+regular
+    return this.deployAccount({ ...params, autoTrade: false });
   }
 
   // ── Connection lifecycle ───────────────────────────────────────────────────
@@ -241,10 +300,10 @@ export class MetaApiService implements OnModuleDestroy {
         const filled = positions.find(p => String(p.ticket) === positionId);
         if (filled) {
           return {
-            ticket:        filled.ticket,
+            ticket: filled.ticket,
             executedPrice: filled.openPrice,
-            filledLots:    filled.lots,
-            filledAt:      filled.openTime,
+            filledLots: filled.lots,
+            filledAt: filled.openTime,
           };
         }
         logger.warn('openOrder: positionId not found in open positions — using order result', { positionId, symbol });
@@ -259,9 +318,9 @@ export class MetaApiService implements OnModuleDestroy {
       const positions = await this.getOpenPositions(metaApiAccountId);
       const candidates = positions.filter(
         p => p.magic === params.magic &&
-             p.symbol === symbol &&
-             p.side === params.side &&
-             Math.abs(p.lots - params.volume) < params.volume * 0.01,
+          p.symbol === symbol &&
+          p.side === params.side &&
+          Math.abs(p.lots - params.volume) < params.volume * 0.01,
       );
       const filled = candidates.reduce<typeof candidates[0] | undefined>(
         (best, p) => (!best || p.openTime > best.openTime ? p : best),
@@ -269,10 +328,10 @@ export class MetaApiService implements OnModuleDestroy {
       );
       if (filled) {
         return {
-          ticket:        filled.ticket,
+          ticket: filled.ticket,
           executedPrice: filled.openPrice,
-          filledLots:    filled.lots,
-          filledAt:      filled.openTime,
+          filledLots: filled.lots,
+          filledAt: filled.openTime,
         };
       }
     } catch (err) {
@@ -282,10 +341,10 @@ export class MetaApiService implements OnModuleDestroy {
     // Last resort: return what the SDK gave us with ticket=0
     logger.error('openOrder: could not resolve position ticket — trade will become STUB on next poll', { symbol });
     return {
-      ticket:        0,
+      ticket: 0,
       executedPrice: result.openPrice ?? 0,
-      filledLots:    params.volume,
-      filledAt:      Date.now(),
+      filledLots: params.volume,
+      filledAt: Date.now(),
     };
   }
 

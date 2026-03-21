@@ -18,45 +18,45 @@ import { MetricsCounter } from 'src/prisma/generated/client';
 @UseGuards(JwtGuard, AdminGuard)
 export class AdminController {
   constructor(
-    private readonly pipelineMgr:    PipelineManager,
-    private readonly metrics:        MetricsService,
-    private readonly prisma:         PrismaService,
-    private readonly notifications:  NotificationsService,
-  ) {}
+    private readonly pipelineMgr: PipelineManager,
+    private readonly metrics: MetricsService,
+    private readonly prisma: PrismaService,
+    private readonly notifications: NotificationsService,
+  ) { }
 
   // ── Health ─────────────────────────────────────────────────────────────────
 
   @Get('health')
   getHealth() {
-    const snapshots  = this.pipelineMgr.getAllSnapshots();
-    const degraded   = this.pipelineMgr.getDegradedPipelines();
+    const snapshots = this.pipelineMgr.getAllSnapshots();
+    const degraded = this.pipelineMgr.getDegradedPipelines();
     const aggregated = this.metrics.aggregateByAccount();
     const sumCounter = (name: MetricsCounter['name']) =>
       Object.values(aggregated).reduce((s, b) => s + (b.counters[name] ?? 0), 0);
     const global = aggregated['_global'] ?? { counters: {}, gauges: {} };
 
     return {
-      status:            degraded.length > 0 ? 'degraded' : 'ok',
-      uptimeMs:          Math.round(process.uptime() * 1_000),
-      activePipelines:   snapshots.length,
+      status: degraded.length > 0 ? 'degraded' : 'ok',
+      uptimeMs: Math.round(process.uptime() * 1_000),
+      activePipelines: snapshots.length,
       degradedPipelines: degraded.length,
       ...(degraded.length > 0 && { degraded }),
-      totalOpenTrades:   snapshots.reduce((s, p) => s + p.openTrades, 0),
-      totalBalance:      snapshots.reduce((s, p) => s + p.balance, 0),
-      totalEquity:       snapshots.reduce((s, p) => s + p.equity, 0),
+      totalOpenTrades: snapshots.reduce((s, p) => s + p.openTrades, 0),
+      totalBalance: snapshots.reduce((s, p) => s + p.balance, 0),
+      totalEquity: snapshots.reduce((s, p) => s + p.equity, 0),
       counters: {
         signalsReceived: sumCounter('signals.received'),
-        tradesOpened:    sumCounter('trades.opened'),
-        tp1Hit:          sumCounter('trades.tp1_hit'),
-        tp2Hit:          sumCounter('trades.tp2_hit'),
-        slHit:           sumCounter('trades.sl_hit'),
-        riskApproved:    sumCounter('risk.approved'),
-        riskRejected:    sumCounter('risk.rejected'),
-        errors:          sumCounter('trades.error'),
+        tradesOpened: sumCounter('trades.opened'),
+        tp1Hit: sumCounter('trades.tp1_hit'),
+        tp2Hit: sumCounter('trades.tp2_hit'),
+        slHit: sumCounter('trades.sl_hit'),
+        riskApproved: sumCounter('risk.approved'),
+        riskRejected: sumCounter('risk.rejected'),
+        errors: sumCounter('trades.error'),
       },
       system: {
         pipelinesStarted: global.counters['pipelines.started'] ?? 0,
-        dailyResets:      global.counters['system.daily_reset'] ?? 0,
+        dailyResets: global.counters['system.daily_reset'] ?? 0,
       },
     };
   }
@@ -66,7 +66,7 @@ export class AdminController {
   @Get('pipelines')
   getPipelines() {
     return {
-      active:   this.pipelineMgr.getAllSnapshots(),
+      active: this.pipelineMgr.getAllSnapshots(),
       degraded: this.pipelineMgr.getDegradedPipelines(),
     };
   }
@@ -108,13 +108,13 @@ export class AdminController {
 
   @Get('users')
   async getUsers(
-    @Query('limit')  limit  = '50',
+    @Query('limit') limit = '50',
     @Query('offset') offset = '0',
     @Query('search') search?: string,
   ) {
     const where: any = search ? {
       OR: [
-        { username:    { contains: search, mode: 'insensitive' } },
+        { username: { contains: search, mode: 'insensitive' } },
         { displayName: { contains: search, mode: 'insensitive' } },
       ],
     } : {};
@@ -122,8 +122,8 @@ export class AdminController {
     const [users, total] = await Promise.all([
       this.prisma.profile.findMany({
         where,
-        take:    parseInt(limit),
-        skip:    parseInt(offset),
+        take: parseInt(limit),
+        skip: parseInt(offset),
         orderBy: { createdAt: 'desc' },
         include: {
           _count: {
@@ -140,11 +140,11 @@ export class AdminController {
   @Get('users/:userId')
   async getUser(@Param('userId') userId: string) {
     const user = await this.prisma.profile.findUnique({
-      where:   { userId },
+      where: { userId },
       include: {
-        tradingAccounts:  { orderBy: { createdAt: 'desc' } },
+        tradingAccounts: { orderBy: { createdAt: 'desc' } },
         tradingStrategies: true,
-        notificationLogs:  { take: 20, orderBy: { sentAt: 'desc' } },
+        notificationLogs: { take: 20, orderBy: { sentAt: 'desc' } },
         _count: {
           select: { tradingAccounts: true, journalTrades: true, signalSubscriptions: true },
         },
@@ -157,14 +157,14 @@ export class AdminController {
   @Patch('users/:userId')
   async updateUser(
     @Param('userId') userId: string,
-    @Body() body: { isPro?: boolean; proExpiresAt?: string | null; pushEnabled?: boolean },
+    @Body() body: { proExpiresAt?: string | null; pushEnabled?: boolean },
   ) {
     return this.prisma.profile.update({
       where: { userId },
       data: {
-        isPro:        body.isPro,
+        // subscriptionTier: {body.isPro},
         proExpiresAt: body.proExpiresAt ? new Date(body.proExpiresAt) : body.proExpiresAt,
-        pushEnabled:  body.pushEnabled,
+        pushEnabled: body.pushEnabled,
       },
     });
   }
@@ -173,13 +173,13 @@ export class AdminController {
 
   @Get('accounts')
   async getAccounts(
-    @Query('limit')  limit  = '50',
+    @Query('limit') limit = '50',
     @Query('offset') offset = '0',
     @Query('search') search?: string,
   ) {
     const where: any = search ? {
       OR: [
-        { name:          { contains: search, mode: 'insensitive' } },
+        { name: { contains: search, mode: 'insensitive' } },
         { accountNumber: { contains: search, mode: 'insensitive' } },
       ],
     } : {};
@@ -187,8 +187,8 @@ export class AdminController {
     const [accounts, total] = await Promise.all([
       this.prisma.tradingAccount.findMany({
         where,
-        take:    parseInt(limit),
-        skip:    parseInt(offset),
+        take: parseInt(limit),
+        skip: parseInt(offset),
         orderBy: { createdAt: 'desc' },
         include: {
           _count: { select: { journalTrades: true, trades: true } },
@@ -207,7 +207,7 @@ export class AdminController {
   ) {
     return this.prisma.tradingAccount.update({
       where: { id },
-      data:  body,
+      data: body,
     });
   }
 
@@ -215,20 +215,20 @@ export class AdminController {
 
   @Get('trades')
   async getTrades(
-    @Query('limit')     limit     = '50',
-    @Query('offset')    offset    = '0',
+    @Query('limit') limit = '50',
+    @Query('offset') offset = '0',
     @Query('accountId') accountId?: string,
-    @Query('status')    status?:    string,
+    @Query('status') status?: string,
   ) {
     const where: any = {};
     if (accountId) where.accountId = accountId;
-    if (status)    where.status    = status;
+    if (status) where.status = status;
 
     const [trades, total] = await Promise.all([
       this.prisma.trade.findMany({
         where,
-        take:    parseInt(limit),
-        skip:    parseInt(offset),
+        take: parseInt(limit),
+        skip: parseInt(offset),
         orderBy: { createdAt: 'desc' },
       }),
       this.prisma.trade.count({ where }),
@@ -241,20 +241,20 @@ export class AdminController {
 
   @Get('journal-trades')
   async getJournalTrades(
-    @Query('limit')     limit     = '50',
-    @Query('offset')    offset    = '0',
+    @Query('limit') limit = '50',
+    @Query('offset') offset = '0',
     @Query('accountId') accountId?: string,
-    @Query('userId')    userId?:    string,
+    @Query('userId') userId?: string,
   ) {
     const where: any = {};
     if (accountId) where.accountId = accountId;
-    if (userId)    where.userId    = userId;
+    if (userId) where.userId = userId;
 
     const [trades, total] = await Promise.all([
       this.prisma.journalTrade.findMany({
         where,
-        take:    parseInt(limit),
-        skip:    parseInt(offset),
+        take: parseInt(limit),
+        skip: parseInt(offset),
         orderBy: { createdAt: 'desc' },
       }),
       this.prisma.journalTrade.count({ where }),
@@ -267,7 +267,7 @@ export class AdminController {
 
   @Get('signals')
   async getSignals(
-    @Query('limit')  limit  = '50',
+    @Query('limit') limit = '50',
     @Query('offset') offset = '0',
     @Query('status') status?: string,
     @Query('symbol') symbol?: string,
@@ -279,8 +279,8 @@ export class AdminController {
     const [signals, total] = await Promise.all([
       this.prisma.signalAlert.findMany({
         where,
-        take:    parseInt(limit),
-        skip:    parseInt(offset),
+        take: parseInt(limit),
+        skip: parseInt(offset),
         orderBy: { createdAt: 'desc' },
       }),
       this.prisma.signalAlert.count({ where }),
@@ -303,7 +303,7 @@ export class AdminController {
 
   @Get('queue')
   async getQueueJobs(
-    @Query('limit')  limit  = '50',
+    @Query('limit') limit = '50',
     @Query('offset') offset = '0',
     @Query('status') status?: string,
   ) {
@@ -312,14 +312,14 @@ export class AdminController {
     const [jobs, total, stats] = await Promise.all([
       this.prisma.queueJob.findMany({
         where,
-        take:    parseInt(limit),
-        skip:    parseInt(offset),
+        take: parseInt(limit),
+        skip: parseInt(offset),
         orderBy: { createdAt: 'desc' },
       }),
       this.prisma.queueJob.count({ where }),
       this.prisma.queueJob.groupBy({
-        by:      ['status'],
-        _count:  { _all: true },
+        by: ['status'],
+        _count: { _all: true },
       }),
     ]);
 
@@ -344,20 +344,20 @@ export class AdminController {
 
   @Get('notifications')
   async getNotifications(
-    @Query('limit')  limit  = '50',
+    @Query('limit') limit = '50',
     @Query('offset') offset = '0',
     @Query('userId') userId?: string,
-    @Query('type')   type?:   string,
+    @Query('type') type?: string,
   ) {
     const where: any = {};
-    if (userId) where.userId           = userId;
-    if (type)   where.notificationType = type;
+    if (userId) where.userId = userId;
+    if (type) where.notificationType = type;
 
     const [logs, total] = await Promise.all([
       this.prisma.notificationLog.findMany({
         where,
-        take:    parseInt(limit),
-        skip:    parseInt(offset),
+        take: parseInt(limit),
+        skip: parseInt(offset),
         orderBy: { sentAt: 'desc' },
       }),
       this.prisma.notificationLog.count({ where }),
@@ -370,13 +370,13 @@ export class AdminController {
 
   @Get('news')
   async getNews(
-    @Query('limit')  limit  = '50',
+    @Query('limit') limit = '50',
     @Query('offset') offset = '0',
   ) {
     const [articles, total] = await Promise.all([
       this.prisma.newsArticle.findMany({
-        take:    parseInt(limit),
-        skip:    parseInt(offset),
+        take: parseInt(limit),
+        skip: parseInt(offset),
         orderBy: { publishedAt: 'desc' },
       }),
       this.prisma.newsArticle.count(),
@@ -394,7 +394,7 @@ export class AdminController {
       failedJobs, totalNotifications,
     ] = await Promise.all([
       this.prisma.profile.count(),
-      this.prisma.profile.count({ where: { isPro: true } }),
+      this.prisma.profile.count({ where: { subscriptionTier: { not: null } } }),
       this.prisma.tradingAccount.count(),
       this.prisma.tradingAccount.count({ where: { isActive: true } }),
       this.prisma.trade.count(),
@@ -406,11 +406,11 @@ export class AdminController {
     ]);
 
     return {
-      users:        { total: totalUsers, pro: proUsers, free: totalUsers - proUsers },
-      accounts:     { total: totalAccounts, active: activeAccounts },
-      trades:       { execution: totalTrades, journal: totalJournalTrades },
-      signals:      totalSignals,
-      queue:        { pending: pendingJobs, failed: failedJobs },
+      users: { total: totalUsers, pro: proUsers, free: totalUsers - proUsers },
+      accounts: { total: totalAccounts, active: activeAccounts },
+      trades: { execution: totalTrades, journal: totalJournalTrades },
+      signals: totalSignals,
+      queue: { pending: pendingJobs, failed: failedJobs },
       notifications: totalNotifications,
     };
   }
@@ -432,10 +432,10 @@ export class AdminController {
 
     const sent = await this.notifications.send({
       userId,
-      title:            body.title,
-      body:             body.body,
+      title: body.title,
+      body: body.body,
       notificationType: (body.type as NotificationType) ?? NotificationType.SYSTEM_UPDATE,
-      data:             body.data,
+      data: body.data,
     });
 
     return { sent, userId };
@@ -449,10 +449,10 @@ export class AdminController {
   @Post('push/broadcast')
   async broadcast(
     @Body() body: {
-      title:    string;
-      body:     string;
-      type?:    string;
-      data?:    Record<string, string>;
+      title: string;
+      body: string;
+      type?: string;
+      data?: Record<string, string>;
       proOnly?: boolean;
     },
   ) {
@@ -462,7 +462,7 @@ export class AdminController {
 
     const profiles = await this.prisma.profile.findMany({
       where: {
-        pushEnabled:           true,
+        pushEnabled: true,
         notificationPushToken: { not: null },
         ...(body.proOnly ? { isPro: true } : {}),
       },
@@ -472,23 +472,23 @@ export class AdminController {
     const results = await Promise.allSettled(
       profiles.map(p =>
         this.notifications.send({
-          userId:           p.userId,
-          title:            body.title,
-          body:             body.body,
+          userId: p.userId,
+          title: body.title,
+          body: body.body,
           notificationType: (body.type as NotificationType) ?? NotificationType.SYSTEM_UPDATE,
-          data:             body.data,
+          data: body.data,
         }),
       ),
     );
 
-    const sent   = results.filter(r => r.status === 'fulfilled' && r.value).length;
+    const sent = results.filter(r => r.status === 'fulfilled' && r.value).length;
     const failed = results.length - sent;
 
     return {
-      total:     profiles.length,
+      total: profiles.length,
       sent,
       failed,
-      proOnly:   body.proOnly ?? false,
+      proOnly: body.proOnly ?? false,
     };
   }
 }

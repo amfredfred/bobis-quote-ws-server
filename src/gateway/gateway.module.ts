@@ -27,6 +27,7 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { PipelineModule } from '../pipeline/pipeline.module';
 import { AnalyticsHandler } from './handlers/analytics.handler';
 import { AnalyticsModule } from '@src/analytics/analytics.module';
+import { MetaApiModule } from '../brokers/metaapi/metaapi.module';
 
 const HANDLERS = [
   DashboardHandler,
@@ -52,6 +53,7 @@ const HANDLERS = [
     SignalModule,
     PrismaModule,
     AnalyticsModule,
+    MetaApiModule,
     forwardRef(() => PipelineModule),
   ],
   providers: [AppGateway, SignalDispatcherService, ...HANDLERS],

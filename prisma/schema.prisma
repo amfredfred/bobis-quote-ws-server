@@ -32,7 +32,7 @@ model Profile {
   notificationSentToday  Int       @default(0) @map("notification_sent_today")
   lastNotificationReset  DateTime? @map("last_notification_reset") @db.Timestamptz(6)
 
-  isPro               Boolean   @default(false) @map("is_pro")
+  subscriptionTier    String?   @map("subscription_tier")  // "basic" | "pro" | "elite" | null
   proExpiresAt        DateTime? @map("pro_expires_at") @db.Timestamptz(6)
   revenuecatAppUserId String?   @map("revenuecat_app_user_id")
   timezone            String    @default("America/New_York")

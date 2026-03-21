@@ -1,6 +1,6 @@
 'use strict';
 
-import { Injectable, ForbiddenException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import {
   TradingAccountService,
   CreateTradingAccountDto,
@@ -8,14 +8,18 @@ import {
 } from '../../trading-account/trading-account.service';
 import { PipelineManager } from '../../pipeline/pipeline.manager';
 import { ProGuard } from '../../auth/pro.guard';
+import { TierGuard } from '../../auth/tier.guard';
+import { MetaApiService } from '../../brokers/metaapi/metaapi.service';
 
 @Injectable()
 export class AccountHandler {
   constructor(
-    private readonly svc:         TradingAccountService,
+    private readonly svc: TradingAccountService,
     private readonly pipelineMgr: PipelineManager,
-    private readonly proGuard:    ProGuard,
-  ) {}
+    private readonly proGuard: ProGuard,
+    private readonly tierGuard: TierGuard,
+    private readonly metaApi: MetaApiService,
+  ) { }
 
   list(userId: string, includeInactive: boolean) {
     return this.svc.findAll(userId, includeInactive);
@@ -25,7 +29,8 @@ export class AccountHandler {
     return this.svc.findOne(id, userId);
   }
 
-  create(userId: string, dto: CreateTradingAccountDto) {
+  async create(userId: string, dto: CreateTradingAccountDto) {
+    await this.tierGuard.checkCanAddAccount(userId);
     return this.svc.create(userId, dto);
   }
 
@@ -42,19 +47,54 @@ export class AccountHandler {
   }
 
   async toggleAutoTrade(userId: string, id: string, enabled: boolean) {
-    if (enabled) {
-      // Single source of truth — ProGuard.checkPro throws ForbiddenException if not Pro
-      await this.proGuard.checkPro(userId);
+    if (enabled) await this.tierGuard.checkCanEnablePipeline(userId);
+
+    const account = await this.svc.findOne(id, userId);
+
+    // If the account has a MetaAPI deployment, migrate it to the right cloud tier
+    if (account.metaApiAccountId && account.platform) {
+      const params = {
+        login: account.accountNumber,
+        password: '', // MetaAPI retains credentials — empty triggers credential reuse
+        server: '', // same — MetaAPI already has this
+        platform: account.platform as 'mt4' | 'mt5',
+        name: account.name,
+        magic: (account.riskConfig as any)?.magicNumber ?? 1000010,
+      };
+
+      try {
+        let newMetaApiId: string;
+
+        if (enabled) {
+          // Upgrade: g1+regular → g2+high for execution capability
+          ({ metaApiAccountId: newMetaApiId } = await this.metaApi.upgradeToExec(
+            account.metaApiAccountId, params
+          ));
+        } else {
+          // Downgrade: g2+high → g1+regular to save cost
+          ({ metaApiAccountId: newMetaApiId } = await this.metaApi.downgradeToSync(
+            account.metaApiAccountId, params
+          ));
+        }
+
+        // Update the DB with the new MetaAPI account ID
+        await this.svc.update(id, userId, { metaApiAccountId: newMetaApiId });
+
+      } catch (err: any) {
+        throw new InternalServerErrorException(
+          `Failed to ${enabled ? 'upgrade' : 'downgrade'} broker connection: ${err.message}`
+        );
+      }
     }
 
-    const account = await this.svc.setAutoTrade(id, userId, enabled);
+    const updated = await this.svc.setAutoTrade(id, userId, enabled);
 
     if (enabled) {
-      await this.pipelineMgr.startPipeline(account);
+      await this.pipelineMgr.startPipeline(updated);
     } else {
       await this.pipelineMgr.stopPipeline(id);
     }
 
-    return account;
+    return updated;
   }
 }

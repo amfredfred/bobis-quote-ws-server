@@ -3,10 +3,14 @@
 import { Injectable } from '@nestjs/common';
 import { Server } from 'socket.io';
 import { MarketService } from '../../market/market.service';
+import { TierGuard } from '../../auth/tier.guard';
 
 @Injectable()
 export class MarketHandler {
-  constructor(private readonly svc: MarketService) {}
+  constructor(
+    private readonly svc:       MarketService,
+    private readonly tierGuard: TierGuard,
+  ) {}
 
   listAlerts(params: { symbol?: string; status?: string; limit?: number; offset?: number }) {
     return this.svc.getAlerts(params);
@@ -37,6 +41,7 @@ export class MarketHandler {
     symbols: string[],
     server: Server,
   ) {
+    await this.tierGuard.checkCanSubscribeSignal(userId, symbols.length);
     const result = await this.svc.subscribe(userId, symbols);
     // Join the symbol room on every active socket for this user
     const rooms = symbols.map((s) => `symbol:${s.toUpperCase()}`);

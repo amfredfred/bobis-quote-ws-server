@@ -20,14 +20,12 @@ export class ProGuard implements CanActivate {
   async checkPro(userId: string): Promise<true> {
     const profile = await this.prisma.profile.findUnique({
       where:  { userId },
-      select: { isPro: true, proExpiresAt: true },
+      select: { subscriptionTier: true },
     });
 
-    const active =
-      profile?.isPro === true &&
-      (profile.proExpiresAt === null || profile.proExpiresAt > new Date());
-
-    if (!active) throw new ForbiddenException('Pro subscription required');
+    // Any paid tier satisfies the Pro guard
+    const active = profile?.subscriptionTier != null;
+    if (!active) throw new ForbiddenException('Active subscription required');
 
     return true;
   }

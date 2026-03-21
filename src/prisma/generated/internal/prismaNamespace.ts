@@ -1735,7 +1735,7 @@ export const ProfileScalarFieldEnum = {
   lastNotificationSentAt: 'lastNotificationSentAt',
   notificationSentToday: 'notificationSentToday',
   lastNotificationReset: 'lastNotificationReset',
-  isPro: 'isPro',
+  subscriptionTier: 'subscriptionTier',
   proExpiresAt: 'proExpiresAt',
   revenuecatAppUserId: 'revenuecatAppUserId',
   timezone: 'timezone',

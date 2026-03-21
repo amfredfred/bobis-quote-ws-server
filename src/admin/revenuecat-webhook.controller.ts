@@ -36,6 +36,10 @@ interface RcWebhookPayload {
     original_app_user_id?: string;
     expiration_at_ms?: number | null;
     product_id?: string;
+    // entitlement_ids is present on purchase/renewal events
+    entitlement_ids?: string[];
+    // offered_offering_id to determine which offering was used
+    offered_offering_id?: string;
   };
 }
 
@@ -44,7 +48,7 @@ interface RcWebhookPayload {
 @Controller('webhooks/revenuecat')
 export class RevenueCatWebhookController {
   private readonly logger = new Logger(RevenueCatWebhookController.name);
-  private readonly secretKey = process.env['REVENUECAT_API_KEY'] ?? '';
+  private readonly secretKey = process.env['REVENUECAT_SECRET_KEY'] ?? '';
 
   constructor(
     private readonly prisma: PrismaService,
@@ -57,9 +61,9 @@ export class RevenueCatWebhookController {
     @Headers('authorization') authHeader: string,
     @Body() body: RcWebhookPayload,
   ) {
-    // RevenueCat sends: Authorization: Bearer <REVENUECAT_API_KEY>
+    // RevenueCat sends: Authorization: Bearer <REVENUECAT_SECRET_KEY>
     if (!this.secretKey) {
-      this.logger.warn('REVENUECAT_API_KEY not configured — rejecting webhook');
+      this.logger.warn('REVENUECAT_SECRET_KEY not configured — rejecting webhook');
       throw new UnauthorizedException('Webhook not configured');
     }
 
@@ -79,7 +83,7 @@ export class RevenueCatWebhookController {
     // Find the profile by revenuecatAppUserId
     const profile = await this.prisma.profile.findFirst({
       where: { revenuecatAppUserId: rcUserId },
-      select: { userId: true, isPro: true },
+      select: { userId: true, subscriptionTier: true },
     });
 
     if (!profile) {
@@ -89,7 +93,7 @@ export class RevenueCatWebhookController {
     }
 
     if (GRANT_EVENTS.has(event.type)) {
-      await this._grantPro(profile.userId, event.expiration_at_ms);
+      await this._grantPro(profile.userId, event.expiration_at_ms, event.entitlement_ids ?? []);
     } else if (REVOKE_EVENTS.has(event.type)) {
       await this._revokePro(profile.userId);
     } else {
@@ -101,21 +105,31 @@ export class RevenueCatWebhookController {
 
   // ── Helpers ──────────────────────────────────────────────────────────────────
 
-  private async _grantPro(userId: string, expirationMs?: number | null): Promise<void> {
+  private async _grantPro(userId: string, expirationMs?: number | null, entitlementIds?: string[]): Promise<void> {
     const proExpiresAt = expirationMs ? new Date(expirationMs) : null;
+
+    // Derive tier from entitlement identifier (highest wins)
+    const tier = this._tierFromEntitlements(entitlementIds ?? []);
 
     await this.prisma.profile.update({
       where: { userId },
-      data: { isPro: true, proExpiresAt },
+      data: { proExpiresAt, subscriptionTier: tier },
     });
 
-    log.info(`Pro GRANTED for userId=${userId}, expires=${proExpiresAt?.toISOString() ?? 'lifetime'}`);
+    log.info(`Pro GRANTED for userId=${userId}, tier=${tier}, expires=${proExpiresAt?.toISOString() ?? 'lifetime'}`);
+  }
+
+  private _tierFromEntitlements(ids: string[]): string {
+    if (ids.some(id => ['elite', 'funded'].includes(id.toLowerCase()))) return 'elite';
+    if (ids.some(id => id.toLowerCase() === 'pro')) return 'pro';
+    if (ids.some(id => id.toLowerCase() === 'basic')) return 'basic';
+    return 'pro'; // default to pro if we have isPro but unknown entitlement
   }
 
   private async _revokePro(userId: string): Promise<void> {
     await this.prisma.profile.update({
       where: { userId },
-      data: { isPro: false },
+      data: { subscriptionTier: null },
     });
 
     // Stop and disable any running auto-trade pipelines

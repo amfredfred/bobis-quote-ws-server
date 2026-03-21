@@ -52,7 +52,7 @@ export type ProfileMinAggregateOutputType = {
   lastNotificationSentAt: Date | null
   notificationSentToday: number | null
   lastNotificationReset: Date | null
-  isPro: boolean | null
+  subscriptionTier: string | null
   proExpiresAt: Date | null
   revenuecatAppUserId: string | null
   timezone: string | null
@@ -78,7 +78,7 @@ export type ProfileMaxAggregateOutputType = {
   lastNotificationSentAt: Date | null
   notificationSentToday: number | null
   lastNotificationReset: Date | null
-  isPro: boolean | null
+  subscriptionTier: string | null
   proExpiresAt: Date | null
   revenuecatAppUserId: string | null
   timezone: string | null
@@ -104,7 +104,7 @@ export type ProfileCountAggregateOutputType = {
   lastNotificationSentAt: number
   notificationSentToday: number
   lastNotificationReset: number
-  isPro: number
+  subscriptionTier: number
   proExpiresAt: number
   revenuecatAppUserId: number
   timezone: number
@@ -140,7 +140,7 @@ export type ProfileMinAggregateInputType = {
   lastNotificationSentAt?: true
   notificationSentToday?: true
   lastNotificationReset?: true
-  isPro?: true
+  subscriptionTier?: true
   proExpiresAt?: true
   revenuecatAppUserId?: true
   timezone?: true
@@ -166,7 +166,7 @@ export type ProfileMaxAggregateInputType = {
   lastNotificationSentAt?: true
   notificationSentToday?: true
   lastNotificationReset?: true
-  isPro?: true
+  subscriptionTier?: true
   proExpiresAt?: true
   revenuecatAppUserId?: true
   timezone?: true
@@ -192,7 +192,7 @@ export type ProfileCountAggregateInputType = {
   lastNotificationSentAt?: true
   notificationSentToday?: true
   lastNotificationReset?: true
-  isPro?: true
+  subscriptionTier?: true
   proExpiresAt?: true
   revenuecatAppUserId?: true
   timezone?: true
@@ -305,7 +305,7 @@ export type ProfileGroupByOutputType = {
   lastNotificationSentAt: Date | null
   notificationSentToday: number
   lastNotificationReset: Date | null
-  isPro: boolean
+  subscriptionTier: string | null
   proExpiresAt: Date | null
   revenuecatAppUserId: string | null
   timezone: string
@@ -354,7 +354,7 @@ export type ProfileWhereInput = {
   lastNotificationSentAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   notificationSentToday?: Prisma.IntFilter<"Profile"> | number
   lastNotificationReset?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
-  isPro?: Prisma.BoolFilter<"Profile"> | boolean
+  subscriptionTier?: Prisma.StringNullableFilter<"Profile"> | string | null
   proExpiresAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   revenuecatAppUserId?: Prisma.StringNullableFilter<"Profile"> | string | null
   timezone?: Prisma.StringFilter<"Profile"> | string
@@ -386,7 +386,7 @@ export type ProfileOrderByWithRelationInput = {
   lastNotificationSentAt?: Prisma.SortOrderInput | Prisma.SortOrder
   notificationSentToday?: Prisma.SortOrder
   lastNotificationReset?: Prisma.SortOrderInput | Prisma.SortOrder
-  isPro?: Prisma.SortOrder
+  subscriptionTier?: Prisma.SortOrderInput | Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrder
@@ -421,7 +421,7 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
   lastNotificationSentAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   notificationSentToday?: Prisma.IntFilter<"Profile"> | number
   lastNotificationReset?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
-  isPro?: Prisma.BoolFilter<"Profile"> | boolean
+  subscriptionTier?: Prisma.StringNullableFilter<"Profile"> | string | null
   proExpiresAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   revenuecatAppUserId?: Prisma.StringNullableFilter<"Profile"> | string | null
   timezone?: Prisma.StringFilter<"Profile"> | string
@@ -453,7 +453,7 @@ export type ProfileOrderByWithAggregationInput = {
   lastNotificationSentAt?: Prisma.SortOrderInput | Prisma.SortOrder
   notificationSentToday?: Prisma.SortOrder
   lastNotificationReset?: Prisma.SortOrderInput | Prisma.SortOrder
-  isPro?: Prisma.SortOrder
+  subscriptionTier?: Prisma.SortOrderInput | Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrder
@@ -487,7 +487,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   lastNotificationSentAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
   notificationSentToday?: Prisma.IntWithAggregatesFilter<"Profile"> | number
   lastNotificationReset?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
-  isPro?: Prisma.BoolWithAggregatesFilter<"Profile"> | boolean
+  subscriptionTier?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   proExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
   revenuecatAppUserId?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   timezone?: Prisma.StringWithAggregatesFilter<"Profile"> | string
@@ -513,7 +513,7 @@ export type ProfileCreateInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -545,7 +545,7 @@ export type ProfileUncheckedCreateInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -577,7 +577,7 @@ export type ProfileUpdateInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -609,7 +609,7 @@ export type ProfileUncheckedUpdateInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -641,7 +641,7 @@ export type ProfileCreateManyInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -667,7 +667,7 @@ export type ProfileUpdateManyMutationInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -693,7 +693,7 @@ export type ProfileUncheckedUpdateManyInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -719,7 +719,7 @@ export type ProfileCountOrderByAggregateInput = {
   lastNotificationSentAt?: Prisma.SortOrder
   notificationSentToday?: Prisma.SortOrder
   lastNotificationReset?: Prisma.SortOrder
-  isPro?: Prisma.SortOrder
+  subscriptionTier?: Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
@@ -749,7 +749,7 @@ export type ProfileMaxOrderByAggregateInput = {
   lastNotificationSentAt?: Prisma.SortOrder
   notificationSentToday?: Prisma.SortOrder
   lastNotificationReset?: Prisma.SortOrder
-  isPro?: Prisma.SortOrder
+  subscriptionTier?: Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
@@ -775,7 +775,7 @@ export type ProfileMinOrderByAggregateInput = {
   lastNotificationSentAt?: Prisma.SortOrder
   notificationSentToday?: Prisma.SortOrder
   lastNotificationReset?: Prisma.SortOrder
-  isPro?: Prisma.SortOrder
+  subscriptionTier?: Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
@@ -929,7 +929,7 @@ export type ProfileCreateWithoutTradingAccountsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -960,7 +960,7 @@ export type ProfileUncheckedCreateWithoutTradingAccountsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -1007,7 +1007,7 @@ export type ProfileUpdateWithoutTradingAccountsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1038,7 +1038,7 @@ export type ProfileUncheckedUpdateWithoutTradingAccountsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1069,7 +1069,7 @@ export type ProfileCreateWithoutJournalTradesInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -1100,7 +1100,7 @@ export type ProfileUncheckedCreateWithoutJournalTradesInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -1147,7 +1147,7 @@ export type ProfileUpdateWithoutJournalTradesInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1178,7 +1178,7 @@ export type ProfileUncheckedUpdateWithoutJournalTradesInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1209,7 +1209,7 @@ export type ProfileCreateWithoutTradingStrategiesInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -1240,7 +1240,7 @@ export type ProfileUncheckedCreateWithoutTradingStrategiesInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -1287,7 +1287,7 @@ export type ProfileUpdateWithoutTradingStrategiesInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1318,7 +1318,7 @@ export type ProfileUncheckedUpdateWithoutTradingStrategiesInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1349,7 +1349,7 @@ export type ProfileCreateWithoutSignalSubscriptionsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -1380,7 +1380,7 @@ export type ProfileUncheckedCreateWithoutSignalSubscriptionsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -1427,7 +1427,7 @@ export type ProfileUpdateWithoutSignalSubscriptionsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1458,7 +1458,7 @@ export type ProfileUncheckedUpdateWithoutSignalSubscriptionsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1489,7 +1489,7 @@ export type ProfileCreateWithoutNotificationLogsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -1520,7 +1520,7 @@ export type ProfileUncheckedCreateWithoutNotificationLogsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -1567,7 +1567,7 @@ export type ProfileUpdateWithoutNotificationLogsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1598,7 +1598,7 @@ export type ProfileUncheckedUpdateWithoutNotificationLogsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1629,7 +1629,7 @@ export type ProfileCreateWithoutTradingAnalyticsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -1660,7 +1660,7 @@ export type ProfileUncheckedCreateWithoutTradingAnalyticsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  isPro?: boolean
+  subscriptionTier?: string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
@@ -1707,7 +1707,7 @@ export type ProfileUpdateWithoutTradingAnalyticsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1738,7 +1738,7 @@ export type ProfileUncheckedUpdateWithoutTradingAnalyticsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1845,7 +1845,7 @@ export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   lastNotificationSentAt?: boolean
   notificationSentToday?: boolean
   lastNotificationReset?: boolean
-  isPro?: boolean
+  subscriptionTier?: boolean
   proExpiresAt?: boolean
   revenuecatAppUserId?: boolean
   timezone?: boolean
@@ -1878,7 +1878,7 @@ export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   lastNotificationSentAt?: boolean
   notificationSentToday?: boolean
   lastNotificationReset?: boolean
-  isPro?: boolean
+  subscriptionTier?: boolean
   proExpiresAt?: boolean
   revenuecatAppUserId?: boolean
   timezone?: boolean
@@ -1904,7 +1904,7 @@ export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   lastNotificationSentAt?: boolean
   notificationSentToday?: boolean
   lastNotificationReset?: boolean
-  isPro?: boolean
+  subscriptionTier?: boolean
   proExpiresAt?: boolean
   revenuecatAppUserId?: boolean
   timezone?: boolean
@@ -1930,7 +1930,7 @@ export type ProfileSelectScalar = {
   lastNotificationSentAt?: boolean
   notificationSentToday?: boolean
   lastNotificationReset?: boolean
-  isPro?: boolean
+  subscriptionTier?: boolean
   proExpiresAt?: boolean
   revenuecatAppUserId?: boolean
   timezone?: boolean
@@ -1938,7 +1938,7 @@ export type ProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "username" | "displayName" | "avatarUrl" | "notificationPushToken" | "pushEnabled" | "strategyReminders" | "accountAlerts" | "sessionReminders" | "drawdownWarnings" | "profitTargetAlerts" | "signalAlertsEnabled" | "maxTradesWarnings" | "tradingDaysReminders" | "lastNotificationSentAt" | "notificationSentToday" | "lastNotificationReset" | "isPro" | "proExpiresAt" | "revenuecatAppUserId" | "timezone" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
+export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "username" | "displayName" | "avatarUrl" | "notificationPushToken" | "pushEnabled" | "strategyReminders" | "accountAlerts" | "sessionReminders" | "drawdownWarnings" | "profitTargetAlerts" | "signalAlertsEnabled" | "maxTradesWarnings" | "tradingDaysReminders" | "lastNotificationSentAt" | "notificationSentToday" | "lastNotificationReset" | "subscriptionTier" | "proExpiresAt" | "revenuecatAppUserId" | "timezone" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
 export type ProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tradingAccounts?: boolean | Prisma.Profile$tradingAccountsArgs<ExtArgs>
   tradingStrategies?: boolean | Prisma.Profile$tradingStrategiesArgs<ExtArgs>
@@ -1979,7 +1979,7 @@ export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     lastNotificationSentAt: Date | null
     notificationSentToday: number
     lastNotificationReset: Date | null
-    isPro: boolean
+    subscriptionTier: string | null
     proExpiresAt: Date | null
     revenuecatAppUserId: string | null
     timezone: string
@@ -2431,7 +2431,7 @@ export interface ProfileFieldRefs {
   readonly lastNotificationSentAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly notificationSentToday: Prisma.FieldRef<"Profile", 'Int'>
   readonly lastNotificationReset: Prisma.FieldRef<"Profile", 'DateTime'>
-  readonly isPro: Prisma.FieldRef<"Profile", 'Boolean'>
+  readonly subscriptionTier: Prisma.FieldRef<"Profile", 'String'>
   readonly proExpiresAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly revenuecatAppUserId: Prisma.FieldRef<"Profile", 'String'>
   readonly timezone: Prisma.FieldRef<"Profile", 'String'>

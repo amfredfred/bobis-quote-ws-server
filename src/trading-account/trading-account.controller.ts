@@ -6,15 +6,17 @@ import {
   BadRequestException, NotFoundException, ConflictException,
   InternalServerErrorException, Logger,
 } from '@nestjs/common';
-import { IsString, IsOptional, IsIn, IsBoolean } from 'class-validator';
+import { IsString, IsOptional, IsIn, IsBoolean, IsInt } from 'class-validator';
 import { JwtGuard, type AuthRequest } from '../auth/jwt-auth.guard';
 import { ProGuard } from '../auth/pro.guard';
+import { TierGuard } from '../auth/tier.guard';
 import { TradingAccountService } from './trading-account.service';
 import { MetaApiService } from '../brokers/metaapi/metaapi.service';
 import { PipelineManager } from '../pipeline/pipeline.manager';
 import { PrismaService } from '../prisma/prisma.service';
 import { RiskConfigDto } from '../common/dto/risk-config.dto';
 import { Type } from 'class-transformer';
+import { JournalAccountType } from '@src/prisma/generated/enums';
 
 // ── DTOs ──────────────────────────────────────────────────────────────────────
 
@@ -23,7 +25,9 @@ export class ImportAccountDto {
   @IsString() login!: string;
   @IsString() password!: string;
   @IsString() server!: string;
+  @IsInt() startBalance: number;
   @IsIn(['mt4', 'mt5']) platform!: 'mt4' | 'mt5';
+  @IsIn([JournalAccountType.prop, JournalAccountType.personal, JournalAccountType.demo]) accountType;
   @IsOptional() @IsBoolean() autoTradeEnabled?: boolean;
   @IsOptional() @Type(() => RiskConfigDto) riskConfig?: RiskConfigDto;
 }
@@ -41,6 +45,7 @@ export class TradingAccountController {
     private readonly pipelineMgr: PipelineManager,
     private readonly prisma: PrismaService,
     private readonly proGuard: ProGuard,
+    private readonly tierGuard: TierGuard,
   ) { }
 
   /**
@@ -66,10 +71,12 @@ export class TradingAccountController {
       );
     }
 
-    // 2. Pro check — only for auto-trade path; free users can still import
+    // 2. Tier checks — account limit, sync limit, pipeline limit
     const wantsAutoTrade = dto.autoTradeEnabled === true;
+    await this.tierGuard.checkCanAddAccount(req.user.id);
+    await this.tierGuard.checkCanSyncAccount(req.user.id);
     if (wantsAutoTrade) {
-      await this.proGuard.checkPro(req.user.id);
+      await this.tierGuard.checkCanEnablePipeline(req.user.id);
     }
 
     // 3. Deploy to MetaApi
@@ -83,6 +90,7 @@ export class TradingAccountController {
         name: dto.name,
         magic: dto.riskConfig?.magicNumber ?? 1000010,
         region: 'london',
+        autoTrade: wantsAutoTrade, // g2+high for execution, g1+regular for sync only
       }));
     } catch (err: any) {
       this.logger.error('MetaApi deploy failed', err);

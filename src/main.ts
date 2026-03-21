@@ -7,7 +7,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useWebSocketAdapter(new IoAdapter(app));
-
   app.setGlobalPrefix('api/v1', {
     exclude: [{ path: 'admin/(.*)', method: RequestMethod.ALL }]
   });

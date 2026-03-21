@@ -167,11 +167,4 @@ export class ProfileService {
     });
   }
 
-  async setPremium(userId: string, isPro: boolean, expiresAt?: Date) {
-    await this.findOrCreate(userId);
-    return this.prisma.profile.update({
-      where: { userId },
-      data: { isPro, proExpiresAt: expiresAt ?? null },
-    });
-  }
 }
