@@ -36,7 +36,7 @@ const HANDLERS = [
   JournalHandler,
   MarketHandler,
   NotificationsHandler,
-  AnalyticsHandler
+  AnalyticsHandler,
 ];
 
 @Module({

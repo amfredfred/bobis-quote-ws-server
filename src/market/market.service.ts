@@ -308,4 +308,13 @@ export class MarketService {
 
     return { year, month, days };
   }
+
+  async getZone(id: string) {
+    const zone = await this.prisma.signalZone.findUnique({
+      where: { id },
+      include: { signal: true },
+    });
+    if (!zone) throw new Error(`Zone ${id} not found`);
+    return zone;
+  }
 }

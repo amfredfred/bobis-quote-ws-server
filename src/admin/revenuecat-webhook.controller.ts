@@ -31,11 +31,11 @@ const REVOKE_EVENTS = new Set([
 
 interface RcWebhookPayload {
   event: {
-    type:              string;
-    app_user_id:       string;
+    type: string;
+    app_user_id: string;
     original_app_user_id?: string;
     expiration_at_ms?: number | null;
-    product_id?:       string;
+    product_id?: string;
   };
 }
 
@@ -43,13 +43,13 @@ interface RcWebhookPayload {
 
 @Controller('webhooks/revenuecat')
 export class RevenueCatWebhookController {
-  private readonly logger    = new Logger(RevenueCatWebhookController.name);
-  private readonly secretKey = process.env['REVENUECAT_SECRET_KEY'] ?? '';
+  private readonly logger = new Logger(RevenueCatWebhookController.name);
+  private readonly secretKey = process.env['REVENUECAT_API_KEY'] ?? '';
 
   constructor(
-    private readonly prisma:   PrismaService,
+    private readonly prisma: PrismaService,
     private readonly pipeline: PipelineManager,
-  ) {}
+  ) { }
 
   @Post()
   @HttpCode(HttpStatus.OK)
@@ -57,9 +57,9 @@ export class RevenueCatWebhookController {
     @Headers('authorization') authHeader: string,
     @Body() body: RcWebhookPayload,
   ) {
-    // RevenueCat sends: Authorization: Bearer <REVENUECAT_SECRET_KEY>
+    // RevenueCat sends: Authorization: Bearer <REVENUECAT_API_KEY>
     if (!this.secretKey) {
-      this.logger.warn('REVENUECAT_SECRET_KEY not configured — rejecting webhook');
+      this.logger.warn('REVENUECAT_API_KEY not configured — rejecting webhook');
       throw new UnauthorizedException('Webhook not configured');
     }
 
@@ -78,7 +78,7 @@ export class RevenueCatWebhookController {
 
     // Find the profile by revenuecatAppUserId
     const profile = await this.prisma.profile.findFirst({
-      where:  { revenuecatAppUserId: rcUserId },
+      where: { revenuecatAppUserId: rcUserId },
       select: { userId: true, isPro: true },
     });
 
@@ -106,7 +106,7 @@ export class RevenueCatWebhookController {
 
     await this.prisma.profile.update({
       where: { userId },
-      data:  { isPro: true, proExpiresAt },
+      data: { isPro: true, proExpiresAt },
     });
 
     log.info(`Pro GRANTED for userId=${userId}, expires=${proExpiresAt?.toISOString() ?? 'lifetime'}`);
@@ -115,19 +115,19 @@ export class RevenueCatWebhookController {
   private async _revokePro(userId: string): Promise<void> {
     await this.prisma.profile.update({
       where: { userId },
-      data:  { isPro: false },
+      data: { isPro: false },
     });
 
     // Stop and disable any running auto-trade pipelines
     const accounts = await this.prisma.tradingAccount.findMany({
-      where:  { userId, autoTradeEnabled: true, isActive: true },
+      where: { userId, autoTradeEnabled: true, isActive: true },
       select: { id: true },
     });
 
     if (accounts.length) {
       await this.prisma.tradingAccount.updateMany({
         where: { id: { in: accounts.map(a => a.id) } },
-        data:  { autoTradeEnabled: false },
+        data: { autoTradeEnabled: false },
       });
 
       await Promise.allSettled(

@@ -101,6 +101,7 @@ interface Payloads {
   'analytics.patterns': { accountId?: string };
   'analytics.monthly': { accountId?: string; months?: number };
   'analytics.full': { accountId: string };
+  'zone.get': { id: string };
   'analytics.projection': {
     accountId: string;
     winRatePct?: number;
@@ -277,6 +278,9 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'analytics.monthly': (p) => this.analyticsHandler.monthly(userId, p.accountId, p.months),
       'analytics.full': (p) => this.analyticsHandler.full(userId, p.accountId),
       'analytics.projection': (p) => this.analyticsHandler.projection(userId, p.accountId, p),
+      // Zones
+      'zone.get': (p) => this.marketHandler.getZone(p.id),
+
     };
   }
 

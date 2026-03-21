@@ -65,4 +65,8 @@ export class MarketHandler {
   getSubscriberIds(symbol: string) {
     return this.svc.getSubscriberIds(symbol);
   }
+
+  getZone(id: string) {
+    return this.svc.getZone(id);
+  }
 }

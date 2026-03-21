@@ -62,7 +62,7 @@ function isRcProActive(data: RcSubscriberResponse): boolean {
 @Injectable()
 export class CronService implements OnModuleInit {
   private readonly logger = new Logger(CronService.name);
-  private readonly rcKey = process.env['REVENUECAT_SECRET_KEY'] ?? '';
+  private readonly rcKey = process.env['REVENUECAT_API_KEY'] ?? '';
 
   constructor(
     private readonly prisma: PrismaService,
@@ -71,7 +71,7 @@ export class CronService implements OnModuleInit {
 
   onModuleInit() {
     if (!this.rcKey) {
-      this.logger.warn('REVENUECAT_SECRET_KEY not set — Pro sync will fall back to proExpiresAt only');
+      this.logger.warn('REVENUECAT_API_KEY not set — Pro sync will fall back to proExpiresAt only');
     }
     log.info('CronService ready');
   }
@@ -81,7 +81,7 @@ export class CronService implements OnModuleInit {
   // Falls back to proExpiresAt if RC is unreachable or rcUserId is missing.
   // Stops pipelines inline for users that just lost Pro — no second DB round-trip.
 
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron(CronExpression.EVERY_30_SECONDS)
   async syncProSubscriptions(): Promise<void> {
     try {
       const proProfiles = await this.prisma.profile.findMany({
@@ -89,7 +89,7 @@ export class CronService implements OnModuleInit {
         select: { userId: true, revenuecatAppUserId: true, proExpiresAt: true },
       });
 
-      if (!proProfiles.length) return;
+      console.log(proProfiles)
 
       const expiredUserIds: string[] = [];
 
@@ -99,7 +99,7 @@ export class CronService implements OnModuleInit {
         if (this.rcKey && profile.revenuecatAppUserId) {
           // Ground truth — ask RevenueCat directly
           const rcData = await fetchRcSubscriber(profile.revenuecatAppUserId, this.rcKey);
-
+          console.log(rcData)
           if (rcData) {
             stillActive = isRcProActive(rcData);
           } else {
