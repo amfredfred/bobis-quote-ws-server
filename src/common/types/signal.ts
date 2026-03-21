@@ -1,3 +1,5 @@
+'use strict'
+
 export type SignalDirection = 'LONG' | 'SHORT';
 export type SignalStatus =
   | 'PENDING'
@@ -19,6 +21,9 @@ export interface InboundSignal {
   tp2:             number;
   riskRewardRatio: number;
   riskPips:        number;
+  // Timeframe pair from signal engine — e.g. "1h"/"5min", "30min"/"5min"
+  htfInterval?:    string;
+  ltfInterval?:    string;
   triggeredAt?:    number;
   createdAt:       number;
   pendingAt?:      number;
@@ -26,6 +31,7 @@ export interface InboundSignal {
   tp2HitAt?:       number;
   slHitAt?:        number;
   invalidatedAt?:  number;
+  invalidationLoggedAt?: number;
   expiredAt?:      number;
   closedAt?:       number;
   outcome?:        string;

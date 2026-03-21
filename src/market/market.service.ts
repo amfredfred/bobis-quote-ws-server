@@ -21,12 +21,14 @@ export interface UpsertSignalAlertDto {
   htfBosDirection: 'BULLISH' | 'BEARISH';
   htfTimestamp: string;
   htfBrokenAt?: string;
+  htfInterval?: string;   // e.g. "1h", "30min"
   // LTF
   ltfRangeHigh: number;
   ltfRangeLow: number;
   ltfTimestamp: string;
   ltfSlLevel: number;
   ltfDirection?: 'LONG' | 'SHORT';
+  ltfInterval?: string;   // e.g. "5min"
   // Rejection candle
   rejectionOpen: number;
   rejectionHigh: number;
@@ -50,9 +52,14 @@ export interface UpsertZoneDto {
   htfRangeHigh: number;
   htfRangeLow: number;
   htfBosDirection: string;
+  htfInterval?: string;    // e.g. "1h", "30min"
+  htfTimestamp?: string;   // ISO — HTF candle open time
+  htfTpLevel?: number;     // BOS target swing level
   ltfRangeHigh: number;
   ltfRangeLow: number;
   ltfSlLevel: number;
+  ltfInterval?: string;    // e.g. "5min"
+  ltfTimestamp?: string;   // ISO — LTF swing time
   rawPayload: unknown;
   pendingAt: string;
 }
@@ -81,10 +88,12 @@ export class MarketService {
         htfRangeLow: dto.htfRangeLow,
         htfBosDirection: dto.htfBosDirection,
         htfTimestamp: new Date(dto.htfTimestamp),
+        ...(dto.htfInterval ? { htfInterval: dto.htfInterval } : {}),
         ltfRangeHigh: dto.ltfRangeHigh,
         ltfRangeLow: dto.ltfRangeLow,
         ltfTimestamp: new Date(dto.ltfTimestamp),
         ltfSlLevel: dto.ltfSlLevel,
+        ...(dto.ltfInterval ? { ltfInterval: dto.ltfInterval } : {}),
         rejectionOpen: dto.rejectionOpen,
         rejectionHigh: dto.rejectionHigh,
         rejectionLow: dto.rejectionLow,
@@ -143,9 +152,14 @@ export class MarketService {
         htfRangeHigh: dto.htfRangeHigh,
         htfRangeLow: dto.htfRangeLow,
         htfBosDirection: dto.htfBosDirection,
+        ...(dto.htfInterval  ? { htfInterval:  dto.htfInterval  } : {}),
+        ...(dto.htfTimestamp ? { htfTimestamp: new Date(dto.htfTimestamp) } : {}),
+        ...(dto.htfTpLevel   ? { htfTpLevel:   dto.htfTpLevel   } : {}),
         ltfRangeHigh: dto.ltfRangeHigh,
         ltfRangeLow: dto.ltfRangeLow,
         ltfSlLevel: dto.ltfSlLevel,
+        ...(dto.ltfInterval  ? { ltfInterval:  dto.ltfInterval  } : {}),
+        ...(dto.ltfTimestamp ? { ltfTimestamp: new Date(dto.ltfTimestamp) } : {}),
         rawPayload: dto.rawPayload as any,
         pendingAt: new Date(dto.pendingAt),
       },

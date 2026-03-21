@@ -33,6 +33,7 @@ model Profile {
   lastNotificationReset  DateTime? @map("last_notification_reset") @db.Timestamptz(6)
 
   subscriptionTier    String?   @map("subscription_tier")  // "basic" | "pro" | "elite" | null
+  isPro               Boolean   @default(false) @map("is_pro")
   proExpiresAt        DateTime? @map("pro_expires_at") @db.Timestamptz(6)
   revenuecatAppUserId String?   @map("revenuecat_app_user_id")
   timezone            String    @default("America/New_York")
@@ -297,11 +298,13 @@ model SignalAlert {
   htfBosDirection String    @map("htf_bos_direction")
   htfTimestamp    DateTime  @map("htf_timestamp")
   htfBrokenAt     DateTime? @map("htf_broken_at")
+  htfInterval     String?   @map("htf_interval")
 
   ltfRangeHigh Float    @map("ltf_range_high")
   ltfRangeLow  Float    @map("ltf_range_low")
   ltfTimestamp DateTime @map("ltf_timestamp")
   ltfSlLevel   Float    @map("ltf_sl_level")
+  ltfInterval  String?  @map("ltf_interval")
 
   rejectionOpen      Float    @map("rejection_open")
   rejectionHigh      Float    @map("rejection_high")
@@ -342,13 +345,18 @@ model SignalZone {
   direction SignalDirection
   status    SignalZoneStatus @default(WATCHING)
 
-  htfRangeHigh    Float  @map("htf_range_high")
-  htfRangeLow     Float  @map("htf_range_low")
-  htfBosDirection String @map("htf_bos_direction")
+  htfRangeHigh    Float     @map("htf_range_high")
+  htfRangeLow     Float     @map("htf_range_low")
+  htfBosDirection String    @map("htf_bos_direction")
+  htfInterval     String?   @map("htf_interval")
+  htfTimestamp    DateTime? @map("htf_timestamp")
+  htfTpLevel      Float?    @map("htf_tp_level")
 
-  ltfRangeHigh Float @map("ltf_range_high")
-  ltfRangeLow  Float @map("ltf_range_low")
-  ltfSlLevel   Float @map("ltf_sl_level")
+  ltfRangeHigh Float     @map("ltf_range_high")
+  ltfRangeLow  Float     @map("ltf_range_low")
+  ltfSlLevel   Float     @map("ltf_sl_level")
+  ltfInterval  String?   @map("ltf_interval")
+  ltfTimestamp DateTime? @map("ltf_timestamp")
 
   rawPayload  Json      @map("raw_payload")
   pendingAt   DateTime  @map("pending_at")

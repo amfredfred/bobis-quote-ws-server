@@ -1,3 +1,5 @@
+'use strict'
+
 export type SignalDirection = 'LONG' | 'SHORT';
 export type SignalStatus = 'PENDING' | 'TRIGGERED' | 'TP1_HIT' | 'TP2_HIT' | 'SL_HIT' | 'INVALIDATED' | 'EXPIRED';
 
@@ -47,6 +49,10 @@ export interface InboundSignal {
   tp2: number;
   riskRewardRatio: number;
   riskPips: number;
+  // Timeframe pair — e.g. htfInterval="1h", ltfInterval="5min"
+  // Encoded in signal_id: SYMBOL_HTF_LTF_TIMESTAMP_DIRECTION
+  htfInterval?: string;
+  ltfInterval?: string;
   htfRange: HtfRange;
   ltfRange: LtfRange;
   rejectionCandle: RejectionCandle;
@@ -57,6 +63,7 @@ export interface InboundSignal {
   tp2HitAt?: number;
   slHitAt?: number;
   invalidatedAt?: number;
+  invalidationLoggedAt?: number;
   expiredAt?: number;
   closedAt?: number;
   outcome?: string;
