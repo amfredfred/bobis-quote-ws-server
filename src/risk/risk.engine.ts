@@ -1,7 +1,11 @@
+'use strict'
+
 import { InboundSignal } from '../common/types/signal.types';
 import { Trade } from '../common/types/trade.types';
 import { AccountRiskConfig } from '../common/types/account.types';
 import { ALL_RULES, RiskRule } from './risk.rules';
+import { LossTracker, LossTrackerConfig } from './loss.tracker';
+import type { SymbolInfo } from '../common/types/position.types';
 import { AccountMetrics } from '../core/metrics/account.metrics';
 import { createLogger } from '../common/logger/logger';
 
@@ -12,7 +16,8 @@ export interface RiskResult {
 
 export class RiskEngine {
   private readonly logger;
-  private readonly pending = new Map<string, number>();
+  private readonly pending     = new Map<string, number>();
+  private readonly lossTracker: LossTracker;
 
   constructor(
     private config:              AccountRiskConfig,
@@ -21,7 +26,20 @@ export class RiskEngine {
     private readonly rules:      RiskRule[] = ALL_RULES,
   ) {
     this.logger = createLogger(`risk.${accountId.slice(0, 8)}`);
+    this.lossTracker = new LossTracker(this._lossTrackerConfig(), accountId);
   }
+
+  private _lossTrackerConfig(): LossTrackerConfig {
+    return {
+      maxConsecutiveLosses: this.config.maxConsecutiveLosses ?? 3,
+      pauseAfterStreakH:    this.config.pauseAfterStreakH    ?? 12,
+      maxDailyLosses:       this.config.maxDailyLosses       ?? 3,
+      maxLossesPerWindow:   this.config.maxLossesPerWindow   ?? 2,
+      lossWindowHours:      this.config.lossWindowHours      ?? 4,
+    };
+  }
+
+  getLossTracker(): LossTracker { return this.lossTracker; }
 
   reserve(symbol: string): void {
     this.pending.set(symbol, (this.pending.get(symbol) ?? 0) + 1);
@@ -38,14 +56,14 @@ export class RiskEngine {
     return t;
   }
 
-  evaluate(signal: InboundSignal, openTrades: Trade[], dailyLossPct: number): RiskResult {
+  evaluate(signal: InboundSignal, openTrades: Trade[], dailyLossPct: number, symbolInfo?: SymbolInfo): RiskResult {
     const openCount   = openTrades.filter(t => t.status === 'OPEN' || t.status === 'PARTIALLY_CLOSED').length;
     const symbolCount = openTrades.filter(t => t.symbol === signal.symbol && (t.status === 'OPEN' || t.status === 'PARTIALLY_CLOSED')).length;
     const effectiveOpen   = openCount   + this.pendingTotal();
     const effectiveSymbol = symbolCount + (this.pending.get(signal.symbol) ?? 0);
 
     for (const rule of this.rules) {
-      const result = rule(signal, openTrades, this.config, dailyLossPct, effectiveOpen, effectiveSymbol);
+      const result = rule(signal, openTrades, this.config, dailyLossPct, effectiveOpen, effectiveSymbol, symbolInfo, this.lossTracker);
       if (!result.approved) {
         this.logger.warn('Rejected', { signalId: signal.id, symbol: signal.symbol, reason: result.reason });
         this.metrics.increment('risk.rejected');

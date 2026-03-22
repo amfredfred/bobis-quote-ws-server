@@ -25,12 +25,12 @@ export interface DeployAccountParams {
   magic: number;
   region?: string;         // MetaApi region — defaults to 'vint-hill'
   baseCurrency?: string;   // account base currency — defaults to 'USD'
-  autoTrade?: boolean;
+  autoTrade?: boolean;     // true = cloud-g2 + high reliability (execution); false = cloud-g1 + regular (sync only)
 }
 
 // Cloud tier config — g1+regular for read-only sync, g2+high for auto-trade execution
-const SYNC_CLOUD = { type: 'cloud-g2', reliability: 'regular' } as const;  // sync only — no need for high reliability
-const EXEC_CLOUD = { type: 'cloud-g2', reliability: 'high' } as const;  // auto-trade — needs high for execution
+const SYNC_CLOUD = { type: 'cloud-g1', reliability: 'regular' } as const;
+const EXEC_CLOUD = { type: 'cloud-g2', reliability: 'high' } as const;
 
 export interface DeployedAccount {
   metaApiAccountId: string;
@@ -40,6 +40,7 @@ export interface DeployedAccount {
 export class MetaApiService implements OnModuleDestroy {
   private readonly api: InstanceType<typeof MetaApi>;
   private readonly connections = new Map<string, MetaApiConnection>();
+  private readonly symbolCache = new Map<string, string>();   // engineSymbol:accountId → brokerSymbol
 
   constructor(private readonly config: ConfigService) {
     const token = this.config.getOrThrow<string>('METAAPI_TOKEN');
@@ -175,6 +176,65 @@ export class MetaApiService implements OnModuleDestroy {
     logger.info('Account disconnected', { metaApiAccountId });
   }
 
+  /**
+   * Resolve a clean engine symbol (e.g. "EURUSD") to the exact broker symbol
+   * (e.g. "EURUSDm", "EURUSD.", "EURUSD") by fetching the account's symbol list.
+   *
+   * Resolution order (mirrors Python mt5_client.resolve_symbol):
+   *   1. Exact match  — EURUSD  → EURUSD  (most brokers)
+   *   2. StartsWith   — EURUSD  → EURUSDm (FTMO, prop firms)
+   *   3. Contains     — EURUSD  → .EURUSD  (rare)
+   *   4. Fallback     — return engine symbol unchanged
+   *
+   * Result is cached per (accountId, engineSymbol) for the lifetime of the
+   * connection — no re-fetch on every order.
+   */
+  async resolveSymbol(metaApiAccountId: string, engineSymbol: string): Promise<string> {
+    const cacheKey = `${metaApiAccountId}:${engineSymbol}`;
+    const cached = this.symbolCache.get(cacheKey);
+    if (cached) return cached;
+
+    const conn = this._conn(metaApiAccountId);
+    let brokerSymbol = engineSymbol; // safe fallback
+
+    try {
+      const symbols: string[] = await conn.getSymbols();
+      const base = engineSymbol.toUpperCase();
+
+      // 1. Exact match
+      const exact = symbols.find(s => s.toUpperCase() === base);
+      if (exact) {
+        brokerSymbol = exact;
+      } else {
+        // 2. StartsWith — pick shortest candidate (e.g. EURUSDm not EURUSDm.cx)
+        const candidates = symbols.filter(s => s.toUpperCase().startsWith(base));
+        if (candidates.length) {
+          brokerSymbol = candidates.sort((a, b) => a.length - b.length)[0];
+        } else {
+          // 3. Contains fallback
+          const contains = symbols.find(s => s.toUpperCase().includes(base));
+          if (contains) brokerSymbol = contains;
+        }
+      }
+
+      this.symbolCache.set(cacheKey, brokerSymbol);
+      if (brokerSymbol !== engineSymbol) {
+        logger.info('Symbol resolved', { engineSymbol, brokerSymbol, metaApiAccountId });
+      }
+    } catch (err) {
+      logger.warn('Symbol resolution failed — using engine symbol', { engineSymbol, error: String(err) });
+    }
+
+    return brokerSymbol;
+  }
+
+  /** Invalidate cached symbol resolution for an account (e.g. after reconnect). */
+  clearSymbolCache(metaApiAccountId: string): void {
+    for (const key of this.symbolCache.keys()) {
+      if (key.startsWith(`${metaApiAccountId}:`)) this.symbolCache.delete(key);
+    }
+  }
+
   async onModuleDestroy(): Promise<void> {
     for (const id of [...this.connections.keys()]) {
       await this.disconnectAccount(id);
@@ -248,6 +308,7 @@ export class MetaApiService implements OnModuleDestroy {
 
   async getSymbolInfo(metaApiAccountId: string, symbol: string): Promise<SymbolInfo> {
     const conn = this._conn(metaApiAccountId);
+    // symbol is expected to already be broker-normalised (slash stripped, suffix applied)
     const raw = symbol.replace('/', '');
     const spec = await conn.getSymbolSpecification(raw) as {
       digits?: number; tickSize?: number; tickValue?: number;
@@ -281,6 +342,7 @@ export class MetaApiService implements OnModuleDestroy {
 
   async openOrder(metaApiAccountId: string, params: OpenOrderParams): Promise<OpenOrderResult> {
     const conn = this._conn(metaApiAccountId);
+    // params.symbol is already broker-normalised by ExecutionEngine
     const symbol = params.symbol.replace('/', '');
     const opts = { comment: params.comment, magic: params.magic };
 

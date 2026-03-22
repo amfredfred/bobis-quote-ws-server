@@ -13,8 +13,10 @@ import { TradesService } from '../trades/trades.service';
 import { MetricsService } from '../core/metrics/metrics.service';
 import { AccountMetrics } from '../core/metrics/account.metrics';
 import { EventBus } from '../core/event-bus/event.bus';
+import { EventNames } from '../core/event-bus/event.types';
 import { nowMs } from '../common/utils/time.utils';
 import { createLogger } from '../common/logger/logger';
+import { PrismaService } from '../prisma/prisma.service';
 
 export interface PipelineSnapshot {
   accountId:    string;
@@ -46,6 +48,7 @@ export class PipelineService {
     private readonly tradesSvc:   TradesService,
     metricsSvc:                   MetricsService,
     private readonly bus:         EventBus,
+    private readonly prisma?:     PrismaService,
   ) {
     this.logger  = createLogger(`pipeline.${account.id.slice(0, 8)}`);
     this.metrics = metricsSvc.forAccount(account.id);

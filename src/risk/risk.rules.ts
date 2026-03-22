@@ -1,6 +1,11 @@
+'use strict'
+
 import { AccountRiskConfig } from '../common/types/account.types';
 import { InboundSignal } from '../common/types/signal.types';
 import { Trade } from '../common/types/trade.types';
+import { SymbolInfo } from '../common/types/position.types';
+import { pipSize } from '../common/utils/price.utils';
+import type { LossTracker } from './loss.tracker';
 
 export interface RuleResult {
   approved: boolean;
@@ -14,6 +19,8 @@ export type RiskRule = (
   dailyLossPct:    number,
   effectiveOpen:   number,
   effectiveSymbol: number,
+  symbolInfo?:     SymbolInfo,
+  lossTracker?:    LossTracker,
 ) => RuleResult;
 
 const ok: RuleResult = { approved: true, reason: '' };
@@ -54,6 +61,46 @@ function dailyLossLimit(_s: InboundSignal, _t: Trade[], cfg: AccountRiskConfig, 
   return ok;
 }
 
+/**
+ * Spread quality rule — reject if spread is too large relative to the SL distance.
+ * Mirrors Python spread_quality_rule.
+ * Skipped if no symbolInfo (e.g. in tests or when broker data unavailable).
+ */
+function spreadQuality(
+  sig: InboundSignal, _t: Trade[], cfg: AccountRiskConfig,
+  _d: number, _o: number, _s: number,
+  symbolInfo?: SymbolInfo,
+): RuleResult {
+  if (!symbolInfo || symbolInfo.ask == null || symbolInfo.bid == null) return ok;
+  const pip       = pipSize(symbolInfo.point, symbolInfo.digits);
+  if (pip <= 0) return ok;
+  const spreadPips = (symbolInfo.ask - symbolInfo.bid) / pip;
+  const slPips     = Math.abs(sig.entryPrice - sig.stopLoss) / pip;
+  if (slPips <= 0) return ok;
+  if (spreadPips > slPips * cfg.slRatioThreshold) {
+    return { approved: false, reason: `Spread too wide: ${spreadPips.toFixed(1)} pips vs SL ${slPips.toFixed(1)} pips` };
+  }
+  return ok;
+}
+
+/**
+ * Loss guard rule — circuit breaker for trade-count based guards.
+ * Runs first so all other checks are skipped when already paused.
+ * Mirrors Python loss_guard_rule.
+ */
+function lossGuard(
+  _s: InboundSignal, _t: Trade[], _c: AccountRiskConfig,
+  _d: number, _o: number, _sym: number,
+  _si?: SymbolInfo, lossTracker?: LossTracker,
+): RuleResult {
+  if (!lossTracker) return ok;
+  const [paused, reason] = lossTracker.isPaused();
+  if (paused) return { approved: false, reason: `Loss guard: ${reason}` };
+  return ok;
+}
+
+// lossGuard runs first — short-circuits everything when paused
 export const ALL_RULES: RiskRule[] = [
-  symbolFilter, minRR, maxOpenTrades, maxSymbolExposure, duplicateSignal, dailyLossLimit,
+  lossGuard, symbolFilter, minRR, maxOpenTrades, maxSymbolExposure,
+  duplicateSignal, dailyLossLimit, spreadQuality,
 ];

@@ -10,6 +10,7 @@ import { EventBus } from '../core/event-bus/event.bus';
 import { PipelineService, PipelineSnapshot } from './pipeline.service';
 import { InboundSignal } from '../common/types/signal.types';
 import { createLogger } from '../common/logger/logger';
+import { PrismaService } from '../prisma/prisma.service';
 
 const logger = createLogger('pipeline.manager');
 
@@ -36,6 +37,7 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
     private readonly accountSvc:  TradingAccountService,
     private readonly tradesSvc:   TradesService,
     private readonly metrics:     MetricsService,
+    private readonly prisma:      PrismaService,
   ) {}
 
   async onModuleInit(): Promise<void> {
@@ -67,7 +69,7 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
     this.degraded.delete(account.id);
 
     try {
-      const pipeline = new PipelineService(account, this.metaApi, this.tradesSvc, this.metrics, this.bus);
+      const pipeline = new PipelineService(account, this.metaApi, this.tradesSvc, this.metrics, this.bus, this.prisma);
       await pipeline.start();
       this.pipelines.set(account.id, pipeline);
       this.metrics.increment('pipelines.started');

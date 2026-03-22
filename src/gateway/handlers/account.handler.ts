@@ -1,6 +1,6 @@
 'use strict';
 
-import { Injectable, ForbiddenException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import {
   TradingAccountService,
   CreateTradingAccountDto,
@@ -14,12 +14,12 @@ import { MetaApiService } from '../../brokers/metaapi/metaapi.service';
 @Injectable()
 export class AccountHandler {
   constructor(
-    private readonly svc:         TradingAccountService,
+    private readonly svc: TradingAccountService,
     private readonly pipelineMgr: PipelineManager,
-    private readonly proGuard:    ProGuard,
-    private readonly tierGuard:   TierGuard,
-    private readonly metaApi:     MetaApiService,
-  ) {}
+    private readonly proGuard: ProGuard,
+    private readonly tierGuard: TierGuard,
+    private readonly metaApi: MetaApiService,
+  ) { }
 
   list(userId: string, includeInactive: boolean) {
     return this.svc.findAll(userId, includeInactive);
@@ -48,23 +48,23 @@ export class AccountHandler {
 
   async getPipelineStatus(userId: string, id: string) {
     await this.svc.findOne(id, userId); // ownership check
-    const account    = await this.svc.findOne(id, userId);
-    const degraded   = this.pipelineMgr.getDegradedPipelines().find(d => d.accountId === id);
-    const pipeline   = this.pipelineMgr.getPipeline(id);
+    const account = await this.svc.findOne(id, userId);
+    const degraded = this.pipelineMgr.getDegradedPipelines().find(d => d.accountId === id);
+    const pipeline = this.pipelineMgr.getPipeline(id);
 
     return {
-      accountId:       id,
+      accountId: id,
       // Deployment info from DB
       metaApiAccountId: account.metaApiAccountId,
-      platform:         account.platform,
-      lastSyncAt:       account.lastSyncAt,
-      lastError:        account.lastError,
-      lastErrorAt:      account.lastErrorAt,
+      platform: account.platform,
+      lastSyncAt: account.lastSyncAt,
+      lastError: account.lastError,
+      lastErrorAt: account.lastErrorAt,
       autoTradeEnabled: account.autoTradeEnabled,
       // Live pipeline state
       pipelineStatus: degraded ? 'degraded' : pipeline ? 'running' : account.metaApiAccountId ? 'stopped' : 'not_deployed',
-      ...(pipeline   ? pipeline.getSnapshot()      : {}),
-      ...(degraded   ? { error: degraded.error, failedAt: degraded.failedAt } : {}),
+      ...(pipeline ? pipeline.getSnapshot() : {}),
+      ...(degraded ? { error: degraded.error, failedAt: degraded.failedAt } : {}),
     };
   }
 
@@ -76,12 +76,12 @@ export class AccountHandler {
     // If the account has a MetaAPI deployment, migrate it to the right cloud tier
     if (account.metaApiAccountId && account.platform) {
       const params = {
-        login:    account.accountNumber,
+        login: account.accountNumber,
         password: '', // MetaAPI retains credentials — empty triggers credential reuse
-        server:   '', // same — MetaAPI already has this
+        server: '', // same — MetaAPI already has this
         platform: account.platform as 'mt4' | 'mt5',
-        name:     account.name,
-        magic:    (account.riskConfig as any)?.magicNumber ?? 1000010,
+        name: account.name,
+        magic: (account.riskConfig as any)?.magicNumber ?? 1000010,
       };
 
       try {
