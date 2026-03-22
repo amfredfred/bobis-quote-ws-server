@@ -108,7 +108,20 @@ export class SignalDispatcherService implements OnModuleInit, OnModuleDestroy {
             rawPayload: signal,
         })).catch((err: Error) => this.logger.error(`Failed to persist signal ${signal.id}: ${err.message}`));
 
-        // 2. Push the correct WS event name for this status
+        // 2. Update zone status when a signal progresses past PENDING
+        if (signal.zoneId && status !== 'PENDING') {
+            const zoneStatus = ['TP1_HIT', 'TP2_HIT', 'SL_HIT', 'INVALIDATED', 'EXPIRED'].includes(status)
+                ? 'TRIGGERED'
+                : 'WATCHING';
+            Promise.resolve().then(() =>
+                this.prisma.signalZone.updateMany({
+                    where: { engineKey: { contains: signal.zoneId! } },
+                    data: { status: zoneStatus as any },
+                })
+            ).catch((err: Error) => this.logger.warn(`Zone status update failed: ${err.message}`));
+        }
+
+        // 3. Push the correct WS event name for this status
         this.gateway.pushToSymbol(symbol, STATUS_TO_WS_EVENT[status], signal);
 
         // 3. Find all users subscribed to this symbol who have signal alerts enabled

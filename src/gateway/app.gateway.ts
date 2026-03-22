@@ -109,13 +109,13 @@ interface Payloads {
     avgWin?: number;
     avgLoss?: number;
     tradesPerMonth?: number;
-    riskPct?: number; 
+    riskPct?: number;
     months?: number;
     propPayoutTargetPct?: number;
-    propPayoutSplitPct?: number;  
+    propPayoutSplitPct?: number;
   };
 }
- 
+
 type Command = keyof Payloads;
 type CommandMap = { [C in Command]: (p: Payloads[C]) => Promise<unknown> };
 
@@ -138,6 +138,53 @@ interface AuthSocket extends Socket {
   commandMap?: CommandMap;
 }
 
+// ── Rate limiter — token bucket per user ──────────────────────────────────────
+//
+// Each user gets a bucket of BURST tokens refilling at RATE tokens/second.
+// Heavy commands cost more tokens. Buckets auto-cleanup after 5min of inactivity.
+
+const RL_RATE = 10;   // tokens restored per second
+const RL_BURST = 30;   // max bucket size
+const RL_CLEANUP = 5 * 60 * 1000;
+
+const RL_COSTS: Partial<Record<string, number>> = {
+  'analytics.full': 5,
+  'analytics.projection': 3,
+  'analytics.rolling': 3,
+  'analytics.patterns': 3,
+  'analytics.strategies': 3,
+  'account.create': 5,
+  'account.delete': 5,
+  'account.toggleAutoTrade': 5,
+  'trade.create': 3,
+  'trade.update': 3,
+  'trade.delete': 3,
+};
+
+interface Bucket { tokens: number; lastMs: number; timer: ReturnType<typeof setTimeout>; }
+
+class WsRateLimiter {
+  private readonly buckets = new Map<string, Bucket>();
+
+  allow(userId: string, command: string): boolean {
+    const now = Date.now();
+    const cost = RL_COSTS[command] ?? 1;
+    let b = this.buckets.get(userId);
+    if (!b) {
+      b = { tokens: RL_BURST, lastMs: now, timer: null! };
+      this.buckets.set(userId, b);
+    } else {
+      clearTimeout(b.timer);
+      b.tokens = Math.min(RL_BURST, b.tokens + ((now - b.lastMs) / 1000) * RL_RATE);
+      b.lastMs = now;
+    }
+    b.timer = setTimeout(() => this.buckets.delete(userId), RL_CLEANUP);
+    if (b.tokens < cost) return false;
+    b.tokens -= cost;
+    return true;
+  }
+}
+
 // ── Gateway ────────────────────────────────────────────────────────────────────
 
 @WebSocketGateway({
@@ -149,6 +196,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   @WebSocketServer() server!: Server;
 
   private readonly logger = new Logger(AppGateway.name);
+  private readonly rateLimiter = new WsRateLimiter();
 
   constructor(
     private readonly jwtVerifier: JwtVerifierService,
@@ -202,6 +250,11 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   ): Promise<void> {
     if (!client.userId || !client.commandMap) {
       this._error(client, msg.requestId, 'Unauthorized', msg.command);
+      return;
+    }
+    if (!this.rateLimiter.allow(client.userId, msg.command)) {
+      this._error(client, msg.requestId, 'Rate limit exceeded — slow down', msg.command);
+      this.logger.warn(`Rate limited: ${client.userId} → ${msg.command}`);
       return;
     }
     try {
