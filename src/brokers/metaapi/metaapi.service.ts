@@ -25,11 +25,11 @@ export interface DeployAccountParams {
   magic: number;
   region?: string;         // MetaApi region — defaults to 'vint-hill'
   baseCurrency?: string;   // account base currency — defaults to 'USD'
-  autoTrade?: boolean;     // true = cloud-g2 + high reliability (execution); false = cloud-g1 + regular (sync only)
+  autoTrade?: boolean;     // true = cloud-g2 + high reliability (execution); false = cloud-g2 + regular (sync only)
 }
 
-// Cloud tier config — g1+regular for read-only sync, g2+high for auto-trade execution
-const SYNC_CLOUD = { type: 'cloud-g1', reliability: 'regular' } as const;
+// Cloud tier config — g2+regular for read-only sync, g2+high for auto-trade execution
+const SYNC_CLOUD = { type: 'cloud-g2', reliability: 'regular' } as const;
 const EXEC_CLOUD = { type: 'cloud-g2', reliability: 'high' } as const;
 
 export interface DeployedAccount {
