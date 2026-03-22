@@ -13,18 +13,18 @@ import { TradesService } from '../trades/trades.service';
 import { MetricsService } from '../core/metrics/metrics.service';
 import { AccountMetrics } from '../core/metrics/account.metrics';
 import { EventBus } from '../core/event-bus/event.bus';
-import { EventNames } from '../core/event-bus/event.types';
 import { nowMs } from '../common/utils/time.utils';
 import { createLogger } from '../common/logger/logger';
 import { PrismaService } from '../prisma/prisma.service';
 
 export interface PipelineSnapshot {
-  accountId:    string;
-  accountName:  string;
-  openTrades:   number;
-  dailyLossPct: number;
-  balance:      number;
-  equity:       number;
+  accountId:          string;
+  accountName:        string;
+  openTrades:         number;
+  dailyLossPct:       number;
+  balance:            number;
+  equity:             number;
+  lossGuardStats?:    import('../risk/loss.tracker').LossTrackerStats;
 }
 
 export class PipelineService {
@@ -144,12 +144,13 @@ export class PipelineService {
 
   getSnapshot(): PipelineSnapshot {
     return {
-      accountId:    this.account.id,
-      accountName:  this.account.name,
-      openTrades:   this.store.openCount(),
-      dailyLossPct: this._dailyLossPct,
-      balance:      this._accountBalance,
-      equity:       this._accountEquity,
+      accountId:       this.account.id,
+      accountName:     this.account.name,
+      openTrades:      this.store.openCount(),
+      dailyLossPct:    this._dailyLossPct,
+      balance:         this._accountBalance,
+      equity:          this._accountEquity,
+      lossGuardStats:  this.riskEngine.getLossTracker().stats(),
     };
   }
 

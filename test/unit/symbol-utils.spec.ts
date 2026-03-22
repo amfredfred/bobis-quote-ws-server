@@ -39,8 +39,8 @@ describe('symbol.utils', () => {
     });
 
     it('does not strip if suffix not at end', () => {
-      expect(toEngineSymbol('EURUSDm', '.')).toBe('EURRUSDM');
-      // the suffix '.' is not at the end of 'EURUSDm', so it should not strip
+      expect(toEngineSymbol('EURUSDm', '.')).toBe('EURUSDM');
+      // suffix '.' is not at end of 'EURUSDm' so nothing is stripped, result is uppercased
       expect(toEngineSymbol('EURUSDm', '.')).not.toBe('EURUSD');
     });
 

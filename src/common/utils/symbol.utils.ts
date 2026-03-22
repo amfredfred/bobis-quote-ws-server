@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * symbol.utils.ts
  *
@@ -51,5 +49,5 @@ export function symbolMatches(
   engineSymbol: string,
   suffix: string,
 ): boolean {
-  return brokerSymbol.toUpperCase() === toBrokerSymbol(engineSymbol, suffix);
+  return brokerSymbol.toLowerCase() === toBrokerSymbol(engineSymbol, suffix).toLowerCase();
 }

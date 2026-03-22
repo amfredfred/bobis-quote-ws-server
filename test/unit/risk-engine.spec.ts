@@ -1,3 +1,5 @@
+'use strict'
+
 import { RiskEngine } from '../../src/risk/risk.engine';
 import { DEFAULT_RISK_CONFIG, AccountRiskConfig } from '../../src/common/types/account.types';
 import { InboundSignal } from '../../src/common/types/signal.types';
@@ -91,7 +93,7 @@ describe('RiskEngine', () => {
 
   describe('maxOpenTrades rule', () => {
     it('approves when open trade count is below the limit', () => {
-      const eng = makeEngine({ maxOpenTrades: 3 });
+      const eng = makeEngine({ maxOpenTrades: 3, maxExposurePerSymbol: 5 });
       const res = eng.evaluate(makeSignal(), [makeTrade(), makeTrade({ id: 't2' })], 0);
       expect(res.approved).toBe(true);
     });
