@@ -13,7 +13,8 @@ import { TradingAccountModule } from './trading-account/trading-account.module';
 import { PipelineModule } from './pipeline/pipeline.module';
 import { AdminModule } from './admin/admin.module';
 import { CronModule } from './cron/cron.module';
-
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 // Journal & app modules
 import { ProfileModule } from './profile/profile.module';
 import { NotificationsModule } from './notifications/notifications.module';
@@ -23,6 +24,7 @@ import { JournalModule } from './journal/journal.module';
 import { MarketModule } from './market/market.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { GatewayModule } from './gateway/gateway.module';
+
 
 @Module({
   imports: [
@@ -53,5 +55,11 @@ import { GatewayModule } from './gateway/gateway.module';
     // WS gateway (all client-facing commands)
     GatewayModule,
   ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
+  ]
 })
-export class AppModule {}
+export class AppModule { }

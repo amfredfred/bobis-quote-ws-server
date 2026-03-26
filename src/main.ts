@@ -3,7 +3,7 @@
 import { NestFactory } from '@nestjs/core';
 import { RequestMethod, ValidationPipe, Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
-import { IoAdapter } from '@nestjs/platform-socket.io';
+import { IoAdapter } from '@nestjs/platform-socket.io'; 
 
 const logger = new Logger('Bootstrap');
 
@@ -31,8 +31,7 @@ process.on('uncaughtException', (err: Error) => {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-
-  app.useGlobalGuards(new ThrottlerGuard());
+ 
   app.useWebSocketAdapter(new IoAdapter(app));
   app.setGlobalPrefix('api/v1', {
     exclude: [{ path: 'admin/(.*)', method: RequestMethod.ALL }]
