@@ -28,6 +28,7 @@ import { GatewayModule } from './gateway/gateway.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     ScheduleModule.forRoot(),
+    ThrottlerModule.forRoot([{ ttl: 60_000, limit: 100 }]),
     // Core
     PrismaModule,
     MetricsModule,

@@ -197,6 +197,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
 
   private readonly logger = new Logger(AppGateway.name);
   private readonly rateLimiter = new WsRateLimiter();
+  private readonly connAttempts = new Map<string, { count: number; timer: ReturnType<typeof setTimeout> }>();
 
   constructor(
     private readonly jwtVerifier: JwtVerifierService,
@@ -217,6 +218,20 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
 
   async handleConnection(client: AuthSocket): Promise<void> {
     try {
+      const ip = (client.handshake.headers?.['x-forwarded-for'] as string)?.split(',')[0].trim() ?? client.handshake.address;
+      const entry = this.connAttempts.get(ip);
+
+      if (entry) {
+        entry.count++;
+        if (entry.count > 10) {
+          client.disconnect();
+          this.logger.warn(`Connection flood from ${ip}, count: ${entry.count}`);
+          return; // don't touch the timer — let the original 60s window expire naturally
+        }
+      } else {
+        const timer = setTimeout(() => this.connAttempts.delete(ip), 60_000);
+        this.connAttempts.set(ip, { count: 1, timer });
+      }
       const token =
         (client.handshake.auth?.['token']) ??
         (client.handshake.headers?.['authorization'])?.replace('Bearer ', '');
