@@ -8,6 +8,7 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { PipelineManager } from '../pipeline/pipeline.manager';
 import { createLogger } from '../common/logger/logger';
+import { ConfigService } from '@nestjs/config';
 
 const log = createLogger('revenuecat-webhook');
 
@@ -48,12 +49,16 @@ interface RcWebhookPayload {
 @Controller('webhooks/revenuecat')
 export class RevenueCatWebhookController {
   private readonly logger = new Logger(RevenueCatWebhookController.name);
-  private readonly secretKey = process.env['REVENUECAT_SECRET_KEY'] ?? '';
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly pipeline: PipelineManager,
+    private readonly config: ConfigService
   ) { }
+
+  private get rcKey(): string {
+    return this.config.get<string>('REVENUECAT_SECRET_KEY') ?? '';
+  }
 
   @Post()
   @HttpCode(HttpStatus.OK)
@@ -62,13 +67,13 @@ export class RevenueCatWebhookController {
     @Body() body: RcWebhookPayload,
   ) {
     // RevenueCat sends: Authorization: Bearer <REVENUECAT_SECRET_KEY>
-    if (!this.secretKey) {
+    if (!this.rcKey) {
       this.logger.warn('REVENUECAT_SECRET_KEY not configured — rejecting webhook');
       throw new UnauthorizedException('Webhook not configured');
     }
 
     const token = authHeader?.replace(/^Bearer\s+/i, '').trim();
-    if (token !== this.secretKey) {
+    if (token !== this.rcKey) {
       throw new UnauthorizedException('Invalid webhook secret');
     }
 

@@ -1,9 +1,12 @@
-import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+'use strict';
+
+import { Injectable, OnModuleInit, OnModuleDestroy, Inject, forwardRef } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import WebSocket from 'ws';
 import { SignalBus } from './signal.bus';
 import { InboundSignal } from '../common/types/signal.types';
 import { MarketService } from '../market/market.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { createLogger } from '../common/logger/logger';
 
 const logger = createLogger('signal.gateway');
@@ -23,9 +26,10 @@ interface PendingPayload {
   };
   ltfRange: { rangeHigh: number; rangeLow: number; slLevel: number; timestamp: number; };
 }
+
 const RECONNECT_BASE = 3_000;
-const RECONNECT_MAX = 30_000;
-const PING_MS = 20_000;
+const RECONNECT_MAX  = 30_000;
+const PING_MS        = 20_000;
 
 @Injectable()
 export class SignalGateway implements OnModuleInit, OnModuleDestroy {
@@ -36,19 +40,61 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
   private stopped = false;
 
   private readonly wsUrl: string;
-  private readonly symbols: string[];
+
+  /**
+   * The set of symbols currently subscribed on the signal engine WS.
+   * Populated at startup from the DB and kept in sync via syncSymbols().
+   */
+  private _activeSymbols = new Set<string>();
 
   constructor(
     private readonly bus: SignalBus,
     private readonly config: ConfigService,
+    @Inject(forwardRef(() => MarketService))
     private readonly marketService: MarketService,
+    private readonly prisma: PrismaService,
   ) {
     this.wsUrl = this.config.getOrThrow<string>('SIGNAL_ENGINE_WS_URL');
-    this.symbols = this.config.getOrThrow<string>('SIGNAL_ENGINE_SYMBOLS').split(',').map(s => s.trim());
   }
 
-  onModuleInit(): void { this._connect(); }
+  async onModuleInit(): Promise<void> {
+    await this._loadActiveSymbols();
+    this._connect();
+  }
+
   onModuleDestroy(): void { this._disconnect(); }
+
+  // ── Symbol sync ─────────────────────────────────────────────────────────────
+
+  /**
+   * Derives the full set of subscribed symbols from the DB, diffs against the
+   * current active set, and sends only the delta to the signal engine.
+   *
+   * Called by MarketService after every subscribe() / unsubscribe() so the
+   * engine always mirrors exactly what users have signed up for — no more,
+   * no less.
+   */
+  async syncSymbols(): Promise<void> {
+    const desired = await this._fetchDistinctSymbols();
+    const toAdd    = [...desired].filter(s => !this._activeSymbols.has(s));
+    const toRemove = [...this._activeSymbols].filter(s => !desired.has(s));
+
+    if (toAdd.length === 0 && toRemove.length === 0) return;
+
+    if (toAdd.length > 0) {
+      logger.info('Subscribing new symbols', { symbols: toAdd });
+      this._send({ action: 'subscribe', symbols: toAdd });
+      toAdd.forEach(s => this._activeSymbols.add(s));
+    }
+
+    if (toRemove.length > 0) {
+      logger.info('Unsubscribing removed symbols', { symbols: toRemove });
+      this._send({ action: 'unsubscribe', symbols: toRemove });
+      toRemove.forEach(s => this._activeSymbols.delete(s));
+    }
+  }
+
+  // ── Connection ──────────────────────────────────────────────────────────────
 
   private _connect(): void {
     if (this.stopped) return;
@@ -58,7 +104,16 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
     this.ws.on('open', () => {
       logger.info('Connected');
       this.reconnectDelay = RECONNECT_BASE;
-      this.ws?.send(JSON.stringify({ action: 'subscribe', symbols: this.symbols }));
+
+      // Subscribe to all currently active symbols on (re)connect.
+      // On a fresh start _activeSymbols was loaded from the DB before _connect().
+      // On reconnect it reflects whatever was active before the drop.
+      if (this._activeSymbols.size > 0) {
+        this._send({ action: 'subscribe', symbols: [...this._activeSymbols] });
+      } else {
+        logger.info('No subscribed symbols yet — waiting for users to subscribe');
+      }
+
       this.pingTimer = setInterval(() => {
         if (this.ws?.readyState === WebSocket.OPEN) this.ws.ping();
       }, PING_MS);
@@ -82,17 +137,46 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
 
   private _disconnect(): void {
     this.stopped = true;
-    if (this.pingTimer) { clearInterval(this.pingTimer); this.pingTimer = undefined; }
-    if (this.reconnectTimer) { clearTimeout(this.reconnectTimer); this.reconnectTimer = undefined; }
+    if (this.pingTimer)       { clearInterval(this.pingTimer);  this.pingTimer       = undefined; }
+    if (this.reconnectTimer)  { clearTimeout(this.reconnectTimer); this.reconnectTimer = undefined; }
     this.ws?.close();
   }
+
+  // ── Helpers ─────────────────────────────────────────────────────────────────
+
+  /**
+   * Fetches every distinct symbol that at least one user is subscribed to.
+   * This is the ground truth for what the engine should be watching.
+   */
+  private async _fetchDistinctSymbols(): Promise<Set<string>> {
+    const rows = await this.prisma.userSignalSubscription.findMany({
+      select: { symbol: true },
+      distinct: ['symbol'],
+    });
+    return new Set(rows.map(r => r.symbol.toUpperCase()));
+  }
+
+  /** Populate _activeSymbols from DB before the first WS connection opens. */
+  private async _loadActiveSymbols(): Promise<void> {
+    this._activeSymbols = await this._fetchDistinctSymbols();
+    logger.info('Loaded active symbols from DB', { symbols: [...this._activeSymbols] });
+  }
+
+  /** Send a JSON message to the engine if the socket is open. */
+  private _send(payload: object): void {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify(payload));
+    }
+  }
+
+  // ── Message handling ────────────────────────────────────────────────────────
 
   private _handle(raw: string): void {
     let parsed: { event?: string; payload?: unknown };
     try { parsed = JSON.parse(raw); } catch { return; }
-    // signal.pending has a different shape — no id/entryPrice/tp etc.
-    // Handle it separately before the full signal validator runs.
-    if (!parsed.event) return
+
+    if (!parsed.event) return;
+
     if (parsed.event === 'signal.pending') {
       if (!this._isPending(parsed.payload)) { logger.warn('Invalid pending payload'); return; }
       const p = parsed.payload;
@@ -100,7 +184,7 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
       this._upsertZoneFromPending(p).catch((err: Error) =>
         logger.error('Zone upsert failed', { symbol: p.symbol, error: err.message }),
       );
-      return; // pending payloads are not full signals — don't emit to bus
+      return;
     }
 
     const SIGNAL_EVENTS = [

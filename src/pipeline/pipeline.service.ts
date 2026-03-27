@@ -1,8 +1,8 @@
 'use strict'
 
 import { TradingAccount } from '../trading-account/trading-account.service';
-import { InboundSignal } from '../common/types/signal.types';
-import { Trade } from '../common/types/trade.types';
+import { InboundSignal, SignalStatus } from '../common/types/signal.types';
+import { CloseReason, Trade } from '../common/types/trade.types';
 import { RiskEngine } from '../risk/risk.engine';
 import { TradePlanner } from '../execution/trade.planner';
 import { ExecutionEngine } from '../execution/execution.engine';
@@ -18,45 +18,45 @@ import { createLogger } from '../common/logger/logger';
 import { PrismaService } from '../prisma/prisma.service';
 
 export interface PipelineSnapshot {
-  accountId:          string;
-  accountName:        string;
-  openTrades:         number;
-  dailyLossPct:       number;
-  balance:            number;
-  equity:             number;
-  lossGuardStats?:    import('../risk/loss.tracker').LossTrackerStats;
+  accountId: string;
+  accountName: string;
+  openTrades: number;
+  dailyLossPct: number;
+  balance: number;
+  equity: number;
+  lossGuardStats?: import('../risk/loss.tracker').LossTrackerStats;
 }
 
 export class PipelineService {
   private readonly logger;
-  private readonly metrics:         AccountMetrics;
-  private readonly store:           PositionStore;
-  private readonly riskEngine:      RiskEngine;
-  private readonly tradePlanner:    TradePlanner;
+  private readonly metrics: AccountMetrics;
+  private readonly store: PositionStore;
+  private readonly riskEngine: RiskEngine;
+  private readonly tradePlanner: TradePlanner;
   private readonly executionEngine: ExecutionEngine;
   private readonly positionManager: PositionManager;
 
   // Authoritative daily loss comes exclusively from the broker via getDailyLossPct().
   // We do NOT accumulate locally to avoid double-counting during the polling gap.
-  private _dailyLossPct   = 0;
+  private _dailyLossPct = 0;
   private _accountBalance = 0;
-  private _accountEquity  = 0;
+  private _accountEquity = 0;
 
   constructor(
-    readonly account:             TradingAccount,
-    private readonly metaApi:     MetaApiService,
-    private readonly tradesSvc:   TradesService,
-    metricsSvc:                   MetricsService,
-    private readonly bus:         EventBus,
-    private readonly prisma?:     PrismaService,
+    readonly account: TradingAccount,
+    private readonly metaApi: MetaApiService,
+    private readonly tradesSvc: TradesService,
+    metricsSvc: MetricsService,
+    private readonly bus: EventBus,
+    private readonly prisma?: PrismaService,
   ) {
-    this.logger  = createLogger(`pipeline.${account.id.slice(0, 8)}`);
+    this.logger = createLogger(`pipeline.${account.id.slice(0, 8)}`);
     this.metrics = metricsSvc.forAccount(account.id);
-    const cfg    = account.riskConfig!;
+    const cfg = account.riskConfig!;
     const metaId = account.metaApiAccountId!; // guaranteed non-null — only autoTrade accounts start pipelines
 
-    this.store        = new PositionStore();
-    this.riskEngine   = new RiskEngine(cfg, account.id, this.metrics);
+    this.store = new PositionStore();
+    this.riskEngine = new RiskEngine(cfg, account.id, this.metrics);
     this.tradePlanner = new TradePlanner(cfg, account.id);
 
     this.executionEngine = new ExecutionEngine(
@@ -84,13 +84,16 @@ export class PipelineService {
     await this.metaApi.connectAccount(metaId);
 
     try {
+      if (this.prisma) {
+        await this.riskEngine.getLossTracker().loadToday(this.prisma, this.account.id);
+      }
       const info = await this.metaApi.getAccountInfo(metaId);
       this._accountBalance = info.balance;
-      this._accountEquity  = info.equity;
+      this._accountEquity = info.equity;
       this.positionManager.updateBalance(info.balance);
       this.metrics.setGauge('balance', info.balance);
-      this.metrics.setGauge('equity',  info.equity);
-      this.metrics.setGauge('margin',  info.margin);
+      this.metrics.setGauge('equity', info.equity);
+      this.metrics.setGauge('margin', info.margin);
     } catch (err) {
       this.logger.warn('Could not fetch initial account info', { error: String(err) });
     }
@@ -140,17 +143,17 @@ export class PipelineService {
   // ── State ──────────────────────────────────────────────────────────────────
 
   getOpenTrades(): Trade[] { return this.store.getOpenTrades(); }
-  getAllTrades():  Trade[] { return this.store.getAllTrades(); }
+  getAllTrades(): Trade[] { return this.store.getAllTrades(); }
 
   getSnapshot(): PipelineSnapshot {
     return {
-      accountId:       this.account.id,
-      accountName:     this.account.name,
-      openTrades:      this.store.openCount(),
-      dailyLossPct:    this._dailyLossPct,
-      balance:         this._accountBalance,
-      equity:          this._accountEquity,
-      lossGuardStats:  this.riskEngine.getLossTracker().stats(),
+      accountId: this.account.id,
+      accountName: this.account.name,
+      openTrades: this.store.openCount(),
+      dailyLossPct: this._dailyLossPct,
+      balance: this._accountBalance,
+      equity: this._accountEquity,
+      lossGuardStats: this.riskEngine.getLossTracker().stats(),
     };
   }
 
@@ -159,12 +162,12 @@ export class PipelineService {
   private _onTradeOpened(trade: Trade): void {
     // Signal upsert: fire-and-forget is acceptable; signal record is non-critical
     this.tradesSvc.upsertSignal({
-      signal:     trade.plan.signal!,
-      accountId:  this.account.id,
+      signal: trade.plan.signal!,
+      accountId: this.account.id,
       receivedAt: nowMs(),
-      status:     'TRIGGERED',
-      tradeId:    trade.id,
-    }).catch(() => {});
+      status: 'TRIGGERED',
+      tradeId: trade.id,
+    }).catch(() => { });
 
     // Trade persistence: retry with exponential back-off so a transient DB
     // failure does not result in a permanently missing trade record.
@@ -216,6 +219,12 @@ export class PipelineService {
       closeReason: trade.closeReason, rr: trade.realizedRR,
     });
 
+    this.riskEngine.getLossTracker().onTradeClosed({
+      id: trade.id,
+      closedAt: trade.closedAt,
+      closeReason: trade.closeReason as CloseReason,
+    });
+
     // C-3 FIX: Do NOT accumulate PnL locally. The broker-sourced getDailyLossPct()
     // polled every 5 s is the authoritative value and is applied via _onDailyLossUpdate().
     // Local accumulation caused double-counting when the poll fired concurrently.
@@ -226,13 +235,13 @@ export class PipelineService {
       // M-4 FIX: Map signal status from actual close reason, not always TP2_HIT
       const signalStatus = this._closeReasonToSignalStatus(trade.closeReason);
       this.tradesSvc.upsertSignal({
-        signal:     trade.plan.signal,
-        accountId:  this.account.id,
+        signal: trade.plan.signal,
+        accountId: this.account.id,
         receivedAt: nowMs(),
-        status:     signalStatus,
-        outcome:    trade.closeReason ?? 'UNKNOWN',
-        tradeId:    trade.id,
-      }).catch(() => {});
+        status: signalStatus,
+        outcome: trade.closeReason ?? 'UNKNOWN',
+        tradeId: trade.id,
+      }).catch(() => { });
     }
 
     this.tradesSvc.update(trade.id, {
@@ -252,20 +261,21 @@ export class PipelineService {
     // so the cached balance passed to getDailyLossPct stays accurate.
     this.metaApi.getAccountInfo(this.account.metaApiAccountId!).then(info => {
       this._accountBalance = info.balance;
-      this._accountEquity  = info.equity;
+      this._accountEquity = info.equity;
       this.positionManager.updateBalance(info.balance);
       this.metrics.setGauge('balance', info.balance);
-      this.metrics.setGauge('equity',  info.equity);
+      this.metrics.setGauge('equity', info.equity);
     }).catch(() => { /* non-critical */ });
   }
 
-  private _closeReasonToSignalStatus(reason?: string): 'TP2_HIT' | 'SL_HIT' | 'INVALIDATED' | 'EXPIRED' {
+  private _closeReasonToSignalStatus(reason?: string): SignalStatus {
     switch (reason) {
       case 'TP2_HIT': return 'TP2_HIT';
-      case 'SL_HIT':  return 'SL_HIT';
+      case 'SL_HIT': return 'SL_HIT';
       case 'INVALIDATED': return 'INVALIDATED';
       case 'EXPIRED': return 'EXPIRED';
-      default:        return 'SL_HIT'; // MANUAL / CLOSED_WHILE_DOWN treated as loss
+      case 'BREAKEVEN': return 'TP1_HIT';
+      default: return 'SL_HIT'; // MANUAL / CLOSED_WHILE_DOWN treated as loss
     }
   }
 }

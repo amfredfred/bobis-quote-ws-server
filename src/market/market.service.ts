@@ -1,7 +1,8 @@
 'use strict';
 
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject, forwardRef } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { SignalGateway } from '../signal/signal.gateway';
 
 export interface UpsertSignalAlertDto {
   engineId: string;
@@ -66,7 +67,11 @@ export interface UpsertZoneDto {
 
 @Injectable()
 export class MarketService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(
+    private readonly prisma: PrismaService,
+    @Inject(forwardRef(() => SignalGateway))
+    private readonly signalGateway: SignalGateway,
+  ) { }
 
   // ── Signal alerts ──────────────────────────────────────────────────────────
 
@@ -209,6 +214,8 @@ export class MarketService {
       data: symbols.map(s => ({ userId, symbol: s.toUpperCase() })),
       skipDuplicates: true,
     });
+    // Keep the signal engine in sync — only subscribes symbols not yet active.
+    await this.signalGateway.syncSymbols();
     return this.getSubscriptions(userId);
   }
 
@@ -216,6 +223,8 @@ export class MarketService {
     await this.prisma.userSignalSubscription.deleteMany({
       where: { userId, symbol: { in: symbols.map(s => s.toUpperCase()) } },
     });
+    // Unsubscribes the symbol from the engine only if no other user still wants it.
+    await this.signalGateway.syncSymbols();
     return this.getSubscriptions(userId);
   }
 

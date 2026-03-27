@@ -82,10 +82,20 @@ export class ExecutionEngine {
 
       // ── 6. Recalc lot split from actual fill ─────────────────────────────
       const filled = order.filledLots ?? plan.lotSize;
+      const fillSlippage = order.executedPrice - plan.entryPrice;
       const tp1Pct = this.config.tp1PartialClose / 100;
       const tp1Lots = normaliseLots(filled * tp1Pct, symbolInfo.lotStep, symbolInfo.minLot, symbolInfo.maxLot);
       const tp2Lots = normaliseLots(filled - tp1Lots, symbolInfo.lotStep, symbolInfo.minLot, symbolInfo.maxLot);
-      const adjPlan: TradePlan = { ...plan, lotSize: filled, tp1LotSize: tp1Lots, tp2LotSize: tp2Lots };
+      const adjPlan: TradePlan = {
+        ...plan,
+        lotSize: filled,
+        tp1LotSize: tp1Lots,
+        tp2LotSize: tp2Lots,
+        entryPrice: order.executedPrice,
+        tp1: plan.tp1 + fillSlippage,
+        tp2: plan.tp2 + fillSlippage,
+        stopLoss: plan.stopLoss + fillSlippage,
+      };
 
       // ── 7. Build trade record ────────────────────────────────────────────
       const ts = nowMs();

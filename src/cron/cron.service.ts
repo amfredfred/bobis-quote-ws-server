@@ -5,6 +5,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from '../prisma/prisma.service';
 import { PipelineManager } from '../pipeline/pipeline.manager';
 import { createLogger } from '../common/logger/logger';
+import { ConfigService } from '@nestjs/config';
 
 const log = createLogger('cron');
 
@@ -62,12 +63,17 @@ function isRcProActive(data: RcSubscriberResponse): boolean {
 @Injectable()
 export class CronService implements OnModuleInit {
   private readonly logger = new Logger(CronService.name);
-  private readonly rcKey = process.env['REVENUECAT_SECRET_KEY'] ?? '';
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly pipeline: PipelineManager,
+    private readonly config: ConfigService
   ) { }
+
+  private get rcKey(): string {
+    return this.config.get<string>('REVENUECAT_SECRET_KEY') ?? '';
+  }
+
 
   onModuleInit() {
     if (!this.rcKey) {

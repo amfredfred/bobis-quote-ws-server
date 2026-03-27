@@ -11,19 +11,19 @@ import { createLogger } from '../common/logger/logger';
 
 export interface RiskResult {
   approved: boolean;
-  reason?:  string;
+  reason?: string;
 }
 
 export class RiskEngine {
   private readonly logger;
-  private readonly pending     = new Map<string, number>();
+  private readonly pending = new Map<string, number>();
   private readonly lossTracker: LossTracker;
 
   constructor(
-    private config:              AccountRiskConfig,
-    private readonly accountId:  string,
-    private readonly metrics:    AccountMetrics,
-    private readonly rules:      RiskRule[] = ALL_RULES,
+    private config: AccountRiskConfig,
+    private readonly accountId: string,
+    private readonly metrics: AccountMetrics,
+    private readonly rules: RiskRule[] = ALL_RULES,
   ) {
     this.logger = createLogger(`risk.${accountId.slice(0, 8)}`);
     this.lossTracker = new LossTracker(this._lossTrackerConfig(), accountId);
@@ -32,10 +32,10 @@ export class RiskEngine {
   private _lossTrackerConfig(): LossTrackerConfig {
     return {
       maxConsecutiveLosses: this.config.maxConsecutiveLosses ?? 3,
-      pauseAfterStreakH:    this.config.pauseAfterStreakH    ?? 12,
-      maxDailyLosses:       this.config.maxDailyLosses       ?? 3,
-      maxLossesPerWindow:   this.config.maxLossesPerWindow   ?? 2,
-      lossWindowHours:      this.config.lossWindowHours      ?? 4,
+      pauseAfterStreakH: this.config.pauseAfterStreakH ?? 12,
+      maxDailyLosses: this.config.maxDailyLosses ?? 3,
+      maxLossesPerWindow: this.config.maxLossesPerWindow ?? 2,
+      lossWindowHours: this.config.lossWindowHours ?? 4,
     };
   }
 
@@ -47,7 +47,10 @@ export class RiskEngine {
 
   release(symbol: string): void {
     const n = (this.pending.get(symbol) ?? 1) - 1;
-    n <= 0 ? this.pending.delete(symbol) : this.pending.set(symbol, n);
+    if (n <= 0)
+      this.pending.delete(symbol)
+    else
+      this.pending.set(symbol, n);
   }
 
   private pendingTotal(): number {
@@ -57,9 +60,9 @@ export class RiskEngine {
   }
 
   evaluate(signal: InboundSignal, openTrades: Trade[], dailyLossPct: number, symbolInfo?: SymbolInfo): RiskResult {
-    const openCount   = openTrades.filter(t => t.status === 'OPEN' || t.status === 'PARTIALLY_CLOSED').length;
+    const openCount = openTrades.filter(t => t.status === 'OPEN' || t.status === 'PARTIALLY_CLOSED').length;
     const symbolCount = openTrades.filter(t => t.symbol === signal.symbol && (t.status === 'OPEN' || t.status === 'PARTIALLY_CLOSED')).length;
-    const effectiveOpen   = openCount   + this.pendingTotal();
+    const effectiveOpen = openCount + this.pendingTotal();
     const effectiveSymbol = symbolCount + (this.pending.get(signal.symbol) ?? 0);
 
     for (const rule of this.rules) {

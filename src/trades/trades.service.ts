@@ -155,7 +155,7 @@ export class TradesService {
   // ── Private ────────────────────────────────────────────────────────────────
 
   private _mapTrade(row: PrismaTradeRow): Trade {
-    const planRaw = row.plan as Record<string, unknown>;
+    const planRaw = row.plan as Record<string, string | number>;
     const plan: TradePlan = {
       signalId: String(planRaw['signalId'] ?? row.signalId),
       symbol: String(planRaw['symbol'] ?? row.symbol),

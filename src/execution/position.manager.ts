@@ -18,19 +18,19 @@ export class PositionManager {
   private _cachedBalance = 0;
 
   constructor(
-    private readonly store:            PositionStore,
-    private readonly metaApi:          MetaApiService,
+    private readonly store: PositionStore,
+    private readonly metaApi: MetaApiService,
     private readonly metaApiAccountId: string,
-    private readonly config:           AccountRiskConfig,
-    private readonly accountId:        string,
-    private readonly metrics:          AccountMetrics,
-    private readonly bus:              EventBus,
-    private readonly onTp1Hit:         (trade: Trade) => void,
-    private readonly onTp2Hit:         (trade: Trade) => void,
-    private readonly onSlHit:          (trade: Trade) => void,
-    private readonly onTradeClosed:    (trade: Trade) => void,
-    private readonly onDailyLossUpdate:(pct: number) => void,
-    private readonly pollIntervalMs:   number = 5_000,
+    private readonly config: AccountRiskConfig,
+    private readonly accountId: string,
+    private readonly metrics: AccountMetrics,
+    private readonly bus: EventBus,
+    private readonly onTp1Hit: (trade: Trade) => void,
+    private readonly onTp2Hit: (trade: Trade) => void,
+    private readonly onSlHit: (trade: Trade) => void,
+    private readonly onTradeClosed: (trade: Trade) => void,
+    private readonly onDailyLossUpdate: (pct: number) => void,
+    private readonly pollIntervalMs: number = 5_000,
   ) {
     this.logger = createLogger(`pos-mgr.${accountId.slice(0, 8)}`);
   }
@@ -116,7 +116,7 @@ export class PositionManager {
     }
 
     const brokerByTicket = new Map(brokerPositions.map(p => [p.ticket, p]));
-    const storeTickets   = new Set(
+    const storeTickets = new Set(
       this.store.getOpenTrades().map(t => t.entryTicket).filter((t): t is number => t != null),
     );
 
@@ -145,8 +145,8 @@ export class PositionManager {
 
       this.stubMisses.delete(trade.id);
 
-      const pos   = brokerByTicket.get(trade.entryTicket)!;
-      const cur   = pos.currentPrice;
+      const pos = brokerByTicket.get(trade.entryTicket)!;
+      const cur = pos.currentPrice;
       const isBuy = trade.side === 'BUY';
 
       if (!trade.tp1Hit && (isBuy ? cur >= trade.tp1 : cur <= trade.tp1)) {
@@ -168,6 +168,17 @@ export class PositionManager {
   }
 
   private async _handleTp1(trade: Trade, price: number): Promise<void> {
+
+    const isBuy = trade.side === 'BUY';
+    const inProfit = isBuy ? price > trade.entryPrice! : price < trade.entryPrice!;
+    if (!inProfit) {
+      this.logger.warn('TP1 skipped — not in profit relative to fill', {
+        tradeId: trade.id, side: trade.side,
+        entryPrice: trade.entryPrice, current: price,
+      });
+      return;
+    }
+
     this.logger.info('TP1 hit', { tradeId: trade.id, symbol: trade.symbol, price });
 
     try {
@@ -186,13 +197,13 @@ export class PositionManager {
       return;
     }
 
-    const newSl   = this.config.moveSlToBE ? (trade.entryPrice ?? trade.stopLoss) : trade.stopLoss;
+    const newSl = this.config.moveSlToBE ? (trade.entryPrice ?? trade.stopLoss) : trade.stopLoss;
     const updated = this.store.update(trade.id, {
-      tp1Hit:      true,
-      tp1HitAt:    nowMs(),
+      tp1Hit: true,
+      tp1HitAt: nowMs(),
       currentLots: trade.plan.tp2LotSize,
-      status:      'PARTIALLY_CLOSED',
-      stopLoss:    newSl,
+      status: 'PARTIALLY_CLOSED',
+      stopLoss: newSl,
     });
     if (updated) {
       this.metrics.increment('trades.tp1_hit');
@@ -215,12 +226,12 @@ export class PositionManager {
       : 0;
 
     const updated = this.store.update(trade.id, {
-      tp2Hit:      true,
-      tp2HitAt:    nowMs(),
-      status:      'CLOSED',
+      tp2Hit: true,
+      tp2HitAt: nowMs(),
+      status: 'CLOSED',
       closeReason: 'TP2_HIT',
-      closePrice:  price,
-      closedAt:    nowMs(),
+      closePrice: price,
+      closedAt: nowMs(),
       realizedRR,
     });
     if (updated) {
@@ -235,17 +246,17 @@ export class PositionManager {
   }
 
   private _handlePositionGone(trade: Trade): void {
-    const isStub:      boolean     = trade.id.startsWith('STUB_');
+    const isStub: boolean = trade.id.startsWith('STUB_');
     const closeReason: CloseReason = isStub ? 'CLOSED_WHILE_DOWN' : 'SL_HIT';
 
     this.logger.info('Position gone', { tradeId: trade.id, ticket: trade.entryTicket, closeReason });
 
     const updated = this.store.update(trade.id, {
-      status:      'CLOSED',
+      status: 'CLOSED',
       closeReason,
-      closedAt:    nowMs(),
-      slHit:       !isStub,
-      slHitAt:     !isStub ? nowMs() : undefined,
+      closedAt: nowMs(),
+      slHit: !isStub,
+      slHitAt: !isStub ? nowMs() : undefined,
     });
     if (updated) {
       this.store.remove(trade.id);
@@ -272,22 +283,22 @@ export class PositionManager {
       // signal intentionally omitted — stub trades must not write to signals table
     };
     return {
-      id:          `STUB_${pos.symbol}_${pos.ticket}_${pos.side}`,
-      accountId:   this.accountId,
-      signalId:    'unknown',
-      symbol:      pos.symbol,
-      side:        pos.side,
-      status:      'OPEN',
+      id: `STUB_${pos.symbol}_${pos.ticket}_${pos.side}`,
+      accountId: this.accountId,
+      signalId: 'unknown',
+      symbol: pos.symbol,
+      side: pos.side,
+      status: 'OPEN',
       plan,
       entryTicket: pos.ticket,
-      entryPrice:  pos.openPrice,
-      entryLots:   pos.lots,
+      entryPrice: pos.openPrice,
+      entryLots: pos.lots,
       currentLots: pos.lots,
-      stopLoss:    pos.stopLoss,
-      tp1:         pos.takeProfit,
-      tp2:         pos.takeProfit,
+      stopLoss: pos.stopLoss,
+      tp1: pos.takeProfit,
+      tp2: pos.takeProfit,
       tp1Hit: false, tp2Hit: false, slHit: false,
-      openedAt:  pos.openTime,
+      openedAt: pos.openTime,
       createdAt: ts,
       updatedAt: ts,
     };

@@ -9,18 +9,18 @@ import type { LossTracker } from './loss.tracker';
 
 export interface RuleResult {
   approved: boolean;
-  reason:   string;
+  reason: string;
 }
 
 export type RiskRule = (
-  signal:          InboundSignal,
-  openTrades:      Trade[],
-  config:          AccountRiskConfig,
-  dailyLossPct:    number,
-  effectiveOpen:   number,
+  signal: InboundSignal,
+  openTrades: Trade[],
+  config: AccountRiskConfig,
+  dailyLossPct: number,
+  effectiveOpen: number,
   effectiveSymbol: number,
-  symbolInfo?:     SymbolInfo,
-  lossTracker?:    LossTracker,
+  symbolInfo?: SymbolInfo,
+  lossTracker?: LossTracker,
 ) => RuleResult;
 
 const ok: RuleResult = { approved: true, reason: '' };
@@ -72,10 +72,10 @@ function spreadQuality(
   symbolInfo?: SymbolInfo,
 ): RuleResult {
   if (!symbolInfo || symbolInfo.ask == null || symbolInfo.bid == null) return ok;
-  const pip       = pipSize(symbolInfo.point, symbolInfo.digits);
+  const pip = pipSize(symbolInfo.point, symbolInfo.digits);
   if (pip <= 0) return ok;
   const spreadPips = (symbolInfo.ask - symbolInfo.bid) / pip;
-  const slPips     = Math.abs(sig.entryPrice - sig.stopLoss) / pip;
+  const slPips = Math.abs(sig.entryPrice - sig.stopLoss) / pip;
   if (slPips <= 0) return ok;
   if (spreadPips > slPips * cfg.slRatioThreshold) {
     return { approved: false, reason: `Spread too wide: ${spreadPips.toFixed(1)} pips vs SL ${slPips.toFixed(1)} pips` };
@@ -99,8 +99,15 @@ function lossGuard(
   return ok;
 }
 
+function rewardExceedsRisk(sig: InboundSignal): RuleResult {
+  if (sig.riskRewardRatio <= 1.0) {
+    return { approved: false, reason: `R:R ${sig.riskRewardRatio.toFixed(2)} ≤ 1:1 — reward does not exceed risk` };
+  }
+  return ok;
+}
+
 // lossGuard runs first — short-circuits everything when paused
 export const ALL_RULES: RiskRule[] = [
-  lossGuard, symbolFilter, minRR, maxOpenTrades, maxSymbolExposure,
+  lossGuard, rewardExceedsRisk, symbolFilter, minRR, maxOpenTrades, maxSymbolExposure,
   duplicateSignal, dailyLossLimit, spreadQuality,
 ];

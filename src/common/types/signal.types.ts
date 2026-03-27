@@ -1,7 +1,7 @@
 'use strict'
 
 export type SignalDirection = 'LONG' | 'SHORT';
-export type SignalStatus = 'PENDING' | 'TRIGGERED' | 'TP1_HIT' | 'TP2_HIT' | 'SL_HIT' | 'INVALIDATED' | 'EXPIRED';
+export type SignalStatus =  'PENDING' | 'TRIGGERED' | 'TP1_HIT' | 'TP2_HIT' | 'SL_HIT' | 'INVALIDATED' | 'EXPIRED';
 
 export type BosDirection = 'BULLISH' | 'BEARISH';
 export type CandlePattern = 'SHOOTING_STAR' | 'HAMMER';
