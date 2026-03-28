@@ -49,6 +49,7 @@ import {
   UpdateJournalTradeDto,
 } from '../journal/journal-trade.service';
 import { CreateStrategyDto, UpdateStrategyDto } from '../strategy/strategy.service';
+import { PerformanceHandler } from './handlers/performance.handler';
 
 // ── Payload shapes ─────────────────────────────────────────────────────────────
 
@@ -84,6 +85,8 @@ interface Payloads {
   'signals.list': { symbol?: string; status?: string; limit?: number; offset?: number };
   'signal.get': { id: string };
   'signals.dashboard': Record<string, never>;
+  'trade-ideas.list': { symbol?: string; status?: string; limit?: number; offset?: number };
+  'trade-ideas.dashboard': Record<string, never>;
   'trades.calendar': { year: number; month: number };
   'zones.list': { symbol?: string; status?: string; limit?: number; offset?: number };
   'subscriptions.get': Record<string, never>;
@@ -103,6 +106,7 @@ interface Payloads {
   'analytics.monthly': { accountId?: string; months?: number };
   'analytics.full': { accountId: string };
   'zone.get': { id: string };
+  'performance.dashboard': Record<string, never>;
   'analytics.projection': {
     accountId: string;
     winRatePct?: number;
@@ -210,6 +214,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     private readonly notifHandler: NotificationsHandler,
     private readonly marketSvc: MarketService,
     private readonly analyticsHandler: AnalyticsHandler,
+    private readonly performanceHandler: PerformanceHandler,
   ) { }
 
   afterInit(): void {
@@ -323,12 +328,15 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'trade.update': (p) => { const { id, ...rest } = p; return this.journalHandler.update(userId, id, rest); },
       'trade.delete': (p) => this.journalHandler.delete(userId, p.id),
       'trades.analytics': (p) => this.journalHandler.analytics(userId, p.accountId),
-      // Market / signals
-      'signals.list': (p) => this.marketHandler.listAlerts(p),
+      // Market / signals — scoped to caller's subscribed symbols
+      'signals.list': (p) => this.marketHandler.listAlerts(userId, p),
       'signal.get': (p) => this.marketHandler.getAlert(p.id),
-      'signals.dashboard': () => this.marketHandler.dashboardStats(),
+      'signals.dashboard': () => this.marketHandler.dashboardStats(userId),
       'trades.calendar': (p) => this.marketHandler.calendar(userId, p.year, p.month),
       'zones.list': (p) => this.marketHandler.listZones(p),
+      // Trade Ideas — same feed but tier-gated server-side (pro+ only)
+      'trade-ideas.list': (p) => this.marketHandler.tradeIdeasList(userId, p),
+      'trade-ideas.dashboard': () => this.marketHandler.tradeIdeasDashboard(userId),
       // Subscriptions
       'subscriptions.get': () => this.marketHandler.getSubscriptions(userId),
       'subscriptions.add': (p) => this.marketHandler.subscribe(userId, p.symbols, this.server),
@@ -350,6 +358,8 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'analytics.projection': (p) => this.analyticsHandler.projection(userId, p.accountId, p),
       // Zones
       'zone.get': (p) => this.marketHandler.getZone(p.id),
+      // Performance Hub — pro+ tier-gated, global signal intelligence
+      'performance.dashboard': () => this.performanceHandler.dashboard(userId),
 
     };
   }

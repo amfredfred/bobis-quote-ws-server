@@ -92,6 +92,18 @@ export class TierGuard {
     }
   }
 
+  /** Called before serving trade-ideas.list / trade-ideas.dashboard. */
+  async checkCanAccessTradeIdeas(userId: string): Promise<void> {
+    const tier   = await this.getUserTier(userId);
+    const limits = TIER_LIMITS[tier];
+
+    if (!limits.tradeIdeas) {
+      throw new ForbiddenException(
+        `Trade Ideas require a Pro plan or higher. Your current plan is ${tier}.`,
+      );
+    }
+  }
+
   /** Called before adding signal subscriptions. */
   async checkCanSubscribeSignal(userId: string, addCount = 1): Promise<void> {
     const tier   = await this.getUserTier(userId);

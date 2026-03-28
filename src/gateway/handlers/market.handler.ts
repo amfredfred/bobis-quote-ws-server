@@ -12,16 +12,45 @@ export class MarketHandler {
     private readonly tierGuard: TierGuard,
   ) {}
 
-  listAlerts(params: { symbol?: string; status?: string; limit?: number; offset?: number }) {
+  async listAlerts(
+    userId: string,
+    params: { symbol?: string; status?: string; limit?: number; offset?: number },
+  ) {
+    // If caller requests a specific symbol, honour it directly.
+    // Otherwise, scope to the user's own subscribed symbols so they only see
+    // their feed — not the entire global SignalAlert table.
+    if (!params.symbol) {
+      const subs = await this.svc.getSubscriptions(userId);
+      const symbols: string[] = (subs as any)?.symbols ?? [];
+      if (symbols.length > 0) {
+        return this.svc.getAlerts({ ...params, symbols });
+      }
+    }
     return this.svc.getAlerts(params);
   }
 
-  getAlert(id: string) {
+  async getAlert(id: string) {
     return this.svc.getAlert(id);
   }
 
-  dashboardStats() {
-    return this.svc.getDashboardStats();
+  async dashboardStats(userId: string) {
+    // Aggregate only over the user's subscribed symbols
+    const subs = await this.svc.getSubscriptions(userId);
+    const symbols: string[] = (subs as any)?.symbols ?? [];
+    return this.svc.getDashboardStats(symbols.length > 0 ? symbols : undefined);
+  }
+
+  async tradeIdeasList(
+    userId: string,
+    params: { symbol?: string; status?: string; limit?: number; offset?: number },
+  ) {
+    await this.tierGuard.checkCanAccessTradeIdeas(userId);
+    return this.listAlerts(userId, params);
+  }
+
+  async tradeIdeasDashboard(userId: string) {
+    await this.tierGuard.checkCanAccessTradeIdeas(userId);
+    return this.dashboardStats(userId);
   }
 
   calendar(userId: string, year: number, month: number) {

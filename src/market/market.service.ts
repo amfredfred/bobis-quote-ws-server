@@ -119,14 +119,19 @@ export class MarketService {
     });
   }
 
-  async getAlerts(params: { symbol?: string; status?: string; limit?: number; offset?: number }) {
+  async getAlerts(params: { symbol?: string; symbols?: string[]; status?: string; limit?: number; offset?: number }) {
     return this.prisma.signalAlert.findMany({
       where: {
-        ...(params.symbol ? { symbol: params.symbol } : {}),
+        // Explicit single-symbol filter takes precedence over the subscription-scoped list
+        ...(params.symbol
+          ? { symbol: params.symbol }
+          : params.symbols && params.symbols.length > 0
+            ? { symbol: { in: params.symbols } }
+            : {}),
         ...(params.status ? { status: params.status as any } : {}),
       },
       orderBy: { createdAt: 'desc' },
-      take: params.limit ?? 50,
+      take: params.limit ?? 200,
       skip: params.offset ?? 0,
     });
   }
@@ -230,13 +235,14 @@ export class MarketService {
 
   // ── Dashboard stats ────────────────────────────────────────────────────────
 
-  async getDashboardStats() {
+  async getDashboardStats(symbols?: string[]) {
+    const symbolFilter = symbols && symbols.length > 0 ? { symbol: { in: symbols } } : {};
     const [total, byStatus, closedAlerts, zoneStats] = await Promise.all([
-      this.prisma.signalAlert.count(),
-      this.prisma.signalAlert.groupBy({ by: ['status'], _count: true }),
+      this.prisma.signalAlert.count({ where: { ...symbolFilter } }),
+      this.prisma.signalAlert.groupBy({ by: ['status'], _count: true, where: { ...symbolFilter } }),
       // Fetch all closed alerts to compute RR aggregates and per-symbol breakdowns
       this.prisma.signalAlert.findMany({
-        where: { status: { in: ['TP2_HIT', 'SL_HIT', 'INVALIDATED', 'EXPIRED'] } },
+        where: { status: { in: ['TP2_HIT', 'SL_HIT', 'INVALIDATED', 'EXPIRED'] }, ...symbolFilter },
         select: { symbol: true, outcome: true, realizedRr: true, triggeredAt: true },
       }),
       // Zone counts by status
