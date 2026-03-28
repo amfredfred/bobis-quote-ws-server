@@ -50,6 +50,7 @@ import {
 } from '../journal/journal-trade.service';
 import { CreateStrategyDto, UpdateStrategyDto } from '../strategy/strategy.service';
 import { PerformanceHandler } from './handlers/performance.handler';
+import { SkipThrottle } from '@nestjs/throttler';
 
 // ── Payload shapes ─────────────────────────────────────────────────────────────
 
@@ -191,6 +192,7 @@ class WsRateLimiter {
 
 // ── Gateway ────────────────────────────────────────────────────────────────────
 
+@SkipThrottle()
 @WebSocketGateway({
   cors: { origin: process.env['CORS_ORIGIN'] ?? '*', credentials: true },
   namespace: '/ws',

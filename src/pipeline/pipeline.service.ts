@@ -197,20 +197,55 @@ export class PipelineService {
   }
 
   private _onTp1Hit(trade: Trade): void {
-    this.tradesSvc.update(trade.id, {
+    this._updateWithRetry('TP1', trade.id, {
       status: trade.status, tp1Hit: true, tp1HitAt: trade.tp1HitAt,
       currentLots: trade.currentLots, stopLoss: trade.stopLoss,
-    }).catch(err => this.logger.error('Failed to persist TP1', { tradeId: trade.id, error: String(err) }));
+    });
   }
 
   private _onTp2Hit(trade: Trade): void {
-    this.tradesSvc.update(trade.id, { tp2Hit: true, tp2HitAt: trade.tp2HitAt })
-      .catch(err => this.logger.error('Failed to persist TP2', { tradeId: trade.id, error: String(err) }));
+    this._updateWithRetry('TP2', trade.id, {
+      tp2Hit: true, tp2HitAt: trade.tp2HitAt,
+    });
   }
 
   private _onSlHit(trade: Trade): void {
-    this.tradesSvc.update(trade.id, { slHit: true, slHitAt: trade.slHitAt })
-      .catch(err => this.logger.error('Failed to persist SL', { tradeId: trade.id, error: String(err) }));
+    this._updateWithRetry('SL', trade.id, {
+      slHit: true, slHitAt: trade.slHitAt,
+    });
+  }
+
+  /**
+   * Retry tradesSvc.update() up to maxAttempts times with exponential back-off.
+   * TP1/TP2/SL events are broker-executed facts — a transient DB failure must
+   * not silently drop the record. On exhaustion the trade state is inconsistent
+   * with the broker; log prominently so ops can reconcile.
+   */
+  private _updateWithRetry(
+    label: string,
+    tradeId: string,
+    patch: Parameters<typeof this.tradesSvc.update>[1],
+    attempt = 1,
+    maxAttempts = 4,
+  ): void {
+    this.tradesSvc.update(tradeId, patch).catch(err => {
+      this.logger.error(`Failed to persist ${label}`, {
+        tradeId, attempt, error: String(err),
+      });
+      if (attempt < maxAttempts) {
+        const delayMs = Math.min(500 * Math.pow(2, attempt - 1), 8_000);
+        setTimeout(
+          () => this._updateWithRetry(label, tradeId, patch, attempt + 1, maxAttempts),
+          delayMs,
+        );
+      } else {
+        this.logger.error(
+          `Giving up persisting ${label} after max retries — DB inconsistent with broker`,
+          { tradeId },
+        );
+        this.metrics.increment(`trades.${label.toLowerCase()}_persist_failed`);
+      }
+    });
   }
 
   private _onTradeClosed(trade: Trade): void {

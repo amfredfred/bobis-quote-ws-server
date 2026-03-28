@@ -30,7 +30,10 @@ import { GatewayModule } from './gateway/gateway.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     ScheduleModule.forRoot(),
-    ThrottlerModule.forRoot([{ ttl: 60_000, limit: 100 }]),
+    ThrottlerModule.forRoot([
+      { name: 'global', ttl: 60_000, limit: 60 }, // 60 req/min per IP — general API
+      { name: 'strict', ttl: 60_000, limit: 10 }, // 10 req/min — broker import (hits MetaApi $)
+    ]),
     // Core
     PrismaModule,
     MetricsModule,

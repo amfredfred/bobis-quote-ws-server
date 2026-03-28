@@ -6,6 +6,7 @@ import {
   BadRequestException, NotFoundException, ConflictException,
   InternalServerErrorException, Logger,
 } from '@nestjs/common';
+import { Throttle, SkipThrottle } from '@nestjs/throttler';
 import { IsString, IsOptional, IsIn, IsBoolean, IsInt } from 'class-validator';
 import { JwtGuard, type AuthRequest } from '../auth/jwt-auth.guard';
 import { ProGuard } from '../auth/pro.guard';
@@ -58,6 +59,7 @@ export class TradingAccountController {
    * 5. Start pipeline if autoTrade was requested
    */
   @Post('import')
+  @Throttle({ strict: { ttl: 60_000, limit: 10 } })
   async importAccount(@Req() req: AuthRequest, @Body() dto: ImportAccountDto) {
 
     // 1. Duplicate check — before any external call
@@ -142,6 +144,7 @@ export class TradingAccountController {
   }
 
   @Get()
+  @SkipThrottle()
   async findAll(@Req() req: AuthRequest) {
     try {
       return await this.accountSvc.findAll(req.user.id, true);
