@@ -27,6 +27,10 @@ export class ImportAccountDto {
   @IsString() password!: string;
   @IsString() server!: string;
   @IsInt() startBalance: number;
+  @IsInt() maxDailyLoss: number;
+  @IsInt() maxTotalDrawdown: number;
+  @IsInt() minProfitTarget: number;
+  @IsInt() maxTradesPerDay: number;
   @IsIn(['mt4', 'mt5']) platform!: 'mt4' | 'mt5';
   @IsIn([JournalAccountType.prop, JournalAccountType.personal, JournalAccountType.demo]) accountType;
   @IsOptional() @IsBoolean() autoTradeEnabled?: boolean;
@@ -120,6 +124,10 @@ export class TradingAccountController {
         metaApiAccountId,
         autoTradeEnabled: wantsAutoTrade,
         riskConfig: dto.riskConfig,
+        maxDailyLoss: dto.maxDailyLoss,
+        maxTotalDrawdown: dto.maxTotalDrawdown,
+        minProfitTarget: dto.minProfitTarget,
+        maxTradesPerDay: dto.maxTradesPerDay,
       });
     } catch (err: any) {
       this.logger.error('Account creation failed — rolling back MetaApi deploy', err);
