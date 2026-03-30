@@ -344,9 +344,11 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
   }
 
   private async _reconcileOpenSignals(): Promise<void> {
-    const openSignals = await this.prisma.signal.findMany({
+    const openSignals = await this.prisma.signalAlert.findMany({
       where: { status: { in: ['TRIGGERED', 'TP1_HIT'] } },
     });
+
+    console.log('openSignals\n\n', openSignals.length)
 
     if (openSignals.length === 0) return;
     logger.info(`Reconciling ${openSignals.length} open signal(s)`);
@@ -360,7 +362,7 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
       const batch = openSignals.slice(i, i + RECONCILE_CONCURRENCY);
       const results = await Promise.allSettled(
         batch.map(async (dbSignal) => {
-          const raw = dbSignal.rawJson as InboundSignal | null;
+          const raw = dbSignal.rawPayload as InboundSignal | null;
           if (!raw) {
             logger.warn('Signal has no rawJson — skipping', { id: dbSignal.id });
             return;
@@ -458,7 +460,7 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
     ];
     if (!SIGNAL_EVENTS.includes(event)) return;
     if (!this._isSignal(parsed['payload'])) { logger.warn('Invalid signal payload', { event }); return; }
-    const signal = parsed['payload'] as InboundSignal;
+    const signal = parsed['payload'];
     logger.debug('Signal received', { event, id: signal.id, symbol: signal.symbol });
     this.bus.emit(signal);
   }
