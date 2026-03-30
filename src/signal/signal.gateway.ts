@@ -51,29 +51,46 @@ interface ArmedZone {
   ltfRange: PendingPayload['ltfRange'];
 }
 
+interface PendingQuery {
+  resolve: (r: SignalQueryResult | null) => void;
+  timeout: NodeJS.Timeout;
+  signalId: string;
+}
+
+interface PendingZoneSync {
+  resolve: (zones: ArmedZone[]) => void;
+  timeout: NodeJS.Timeout;
+}
+
 const RECONNECT_BASE = 3_000;
 const RECONNECT_MAX = 30_000;
 const PING_MS = 20_000;
 const QUERY_TIMEOUT_MS = 15_000;
 const RECONCILE_CONCURRENCY = 5;
-// Delay before reconciliation runs after connect — long enough for subscribe
-// to be processed by the engine, short enough to catch missed events quickly.
 const RECONCILE_DELAY_MS = 2_000;
+const MAX_RECONNECT_ATTEMPTS = 10;
+const CIRCUIT_BREAKER_THRESHOLD = 5;
+const CIRCUIT_BREAKER_TIMEOUT_MS = 60_000;
 
 @Injectable()
 export class SignalGateway implements OnModuleInit, OnModuleDestroy {
   private ws?: WebSocket;
   private reconnectDelay = RECONNECT_BASE;
+  private reconnectAttempts = 0;
   private reconnectTimer?: ReturnType<typeof setTimeout>;
   private pingTimer?: ReturnType<typeof setInterval>;
   private reconcileTimer?: ReturnType<typeof setTimeout>;
   private stopped = false;
+  private connectedAt = 0;
+  private circuitBreakerFailures = 0;
+  private circuitBreakerState: 'CLOSED' | 'OPEN' | 'HALF_OPEN' = 'CLOSED';
+  private lastFailureTime = 0;
 
   private readonly wsUrl: string;
 
   private _activeSymbols = new Set<string>();
-  private _pendingQueries = new Map<string, (r: SignalQueryResult | null) => void>();
-  private _pendingZoneSync = new Map<string, (zones: ArmedZone[]) => void>();
+  private _pendingQueries = new Map<string, PendingQuery>();
+  private _pendingZoneSync = new Map<string, PendingZoneSync>();
 
   constructor(
     private readonly bus: SignalBus,
@@ -95,6 +112,8 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
   // ── Symbol sync ─────────────────────────────────────────────────────────────
 
   async syncSymbols(): Promise<void> {
+    if (!this._isCircuitAllowed()) return;
+
     const desired = await this._fetchDistinctSymbols();
     const toAdd = [...desired].filter(s => !this._activeSymbols.has(s));
     const toRemove = [...this._activeSymbols].filter(s => !desired.has(s));
@@ -117,6 +136,8 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
   // ── Signal query ─────────────────────────────────────────────────────────────
 
   async querySignalStatus(signal: InboundSignal): Promise<SignalQueryResult | null> {
+    if (!this._isCircuitAllowed()) return null;
+
     if (this.ws?.readyState !== WebSocket.OPEN) {
       logger.warn('querySignalStatus: WS not connected', { signalId: signal.id });
       return null;
@@ -126,15 +147,20 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
 
     return new Promise<SignalQueryResult | null>((resolve) => {
       const timeout = setTimeout(() => {
-        this._pendingQueries.delete(requestId);
-        logger.warn('querySignalStatus timed out', { signalId: signal.id, requestId });
-        resolve(null);
+        const pending = this._pendingQueries.get(requestId);
+        if (pending) {
+          clearTimeout(pending.timeout);
+          this._pendingQueries.delete(requestId);
+          logger.warn('querySignalStatus timed out', { signalId: signal.id, requestId });
+          this._recordFailure();
+          resolve(null);
+        }
       }, QUERY_TIMEOUT_MS);
 
-      this._pendingQueries.set(requestId, (result) => {
-        clearTimeout(timeout);
-        this._pendingQueries.delete(requestId);
-        resolve(result);
+      this._pendingQueries.set(requestId, {
+        resolve,
+        timeout,
+        signalId: signal.id,
       });
 
       this._send({ action: 'signal.query', requestId, signal });
@@ -144,6 +170,7 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
   // ── Public reconciliation (called by CronService) ─────────────────────────────
 
   async reconcileOpenSignals(): Promise<void> {
+    if (!this._isCircuitAllowed()) return;
     await this._reconcileOpenSignals();
   }
 
@@ -151,12 +178,29 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
 
   private _connect(): void {
     if (this.stopped) return;
-    logger.info('Connecting', { url: this.wsUrl });
+
+    if (this.circuitBreakerState === 'OPEN') {
+      const now = Date.now();
+      if (now - this.lastFailureTime > CIRCUIT_BREAKER_TIMEOUT_MS) {
+        this.circuitBreakerState = 'HALF_OPEN';
+        logger.info('Circuit breaker transitioning to HALF_OPEN');
+      } else {
+        logger.debug('Circuit breaker OPEN, delaying reconnect');
+        this.reconnectTimer = setTimeout(() => this._connect(), CIRCUIT_BREAKER_TIMEOUT_MS);
+        return;
+      }
+    }
+
+    logger.info('Connecting', { url: this.wsUrl, attempt: this.reconnectAttempts + 1 });
     this.ws = new WebSocket(this.wsUrl);
 
     this.ws.on('open', () => {
       logger.info('Connected');
+      this.connectedAt = Date.now();
       this.reconnectDelay = RECONNECT_BASE;
+      this.reconnectAttempts = 0;
+      this.circuitBreakerFailures = 0;
+      this.circuitBreakerState = 'CLOSED';
 
       if (this._activeSymbols.size > 0) {
         this._send({ action: 'subscribe', symbols: [...this._activeSymbols] });
@@ -168,8 +212,6 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
         if (this.ws?.readyState === WebSocket.OPEN) this.ws.ping();
       }, PING_MS);
 
-      // Defer reconciliation so subscribe is processed first.
-      // We do NOT await this — it must not block or throw on the open handler.
       this.reconcileTimer = setTimeout(() => {
         this._reconcileOnConnect().catch((err: Error) =>
           logger.error('Reconnect reconciliation failed', { error: err.message }),
@@ -185,24 +227,37 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
 
     this.ws.on('close', (code) => {
       logger.warn('Disconnected', { code });
-      if (this.pingTimer) { clearInterval(this.pingTimer); this.pingTimer = undefined; }
-      if (this.reconcileTimer) { clearTimeout(this.reconcileTimer); this.reconcileTimer = undefined; }
-      this._drainPendingQueries();
-      this._drainPendingZoneSyncs();
+      this._cleanupTimers();
+
       if (!this.stopped) {
+        this.reconnectAttempts++;
+        if (this.reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+          logger.error('Max reconnection attempts reached, circuit breaker OPEN');
+          this.circuitBreakerState = 'OPEN';
+          this.lastFailureTime = Date.now();
+          this.reconnectAttempts = 0;
+        }
+
         this.reconnectTimer = setTimeout(() => this._connect(), this.reconnectDelay);
         this.reconnectDelay = Math.min(this.reconnectDelay * 2, RECONNECT_MAX);
       }
     });
 
-    this.ws.on('error', (err) => logger.error('WS error', { error: err.message }));
+    this.ws.on('error', (err) => {
+      logger.error('WS error', { error: err.message });
+      this._recordFailure();
+    });
+  }
+
+  private _cleanupTimers(): void {
+    if (this.pingTimer) { clearInterval(this.pingTimer); this.pingTimer = undefined; }
+    if (this.reconcileTimer) { clearTimeout(this.reconcileTimer); this.reconcileTimer = undefined; }
   }
 
   private _disconnect(): void {
     this.stopped = true;
-    if (this.pingTimer) { clearInterval(this.pingTimer); this.pingTimer = undefined; }
+    this._cleanupTimers();
     if (this.reconnectTimer) { clearTimeout(this.reconnectTimer); this.reconnectTimer = undefined; }
-    if (this.reconcileTimer) { clearTimeout(this.reconcileTimer); this.reconcileTimer = undefined; }
     this._drainPendingQueries();
     this._drainPendingZoneSyncs();
     this.ws?.close();
@@ -228,8 +283,7 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
 
   /**
    * Request all armed zones from the engine via zone.sync.
-   * Response is routed through _handle → _pendingZoneSyncs map.
-   * No extra 'message' listeners attached to the socket.
+   * Returns [] to clear all zones in DB when engine has no armed zones.
    */
   private async _syncZones(): Promise<void> {
     if (this.ws?.readyState !== WebSocket.OPEN) return;
@@ -238,23 +292,38 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
 
     const zones = await new Promise<ArmedZone[]>((resolve) => {
       const timeout = setTimeout(() => {
-        this._pendingZoneSync.delete(requestId);
-        logger.warn('zone.sync timed out');
-        resolve([]);
+        const pending = this._pendingZoneSync.get(requestId);
+        if (pending) {
+          clearTimeout(pending.timeout);
+          this._pendingZoneSync.delete(requestId);
+          logger.warn('zone.sync timed out');
+          this._recordFailure();
+          resolve([]);
+        }
       }, QUERY_TIMEOUT_MS);
 
-      this._pendingZoneSync.set(requestId, (z) => {
-        clearTimeout(timeout);
-        this._pendingZoneSync.delete(requestId);
-        resolve(z);
+      this._pendingZoneSync.set(requestId, {
+        resolve,
+        timeout,
       });
 
       this._send({ action: 'zone.sync', requestId });
     });
 
-    if (zones.length === 0) return;
+    // Clear ALL zones in DB first (engine state is source of truth)
+    if (zones.length === 0) {
+      logger.info('zone.sync: engine returned 0 armed zones — clearing all zones in DB');
+      await this.marketService.clearAllZones();
+      return;
+    }
 
     logger.info(`zone.sync: upserting ${zones.length} armed zone(s) from engine`);
+
+    // Clear existing zones for symbols that have updates
+    const symbolsToSync = [...new Set(zones.map(z => z.symbol))];
+    for (const symbol of symbolsToSync) {
+      await this.marketService.clearZonesBySymbol(symbol);
+    }
 
     await Promise.allSettled(
       zones.map(z =>
@@ -283,14 +352,13 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
     logger.info(`Reconciling ${openSignals.length} open signal(s)`);
 
     for (let i = 0; i < openSignals.length; i += RECONCILE_CONCURRENCY) {
-      // Bail early if connection dropped mid-reconcile
       if (this.ws?.readyState !== WebSocket.OPEN) {
         logger.warn('WS closed mid-reconcile — aborting');
         return;
       }
 
       const batch = openSignals.slice(i, i + RECONCILE_CONCURRENCY);
-      await Promise.allSettled(
+      const results = await Promise.allSettled(
         batch.map(async (dbSignal) => {
           const raw = dbSignal.rawJson as InboundSignal | null;
           if (!raw) {
@@ -308,7 +376,11 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
 
           if (result.status === dbSignal.status) return;
 
-          logger.info('Reconciled signal status change', { id: dbSignal.id, from: dbSignal.status, to: result.status });
+          logger.info('Reconciled signal status change', {
+            id: dbSignal.id,
+            from: dbSignal.status,
+            to: result.status
+          });
 
           this.bus.emit({
             ...signal,
@@ -322,6 +394,17 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
           });
         }),
       );
+
+      // Record failures for circuit breaker
+      const failures = results.filter(r => r.status === 'rejected');
+      if (failures.length > 0) {
+        this.circuitBreakerFailures += failures.length;
+        if (this.circuitBreakerFailures >= CIRCUIT_BREAKER_THRESHOLD) {
+          logger.error('Circuit breaker threshold reached');
+          this.circuitBreakerState = 'OPEN';
+          this.lastFailureTime = Date.now();
+        }
+      }
     }
   }
 
@@ -334,25 +417,29 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
     if (typeof parsed['event'] !== 'string') return;
     const event = parsed['event'];
 
-    // ── Async query responses — resolve waiting Promises via maps ───────────
-
     if (event === 'signal.query_result') {
       const requestId = parsed['requestId'] as string | undefined;
       if (!requestId) return;
-      this._pendingQueries.get(requestId)?.(parsed as unknown as SignalQueryResult);
+      const pending = this._pendingQueries.get(requestId);
+      if (pending) {
+        clearTimeout(pending.timeout);
+        this._pendingQueries.delete(requestId);
+        pending.resolve(parsed as unknown as SignalQueryResult);
+      }
       return;
     }
 
     if (event === 'zone.sync_result') {
       const requestId = parsed['requestId'] as string | undefined;
       if (!requestId) return;
-      this._pendingZoneSync.get(requestId)?.(
-        Array.isArray(parsed['zones']) ? (parsed['zones'] as ArmedZone[]) : [],
-      );
+      const pending = this._pendingZoneSync.get(requestId);
+      if (pending) {
+        clearTimeout(pending.timeout);
+        this._pendingZoneSync.delete(requestId);
+        pending.resolve(Array.isArray(parsed['zones']) ? (parsed['zones'] as ArmedZone[]) : []);
+      }
       return;
     }
-
-    // ── Zone armed ──────────────────────────────────────────────────────────
 
     if (event === 'signal.pending') {
       if (!this._isPending(parsed['payload'])) { logger.warn('Invalid pending payload'); return; }
@@ -364,8 +451,6 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
       return;
     }
 
-    // ── Signal lifecycle ────────────────────────────────────────────────────
-
     const SIGNAL_EVENTS = [
       'signal.triggered', 'signal.updated',
       'signal.tp1_hit', 'signal.tp2_hit',
@@ -373,23 +458,52 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
     ];
     if (!SIGNAL_EVENTS.includes(event)) return;
     if (!this._isSignal(parsed['payload'])) { logger.warn('Invalid signal payload', { event }); return; }
-    const signal = parsed['payload'];
+    const signal = parsed['payload'] as InboundSignal;
     logger.debug('Signal received', { event, id: signal.id, symbol: signal.symbol });
     this.bus.emit(signal);
   }
 
   // ── Helpers ─────────────────────────────────────────────────────────────────
 
+  private _recordFailure(): void {
+    this.circuitBreakerFailures++;
+    if (this.circuitBreakerFailures >= CIRCUIT_BREAKER_THRESHOLD) {
+      this.circuitBreakerState = 'OPEN';
+      this.lastFailureTime = Date.now();
+      logger.error('Circuit breaker OPEN due to repeated failures');
+    }
+  }
+
+  private _isCircuitAllowed(): boolean {
+    if (this.circuitBreakerState === 'OPEN') {
+      const now = Date.now();
+      if (now - this.lastFailureTime > CIRCUIT_BREAKER_TIMEOUT_MS) {
+        this.circuitBreakerState = 'HALF_OPEN';
+        logger.info('Circuit breaker HALF_OPEN, allowing test request');
+        return true;
+      }
+      logger.warn('Circuit breaker OPEN, rejecting request');
+      return false;
+    }
+    return true;
+  }
+
   private _drainPendingQueries(): void {
     if (this._pendingQueries.size === 0) return;
     logger.warn(`Draining ${this._pendingQueries.size} pending quer(ies) — WS closing`);
-    for (const resolve of this._pendingQueries.values()) resolve(null);
+    for (const [_, pending] of this._pendingQueries) {
+      clearTimeout(pending.timeout);
+      pending.resolve(null);
+    }
     this._pendingQueries.clear();
   }
 
   private _drainPendingZoneSyncs(): void {
     if (this._pendingZoneSync.size === 0) return;
-    for (const resolve of this._pendingZoneSync.values()) resolve([]);
+    for (const [_, pending] of this._pendingZoneSync) {
+      clearTimeout(pending.timeout);
+      pending.resolve([]);
+    }
     this._pendingZoneSync.clear();
   }
 

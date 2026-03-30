@@ -360,4 +360,20 @@ export class MarketService {
     if (!zone) throw new Error(`Zone ${id} not found`);
     return zone;
   }
+
+  /**
+   * Clear all zones from the database (used when engine returns empty zone list)
+   */
+  async clearAllZones(): Promise<void> {
+    await this.prisma.signalZone.deleteMany({});
+  }
+
+  /**
+   * Clear zones for a specific symbol (used before upserting fresh zones)
+   */
+  async clearZonesBySymbol(symbol: string): Promise<void> {
+    await this.prisma.signalZone.deleteMany({
+      where: { symbol: symbol.toUpperCase() }
+    });
+  }
 }
