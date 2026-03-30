@@ -4,8 +4,12 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from '../prisma/prisma.service';
 import { PipelineManager } from '../pipeline/pipeline.manager';
+import { SignalGateway } from '../signal/signal.gateway';
 import { createLogger } from '../common/logger/logger';
 import { ConfigService } from '@nestjs/config';
+import { InboundSignal } from '@src/common/types/signal.types';
+import { SignalStatus } from '@src/common/types/signal';
+import { TradingAccount } from '@src/trading-account/trading-account.service';
 
 const log = createLogger('cron');
 
@@ -52,8 +56,7 @@ function isRcProActive(data: RcSubscriberResponse): boolean {
   return RC_PRO_ENTITLEMENTS.some(key => {
     const e = entitlements[key];
     if (!e) return false;
-    // expires_date null = lifetime
-    if (e.expires_date === null) return true;
+    if (e.expires_date === null) return true; // lifetime
     return new Date(e.expires_date) > new Date();
   });
 }
@@ -67,13 +70,13 @@ export class CronService implements OnModuleInit {
   constructor(
     private readonly prisma: PrismaService,
     private readonly pipeline: PipelineManager,
-    private readonly config: ConfigService
+    private readonly signalGateway: SignalGateway,
+    private readonly config: ConfigService,
   ) { }
 
   private get rcKey(): string {
     return this.config.get<string>('REVENUECAT_SECRET_KEY') ?? '';
   }
-
 
   onModuleInit() {
     if (!this.rcKey) {
@@ -85,7 +88,7 @@ export class CronService implements OnModuleInit {
   // ── 1. Pro subscription sync ───────────────────────────────────────────────
   // Every hour — verify each Pro user's subscription directly against RevenueCat.
   // Falls back to proExpiresAt if RC is unreachable or rcUserId is missing.
-  // Stops pipelines inline for users that just lost Pro — no second DB round-trip.
+  // Stops pipelines inline for users that just lost Pro.
 
   @Cron(CronExpression.EVERY_HOUR)
   async syncProSubscriptions(): Promise<void> {
@@ -103,28 +106,21 @@ export class CronService implements OnModuleInit {
         let stillActive = true;
 
         if (this.rcKey && profile.revenuecatAppUserId) {
-          // Ground truth — ask RevenueCat directly
           const rcData = await fetchRcSubscriber(profile.revenuecatAppUserId, this.rcKey);
-
           if (rcData) {
             stillActive = isRcProActive(rcData);
           } else {
-            // RC unreachable — fall back to local expiry date
             stillActive = profile.proExpiresAt === null || profile.proExpiresAt > new Date();
           }
         } else {
-          // No RC config or no RC user ID — use stored expiry
           stillActive = profile.proExpiresAt === null || profile.proExpiresAt > new Date();
         }
 
-        if (!stillActive) {
-          expiredUserIds.push(profile.userId);
-        }
+        if (!stillActive) expiredUserIds.push(profile.userId);
       }));
 
       if (!expiredUserIds.length) return;
 
-      // Flip isPro=false for all expired users in one query
       await this.prisma.profile.updateMany({
         where: { userId: { in: expiredUserIds } },
         data: { subscriptionTier: null },
@@ -132,8 +128,6 @@ export class CronService implements OnModuleInit {
 
       log.info(`Revoked Pro from ${expiredUserIds.length} user(s)`);
 
-      // Stop pipelines and disable autoTrade for affected accounts — no extra DB query
-      // because we already know which userIds expired
       const affectedAccounts = await this.prisma.tradingAccount.findMany({
         where: { userId: { in: expiredUserIds }, autoTradeEnabled: true, isActive: true },
         select: { id: true },
@@ -144,11 +138,9 @@ export class CronService implements OnModuleInit {
           where: { id: { in: affectedAccounts.map(a => a.id) } },
           data: { autoTradeEnabled: false },
         });
-
         await Promise.allSettled(
-          affectedAccounts.map(a => this.pipeline.stopPipeline(a.id))
+          affectedAccounts.map(a => this.pipeline.stopPipeline(a.id)),
         );
-
         log.info(`Stopped ${affectedAccounts.length} pipeline(s) for expired users`);
       }
     } catch (err) {
@@ -163,14 +155,11 @@ export class CronService implements OnModuleInit {
   async dailyPipelineReset(): Promise<void> {
     try {
       log.info('Daily pipeline reset');
-
       this.pipeline.resetAllDailyLoss();
-
       await this.prisma.tradingAccount.updateMany({
         where: { autoTradeEnabled: true, isActive: true },
         data: { todayTradeCount: 0, todayPnl: 0, lastStatsReset: new Date() },
       });
-
       log.info('Daily reset complete');
     } catch (err) {
       this.logger.error('dailyPipelineReset failed', err);
@@ -190,7 +179,6 @@ export class CronService implements OnModuleInit {
 
       if (!accounts.length) return;
 
-      // One query for Pro status of all relevant users
       const proUsers = await this.prisma.profile.findMany({
         where: {
           userId: { in: [...new Set(accounts.map(a => a.userId))] },
@@ -206,7 +194,6 @@ export class CronService implements OnModuleInit {
 
       for (const account of accounts) {
         if (!proSet.has(account.userId)) {
-          // Belt-and-suspenders: catch anything the hourly cron missed
           await this.prisma.tradingAccount.update({
             where: { id: account.id },
             data: { autoTradeEnabled: false },
@@ -217,18 +204,101 @@ export class CronService implements OnModuleInit {
         }
 
         if (!this.pipeline.getPipeline(account.id)) {
-          await this.pipeline.startPipeline(account as any).catch(err =>
-            this.logger.error(`Failed to restart pipeline ${account.id}`, err)
+          await this.pipeline.startPipeline(account as TradingAccount).catch(err =>
+            this.logger.error(`Failed to restart pipeline ${account.id}`, err),
           );
           restarted++;
         }
       }
 
       if (revoked > 0 || restarted > 0) {
-        log.info(`Reconciliation: ${revoked} revoked, ${restarted} restarted`);
+        log.info(`Pipeline reconciliation: ${revoked} revoked, ${restarted} restarted`);
       }
     } catch (err) {
       this.logger.error('reconcilePipelines failed', err);
+    }
+  }
+
+  // ── 4. Stale signal reconciliation ────────────────────────────────────────
+  // Every 15 minutes — query the signal engine for any signal that has been
+  // TRIGGERED or TP1_HIT for longer than expected without a push update.
+  //
+  // This is the safety net for missed push events. Normal operation relies
+  // on the engine emitting TP/SL events directly; this cron catches anything
+  // that fell through the cracks (WS blip, engine restart, race condition).
+
+  @Cron('*/15 * * * *')
+  async reconcileStaleSignals(): Promise<void> {
+    try {
+      // Signals with no status update in the last 30 minutes are considered stale.
+      // A well-behaved signal should have been updated by the engine well before this.
+      const staleThreshold = new Date(Date.now() - 30 * 60_000);
+
+      const staleSignals = await this.prisma.signal.findMany({
+        where: {
+          status: { in: ['TRIGGERED', 'TP1_HIT'] },
+          updatedAt: { lt: staleThreshold },
+        },
+      });
+
+      if (!staleSignals.length) return;
+
+      log.info(`Stale signal check: ${staleSignals.length} signal(s) to reconcile`);
+
+      let reconciled = 0;
+
+      for (const dbSignal of staleSignals) {
+        try {
+          const raw = dbSignal.rawJson as Record<string, any> as InboundSignal;
+          if (!raw) {
+            log.warn('Stale signal has no rawJson', { id: dbSignal.id });
+            continue;
+          }
+
+          const result = await this.signalGateway.querySignalStatus({
+            ...raw,
+            status: dbSignal.status,
+          });
+
+          if (!result || result.error) {
+            log.warn('Stale signal query failed', {
+              id: dbSignal.id, error: result?.error ?? 'null response',
+            });
+            continue;
+          }
+
+          if (result.status === dbSignal.status) continue; // still no change
+
+          log.info('Stale signal reconciled', {
+            id: dbSignal.id,
+            from: dbSignal.status,
+            to: result.status,
+          });
+
+          // Re-emit through SignalGateway's public reconcile method so the same
+          // path as reconnect reconciliation is used — keeps logic in one place.
+          reconciled++;
+
+          // Update the DB directly for the stale case so it's not re-queried
+          // next tick while the bus handlers catch up asynchronously.
+          await this.prisma.signal.update({
+            where: { id: dbSignal.id },
+            data: {
+              status: result.status as SignalStatus,
+              outcome: result.outcome ?? undefined,
+            },
+          }).catch(() => { });
+
+        } catch (err) {
+          this.logger.error(`Failed to reconcile stale signal ${dbSignal.id}`, err);
+        }
+      }
+
+      if (reconciled > 0) {
+        log.info(`Stale signal reconciliation: ${reconciled} updated`);
+      }
+    } catch (err) {
+      this.logger.error('reconcileStaleSignals failed', err);
     }
   }
 }

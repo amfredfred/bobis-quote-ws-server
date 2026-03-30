@@ -68,6 +68,8 @@ export type SignalMinAggregateOutputType = {
   triggeredAt: bigint | null
   outcome: string | null
   tradeId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type SignalMaxAggregateOutputType = {
@@ -88,6 +90,8 @@ export type SignalMaxAggregateOutputType = {
   triggeredAt: bigint | null
   outcome: string | null
   tradeId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type SignalCountAggregateOutputType = {
@@ -109,6 +113,8 @@ export type SignalCountAggregateOutputType = {
   triggeredAt: number
   outcome: number
   tradeId: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -155,6 +161,8 @@ export type SignalMinAggregateInputType = {
   triggeredAt?: true
   outcome?: true
   tradeId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type SignalMaxAggregateInputType = {
@@ -175,6 +183,8 @@ export type SignalMaxAggregateInputType = {
   triggeredAt?: true
   outcome?: true
   tradeId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type SignalCountAggregateInputType = {
@@ -196,6 +206,8 @@ export type SignalCountAggregateInputType = {
   triggeredAt?: true
   outcome?: true
   tradeId?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -304,6 +316,8 @@ export type SignalGroupByOutputType = {
   triggeredAt: bigint | null
   outcome: string | null
   tradeId: string | null
+  createdAt: Date
+  updatedAt: Date | null
   _count: SignalCountAggregateOutputType | null
   _avg: SignalAvgAggregateOutputType | null
   _sum: SignalSumAggregateOutputType | null
@@ -348,6 +362,8 @@ export type SignalWhereInput = {
   triggeredAt?: Prisma.BigIntNullableFilter<"Signal"> | bigint | number | null
   outcome?: Prisma.StringNullableFilter<"Signal"> | string | null
   tradeId?: Prisma.UuidNullableFilter<"Signal"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Signal"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Signal"> | Date | string | null
   account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
   trade?: Prisma.XOR<Prisma.TradeNullableScalarRelationFilter, Prisma.TradeWhereInput> | null
 }
@@ -371,6 +387,8 @@ export type SignalOrderByWithRelationInput = {
   triggeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   outcome?: Prisma.SortOrderInput | Prisma.SortOrder
   tradeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   account?: Prisma.TradingAccountOrderByWithRelationInput
   trade?: Prisma.TradeOrderByWithRelationInput
 }
@@ -397,6 +415,8 @@ export type SignalWhereUniqueInput = Prisma.AtLeast<{
   triggeredAt?: Prisma.BigIntNullableFilter<"Signal"> | bigint | number | null
   outcome?: Prisma.StringNullableFilter<"Signal"> | string | null
   tradeId?: Prisma.UuidNullableFilter<"Signal"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Signal"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Signal"> | Date | string | null
   account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
   trade?: Prisma.XOR<Prisma.TradeNullableScalarRelationFilter, Prisma.TradeWhereInput> | null
 }, "id">
@@ -420,6 +440,8 @@ export type SignalOrderByWithAggregationInput = {
   triggeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   outcome?: Prisma.SortOrderInput | Prisma.SortOrder
   tradeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SignalCountOrderByAggregateInput
   _avg?: Prisma.SignalAvgOrderByAggregateInput
   _max?: Prisma.SignalMaxOrderByAggregateInput
@@ -449,6 +471,8 @@ export type SignalScalarWhereWithAggregatesInput = {
   triggeredAt?: Prisma.BigIntNullableWithAggregatesFilter<"Signal"> | bigint | number | null
   outcome?: Prisma.StringNullableWithAggregatesFilter<"Signal"> | string | null
   tradeId?: Prisma.UuidNullableWithAggregatesFilter<"Signal"> | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Signal"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Signal"> | Date | string | null
 }
 
 export type SignalCreateInput = {
@@ -468,6 +492,8 @@ export type SignalCreateInput = {
   receivedAt: bigint | number
   triggeredAt?: bigint | number | null
   outcome?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
   account: Prisma.TradingAccountCreateNestedOneWithoutSignalsInput
   trade?: Prisma.TradeCreateNestedOneWithoutSignalsInput
 }
@@ -491,6 +517,8 @@ export type SignalUncheckedCreateInput = {
   triggeredAt?: bigint | number | null
   outcome?: string | null
   tradeId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type SignalUpdateInput = {
@@ -510,6 +538,8 @@ export type SignalUpdateInput = {
   receivedAt?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   triggeredAt?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   outcome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   account?: Prisma.TradingAccountUpdateOneRequiredWithoutSignalsNestedInput
   trade?: Prisma.TradeUpdateOneWithoutSignalsNestedInput
 }
@@ -533,6 +563,8 @@ export type SignalUncheckedUpdateInput = {
   triggeredAt?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   outcome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tradeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SignalCreateManyInput = {
@@ -554,6 +586,8 @@ export type SignalCreateManyInput = {
   triggeredAt?: bigint | number | null
   outcome?: string | null
   tradeId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type SignalUpdateManyMutationInput = {
@@ -573,6 +607,8 @@ export type SignalUpdateManyMutationInput = {
   receivedAt?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   triggeredAt?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   outcome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SignalUncheckedUpdateManyInput = {
@@ -594,6 +630,8 @@ export type SignalUncheckedUpdateManyInput = {
   triggeredAt?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   outcome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tradeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SignalListRelationFilter = {
@@ -625,6 +663,8 @@ export type SignalCountOrderByAggregateInput = {
   triggeredAt?: Prisma.SortOrder
   outcome?: Prisma.SortOrder
   tradeId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SignalAvgOrderByAggregateInput = {
@@ -657,6 +697,8 @@ export type SignalMaxOrderByAggregateInput = {
   triggeredAt?: Prisma.SortOrder
   outcome?: Prisma.SortOrder
   tradeId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SignalMinOrderByAggregateInput = {
@@ -677,6 +719,8 @@ export type SignalMinOrderByAggregateInput = {
   triggeredAt?: Prisma.SortOrder
   outcome?: Prisma.SortOrder
   tradeId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SignalSumOrderByAggregateInput = {
@@ -820,6 +864,8 @@ export type SignalCreateWithoutAccountInput = {
   receivedAt: bigint | number
   triggeredAt?: bigint | number | null
   outcome?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
   trade?: Prisma.TradeCreateNestedOneWithoutSignalsInput
 }
 
@@ -841,6 +887,8 @@ export type SignalUncheckedCreateWithoutAccountInput = {
   triggeredAt?: bigint | number | null
   outcome?: string | null
   tradeId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type SignalCreateOrConnectWithoutAccountInput = {
@@ -891,6 +939,8 @@ export type SignalScalarWhereInput = {
   triggeredAt?: Prisma.BigIntNullableFilter<"Signal"> | bigint | number | null
   outcome?: Prisma.StringNullableFilter<"Signal"> | string | null
   tradeId?: Prisma.UuidNullableFilter<"Signal"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Signal"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Signal"> | Date | string | null
 }
 
 export type SignalCreateWithoutTradeInput = {
@@ -910,6 +960,8 @@ export type SignalCreateWithoutTradeInput = {
   receivedAt: bigint | number
   triggeredAt?: bigint | number | null
   outcome?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
   account: Prisma.TradingAccountCreateNestedOneWithoutSignalsInput
 }
 
@@ -931,6 +983,8 @@ export type SignalUncheckedCreateWithoutTradeInput = {
   receivedAt: bigint | number
   triggeredAt?: bigint | number | null
   outcome?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type SignalCreateOrConnectWithoutTradeInput = {
@@ -977,6 +1031,8 @@ export type SignalCreateManyAccountInput = {
   triggeredAt?: bigint | number | null
   outcome?: string | null
   tradeId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type SignalUpdateWithoutAccountInput = {
@@ -996,6 +1052,8 @@ export type SignalUpdateWithoutAccountInput = {
   receivedAt?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   triggeredAt?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   outcome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trade?: Prisma.TradeUpdateOneWithoutSignalsNestedInput
 }
 
@@ -1017,6 +1075,8 @@ export type SignalUncheckedUpdateWithoutAccountInput = {
   triggeredAt?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   outcome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tradeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SignalUncheckedUpdateManyWithoutAccountInput = {
@@ -1037,6 +1097,8 @@ export type SignalUncheckedUpdateManyWithoutAccountInput = {
   triggeredAt?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   outcome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tradeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SignalCreateManyTradeInput = {
@@ -1057,6 +1119,8 @@ export type SignalCreateManyTradeInput = {
   receivedAt: bigint | number
   triggeredAt?: bigint | number | null
   outcome?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type SignalUpdateWithoutTradeInput = {
@@ -1076,6 +1140,8 @@ export type SignalUpdateWithoutTradeInput = {
   receivedAt?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   triggeredAt?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   outcome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   account?: Prisma.TradingAccountUpdateOneRequiredWithoutSignalsNestedInput
 }
 
@@ -1097,6 +1163,8 @@ export type SignalUncheckedUpdateWithoutTradeInput = {
   receivedAt?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   triggeredAt?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   outcome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SignalUncheckedUpdateManyWithoutTradeInput = {
@@ -1117,6 +1185,8 @@ export type SignalUncheckedUpdateManyWithoutTradeInput = {
   receivedAt?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   triggeredAt?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   outcome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1140,6 +1210,8 @@ export type SignalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   triggeredAt?: boolean
   outcome?: boolean
   tradeId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   trade?: boolean | Prisma.Signal$tradeArgs<ExtArgs>
 }, ExtArgs["result"]["signal"]>
@@ -1163,6 +1235,8 @@ export type SignalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   triggeredAt?: boolean
   outcome?: boolean
   tradeId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   trade?: boolean | Prisma.Signal$tradeArgs<ExtArgs>
 }, ExtArgs["result"]["signal"]>
@@ -1186,6 +1260,8 @@ export type SignalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   triggeredAt?: boolean
   outcome?: boolean
   tradeId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   trade?: boolean | Prisma.Signal$tradeArgs<ExtArgs>
 }, ExtArgs["result"]["signal"]>
@@ -1209,9 +1285,11 @@ export type SignalSelectScalar = {
   triggeredAt?: boolean
   outcome?: boolean
   tradeId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type SignalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "accountId" | "symbol" | "direction" | "status" | "entryPrice" | "stopLoss" | "tp1" | "tp2" | "riskReward" | "riskPips" | "pattern" | "wickRatio" | "rawJson" | "receivedAt" | "triggeredAt" | "outcome" | "tradeId", ExtArgs["result"]["signal"]>
+export type SignalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "accountId" | "symbol" | "direction" | "status" | "entryPrice" | "stopLoss" | "tp1" | "tp2" | "riskReward" | "riskPips" | "pattern" | "wickRatio" | "rawJson" | "receivedAt" | "triggeredAt" | "outcome" | "tradeId" | "createdAt" | "updatedAt", ExtArgs["result"]["signal"]>
 export type SignalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   trade?: boolean | Prisma.Signal$tradeArgs<ExtArgs>
@@ -1250,6 +1328,8 @@ export type $SignalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     triggeredAt: bigint | null
     outcome: string | null
     tradeId: string | null
+    createdAt: Date
+    updatedAt: Date | null
   }, ExtArgs["result"]["signal"]>
   composites: {}
 }
@@ -1693,6 +1773,8 @@ export interface SignalFieldRefs {
   readonly triggeredAt: Prisma.FieldRef<"Signal", 'BigInt'>
   readonly outcome: Prisma.FieldRef<"Signal", 'String'>
   readonly tradeId: Prisma.FieldRef<"Signal", 'String'>
+  readonly createdAt: Prisma.FieldRef<"Signal", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Signal", 'DateTime'>
 }
     
 

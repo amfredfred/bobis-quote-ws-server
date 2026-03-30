@@ -170,7 +170,9 @@ export const SignalScalarFieldEnum = {
   receivedAt: 'receivedAt',
   triggeredAt: 'triggeredAt',
   outcome: 'outcome',
-  tradeId: 'tradeId'
+  tradeId: 'tradeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type SignalScalarFieldEnum = (typeof SignalScalarFieldEnum)[keyof typeof SignalScalarFieldEnum]

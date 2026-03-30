@@ -32,7 +32,7 @@ model Profile {
   notificationSentToday  Int       @default(0) @map("notification_sent_today")
   lastNotificationReset  DateTime? @map("last_notification_reset") @db.Timestamptz(6)
 
-  subscriptionTier    String?   @map("subscription_tier")  // "basic" | "pro" | "elite" | null
+  subscriptionTier    String?   @map("subscription_tier") // "basic" | "pro" | "elite" | null
   isPro               Boolean   @default(false) @map("is_pro")
   proExpiresAt        DateTime? @map("pro_expires_at") @db.Timestamptz(6)
   revenuecatAppUserId String?   @map("revenuecat_app_user_id")
@@ -130,8 +130,10 @@ model Signal {
   outcome     String?
   tradeId     String?         @map("trade_id") @db.Uuid
 
-  account TradingAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  trade   Trade?         @relation(fields: [tradeId], references: [id], onDelete: SetNull)
+  account   TradingAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  trade     Trade?         @relation(fields: [tradeId], references: [id], onDelete: SetNull)
+  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime?      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   @@index([accountId, symbol])
   @@index([accountId, status])
