@@ -335,7 +335,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'signal.get': (p) => this.marketHandler.getAlert(p.id),
       'signals.dashboard': () => this.marketHandler.dashboardStats(userId),
       'trades.calendar': (p) => this.marketHandler.calendar(userId, p.year, p.month),
-      'zones.list': (p) => this.marketHandler.listZones(p),
+      'zones.list': (p) => this.marketHandler.listZones(userId, p),
       // Trade Ideas — same feed but tier-gated server-side (pro+ only)
       'trade-ideas.list': (p) => this.marketHandler.tradeIdeasList(userId, p),
       'trade-ideas.dashboard': () => this.marketHandler.tradeIdeasDashboard(userId),

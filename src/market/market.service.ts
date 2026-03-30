@@ -119,8 +119,14 @@ export class MarketService {
     });
   }
 
-  async getAlerts(params: { symbol?: string; symbols?: string[]; status?: string; limit?: number; offset?: number }) {
-    return this.prisma.signalAlert.findMany({
+  async getAlerts(userId: string, params: { symbol?: string; symbols?: string[]; status?: string; limit?: number; offset?: number }) {
+
+    const subs = await this.getSubscriptions(userId);
+    const symbols: string[] = (subs as any)?.symbols ?? [];
+
+    if (!symbols.length) return { zones: [] }
+
+    const alerts = await this.prisma.signalAlert.findMany({
       where: {
         // Explicit single-symbol filter takes precedence over the subscription-scoped list
         ...(params.symbol
@@ -134,6 +140,8 @@ export class MarketService {
       take: params.limit ?? 200,
       skip: params.offset ?? 0,
     });
+
+    return alerts.filter(a => symbols.includes(a.symbol.trim()))
   }
 
   async getAlert(id: string) {
@@ -162,13 +170,13 @@ export class MarketService {
         htfRangeHigh: dto.htfRangeHigh,
         htfRangeLow: dto.htfRangeLow,
         htfBosDirection: dto.htfBosDirection,
-        ...(dto.htfInterval  ? { htfInterval:  dto.htfInterval  } : {}),
+        ...(dto.htfInterval ? { htfInterval: dto.htfInterval } : {}),
         ...(dto.htfTimestamp ? { htfTimestamp: new Date(dto.htfTimestamp) } : {}),
-        ...(dto.htfTpLevel   ? { htfTpLevel:   dto.htfTpLevel   } : {}),
+        ...(dto.htfTpLevel ? { htfTpLevel: dto.htfTpLevel } : {}),
         ltfRangeHigh: dto.ltfRangeHigh,
         ltfRangeLow: dto.ltfRangeLow,
         ltfSlLevel: dto.ltfSlLevel,
-        ...(dto.ltfInterval  ? { ltfInterval:  dto.ltfInterval  } : {}),
+        ...(dto.ltfInterval ? { ltfInterval: dto.ltfInterval } : {}),
         ...(dto.ltfTimestamp ? { ltfTimestamp: new Date(dto.ltfTimestamp) } : {}),
         rawPayload: dto.rawPayload as any,
         pendingAt: new Date(dto.pendingAt),
@@ -177,7 +185,12 @@ export class MarketService {
     });
   }
 
-  async getZones(params: { symbol?: string; status?: string; limit?: number; offset?: number }) {
+  async getZones(userId: string, params: { symbol?: string; status?: string; limit?: number; offset?: number }) {
+    const subs = await this.getSubscriptions(userId);
+    const symbols: string[] = (subs as any)?.symbols ?? [];
+
+    if (!symbols.length) return { zones: [] }
+
     const zones = await this.prisma.signalZone.findMany({
       where: {
         ...(params.symbol ? { symbol: params.symbol } : {}),
@@ -193,7 +206,8 @@ export class MarketService {
     const grouped: Record<string, typeof zones> = {};
     for (const z of zones) {
       if (!grouped[z.symbol]) grouped[z.symbol] = [];
-      grouped[z.symbol].push(z);
+      if (symbols.includes(z.symbol.trim()))
+        grouped[z.symbol].push(z);
     }
     return Object.entries(grouped).map(([symbol, zoneList]) => ({ symbol, zones: zoneList }));
   }

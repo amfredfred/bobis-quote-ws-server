@@ -8,9 +8,9 @@ import { TierGuard } from '../../auth/tier.guard';
 @Injectable()
 export class MarketHandler {
   constructor(
-    private readonly svc:       MarketService,
+    private readonly svc: MarketService,
     private readonly tierGuard: TierGuard,
-  ) {}
+  ) { }
 
   async listAlerts(
     userId: string,
@@ -19,14 +19,14 @@ export class MarketHandler {
     // If caller requests a specific symbol, honour it directly.
     // Otherwise, scope to the user's own subscribed symbols so they only see
     // their feed — not the entire global SignalAlert table.
+    const subs = await this.svc.getSubscriptions(userId);
+    const symbols: string[] = (subs as any)?.symbols ?? [];
     if (!params.symbol) {
-      const subs = await this.svc.getSubscriptions(userId);
-      const symbols: string[] = (subs as any)?.symbols ?? [];
       if (symbols.length > 0) {
-        return this.svc.getAlerts({ ...params, symbols });
+        return this.svc.getAlerts(userId, { ...params, symbols });
       }
     }
-    return this.svc.getAlerts(params);
+    return this.svc.getAlerts(userId, { ...params, symbols });
   }
 
   async getAlert(id: string) {
@@ -57,8 +57,8 @@ export class MarketHandler {
     return this.svc.getCalendar(userId, year, month);
   }
 
-  listZones(params: { symbol?: string; status?: string; limit?: number; offset?: number }) {
-    return this.svc.getZones(params);
+  async listZones(userId: string, params: { symbol?: string; status?: string; limit?: number; offset?: number }) {
+    return await this.svc.getZones(userId, params)
   }
 
   getSubscriptions(userId: string) {
