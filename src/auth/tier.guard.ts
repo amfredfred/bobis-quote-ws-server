@@ -98,9 +98,9 @@ export class TierGuard {
     const limits = TIER_LIMITS[tier];
 
     if (!limits.tradeIdeas) {
-      throw new ForbiddenException(
-        `Trade Ideas require a Pro plan or higher. Your current plan is ${tier}.`,
-      );
+      // throw new ForbiddenException(
+      //   `Trade Ideas require a Pro plan or higher. Your current plan is ${tier}.`,
+      // );
     }
   }
 
