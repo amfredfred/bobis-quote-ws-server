@@ -24,6 +24,7 @@ import { JournalModule } from './journal/journal.module';
 import { MarketModule } from './market/market.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { GatewayModule } from './gateway/gateway.module';
+import { ReferralModule } from './referral/referral.module';
 
 
 @Module({
@@ -53,6 +54,7 @@ import { GatewayModule } from './gateway/gateway.module';
     JournalModule,
     MarketModule,
     DashboardModule,
+    ReferralModule,
     // Scheduled jobs
     CronModule,
     // WS gateway (all client-facing commands)

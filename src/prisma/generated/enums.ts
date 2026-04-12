@@ -225,3 +225,14 @@ export const NotificationType = {
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const ReferralStatus = {
+  pending: 'pending',
+  signed_up: 'signed_up',
+  subscribed: 'subscribed',
+  active: 'active',
+  rejected: 'rejected'
+} as const
+
+export type ReferralStatus = (typeof ReferralStatus)[keyof typeof ReferralStatus]

@@ -67,7 +67,10 @@ export const ModelName = {
   SocialSentimentAggregate: 'SocialSentimentAggregate',
   QueueJob: 'QueueJob',
   MetricsCounter: 'MetricsCounter',
-  MetricsGauge: 'MetricsGauge'
+  MetricsGauge: 'MetricsGauge',
+  ReferralLink: 'ReferralLink',
+  Referral: 'Referral',
+  ReferralReward: 'ReferralReward'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -489,6 +492,67 @@ export const MetricsGaugeScalarFieldEnum = {
 } as const
 
 export type MetricsGaugeScalarFieldEnum = (typeof MetricsGaugeScalarFieldEnum)[keyof typeof MetricsGaugeScalarFieldEnum]
+
+
+export const ReferralLinkScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  referralCode: 'referralCode',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReferralLinkScalarFieldEnum = (typeof ReferralLinkScalarFieldEnum)[keyof typeof ReferralLinkScalarFieldEnum]
+
+
+export const ReferralScalarFieldEnum = {
+  id: 'id',
+  referrerId: 'referrerId',
+  refereeId: 'refereeId',
+  referralCode: 'referralCode',
+  status: 'status',
+  signedUpAt: 'signedUpAt',
+  subscribedAt: 'subscribedAt',
+  referrerReward: 'referrerReward',
+  refereeReward: 'refereeReward',
+  referrerRewardAmount: 'referrerRewardAmount',
+  refereeRewardAmount: 'refereeRewardAmount',
+  referrerRewardClaimed: 'referrerRewardClaimed',
+  referrerRewardClaimedAt: 'referrerRewardClaimedAt',
+  refereeRewardClaimed: 'refereeRewardClaimed',
+  refereeRewardClaimedAt: 'refereeRewardClaimedAt',
+  refereeTierAtSubscription: 'refereeTierAtSubscription',
+  refereeSubscriptionPrice: 'refereeSubscriptionPrice',
+  utmSource: 'utmSource',
+  utmMedium: 'utmMedium',
+  ipAddress: 'ipAddress',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReferralScalarFieldEnum = (typeof ReferralScalarFieldEnum)[keyof typeof ReferralScalarFieldEnum]
+
+
+export const ReferralRewardScalarFieldEnum = {
+  id: 'id',
+  referralId: 'referralId',
+  userId: 'userId',
+  rewardType: 'rewardType',
+  tierAwarded: 'tierAwarded',
+  tierValue: 'tierValue',
+  monthsAwarded: 'monthsAwarded',
+  status: 'status',
+  claimedAt: 'claimedAt',
+  expiresAt: 'expiresAt',
+  appliedToUserId: 'appliedToUserId',
+  newExpiryDate: 'newExpiryDate',
+  amount: 'amount',
+  usedAt: 'usedAt',
+  usedWithSubscription: 'usedWithSubscription',
+  createdAt: 'createdAt'
+} as const
+
+export type ReferralRewardScalarFieldEnum = (typeof ReferralRewardScalarFieldEnum)[keyof typeof ReferralRewardScalarFieldEnum]
 
 
 export const SortOrder = {

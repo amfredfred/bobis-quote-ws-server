@@ -102,3 +102,18 @@ export type MetricsCounter = Prisma.MetricsCounterModel
  * 
  */
 export type MetricsGauge = Prisma.MetricsGaugeModel
+/**
+ * Model ReferralLink
+ * 
+ */
+export type ReferralLink = Prisma.ReferralLinkModel
+/**
+ * Model Referral
+ * 
+ */
+export type Referral = Prisma.ReferralModel
+/**
+ * Model ReferralReward
+ * 
+ */
+export type ReferralReward = Prisma.ReferralRewardModel

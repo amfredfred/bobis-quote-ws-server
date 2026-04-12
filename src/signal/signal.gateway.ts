@@ -348,8 +348,6 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
       where: { status: { in: ['TRIGGERED', 'TP1_HIT'] } },
     });
 
-    console.log('openSignals\n\n', openSignals.length)
-
     if (openSignals.length === 0) return;
     logger.info(`Reconciling ${openSignals.length} open signal(s)`);
 

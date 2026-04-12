@@ -132,20 +132,15 @@ export class ProfileService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findOrCreate(userId: string) {
-    let profile = await this.prisma.profile.findUnique({ where: { userId } });
+    const username    = generateTraderUsername();
+    const displayName = generateTraderDisplayName();
+    const avatarUrl   = generateRandomAvatar(userId);
 
-    if (!profile) {
-      profile = await this.prisma.profile.create({
-        data: {
-          userId,
-          username: generateTraderUsername(),
-          displayName: generateTraderDisplayName(),
-          avatarUrl: generateRandomAvatar(userId),
-        }
-      });
-    }
-
-    return profile;
+    return this.prisma.profile.upsert({
+      where:  { userId },
+      update: {},          // already exists — touch nothing
+      create: { userId, username, displayName, avatarUrl },
+    });
   }
 
   async findOne(userId: string) {

@@ -30,6 +30,8 @@ import { AnalyticsModule } from '@src/analytics/analytics.module';
 import { MetaApiModule } from '../brokers/metaapi/metaapi.module';
 import { PerformanceModule } from '../performance/performance.module';
 import { PerformanceHandler } from './handlers/performance.handler';
+import { ReferralModule } from '../referral/referral.module';
+import { ReferralHandler } from './handlers/referral.handler';
 
 const HANDLERS = [
   DashboardHandler,
@@ -40,7 +42,8 @@ const HANDLERS = [
   MarketHandler,
   NotificationsHandler,
   AnalyticsHandler,
-  PerformanceHandler
+  PerformanceHandler,
+  ReferralHandler,
 ];
 
 @Module({
@@ -58,6 +61,7 @@ const HANDLERS = [
     AnalyticsModule,
     MetaApiModule,
     PerformanceModule,
+    ReferralModule,
     forwardRef(() => PipelineModule),
   ],
   providers: [AppGateway, SignalDispatcherService, ...HANDLERS],

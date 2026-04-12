@@ -48,6 +48,11 @@ model Profile {
   signalSubscriptions UserSignalSubscription[]
   journalTrades       JournalTrade[]
 
+  referralLink       ReferralLink?
+  referralsGiven     Referral[]      @relation("ReferrerReferrals")
+  referralsReceived  Referral[]      @relation("RefereeReferrals")
+  referralRewards    ReferralReward[]
+
   @@map("profiles")
   @@schema("public")
 }
@@ -544,6 +549,100 @@ model MetricsGauge {
   @@schema("public")
 }
 
+// ── Referral system ───────────────────────────────────────────────────────────
+
+model ReferralLink {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @unique @map("user_id") @db.Uuid
+  referralCode String   @unique @map("referral_code") @db.VarChar(12)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  profile Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("referral_links")
+  @@schema("public")
+}
+
+model Referral {
+  id           String         @id @default(uuid()) @db.Uuid
+  referrerId   String         @map("referrer_id") @db.Uuid
+  refereeId    String?        @map("referee_id") @db.Uuid
+  referralCode String         @map("referral_code") @db.VarChar(12)
+  status       ReferralStatus @default(pending)
+
+  signedUpAt   DateTime? @map("signed_up_at") @db.Timestamptz(6)
+  subscribedAt DateTime? @map("subscribed_at") @db.Timestamptz(6)
+
+  referrerReward           String?   @map("referrer_reward") @db.VarChar(50)
+  refereeReward            String?   @map("referee_reward") @db.VarChar(50)
+  referrerRewardAmount     Decimal?  @map("referrer_reward_amount") @db.Decimal(10, 2)
+  refereeRewardAmount      Decimal?  @map("referee_reward_amount") @db.Decimal(10, 2)
+  referrerRewardClaimed    Boolean   @default(false) @map("referrer_reward_claimed")
+  referrerRewardClaimedAt  DateTime? @map("referrer_reward_claimed_at") @db.Timestamptz(6)
+  refereeRewardClaimed     Boolean   @default(false) @map("referee_reward_claimed")
+  refereeRewardClaimedAt   DateTime? @map("referee_reward_claimed_at") @db.Timestamptz(6)
+
+  // Tier tracking — set when referee subscribes
+  refereeTierAtSubscription String?  @map("referee_tier_at_subscription") @db.VarChar(20)
+  refereeSubscriptionPrice  Decimal? @map("referee_subscription_price") @db.Decimal(10, 2)
+
+  utmSource String? @map("utm_source") @db.VarChar(100)
+  utmMedium String? @map("utm_medium") @db.VarChar(100)
+  ipAddress String? @map("ip_address") @db.VarChar(50)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  referrer Profile          @relation("ReferrerReferrals", fields: [referrerId], references: [userId], onDelete: Cascade)
+  referee  Profile?         @relation("RefereeReferrals", fields: [refereeId], references: [userId], onDelete: SetNull)
+  rewards  ReferralReward[]
+
+  @@index([referrerId, status])
+  @@index([refereeId])
+  @@index([referralCode])
+  @@index([createdAt])
+  @@map("referrals")
+  @@schema("public")
+}
+
+model ReferralReward {
+  id         String @id @default(uuid()) @db.Uuid
+  referralId String @map("referral_id") @db.Uuid
+  userId     String @map("user_id") @db.Uuid
+  rewardType String @map("reward_type") @db.VarChar(50)
+
+  // ── Tier-based reward fields ───────────────────────────────────────────────
+  tierAwarded   String?  @map("tier_awarded") @db.VarChar(20)
+  tierValue     Decimal? @map("tier_value") @db.Decimal(10, 2)
+  monthsAwarded Int      @default(1) @map("months_awarded")
+
+  // ── Lifecycle — status: "pending" | "claimed" | "expired" ─────────────────
+  status    String    @default("pending") @map("status") @db.VarChar(20)
+  claimedAt DateTime? @map("claimed_at") @db.Timestamptz(6)
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz(6)
+
+  // ── Subscription extension info (set on claim) ────────────────────────────
+  appliedToUserId String?   @map("applied_to_user_id") @db.Uuid
+  newExpiryDate   DateTime? @map("new_expiry_date") @db.Timestamptz(6)
+
+  // ── Legacy credit fields (kept for backward compat) ───────────────────────
+  amount               Decimal   @default(0) @map("amount") @db.Decimal(10, 2)
+  usedAt               DateTime? @map("used_at") @db.Timestamptz(6)
+  usedWithSubscription String?   @map("used_with_subscription") @db.VarChar(50)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  referral Referral @relation(fields: [referralId], references: [id], onDelete: Cascade)
+  profile  Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId, status])
+  @@index([userId, expiresAt])
+  @@map("referral_rewards")
+  @@schema("public")
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // ENUMS
 // ─────────────────────────────────────────────────────────────────────────────
@@ -762,5 +861,16 @@ enum NotificationType {
   SIGNAL_EXPIRED
 
   @@map("notification_type")
+  @@schema("public")
+}
+
+enum ReferralStatus {
+  pending
+  signed_up
+  subscribed
+  active
+  rejected
+
+  @@map("referral_status")
   @@schema("public")
 }

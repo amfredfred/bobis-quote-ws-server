@@ -50,6 +50,7 @@ import {
 } from '../journal/journal-trade.service';
 import { CreateStrategyDto, UpdateStrategyDto } from '../strategy/strategy.service';
 import { PerformanceHandler } from './handlers/performance.handler';
+import { ReferralHandler } from './handlers/referral.handler';
 import { SkipThrottle } from '@nestjs/throttler';
 
 // ── Payload shapes ─────────────────────────────────────────────────────────────
@@ -119,6 +120,12 @@ interface Payloads {
     propPayoutTargetPct?: number;
     propPayoutSplitPct?: number;
   };
+  // Referral
+  'referral.link': Record<string, never>;
+  'referral.track': { referralCode: string };
+  'referral.dashboard': Record<string, never>;
+  'referral.confirm': { tier?: string };
+  'referral.reward.claim': { rewardId: string };
 }
 
 type Command = keyof Payloads;
@@ -217,6 +224,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     private readonly marketSvc: MarketService,
     private readonly analyticsHandler: AnalyticsHandler,
     private readonly performanceHandler: PerformanceHandler,
+    private readonly referralHandler: ReferralHandler,
   ) { }
 
   afterInit(): void {
@@ -362,7 +370,12 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'zone.get': (p) => this.marketHandler.getZone(p.id),
       // Performance Hub — pro+ tier-gated, global signal intelligence
       'performance.dashboard': () => this.performanceHandler.dashboard(userId),
-
+      // Referral
+      'referral.link':         () => this.referralHandler.getLink(userId),
+      'referral.track':        (p) => this.referralHandler.trackSignup(userId, p.referralCode),
+      'referral.dashboard':    () => this.referralHandler.getDashboard(userId),
+      'referral.confirm':      (p) => this.referralHandler.confirm(userId, p.tier),
+      'referral.reward.claim': (p) => this.referralHandler.claimReward(userId, p.rewardId),
     };
   }
 
