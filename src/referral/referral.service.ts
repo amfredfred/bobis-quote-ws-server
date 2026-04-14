@@ -220,14 +220,18 @@ export class ReferralService {
     let link = await this.prisma.referralLink.findUnique({ where: { userId } });
 
     if (!link) {
-      let code = generateCode();
-      for (let i = 0; i < 10; i++) {
-        const exists = await this.prisma.referralLink.findUnique({ where: { referralCode: code } });
-        if (!exists) break;
-        code = generateCode();
+      try {
+        let code = generateCode();
+        for (let i = 0; i < 10; i++) {
+          const exists = await this.prisma.referralLink.findUnique({ where: { referralCode: code } });
+          if (!exists) break;
+          code = generateCode();
+        }
+        link = await this.prisma.referralLink.create({ data: { userId, referralCode: code } });
+        logger.info('Referral link created', { userId, code: link.referralCode });
+      } catch (error) {
+        throw new Error("Something went wrong while fetching your referral link..", {'cause': error});
       }
-      link = await this.prisma.referralLink.create({ data: { userId, referralCode: code } });
-      logger.info('Referral link created', { userId, code: link.referralCode });
     }
 
     const slug: string | null = (link as any).customSlug ?? null;
