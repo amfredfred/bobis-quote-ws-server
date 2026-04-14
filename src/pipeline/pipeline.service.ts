@@ -310,7 +310,7 @@ export class PipelineService {
       case 'INVALIDATED': return 'INVALIDATED';
       case 'EXPIRED': return 'EXPIRED';
       case 'BREAKEVEN': return 'TP1_HIT';
-      default: return 'SL_HIT'; // MANUAL / CLOSED_WHILE_DOWN treated as loss
+      default: return 'EXPIRED'; // MANUAL / CLOSED_WHILE_DOWN treated as loss
     }
   }
 }

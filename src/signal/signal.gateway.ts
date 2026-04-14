@@ -4,7 +4,7 @@ import { Injectable, OnModuleInit, OnModuleDestroy, Inject, forwardRef } from '@
 import { ConfigService } from '@nestjs/config';
 import WebSocket from 'ws';
 import { SignalBus } from './signal.bus';
-import { InboundSignal } from '../common/types/signal.types';
+import { BosDirection, InboundSignal } from '../common/types/signal.types';
 import { MarketService } from '../market/market.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { createLogger } from '../common/logger/logger';
@@ -19,9 +19,14 @@ interface PendingPayload {
   htfInterval: string;
   ltfInterval: string;
   htfRange: {
-    rangeHigh: number; rangeLow: number; bosDirection: string;
-    timestamp: number; tpLevel: number; brokenAt?: number;
-    htfCandleOpen?: number; htfCandleClose?: number;
+    rangeHigh: number;
+    rangeLow: number;
+    bosDirection: BosDirection;
+    timestamp: number; 
+    tpLevel: number;
+    brokenAt?: number;
+    htfCandleOpen?: number;
+    htfCandleClose?: number;
   };
   ltfRange: { rangeHigh: number; rangeLow: number; slLevel: number; timestamp: number; };
 }
@@ -220,7 +225,8 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
     });
 
     this.ws.on('message', (raw) => {
-      try { this._handle((raw as any as string).toString()); } catch (e) {
+      try { this._handle((raw as any as string).toString()); }
+      catch (e) {
         logger.error('Message error', { error: String(e) });
       }
     });
@@ -452,8 +458,7 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
     }
 
     const SIGNAL_EVENTS = [
-      'signal.triggered', 'signal.updated',
-      'signal.tp1_hit', 'signal.tp2_hit',
+      'signal.triggered', 'signal.updated', 'signal.tp1_hit', 'signal.tp2_hit',
       'signal.sl_hit', 'signal.invalidated', 'signal.expired',
     ];
     if (!SIGNAL_EVENTS.includes(event)) return;

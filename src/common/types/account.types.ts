@@ -2,8 +2,31 @@
 
 import { RiskMode } from './trade.types';
 
+/**
+ * TradeMode — controls which LTF timeframe signals this account accepts.
+ *
+ *  all      → accept every signal regardless of ltfInterval (default)
+ *  standard → only 5-minute LTF entries  (e.g. ltfInterval = "5min")
+ *  ultra    → only 1-minute LTF entries  (e.g. ltfInterval = "1min")
+ *             Effectively scalp mode — higher frequency, shorter holds.
+ *
+ * Set per-account in riskConfig so a trader can run multiple accounts
+ * with different modes simultaneously (e.g. one ultra, one standard).
+ */
+export type TradeMode = 'all' | 'standard' | 'ultra';
+
+/** Maps a TradeMode to the ltfInterval strings it accepts. */
+export const TRADE_MODE_LTF_MAP: Record<TradeMode, string[] | null> = {
+  all: null,             // null = no filter, accept everything
+  standard: ['5min', '5m', 'M5'],
+  ultra: ['1min', '1m', 'M1'],
+};
+
 export interface AccountRiskConfig {
   riskMode: RiskMode;
+
+  /** Which LTF timeframe signals this account accepts. Default: 'all' */
+  tradeMode: TradeMode;
   riskPercent: number;
   riskFixedAmount: number;
   maxOpenTrades: number;
@@ -45,6 +68,7 @@ export interface Account {
 
 export const DEFAULT_RISK_CONFIG: AccountRiskConfig = {
   riskMode: 'percentage',
+  tradeMode: 'all',
   riskPercent: 1.0,
   riskFixedAmount: 100.0,
   maxOpenTrades: 5,

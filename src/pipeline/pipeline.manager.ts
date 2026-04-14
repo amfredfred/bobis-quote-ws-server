@@ -9,16 +9,17 @@ import { MetricsService } from '../core/metrics/metrics.service';
 import { EventBus } from '../core/event-bus/event.bus';
 import { PipelineService, PipelineSnapshot } from './pipeline.service';
 import { InboundSignal } from '../common/types/signal.types';
+import { TRADE_MODE_LTF_MAP } from '../common/types/account.types';
 import { createLogger } from '../common/logger/logger';
 import { PrismaService } from '../prisma/prisma.service';
 
 const logger = createLogger('pipeline.manager');
 
 export interface DegradedPipeline {
-  accountId:   string;
+  accountId: string;
   accountName: string;
-  error:       string;
-  failedAt:    number;
+  error: string;
+  failedAt: number;
 }
 
 @Injectable()
@@ -27,18 +28,18 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
 
   // Accounts that failed to start (e.g. invalid MetaApi ID, not yet deployed)
   // are tracked here so the user can see them via GET /admin/pipelines
-  private readonly degraded  = new Map<string, DegradedPipeline>();
+  private readonly degraded = new Map<string, DegradedPipeline>();
 
-  private readonly bus       = new EventBus();
+  private readonly bus = new EventBus();
 
   constructor(
-    private readonly signalBus:   SignalBus,
-    private readonly metaApi:     MetaApiService,
-    private readonly accountSvc:  TradingAccountService,
-    private readonly tradesSvc:   TradesService,
-    private readonly metrics:     MetricsService,
-    private readonly prisma:      PrismaService,
-  ) {}
+    private readonly signalBus: SignalBus,
+    private readonly metaApi: MetaApiService,
+    private readonly accountSvc: TradingAccountService,
+    private readonly tradesSvc: TradesService,
+    private readonly metrics: MetricsService,
+    private readonly prisma: PrismaService,
+  ) { }
 
   async onModuleInit(): Promise<void> {
     this.signalBus.onSignal((signal) => this._fanOut(signal));
@@ -49,7 +50,7 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
 
     logger.info('PipelineManager ready', {
       pipelines: this.pipelines.size,
-      degraded:  this.degraded.size,
+      degraded: this.degraded.size,
     });
   }
 
@@ -80,15 +81,15 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
       // whole server or block other accounts from starting.
       const error = String(err);
       this.degraded.set(account.id, {
-        accountId:   account.id,
+        accountId: account.id,
         accountName: account.name,
         error,
-        failedAt:    Date.now(),
+        failedAt: Date.now(),
       });
       this.metrics.increment('pipelines.start_error');
       logger.error('Pipeline failed to start — marked degraded', {
         accountId: account.id,
-        name:      account.name,
+        name: account.name,
         error,
       });
       // Do NOT rethrow — caller (onModuleInit, controller) should handle
@@ -150,13 +151,37 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
 
   private _fanOut(signal: InboundSignal): void {
     if (!this.pipelines.size) return;
-    logger.debug('Fan-out', { signalId: signal.id, symbol: signal.symbol, pipelines: this.pipelines.size });
+    logger.debug('Fan-out', { signalId: signal.id, symbol: signal.symbol, ltfInterval: signal.ltfInterval, pipelines: this.pipelines.size });
     for (const [accountId, pipeline] of this.pipelines) {
+      if (!this._signalMatchesMode(signal, pipeline)) {
+        logger.debug('Signal skipped — tradeMode mismatch', {
+          accountId,
+          signalId: signal.id,
+          ltfInterval: signal.ltfInterval,
+          tradeMode: pipeline.account.riskConfig?.tradeMode ?? 'all',
+        });
+        continue;
+      }
       pipeline.handleSignal(signal).catch(err =>
         logger.error('Pipeline signal error', { accountId, signalId: signal.id, error: String(err) }),
       );
     }
   }
 
-}
+  /**
+   * Returns true when the signal's ltfInterval is compatible with the
+   * account's tradeMode.  'all' (the default) always passes through.
+   *
+   *  ultra    → only 1-minute LTF entries
+   *  standard → only 5-minute LTF entries
+   *  all      → no filter
+   */
+  private _signalMatchesMode(signal: InboundSignal, pipeline: PipelineService): boolean {
+    const mode = pipeline.account.riskConfig?.tradeMode ?? 'all';
+    const allowed = TRADE_MODE_LTF_MAP[mode];
+    if (!allowed) return true;                              // 'all' → no filter
+    if (!signal.ltfInterval) return false;                  // signal has no ltf → skip non-'all' accounts
+    return allowed.includes(signal.ltfInterval.toLowerCase());
+  }
 
+}

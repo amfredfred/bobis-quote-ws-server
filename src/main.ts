@@ -36,7 +36,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1', {
     exclude: [{ path: 'admin/(.*)', method: RequestMethod.ALL }]
   });
-
+ 
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
     whitelist: true,

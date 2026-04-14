@@ -34,7 +34,7 @@ import { createLogger } from '../common/logger/logger';
 import type { CloseReason } from '../common/types/trade.types';
 
 const LOSS_REASONS = new Set<CloseReason>(['SL_HIT', 'INVALIDATED', 'CLOSED_WHILE_DOWN', 'ERROR']);
-const WIN_REASONS  = new Set<CloseReason>(['TP1_HIT', 'TP2_HIT']);
+// const WIN_REASONS  = new Set<CloseReason>(['TP1_HIT', 'TP2_HIT']);
 
 function nowMs(): number { return Date.now(); }
 
