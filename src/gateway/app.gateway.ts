@@ -126,6 +126,8 @@ interface Payloads {
   'referral.dashboard': Record<string, never>;
   'referral.confirm': { tier?: string };
   'referral.reward.claim': { rewardId: string };
+  'referral.setPayoutPreference': { preference: 'subscription' | 'credit' };
+  'referral.setSlug': { slug: string };
 }
 
 type Command = keyof Payloads;
@@ -376,6 +378,8 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'referral.dashboard':    () => this.referralHandler.getDashboard(userId),
       'referral.confirm':      (p) => this.referralHandler.confirm(userId, p.tier),
       'referral.reward.claim': (p) => this.referralHandler.claimReward(userId, p.rewardId),
+      'referral.setPayoutPreference': (p) => this.referralHandler.setPayoutPreference(userId, p.preference),
+      'referral.setSlug': (p) => this.referralHandler.setCustomSlug(userId, p.slug),
     };
   }
 

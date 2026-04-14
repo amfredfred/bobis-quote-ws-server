@@ -432,8 +432,8 @@ export type TradeWhereInput = {
   realizedRR?: Prisma.FloatNullableFilter<"Trade"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Trade"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Trade"> | Date | string
-  account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
   signals?: Prisma.SignalListRelationFilter
+  account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
 }
 
 export type TradeOrderByWithRelationInput = {
@@ -465,8 +465,8 @@ export type TradeOrderByWithRelationInput = {
   realizedRR?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  account?: Prisma.TradingAccountOrderByWithRelationInput
   signals?: Prisma.SignalOrderByRelationAggregateInput
+  account?: Prisma.TradingAccountOrderByWithRelationInput
 }
 
 export type TradeWhereUniqueInput = Prisma.AtLeast<{
@@ -501,8 +501,8 @@ export type TradeWhereUniqueInput = Prisma.AtLeast<{
   realizedRR?: Prisma.FloatNullableFilter<"Trade"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Trade"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Trade"> | Date | string
-  account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
   signals?: Prisma.SignalListRelationFilter
+  account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
 }, "id">
 
 export type TradeOrderByWithAggregationInput = {
@@ -603,8 +603,8 @@ export type TradeCreateInput = {
   realizedRR?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  account: Prisma.TradingAccountCreateNestedOneWithoutTradesInput
   signals?: Prisma.SignalCreateNestedManyWithoutTradeInput
+  account: Prisma.TradingAccountCreateNestedOneWithoutTradesInput
 }
 
 export type TradeUncheckedCreateInput = {
@@ -667,8 +667,8 @@ export type TradeUpdateInput = {
   realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  account?: Prisma.TradingAccountUpdateOneRequiredWithoutTradesNestedInput
   signals?: Prisma.SignalUpdateManyWithoutTradeNestedInput
+  account?: Prisma.TradingAccountUpdateOneRequiredWithoutTradesNestedInput
 }
 
 export type TradeUncheckedUpdateInput = {
@@ -1441,8 +1441,8 @@ export type TradeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   realizedRR?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   signals?: boolean | Prisma.Trade$signalsArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TradeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trade"]>
 
@@ -1543,8 +1543,8 @@ export type TradeSelectScalar = {
 
 export type TradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "accountId" | "signalId" | "symbol" | "side" | "status" | "plan" | "entryTicket" | "entryPrice" | "entryLots" | "currentLots" | "stopLoss" | "tp1" | "tp2" | "tp1Hit" | "tp1HitAt" | "tp2Hit" | "tp2HitAt" | "slHit" | "slHitAt" | "openedAt" | "closedAt" | "closeReason" | "closePrice" | "realizedPnl" | "realizedRR" | "createdAt" | "updatedAt", ExtArgs["result"]["trade"]>
 export type TradeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   signals?: boolean | Prisma.Trade$signalsArgs<ExtArgs>
+  account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TradeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TradeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1557,8 +1557,8 @@ export type TradeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $TradePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Trade"
   objects: {
-    account: Prisma.$TradingAccountPayload<ExtArgs>
     signals: Prisma.$SignalPayload<ExtArgs>[]
+    account: Prisma.$TradingAccountPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1983,8 +1983,8 @@ readonly fields: TradeFieldRefs;
  */
 export interface Prisma__TradeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  account<T extends Prisma.TradingAccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccountDefaultArgs<ExtArgs>>): Prisma.Prisma__TradingAccountClient<runtime.Types.Result.GetResult<Prisma.$TradingAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   signals<T extends Prisma.Trade$signalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trade$signalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SignalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  account<T extends Prisma.TradingAccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccountDefaultArgs<ExtArgs>>): Prisma.Prisma__TradingAccountClient<runtime.Types.Result.GetResult<Prisma.$TradingAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

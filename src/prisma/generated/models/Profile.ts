@@ -52,13 +52,13 @@ export type ProfileMinAggregateOutputType = {
   lastNotificationSentAt: Date | null
   notificationSentToday: number | null
   lastNotificationReset: Date | null
-  subscriptionTier: string | null
-  isPro: boolean | null
   proExpiresAt: Date | null
   revenuecatAppUserId: string | null
   timezone: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  subscriptionTier: string | null
+  isPro: boolean | null
 }
 
 export type ProfileMaxAggregateOutputType = {
@@ -79,13 +79,13 @@ export type ProfileMaxAggregateOutputType = {
   lastNotificationSentAt: Date | null
   notificationSentToday: number | null
   lastNotificationReset: Date | null
-  subscriptionTier: string | null
-  isPro: boolean | null
   proExpiresAt: Date | null
   revenuecatAppUserId: string | null
   timezone: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  subscriptionTier: string | null
+  isPro: boolean | null
 }
 
 export type ProfileCountAggregateOutputType = {
@@ -106,13 +106,13 @@ export type ProfileCountAggregateOutputType = {
   lastNotificationSentAt: number
   notificationSentToday: number
   lastNotificationReset: number
-  subscriptionTier: number
-  isPro: number
   proExpiresAt: number
   revenuecatAppUserId: number
   timezone: number
   createdAt: number
   updatedAt: number
+  subscriptionTier: number
+  isPro: number
   _all: number
 }
 
@@ -143,13 +143,13 @@ export type ProfileMinAggregateInputType = {
   lastNotificationSentAt?: true
   notificationSentToday?: true
   lastNotificationReset?: true
-  subscriptionTier?: true
-  isPro?: true
   proExpiresAt?: true
   revenuecatAppUserId?: true
   timezone?: true
   createdAt?: true
   updatedAt?: true
+  subscriptionTier?: true
+  isPro?: true
 }
 
 export type ProfileMaxAggregateInputType = {
@@ -170,13 +170,13 @@ export type ProfileMaxAggregateInputType = {
   lastNotificationSentAt?: true
   notificationSentToday?: true
   lastNotificationReset?: true
-  subscriptionTier?: true
-  isPro?: true
   proExpiresAt?: true
   revenuecatAppUserId?: true
   timezone?: true
   createdAt?: true
   updatedAt?: true
+  subscriptionTier?: true
+  isPro?: true
 }
 
 export type ProfileCountAggregateInputType = {
@@ -197,13 +197,13 @@ export type ProfileCountAggregateInputType = {
   lastNotificationSentAt?: true
   notificationSentToday?: true
   lastNotificationReset?: true
-  subscriptionTier?: true
-  isPro?: true
   proExpiresAt?: true
   revenuecatAppUserId?: true
   timezone?: true
   createdAt?: true
   updatedAt?: true
+  subscriptionTier?: true
+  isPro?: true
   _all?: true
 }
 
@@ -311,13 +311,13 @@ export type ProfileGroupByOutputType = {
   lastNotificationSentAt: Date | null
   notificationSentToday: number
   lastNotificationReset: Date | null
-  subscriptionTier: string | null
-  isPro: boolean
   proExpiresAt: Date | null
   revenuecatAppUserId: string | null
   timezone: string
   createdAt: Date
   updatedAt: Date | null
+  subscriptionTier: string | null
+  isPro: boolean
   _count: ProfileCountAggregateOutputType | null
   _avg: ProfileAvgAggregateOutputType | null
   _sum: ProfileSumAggregateOutputType | null
@@ -361,23 +361,24 @@ export type ProfileWhereInput = {
   lastNotificationSentAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   notificationSentToday?: Prisma.IntFilter<"Profile"> | number
   lastNotificationReset?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
-  subscriptionTier?: Prisma.StringNullableFilter<"Profile"> | string | null
-  isPro?: Prisma.BoolFilter<"Profile"> | boolean
   proExpiresAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   revenuecatAppUserId?: Prisma.StringNullableFilter<"Profile"> | string | null
   timezone?: Prisma.StringFilter<"Profile"> | string
   createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountListRelationFilter
-  tradingStrategies?: Prisma.TradingStrategyListRelationFilter
-  tradingAnalytics?: Prisma.TradingAnalyticsListRelationFilter
-  notificationLogs?: Prisma.NotificationLogListRelationFilter
-  signalSubscriptions?: Prisma.UserSignalSubscriptionListRelationFilter
+  subscriptionTier?: Prisma.StringNullableFilter<"Profile"> | string | null
+  isPro?: Prisma.BoolFilter<"Profile"> | boolean
   journalTrades?: Prisma.JournalTradeListRelationFilter
+  notificationLogs?: Prisma.NotificationLogListRelationFilter
   referralLink?: Prisma.XOR<Prisma.ReferralLinkNullableScalarRelationFilter, Prisma.ReferralLinkWhereInput> | null
-  referralsGiven?: Prisma.ReferralListRelationFilter
-  referralsReceived?: Prisma.ReferralListRelationFilter
+  referral_milestone_events?: Prisma.Referral_milestone_eventsListRelationFilter
   referralRewards?: Prisma.ReferralRewardListRelationFilter
+  referralsReceived?: Prisma.ReferralListRelationFilter
+  referralsGiven?: Prisma.ReferralListRelationFilter
+  tradingAccounts?: Prisma.TradingAccountListRelationFilter
+  tradingAnalytics?: Prisma.TradingAnalyticsListRelationFilter
+  tradingStrategies?: Prisma.TradingStrategyListRelationFilter
+  signalSubscriptions?: Prisma.UserSignalSubscriptionListRelationFilter
 }
 
 export type ProfileOrderByWithRelationInput = {
@@ -398,23 +399,24 @@ export type ProfileOrderByWithRelationInput = {
   lastNotificationSentAt?: Prisma.SortOrderInput | Prisma.SortOrder
   notificationSentToday?: Prisma.SortOrder
   lastNotificationReset?: Prisma.SortOrderInput | Prisma.SortOrder
-  subscriptionTier?: Prisma.SortOrderInput | Prisma.SortOrder
-  isPro?: Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  tradingAccounts?: Prisma.TradingAccountOrderByRelationAggregateInput
-  tradingStrategies?: Prisma.TradingStrategyOrderByRelationAggregateInput
-  tradingAnalytics?: Prisma.TradingAnalyticsOrderByRelationAggregateInput
-  notificationLogs?: Prisma.NotificationLogOrderByRelationAggregateInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionOrderByRelationAggregateInput
+  subscriptionTier?: Prisma.SortOrderInput | Prisma.SortOrder
+  isPro?: Prisma.SortOrder
   journalTrades?: Prisma.JournalTradeOrderByRelationAggregateInput
+  notificationLogs?: Prisma.NotificationLogOrderByRelationAggregateInput
   referralLink?: Prisma.ReferralLinkOrderByWithRelationInput
-  referralsGiven?: Prisma.ReferralOrderByRelationAggregateInput
-  referralsReceived?: Prisma.ReferralOrderByRelationAggregateInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsOrderByRelationAggregateInput
   referralRewards?: Prisma.ReferralRewardOrderByRelationAggregateInput
+  referralsReceived?: Prisma.ReferralOrderByRelationAggregateInput
+  referralsGiven?: Prisma.ReferralOrderByRelationAggregateInput
+  tradingAccounts?: Prisma.TradingAccountOrderByRelationAggregateInput
+  tradingAnalytics?: Prisma.TradingAnalyticsOrderByRelationAggregateInput
+  tradingStrategies?: Prisma.TradingStrategyOrderByRelationAggregateInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionOrderByRelationAggregateInput
 }
 
 export type ProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -438,23 +440,24 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
   lastNotificationSentAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   notificationSentToday?: Prisma.IntFilter<"Profile"> | number
   lastNotificationReset?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
-  subscriptionTier?: Prisma.StringNullableFilter<"Profile"> | string | null
-  isPro?: Prisma.BoolFilter<"Profile"> | boolean
   proExpiresAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   revenuecatAppUserId?: Prisma.StringNullableFilter<"Profile"> | string | null
   timezone?: Prisma.StringFilter<"Profile"> | string
   createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountListRelationFilter
-  tradingStrategies?: Prisma.TradingStrategyListRelationFilter
-  tradingAnalytics?: Prisma.TradingAnalyticsListRelationFilter
-  notificationLogs?: Prisma.NotificationLogListRelationFilter
-  signalSubscriptions?: Prisma.UserSignalSubscriptionListRelationFilter
+  subscriptionTier?: Prisma.StringNullableFilter<"Profile"> | string | null
+  isPro?: Prisma.BoolFilter<"Profile"> | boolean
   journalTrades?: Prisma.JournalTradeListRelationFilter
+  notificationLogs?: Prisma.NotificationLogListRelationFilter
   referralLink?: Prisma.XOR<Prisma.ReferralLinkNullableScalarRelationFilter, Prisma.ReferralLinkWhereInput> | null
-  referralsGiven?: Prisma.ReferralListRelationFilter
-  referralsReceived?: Prisma.ReferralListRelationFilter
+  referral_milestone_events?: Prisma.Referral_milestone_eventsListRelationFilter
   referralRewards?: Prisma.ReferralRewardListRelationFilter
+  referralsReceived?: Prisma.ReferralListRelationFilter
+  referralsGiven?: Prisma.ReferralListRelationFilter
+  tradingAccounts?: Prisma.TradingAccountListRelationFilter
+  tradingAnalytics?: Prisma.TradingAnalyticsListRelationFilter
+  tradingStrategies?: Prisma.TradingStrategyListRelationFilter
+  signalSubscriptions?: Prisma.UserSignalSubscriptionListRelationFilter
 }, "userId" | "username">
 
 export type ProfileOrderByWithAggregationInput = {
@@ -475,13 +478,13 @@ export type ProfileOrderByWithAggregationInput = {
   lastNotificationSentAt?: Prisma.SortOrderInput | Prisma.SortOrder
   notificationSentToday?: Prisma.SortOrder
   lastNotificationReset?: Prisma.SortOrderInput | Prisma.SortOrder
-  subscriptionTier?: Prisma.SortOrderInput | Prisma.SortOrder
-  isPro?: Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  subscriptionTier?: Prisma.SortOrderInput | Prisma.SortOrder
+  isPro?: Prisma.SortOrder
   _count?: Prisma.ProfileCountOrderByAggregateInput
   _avg?: Prisma.ProfileAvgOrderByAggregateInput
   _max?: Prisma.ProfileMaxOrderByAggregateInput
@@ -510,13 +513,13 @@ export type ProfileScalarWhereWithAggregatesInput = {
   lastNotificationSentAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
   notificationSentToday?: Prisma.IntWithAggregatesFilter<"Profile"> | number
   lastNotificationReset?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
-  subscriptionTier?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
-  isPro?: Prisma.BoolWithAggregatesFilter<"Profile"> | boolean
   proExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
   revenuecatAppUserId?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   timezone?: Prisma.StringWithAggregatesFilter<"Profile"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
+  subscriptionTier?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
+  isPro?: Prisma.BoolWithAggregatesFilter<"Profile"> | boolean
 }
 
 export type ProfileCreateInput = {
@@ -537,23 +540,24 @@ export type ProfileCreateInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileUncheckedCreateInput = {
@@ -574,23 +578,24 @@ export type ProfileUncheckedCreateInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileUpdateInput = {
@@ -611,23 +616,24 @@ export type ProfileUpdateInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileUncheckedUpdateInput = {
@@ -648,23 +654,24 @@ export type ProfileUncheckedUpdateInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileCreateManyInput = {
@@ -685,13 +692,13 @@ export type ProfileCreateManyInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  subscriptionTier?: string | null
+  isPro?: boolean
 }
 
 export type ProfileUpdateManyMutationInput = {
@@ -712,13 +719,13 @@ export type ProfileUpdateManyMutationInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ProfileUncheckedUpdateManyInput = {
@@ -739,13 +746,13 @@ export type ProfileUncheckedUpdateManyInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ProfileCountOrderByAggregateInput = {
@@ -766,13 +773,13 @@ export type ProfileCountOrderByAggregateInput = {
   lastNotificationSentAt?: Prisma.SortOrder
   notificationSentToday?: Prisma.SortOrder
   lastNotificationReset?: Prisma.SortOrder
-  subscriptionTier?: Prisma.SortOrder
-  isPro?: Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  subscriptionTier?: Prisma.SortOrder
+  isPro?: Prisma.SortOrder
 }
 
 export type ProfileAvgOrderByAggregateInput = {
@@ -797,13 +804,13 @@ export type ProfileMaxOrderByAggregateInput = {
   lastNotificationSentAt?: Prisma.SortOrder
   notificationSentToday?: Prisma.SortOrder
   lastNotificationReset?: Prisma.SortOrder
-  subscriptionTier?: Prisma.SortOrder
-  isPro?: Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  subscriptionTier?: Prisma.SortOrder
+  isPro?: Prisma.SortOrder
 }
 
 export type ProfileMinOrderByAggregateInput = {
@@ -824,13 +831,13 @@ export type ProfileMinOrderByAggregateInput = {
   lastNotificationSentAt?: Prisma.SortOrder
   notificationSentToday?: Prisma.SortOrder
   lastNotificationReset?: Prisma.SortOrder
-  subscriptionTier?: Prisma.SortOrder
-  isPro?: Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  subscriptionTier?: Prisma.SortOrder
+  isPro?: Prisma.SortOrder
 }
 
 export type ProfileSumOrderByAggregateInput = {
@@ -975,24 +982,16 @@ export type ProfileUpdateOneRequiredWithoutReferralLinkNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProfileUpdateToOneWithWhereWithoutReferralLinkInput, Prisma.ProfileUpdateWithoutReferralLinkInput>, Prisma.ProfileUncheckedUpdateWithoutReferralLinkInput>
 }
 
-export type ProfileCreateNestedOneWithoutReferralsGivenInput = {
-  create?: Prisma.XOR<Prisma.ProfileCreateWithoutReferralsGivenInput, Prisma.ProfileUncheckedCreateWithoutReferralsGivenInput>
-  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutReferralsGivenInput
-  connect?: Prisma.ProfileWhereUniqueInput
-}
-
 export type ProfileCreateNestedOneWithoutReferralsReceivedInput = {
   create?: Prisma.XOR<Prisma.ProfileCreateWithoutReferralsReceivedInput, Prisma.ProfileUncheckedCreateWithoutReferralsReceivedInput>
   connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutReferralsReceivedInput
   connect?: Prisma.ProfileWhereUniqueInput
 }
 
-export type ProfileUpdateOneRequiredWithoutReferralsGivenNestedInput = {
+export type ProfileCreateNestedOneWithoutReferralsGivenInput = {
   create?: Prisma.XOR<Prisma.ProfileCreateWithoutReferralsGivenInput, Prisma.ProfileUncheckedCreateWithoutReferralsGivenInput>
   connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutReferralsGivenInput
-  upsert?: Prisma.ProfileUpsertWithoutReferralsGivenInput
   connect?: Prisma.ProfileWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfileUpdateToOneWithWhereWithoutReferralsGivenInput, Prisma.ProfileUpdateWithoutReferralsGivenInput>, Prisma.ProfileUncheckedUpdateWithoutReferralsGivenInput>
 }
 
 export type ProfileUpdateOneWithoutReferralsReceivedNestedInput = {
@@ -1003,6 +1002,14 @@ export type ProfileUpdateOneWithoutReferralsReceivedNestedInput = {
   delete?: Prisma.ProfileWhereInput | boolean
   connect?: Prisma.ProfileWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProfileUpdateToOneWithWhereWithoutReferralsReceivedInput, Prisma.ProfileUpdateWithoutReferralsReceivedInput>, Prisma.ProfileUncheckedUpdateWithoutReferralsReceivedInput>
+}
+
+export type ProfileUpdateOneRequiredWithoutReferralsGivenNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfileCreateWithoutReferralsGivenInput, Prisma.ProfileUncheckedCreateWithoutReferralsGivenInput>
+  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutReferralsGivenInput
+  upsert?: Prisma.ProfileUpsertWithoutReferralsGivenInput
+  connect?: Prisma.ProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfileUpdateToOneWithWhereWithoutReferralsGivenInput, Prisma.ProfileUpdateWithoutReferralsGivenInput>, Prisma.ProfileUncheckedUpdateWithoutReferralsGivenInput>
 }
 
 export type ProfileCreateNestedOneWithoutReferralRewardsInput = {
@@ -1017,6 +1024,20 @@ export type ProfileUpdateOneRequiredWithoutReferralRewardsNestedInput = {
   upsert?: Prisma.ProfileUpsertWithoutReferralRewardsInput
   connect?: Prisma.ProfileWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProfileUpdateToOneWithWhereWithoutReferralRewardsInput, Prisma.ProfileUpdateWithoutReferralRewardsInput>, Prisma.ProfileUncheckedUpdateWithoutReferralRewardsInput>
+}
+
+export type ProfileCreateNestedOneWithoutReferral_milestone_eventsInput = {
+  create?: Prisma.XOR<Prisma.ProfileCreateWithoutReferral_milestone_eventsInput, Prisma.ProfileUncheckedCreateWithoutReferral_milestone_eventsInput>
+  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutReferral_milestone_eventsInput
+  connect?: Prisma.ProfileWhereUniqueInput
+}
+
+export type ProfileUpdateOneRequiredWithoutReferral_milestone_eventsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfileCreateWithoutReferral_milestone_eventsInput, Prisma.ProfileUncheckedCreateWithoutReferral_milestone_eventsInput>
+  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutReferral_milestone_eventsInput
+  upsert?: Prisma.ProfileUpsertWithoutReferral_milestone_eventsInput
+  connect?: Prisma.ProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfileUpdateToOneWithWhereWithoutReferral_milestone_eventsInput, Prisma.ProfileUpdateWithoutReferral_milestone_eventsInput>, Prisma.ProfileUncheckedUpdateWithoutReferral_milestone_eventsInput>
 }
 
 export type ProfileCreateWithoutTradingAccountsInput = {
@@ -1037,22 +1058,23 @@ export type ProfileCreateWithoutTradingAccountsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileUncheckedCreateWithoutTradingAccountsInput = {
@@ -1073,22 +1095,23 @@ export type ProfileUncheckedCreateWithoutTradingAccountsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileCreateOrConnectWithoutTradingAccountsInput = {
@@ -1125,22 +1148,23 @@ export type ProfileUpdateWithoutTradingAccountsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileUncheckedUpdateWithoutTradingAccountsInput = {
@@ -1161,22 +1185,23 @@ export type ProfileUncheckedUpdateWithoutTradingAccountsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileCreateWithoutJournalTradesInput = {
@@ -1197,22 +1222,23 @@ export type ProfileCreateWithoutJournalTradesInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileUncheckedCreateWithoutJournalTradesInput = {
@@ -1233,22 +1259,23 @@ export type ProfileUncheckedCreateWithoutJournalTradesInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileCreateOrConnectWithoutJournalTradesInput = {
@@ -1285,22 +1312,23 @@ export type ProfileUpdateWithoutJournalTradesInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileUncheckedUpdateWithoutJournalTradesInput = {
@@ -1321,22 +1349,23 @@ export type ProfileUncheckedUpdateWithoutJournalTradesInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileCreateWithoutTradingStrategiesInput = {
@@ -1357,22 +1386,23 @@ export type ProfileCreateWithoutTradingStrategiesInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  subscriptionTier?: string | null
+  isPro?: boolean
+  journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
+  referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
+  referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
   tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
   tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
-  journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
-  referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
-  referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileUncheckedCreateWithoutTradingStrategiesInput = {
@@ -1393,22 +1423,23 @@ export type ProfileUncheckedCreateWithoutTradingStrategiesInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  subscriptionTier?: string | null
+  isPro?: boolean
+  journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
+  referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
+  referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
   tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
   tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
-  journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
-  referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
-  referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileCreateOrConnectWithoutTradingStrategiesInput = {
@@ -1445,22 +1476,23 @@ export type ProfileUpdateWithoutTradingStrategiesInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
+  referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
+  referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
   tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
   tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
-  journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
-  referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
-  referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileUncheckedUpdateWithoutTradingStrategiesInput = {
@@ -1481,22 +1513,23 @@ export type ProfileUncheckedUpdateWithoutTradingStrategiesInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
+  referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
+  referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
   tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
   tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
-  journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
-  referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
-  referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileCreateWithoutSignalSubscriptionsInput = {
@@ -1517,22 +1550,23 @@ export type ProfileCreateWithoutSignalSubscriptionsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileUncheckedCreateWithoutSignalSubscriptionsInput = {
@@ -1553,22 +1587,23 @@ export type ProfileUncheckedCreateWithoutSignalSubscriptionsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileCreateOrConnectWithoutSignalSubscriptionsInput = {
@@ -1605,22 +1640,23 @@ export type ProfileUpdateWithoutSignalSubscriptionsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileUncheckedUpdateWithoutSignalSubscriptionsInput = {
@@ -1641,22 +1677,23 @@ export type ProfileUncheckedUpdateWithoutSignalSubscriptionsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileCreateWithoutNotificationLogsInput = {
@@ -1677,22 +1714,23 @@ export type ProfileCreateWithoutNotificationLogsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileUncheckedCreateWithoutNotificationLogsInput = {
@@ -1713,22 +1751,23 @@ export type ProfileUncheckedCreateWithoutNotificationLogsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileCreateOrConnectWithoutNotificationLogsInput = {
@@ -1765,22 +1804,23 @@ export type ProfileUpdateWithoutNotificationLogsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileUncheckedUpdateWithoutNotificationLogsInput = {
@@ -1801,22 +1841,23 @@ export type ProfileUncheckedUpdateWithoutNotificationLogsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileCreateWithoutTradingAnalyticsInput = {
@@ -1837,22 +1878,23 @@ export type ProfileCreateWithoutTradingAnalyticsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  subscriptionTier?: string | null
+  isPro?: boolean
+  journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
+  referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
+  referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
   tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
   tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
-  journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
-  referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
-  referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileUncheckedCreateWithoutTradingAnalyticsInput = {
@@ -1873,22 +1915,23 @@ export type ProfileUncheckedCreateWithoutTradingAnalyticsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  subscriptionTier?: string | null
+  isPro?: boolean
+  journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
+  referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
+  referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
   tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
   tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
-  journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
-  referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
-  referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileCreateOrConnectWithoutTradingAnalyticsInput = {
@@ -1925,22 +1968,23 @@ export type ProfileUpdateWithoutTradingAnalyticsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
+  referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
+  referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
   tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
   tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
-  journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
-  referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
-  referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileUncheckedUpdateWithoutTradingAnalyticsInput = {
@@ -1961,22 +2005,23 @@ export type ProfileUncheckedUpdateWithoutTradingAnalyticsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
+  referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
+  referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
   tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
   tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
-  journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
-  referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
-  referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileCreateWithoutReferralLinkInput = {
@@ -1997,22 +2042,23 @@ export type ProfileCreateWithoutReferralLinkInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
-  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileUncheckedCreateWithoutReferralLinkInput = {
@@ -2033,22 +2079,23 @@ export type ProfileUncheckedCreateWithoutReferralLinkInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
-  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
-  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileCreateOrConnectWithoutReferralLinkInput = {
@@ -2085,22 +2132,23 @@ export type ProfileUpdateWithoutReferralLinkInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileUncheckedUpdateWithoutReferralLinkInput = {
@@ -2121,99 +2169,23 @@ export type ProfileUncheckedUpdateWithoutReferralLinkInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
-  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
-}
-
-export type ProfileCreateWithoutReferralsGivenInput = {
-  userId: string
-  username?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  notificationPushToken?: string | null
-  pushEnabled?: boolean
-  strategyReminders?: boolean
-  accountAlerts?: boolean
-  sessionReminders?: boolean
-  drawdownWarnings?: boolean
-  profitTargetAlerts?: boolean
-  signalAlertsEnabled?: boolean
-  maxTradesWarnings?: boolean
-  tradingDaysReminders?: boolean
-  lastNotificationSentAt?: Date | string | null
-  notificationSentToday?: number
-  lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
-  proExpiresAt?: Date | string | null
-  revenuecatAppUserId?: string | null
-  timezone?: string
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
-  journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
-  referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
-  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
-  referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
-}
-
-export type ProfileUncheckedCreateWithoutReferralsGivenInput = {
-  userId: string
-  username?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  notificationPushToken?: string | null
-  pushEnabled?: boolean
-  strategyReminders?: boolean
-  accountAlerts?: boolean
-  sessionReminders?: boolean
-  drawdownWarnings?: boolean
-  profitTargetAlerts?: boolean
-  signalAlertsEnabled?: boolean
-  maxTradesWarnings?: boolean
-  tradingDaysReminders?: boolean
-  lastNotificationSentAt?: Date | string | null
-  notificationSentToday?: number
-  lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
-  proExpiresAt?: Date | string | null
-  revenuecatAppUserId?: string | null
-  timezone?: string
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
-  journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
-  referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
-  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
-  referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
-}
-
-export type ProfileCreateOrConnectWithoutReferralsGivenInput = {
-  where: Prisma.ProfileWhereUniqueInput
-  create: Prisma.XOR<Prisma.ProfileCreateWithoutReferralsGivenInput, Prisma.ProfileUncheckedCreateWithoutReferralsGivenInput>
+  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileCreateWithoutReferralsReceivedInput = {
@@ -2234,22 +2206,23 @@ export type ProfileCreateWithoutReferralsReceivedInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
+  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileUncheckedCreateWithoutReferralsReceivedInput = {
@@ -2270,22 +2243,23 @@ export type ProfileUncheckedCreateWithoutReferralsReceivedInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
   referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
+  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileCreateOrConnectWithoutReferralsReceivedInput = {
@@ -2293,87 +2267,83 @@ export type ProfileCreateOrConnectWithoutReferralsReceivedInput = {
   create: Prisma.XOR<Prisma.ProfileCreateWithoutReferralsReceivedInput, Prisma.ProfileUncheckedCreateWithoutReferralsReceivedInput>
 }
 
-export type ProfileUpsertWithoutReferralsGivenInput = {
-  update: Prisma.XOR<Prisma.ProfileUpdateWithoutReferralsGivenInput, Prisma.ProfileUncheckedUpdateWithoutReferralsGivenInput>
+export type ProfileCreateWithoutReferralsGivenInput = {
+  userId: string
+  username?: string | null
+  displayName?: string | null
+  avatarUrl?: string | null
+  notificationPushToken?: string | null
+  pushEnabled?: boolean
+  strategyReminders?: boolean
+  accountAlerts?: boolean
+  sessionReminders?: boolean
+  drawdownWarnings?: boolean
+  profitTargetAlerts?: boolean
+  signalAlertsEnabled?: boolean
+  maxTradesWarnings?: boolean
+  tradingDaysReminders?: boolean
+  lastNotificationSentAt?: Date | string | null
+  notificationSentToday?: number
+  lastNotificationReset?: Date | string | null
+  proExpiresAt?: Date | string | null
+  revenuecatAppUserId?: string | null
+  timezone?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  subscriptionTier?: string | null
+  isPro?: boolean
+  journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
+  referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
+  referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
+}
+
+export type ProfileUncheckedCreateWithoutReferralsGivenInput = {
+  userId: string
+  username?: string | null
+  displayName?: string | null
+  avatarUrl?: string | null
+  notificationPushToken?: string | null
+  pushEnabled?: boolean
+  strategyReminders?: boolean
+  accountAlerts?: boolean
+  sessionReminders?: boolean
+  drawdownWarnings?: boolean
+  profitTargetAlerts?: boolean
+  signalAlertsEnabled?: boolean
+  maxTradesWarnings?: boolean
+  tradingDaysReminders?: boolean
+  lastNotificationSentAt?: Date | string | null
+  notificationSentToday?: number
+  lastNotificationReset?: Date | string | null
+  proExpiresAt?: Date | string | null
+  revenuecatAppUserId?: string | null
+  timezone?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  subscriptionTier?: string | null
+  isPro?: boolean
+  journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
+  referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
+  referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
+}
+
+export type ProfileCreateOrConnectWithoutReferralsGivenInput = {
+  where: Prisma.ProfileWhereUniqueInput
   create: Prisma.XOR<Prisma.ProfileCreateWithoutReferralsGivenInput, Prisma.ProfileUncheckedCreateWithoutReferralsGivenInput>
-  where?: Prisma.ProfileWhereInput
-}
-
-export type ProfileUpdateToOneWithWhereWithoutReferralsGivenInput = {
-  where?: Prisma.ProfileWhereInput
-  data: Prisma.XOR<Prisma.ProfileUpdateWithoutReferralsGivenInput, Prisma.ProfileUncheckedUpdateWithoutReferralsGivenInput>
-}
-
-export type ProfileUpdateWithoutReferralsGivenInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notificationPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  strategyReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  accountAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  sessionReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  drawdownWarnings?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  profitTargetAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  signalAlertsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  maxTradesWarnings?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  tradingDaysReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
-  lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
-  journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
-  referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
-  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
-  referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
-}
-
-export type ProfileUncheckedUpdateWithoutReferralsGivenInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notificationPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  strategyReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  accountAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  sessionReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  drawdownWarnings?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  profitTargetAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  signalAlertsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  maxTradesWarnings?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  tradingDaysReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
-  lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
-  journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
-  referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
-  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
-  referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileUpsertWithoutReferralsReceivedInput = {
@@ -2405,22 +2375,23 @@ export type ProfileUpdateWithoutReferralsReceivedInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
+  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileUncheckedUpdateWithoutReferralsReceivedInput = {
@@ -2441,22 +2412,108 @@ export type ProfileUncheckedUpdateWithoutReferralsReceivedInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
   referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
+  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
+}
+
+export type ProfileUpsertWithoutReferralsGivenInput = {
+  update: Prisma.XOR<Prisma.ProfileUpdateWithoutReferralsGivenInput, Prisma.ProfileUncheckedUpdateWithoutReferralsGivenInput>
+  create: Prisma.XOR<Prisma.ProfileCreateWithoutReferralsGivenInput, Prisma.ProfileUncheckedCreateWithoutReferralsGivenInput>
+  where?: Prisma.ProfileWhereInput
+}
+
+export type ProfileUpdateToOneWithWhereWithoutReferralsGivenInput = {
+  where?: Prisma.ProfileWhereInput
+  data: Prisma.XOR<Prisma.ProfileUpdateWithoutReferralsGivenInput, Prisma.ProfileUncheckedUpdateWithoutReferralsGivenInput>
+}
+
+export type ProfileUpdateWithoutReferralsGivenInput = {
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  strategyReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accountAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  drawdownWarnings?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  profitTargetAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  signalAlertsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxTradesWarnings?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tradingDaysReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
+  lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
+  referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
+  referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
+}
+
+export type ProfileUncheckedUpdateWithoutReferralsGivenInput = {
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  strategyReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accountAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  drawdownWarnings?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  profitTargetAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  signalAlertsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxTradesWarnings?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tradingDaysReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
+  lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
+  referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
+  referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileCreateWithoutReferralRewardsInput = {
@@ -2477,22 +2534,23 @@ export type ProfileCreateWithoutReferralRewardsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
   referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileUncheckedCreateWithoutReferralRewardsInput = {
@@ -2513,22 +2571,23 @@ export type ProfileUncheckedCreateWithoutReferralRewardsInput = {
   lastNotificationSentAt?: Date | string | null
   notificationSentToday?: number
   lastNotificationReset?: Date | string | null
-  subscriptionTier?: string | null
-  isPro?: boolean
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
-  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
+  subscriptionTier?: string | null
+  isPro?: boolean
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
-  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
   referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
 }
 
 export type ProfileCreateOrConnectWithoutReferralRewardsInput = {
@@ -2565,22 +2624,23 @@ export type ProfileUpdateWithoutReferralRewardsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
   referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
 }
 
 export type ProfileUncheckedUpdateWithoutReferralRewardsInput = {
@@ -2601,22 +2661,187 @@ export type ProfileUncheckedUpdateWithoutReferralRewardsInput = {
   lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
-  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
-  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
-  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
-  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
-  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
   referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
+}
+
+export type ProfileCreateWithoutReferral_milestone_eventsInput = {
+  userId: string
+  username?: string | null
+  displayName?: string | null
+  avatarUrl?: string | null
+  notificationPushToken?: string | null
+  pushEnabled?: boolean
+  strategyReminders?: boolean
+  accountAlerts?: boolean
+  sessionReminders?: boolean
+  drawdownWarnings?: boolean
+  profitTargetAlerts?: boolean
+  signalAlertsEnabled?: boolean
+  maxTradesWarnings?: boolean
+  tradingDaysReminders?: boolean
+  lastNotificationSentAt?: Date | string | null
+  notificationSentToday?: number
+  lastNotificationReset?: Date | string | null
+  proExpiresAt?: Date | string | null
+  revenuecatAppUserId?: string | null
+  timezone?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  subscriptionTier?: string | null
+  isPro?: boolean
+  journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
+  referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
+  referralRewards?: Prisma.ReferralRewardCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionCreateNestedManyWithoutProfileInput
+}
+
+export type ProfileUncheckedCreateWithoutReferral_milestone_eventsInput = {
+  userId: string
+  username?: string | null
+  displayName?: string | null
+  avatarUrl?: string | null
+  notificationPushToken?: string | null
+  pushEnabled?: boolean
+  strategyReminders?: boolean
+  accountAlerts?: boolean
+  sessionReminders?: boolean
+  drawdownWarnings?: boolean
+  profitTargetAlerts?: boolean
+  signalAlertsEnabled?: boolean
+  maxTradesWarnings?: boolean
+  tradingDaysReminders?: boolean
+  lastNotificationSentAt?: Date | string | null
+  notificationSentToday?: number
+  lastNotificationReset?: Date | string | null
+  proExpiresAt?: Date | string | null
+  revenuecatAppUserId?: string | null
+  timezone?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  subscriptionTier?: string | null
+  isPro?: boolean
+  journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
+  referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
+  referralRewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutProfileInput
+  referralsReceived?: Prisma.ReferralUncheckedCreateNestedManyWithoutRefereeInput
+  referralsGiven?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedCreateNestedManyWithoutProfileInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedCreateNestedManyWithoutProfileInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedCreateNestedManyWithoutProfileInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedCreateNestedManyWithoutProfileInput
+}
+
+export type ProfileCreateOrConnectWithoutReferral_milestone_eventsInput = {
+  where: Prisma.ProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfileCreateWithoutReferral_milestone_eventsInput, Prisma.ProfileUncheckedCreateWithoutReferral_milestone_eventsInput>
+}
+
+export type ProfileUpsertWithoutReferral_milestone_eventsInput = {
+  update: Prisma.XOR<Prisma.ProfileUpdateWithoutReferral_milestone_eventsInput, Prisma.ProfileUncheckedUpdateWithoutReferral_milestone_eventsInput>
+  create: Prisma.XOR<Prisma.ProfileCreateWithoutReferral_milestone_eventsInput, Prisma.ProfileUncheckedCreateWithoutReferral_milestone_eventsInput>
+  where?: Prisma.ProfileWhereInput
+}
+
+export type ProfileUpdateToOneWithWhereWithoutReferral_milestone_eventsInput = {
+  where?: Prisma.ProfileWhereInput
+  data: Prisma.XOR<Prisma.ProfileUpdateWithoutReferral_milestone_eventsInput, Prisma.ProfileUncheckedUpdateWithoutReferral_milestone_eventsInput>
+}
+
+export type ProfileUpdateWithoutReferral_milestone_eventsInput = {
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  strategyReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accountAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  drawdownWarnings?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  profitTargetAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  signalAlertsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxTradesWarnings?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tradingDaysReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
+  lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
+  referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
+  referralRewards?: Prisma.ReferralRewardUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUpdateManyWithoutProfileNestedInput
+}
+
+export type ProfileUncheckedUpdateWithoutReferral_milestone_eventsInput = {
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  strategyReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accountAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  drawdownWarnings?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  profitTargetAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  signalAlertsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxTradesWarnings?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tradingDaysReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastNotificationSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notificationSentToday?: Prisma.IntFieldUpdateOperationsInput | number
+  lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPro?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
+  referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
+  referralRewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutProfileNestedInput
+  referralsReceived?: Prisma.ReferralUncheckedUpdateManyWithoutRefereeNestedInput
+  referralsGiven?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  tradingAccounts?: Prisma.TradingAccountUncheckedUpdateManyWithoutProfileNestedInput
+  tradingAnalytics?: Prisma.TradingAnalyticsUncheckedUpdateManyWithoutProfileNestedInput
+  tradingStrategies?: Prisma.TradingStrategyUncheckedUpdateManyWithoutProfileNestedInput
+  signalSubscriptions?: Prisma.UserSignalSubscriptionUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 
@@ -2625,27 +2850,29 @@ export type ProfileUncheckedUpdateWithoutReferralRewardsInput = {
  */
 
 export type ProfileCountOutputType = {
-  tradingAccounts: number
-  tradingStrategies: number
-  tradingAnalytics: number
-  notificationLogs: number
-  signalSubscriptions: number
   journalTrades: number
-  referralsGiven: number
-  referralsReceived: number
+  notificationLogs: number
+  referral_milestone_events: number
   referralRewards: number
+  referralsReceived: number
+  referralsGiven: number
+  tradingAccounts: number
+  tradingAnalytics: number
+  tradingStrategies: number
+  signalSubscriptions: number
 }
 
 export type ProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tradingAccounts?: boolean | ProfileCountOutputTypeCountTradingAccountsArgs
-  tradingStrategies?: boolean | ProfileCountOutputTypeCountTradingStrategiesArgs
-  tradingAnalytics?: boolean | ProfileCountOutputTypeCountTradingAnalyticsArgs
-  notificationLogs?: boolean | ProfileCountOutputTypeCountNotificationLogsArgs
-  signalSubscriptions?: boolean | ProfileCountOutputTypeCountSignalSubscriptionsArgs
   journalTrades?: boolean | ProfileCountOutputTypeCountJournalTradesArgs
-  referralsGiven?: boolean | ProfileCountOutputTypeCountReferralsGivenArgs
-  referralsReceived?: boolean | ProfileCountOutputTypeCountReferralsReceivedArgs
+  notificationLogs?: boolean | ProfileCountOutputTypeCountNotificationLogsArgs
+  referral_milestone_events?: boolean | ProfileCountOutputTypeCountReferral_milestone_eventsArgs
   referralRewards?: boolean | ProfileCountOutputTypeCountReferralRewardsArgs
+  referralsReceived?: boolean | ProfileCountOutputTypeCountReferralsReceivedArgs
+  referralsGiven?: boolean | ProfileCountOutputTypeCountReferralsGivenArgs
+  tradingAccounts?: boolean | ProfileCountOutputTypeCountTradingAccountsArgs
+  tradingAnalytics?: boolean | ProfileCountOutputTypeCountTradingAnalyticsArgs
+  tradingStrategies?: boolean | ProfileCountOutputTypeCountTradingStrategiesArgs
+  signalSubscriptions?: boolean | ProfileCountOutputTypeCountSignalSubscriptionsArgs
 }
 
 /**
@@ -2661,22 +2888,8 @@ export type ProfileCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
 /**
  * ProfileCountOutputType without action
  */
-export type ProfileCountOutputTypeCountTradingAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TradingAccountWhereInput
-}
-
-/**
- * ProfileCountOutputType without action
- */
-export type ProfileCountOutputTypeCountTradingStrategiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TradingStrategyWhereInput
-}
-
-/**
- * ProfileCountOutputType without action
- */
-export type ProfileCountOutputTypeCountTradingAnalyticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TradingAnalyticsWhereInput
+export type ProfileCountOutputTypeCountJournalTradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.JournalTradeWhereInput
 }
 
 /**
@@ -2689,22 +2902,15 @@ export type ProfileCountOutputTypeCountNotificationLogsArgs<ExtArgs extends runt
 /**
  * ProfileCountOutputType without action
  */
-export type ProfileCountOutputTypeCountSignalSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.UserSignalSubscriptionWhereInput
+export type ProfileCountOutputTypeCountReferral_milestone_eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.referral_milestone_eventsWhereInput
 }
 
 /**
  * ProfileCountOutputType without action
  */
-export type ProfileCountOutputTypeCountJournalTradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.JournalTradeWhereInput
-}
-
-/**
- * ProfileCountOutputType without action
- */
-export type ProfileCountOutputTypeCountReferralsGivenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ReferralWhereInput
+export type ProfileCountOutputTypeCountReferralRewardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReferralRewardWhereInput
 }
 
 /**
@@ -2717,8 +2923,36 @@ export type ProfileCountOutputTypeCountReferralsReceivedArgs<ExtArgs extends run
 /**
  * ProfileCountOutputType without action
  */
-export type ProfileCountOutputTypeCountReferralRewardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ReferralRewardWhereInput
+export type ProfileCountOutputTypeCountReferralsGivenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReferralWhereInput
+}
+
+/**
+ * ProfileCountOutputType without action
+ */
+export type ProfileCountOutputTypeCountTradingAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TradingAccountWhereInput
+}
+
+/**
+ * ProfileCountOutputType without action
+ */
+export type ProfileCountOutputTypeCountTradingAnalyticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TradingAnalyticsWhereInput
+}
+
+/**
+ * ProfileCountOutputType without action
+ */
+export type ProfileCountOutputTypeCountTradingStrategiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TradingStrategyWhereInput
+}
+
+/**
+ * ProfileCountOutputType without action
+ */
+export type ProfileCountOutputTypeCountSignalSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserSignalSubscriptionWhereInput
 }
 
 
@@ -2740,23 +2974,24 @@ export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   lastNotificationSentAt?: boolean
   notificationSentToday?: boolean
   lastNotificationReset?: boolean
-  subscriptionTier?: boolean
-  isPro?: boolean
   proExpiresAt?: boolean
   revenuecatAppUserId?: boolean
   timezone?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tradingAccounts?: boolean | Prisma.Profile$tradingAccountsArgs<ExtArgs>
-  tradingStrategies?: boolean | Prisma.Profile$tradingStrategiesArgs<ExtArgs>
-  tradingAnalytics?: boolean | Prisma.Profile$tradingAnalyticsArgs<ExtArgs>
-  notificationLogs?: boolean | Prisma.Profile$notificationLogsArgs<ExtArgs>
-  signalSubscriptions?: boolean | Prisma.Profile$signalSubscriptionsArgs<ExtArgs>
+  subscriptionTier?: boolean
+  isPro?: boolean
   journalTrades?: boolean | Prisma.Profile$journalTradesArgs<ExtArgs>
+  notificationLogs?: boolean | Prisma.Profile$notificationLogsArgs<ExtArgs>
   referralLink?: boolean | Prisma.Profile$referralLinkArgs<ExtArgs>
-  referralsGiven?: boolean | Prisma.Profile$referralsGivenArgs<ExtArgs>
-  referralsReceived?: boolean | Prisma.Profile$referralsReceivedArgs<ExtArgs>
+  referral_milestone_events?: boolean | Prisma.Profile$referral_milestone_eventsArgs<ExtArgs>
   referralRewards?: boolean | Prisma.Profile$referralRewardsArgs<ExtArgs>
+  referralsReceived?: boolean | Prisma.Profile$referralsReceivedArgs<ExtArgs>
+  referralsGiven?: boolean | Prisma.Profile$referralsGivenArgs<ExtArgs>
+  tradingAccounts?: boolean | Prisma.Profile$tradingAccountsArgs<ExtArgs>
+  tradingAnalytics?: boolean | Prisma.Profile$tradingAnalyticsArgs<ExtArgs>
+  tradingStrategies?: boolean | Prisma.Profile$tradingStrategiesArgs<ExtArgs>
+  signalSubscriptions?: boolean | Prisma.Profile$signalSubscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.ProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profile"]>
 
@@ -2778,13 +3013,13 @@ export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   lastNotificationSentAt?: boolean
   notificationSentToday?: boolean
   lastNotificationReset?: boolean
-  subscriptionTier?: boolean
-  isPro?: boolean
   proExpiresAt?: boolean
   revenuecatAppUserId?: boolean
   timezone?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  subscriptionTier?: boolean
+  isPro?: boolean
 }, ExtArgs["result"]["profile"]>
 
 export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2805,13 +3040,13 @@ export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   lastNotificationSentAt?: boolean
   notificationSentToday?: boolean
   lastNotificationReset?: boolean
-  subscriptionTier?: boolean
-  isPro?: boolean
   proExpiresAt?: boolean
   revenuecatAppUserId?: boolean
   timezone?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  subscriptionTier?: boolean
+  isPro?: boolean
 }, ExtArgs["result"]["profile"]>
 
 export type ProfileSelectScalar = {
@@ -2832,27 +3067,28 @@ export type ProfileSelectScalar = {
   lastNotificationSentAt?: boolean
   notificationSentToday?: boolean
   lastNotificationReset?: boolean
-  subscriptionTier?: boolean
-  isPro?: boolean
   proExpiresAt?: boolean
   revenuecatAppUserId?: boolean
   timezone?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  subscriptionTier?: boolean
+  isPro?: boolean
 }
 
-export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "username" | "displayName" | "avatarUrl" | "notificationPushToken" | "pushEnabled" | "strategyReminders" | "accountAlerts" | "sessionReminders" | "drawdownWarnings" | "profitTargetAlerts" | "signalAlertsEnabled" | "maxTradesWarnings" | "tradingDaysReminders" | "lastNotificationSentAt" | "notificationSentToday" | "lastNotificationReset" | "subscriptionTier" | "isPro" | "proExpiresAt" | "revenuecatAppUserId" | "timezone" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
+export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "username" | "displayName" | "avatarUrl" | "notificationPushToken" | "pushEnabled" | "strategyReminders" | "accountAlerts" | "sessionReminders" | "drawdownWarnings" | "profitTargetAlerts" | "signalAlertsEnabled" | "maxTradesWarnings" | "tradingDaysReminders" | "lastNotificationSentAt" | "notificationSentToday" | "lastNotificationReset" | "proExpiresAt" | "revenuecatAppUserId" | "timezone" | "createdAt" | "updatedAt" | "subscriptionTier" | "isPro", ExtArgs["result"]["profile"]>
 export type ProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tradingAccounts?: boolean | Prisma.Profile$tradingAccountsArgs<ExtArgs>
-  tradingStrategies?: boolean | Prisma.Profile$tradingStrategiesArgs<ExtArgs>
-  tradingAnalytics?: boolean | Prisma.Profile$tradingAnalyticsArgs<ExtArgs>
-  notificationLogs?: boolean | Prisma.Profile$notificationLogsArgs<ExtArgs>
-  signalSubscriptions?: boolean | Prisma.Profile$signalSubscriptionsArgs<ExtArgs>
   journalTrades?: boolean | Prisma.Profile$journalTradesArgs<ExtArgs>
+  notificationLogs?: boolean | Prisma.Profile$notificationLogsArgs<ExtArgs>
   referralLink?: boolean | Prisma.Profile$referralLinkArgs<ExtArgs>
-  referralsGiven?: boolean | Prisma.Profile$referralsGivenArgs<ExtArgs>
-  referralsReceived?: boolean | Prisma.Profile$referralsReceivedArgs<ExtArgs>
+  referral_milestone_events?: boolean | Prisma.Profile$referral_milestone_eventsArgs<ExtArgs>
   referralRewards?: boolean | Prisma.Profile$referralRewardsArgs<ExtArgs>
+  referralsReceived?: boolean | Prisma.Profile$referralsReceivedArgs<ExtArgs>
+  referralsGiven?: boolean | Prisma.Profile$referralsGivenArgs<ExtArgs>
+  tradingAccounts?: boolean | Prisma.Profile$tradingAccountsArgs<ExtArgs>
+  tradingAnalytics?: boolean | Prisma.Profile$tradingAnalyticsArgs<ExtArgs>
+  tradingStrategies?: boolean | Prisma.Profile$tradingStrategiesArgs<ExtArgs>
+  signalSubscriptions?: boolean | Prisma.Profile$signalSubscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.ProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2861,16 +3097,17 @@ export type ProfileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Profile"
   objects: {
-    tradingAccounts: Prisma.$TradingAccountPayload<ExtArgs>[]
-    tradingStrategies: Prisma.$TradingStrategyPayload<ExtArgs>[]
-    tradingAnalytics: Prisma.$TradingAnalyticsPayload<ExtArgs>[]
-    notificationLogs: Prisma.$NotificationLogPayload<ExtArgs>[]
-    signalSubscriptions: Prisma.$UserSignalSubscriptionPayload<ExtArgs>[]
     journalTrades: Prisma.$JournalTradePayload<ExtArgs>[]
+    notificationLogs: Prisma.$NotificationLogPayload<ExtArgs>[]
     referralLink: Prisma.$ReferralLinkPayload<ExtArgs> | null
-    referralsGiven: Prisma.$ReferralPayload<ExtArgs>[]
-    referralsReceived: Prisma.$ReferralPayload<ExtArgs>[]
+    referral_milestone_events: Prisma.$referral_milestone_eventsPayload<ExtArgs>[]
     referralRewards: Prisma.$ReferralRewardPayload<ExtArgs>[]
+    referralsReceived: Prisma.$ReferralPayload<ExtArgs>[]
+    referralsGiven: Prisma.$ReferralPayload<ExtArgs>[]
+    tradingAccounts: Prisma.$TradingAccountPayload<ExtArgs>[]
+    tradingAnalytics: Prisma.$TradingAnalyticsPayload<ExtArgs>[]
+    tradingStrategies: Prisma.$TradingStrategyPayload<ExtArgs>[]
+    signalSubscriptions: Prisma.$UserSignalSubscriptionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     userId: string
@@ -2890,13 +3127,13 @@ export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     lastNotificationSentAt: Date | null
     notificationSentToday: number
     lastNotificationReset: Date | null
-    subscriptionTier: string | null
-    isPro: boolean
     proExpiresAt: Date | null
     revenuecatAppUserId: string | null
     timezone: string
     createdAt: Date
     updatedAt: Date | null
+    subscriptionTier: string | null
+    isPro: boolean
   }, ExtArgs["result"]["profile"]>
   composites: {}
 }
@@ -3291,16 +3528,17 @@ readonly fields: ProfileFieldRefs;
  */
 export interface Prisma__ProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tradingAccounts<T extends Prisma.Profile$tradingAccountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$tradingAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TradingAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tradingStrategies<T extends Prisma.Profile$tradingStrategiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$tradingStrategiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TradingStrategyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tradingAnalytics<T extends Prisma.Profile$tradingAnalyticsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$tradingAnalyticsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TradingAnalyticsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  notificationLogs<T extends Prisma.Profile$notificationLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$notificationLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  signalSubscriptions<T extends Prisma.Profile$signalSubscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$signalSubscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSignalSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   journalTrades<T extends Prisma.Profile$journalTradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$journalTradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalTradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notificationLogs<T extends Prisma.Profile$notificationLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$notificationLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   referralLink<T extends Prisma.Profile$referralLinkArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$referralLinkArgs<ExtArgs>>): Prisma.Prisma__ReferralLinkClient<runtime.Types.Result.GetResult<Prisma.$ReferralLinkPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  referralsGiven<T extends Prisma.Profile$referralsGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$referralsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  referralsReceived<T extends Prisma.Profile$referralsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$referralsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  referral_milestone_events<T extends Prisma.Profile$referral_milestone_eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$referral_milestone_eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$referral_milestone_eventsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   referralRewards<T extends Prisma.Profile$referralRewardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$referralRewardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferralRewardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  referralsReceived<T extends Prisma.Profile$referralsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$referralsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  referralsGiven<T extends Prisma.Profile$referralsGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$referralsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tradingAccounts<T extends Prisma.Profile$tradingAccountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$tradingAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TradingAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tradingAnalytics<T extends Prisma.Profile$tradingAnalyticsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$tradingAnalyticsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TradingAnalyticsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tradingStrategies<T extends Prisma.Profile$tradingStrategiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$tradingStrategiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TradingStrategyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  signalSubscriptions<T extends Prisma.Profile$signalSubscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$signalSubscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSignalSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3347,13 +3585,13 @@ export interface ProfileFieldRefs {
   readonly lastNotificationSentAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly notificationSentToday: Prisma.FieldRef<"Profile", 'Int'>
   readonly lastNotificationReset: Prisma.FieldRef<"Profile", 'DateTime'>
-  readonly subscriptionTier: Prisma.FieldRef<"Profile", 'String'>
-  readonly isPro: Prisma.FieldRef<"Profile", 'Boolean'>
   readonly proExpiresAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly revenuecatAppUserId: Prisma.FieldRef<"Profile", 'String'>
   readonly timezone: Prisma.FieldRef<"Profile", 'String'>
   readonly createdAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Profile", 'DateTime'>
+  readonly subscriptionTier: Prisma.FieldRef<"Profile", 'String'>
+  readonly isPro: Prisma.FieldRef<"Profile", 'Boolean'>
 }
     
 
@@ -3742,75 +3980,27 @@ export type ProfileDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Profile.tradingAccounts
+ * Profile.journalTrades
  */
-export type Profile$tradingAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Profile$journalTradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the TradingAccount
+   * Select specific fields to fetch from the JournalTrade
    */
-  select?: Prisma.TradingAccountSelect<ExtArgs> | null
+  select?: Prisma.JournalTradeSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the TradingAccount
+   * Omit specific fields from the JournalTrade
    */
-  omit?: Prisma.TradingAccountOmit<ExtArgs> | null
+  omit?: Prisma.JournalTradeOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TradingAccountInclude<ExtArgs> | null
-  where?: Prisma.TradingAccountWhereInput
-  orderBy?: Prisma.TradingAccountOrderByWithRelationInput | Prisma.TradingAccountOrderByWithRelationInput[]
-  cursor?: Prisma.TradingAccountWhereUniqueInput
+  include?: Prisma.JournalTradeInclude<ExtArgs> | null
+  where?: Prisma.JournalTradeWhereInput
+  orderBy?: Prisma.JournalTradeOrderByWithRelationInput | Prisma.JournalTradeOrderByWithRelationInput[]
+  cursor?: Prisma.JournalTradeWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TradingAccountScalarFieldEnum | Prisma.TradingAccountScalarFieldEnum[]
-}
-
-/**
- * Profile.tradingStrategies
- */
-export type Profile$tradingStrategiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TradingStrategy
-   */
-  select?: Prisma.TradingStrategySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TradingStrategy
-   */
-  omit?: Prisma.TradingStrategyOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TradingStrategyInclude<ExtArgs> | null
-  where?: Prisma.TradingStrategyWhereInput
-  orderBy?: Prisma.TradingStrategyOrderByWithRelationInput | Prisma.TradingStrategyOrderByWithRelationInput[]
-  cursor?: Prisma.TradingStrategyWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TradingStrategyScalarFieldEnum | Prisma.TradingStrategyScalarFieldEnum[]
-}
-
-/**
- * Profile.tradingAnalytics
- */
-export type Profile$tradingAnalyticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TradingAnalytics
-   */
-  select?: Prisma.TradingAnalyticsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TradingAnalytics
-   */
-  omit?: Prisma.TradingAnalyticsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TradingAnalyticsInclude<ExtArgs> | null
-  where?: Prisma.TradingAnalyticsWhereInput
-  orderBy?: Prisma.TradingAnalyticsOrderByWithRelationInput | Prisma.TradingAnalyticsOrderByWithRelationInput[]
-  cursor?: Prisma.TradingAnalyticsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TradingAnalyticsScalarFieldEnum | Prisma.TradingAnalyticsScalarFieldEnum[]
+  distinct?: Prisma.JournalTradeScalarFieldEnum | Prisma.JournalTradeScalarFieldEnum[]
 }
 
 /**
@@ -3838,54 +4028,6 @@ export type Profile$notificationLogsArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * Profile.signalSubscriptions
- */
-export type Profile$signalSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the UserSignalSubscription
-   */
-  select?: Prisma.UserSignalSubscriptionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the UserSignalSubscription
-   */
-  omit?: Prisma.UserSignalSubscriptionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserSignalSubscriptionInclude<ExtArgs> | null
-  where?: Prisma.UserSignalSubscriptionWhereInput
-  orderBy?: Prisma.UserSignalSubscriptionOrderByWithRelationInput | Prisma.UserSignalSubscriptionOrderByWithRelationInput[]
-  cursor?: Prisma.UserSignalSubscriptionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.UserSignalSubscriptionScalarFieldEnum | Prisma.UserSignalSubscriptionScalarFieldEnum[]
-}
-
-/**
- * Profile.journalTrades
- */
-export type Profile$journalTradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the JournalTrade
-   */
-  select?: Prisma.JournalTradeSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the JournalTrade
-   */
-  omit?: Prisma.JournalTradeOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.JournalTradeInclude<ExtArgs> | null
-  where?: Prisma.JournalTradeWhereInput
-  orderBy?: Prisma.JournalTradeOrderByWithRelationInput | Prisma.JournalTradeOrderByWithRelationInput[]
-  cursor?: Prisma.JournalTradeWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.JournalTradeScalarFieldEnum | Prisma.JournalTradeScalarFieldEnum[]
-}
-
-/**
  * Profile.referralLink
  */
 export type Profile$referralLinkArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3905,27 +4047,51 @@ export type Profile$referralLinkArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * Profile.referralsGiven
+ * Profile.referral_milestone_events
  */
-export type Profile$referralsGivenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Profile$referral_milestone_eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Referral
+   * Select specific fields to fetch from the referral_milestone_events
    */
-  select?: Prisma.ReferralSelect<ExtArgs> | null
+  select?: Prisma.referral_milestone_eventsSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Referral
+   * Omit specific fields from the referral_milestone_events
    */
-  omit?: Prisma.ReferralOmit<ExtArgs> | null
+  omit?: Prisma.referral_milestone_eventsOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ReferralInclude<ExtArgs> | null
-  where?: Prisma.ReferralWhereInput
-  orderBy?: Prisma.ReferralOrderByWithRelationInput | Prisma.ReferralOrderByWithRelationInput[]
-  cursor?: Prisma.ReferralWhereUniqueInput
+  include?: Prisma.referral_milestone_eventsInclude<ExtArgs> | null
+  where?: Prisma.referral_milestone_eventsWhereInput
+  orderBy?: Prisma.referral_milestone_eventsOrderByWithRelationInput | Prisma.referral_milestone_eventsOrderByWithRelationInput[]
+  cursor?: Prisma.referral_milestone_eventsWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ReferralScalarFieldEnum | Prisma.ReferralScalarFieldEnum[]
+  distinct?: Prisma.Referral_milestone_eventsScalarFieldEnum | Prisma.Referral_milestone_eventsScalarFieldEnum[]
+}
+
+/**
+ * Profile.referralRewards
+ */
+export type Profile$referralRewardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ReferralReward
+   */
+  select?: Prisma.ReferralRewardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ReferralReward
+   */
+  omit?: Prisma.ReferralRewardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReferralRewardInclude<ExtArgs> | null
+  where?: Prisma.ReferralRewardWhereInput
+  orderBy?: Prisma.ReferralRewardOrderByWithRelationInput | Prisma.ReferralRewardOrderByWithRelationInput[]
+  cursor?: Prisma.ReferralRewardWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReferralRewardScalarFieldEnum | Prisma.ReferralRewardScalarFieldEnum[]
 }
 
 /**
@@ -3953,27 +4119,123 @@ export type Profile$referralsReceivedArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * Profile.referralRewards
+ * Profile.referralsGiven
  */
-export type Profile$referralRewardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Profile$referralsGivenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ReferralReward
+   * Select specific fields to fetch from the Referral
    */
-  select?: Prisma.ReferralRewardSelect<ExtArgs> | null
+  select?: Prisma.ReferralSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ReferralReward
+   * Omit specific fields from the Referral
    */
-  omit?: Prisma.ReferralRewardOmit<ExtArgs> | null
+  omit?: Prisma.ReferralOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ReferralRewardInclude<ExtArgs> | null
-  where?: Prisma.ReferralRewardWhereInput
-  orderBy?: Prisma.ReferralRewardOrderByWithRelationInput | Prisma.ReferralRewardOrderByWithRelationInput[]
-  cursor?: Prisma.ReferralRewardWhereUniqueInput
+  include?: Prisma.ReferralInclude<ExtArgs> | null
+  where?: Prisma.ReferralWhereInput
+  orderBy?: Prisma.ReferralOrderByWithRelationInput | Prisma.ReferralOrderByWithRelationInput[]
+  cursor?: Prisma.ReferralWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ReferralRewardScalarFieldEnum | Prisma.ReferralRewardScalarFieldEnum[]
+  distinct?: Prisma.ReferralScalarFieldEnum | Prisma.ReferralScalarFieldEnum[]
+}
+
+/**
+ * Profile.tradingAccounts
+ */
+export type Profile$tradingAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TradingAccount
+   */
+  select?: Prisma.TradingAccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TradingAccount
+   */
+  omit?: Prisma.TradingAccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TradingAccountInclude<ExtArgs> | null
+  where?: Prisma.TradingAccountWhereInput
+  orderBy?: Prisma.TradingAccountOrderByWithRelationInput | Prisma.TradingAccountOrderByWithRelationInput[]
+  cursor?: Prisma.TradingAccountWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TradingAccountScalarFieldEnum | Prisma.TradingAccountScalarFieldEnum[]
+}
+
+/**
+ * Profile.tradingAnalytics
+ */
+export type Profile$tradingAnalyticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TradingAnalytics
+   */
+  select?: Prisma.TradingAnalyticsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TradingAnalytics
+   */
+  omit?: Prisma.TradingAnalyticsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TradingAnalyticsInclude<ExtArgs> | null
+  where?: Prisma.TradingAnalyticsWhereInput
+  orderBy?: Prisma.TradingAnalyticsOrderByWithRelationInput | Prisma.TradingAnalyticsOrderByWithRelationInput[]
+  cursor?: Prisma.TradingAnalyticsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TradingAnalyticsScalarFieldEnum | Prisma.TradingAnalyticsScalarFieldEnum[]
+}
+
+/**
+ * Profile.tradingStrategies
+ */
+export type Profile$tradingStrategiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TradingStrategy
+   */
+  select?: Prisma.TradingStrategySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TradingStrategy
+   */
+  omit?: Prisma.TradingStrategyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TradingStrategyInclude<ExtArgs> | null
+  where?: Prisma.TradingStrategyWhereInput
+  orderBy?: Prisma.TradingStrategyOrderByWithRelationInput | Prisma.TradingStrategyOrderByWithRelationInput[]
+  cursor?: Prisma.TradingStrategyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TradingStrategyScalarFieldEnum | Prisma.TradingStrategyScalarFieldEnum[]
+}
+
+/**
+ * Profile.signalSubscriptions
+ */
+export type Profile$signalSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserSignalSubscription
+   */
+  select?: Prisma.UserSignalSubscriptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserSignalSubscription
+   */
+  omit?: Prisma.UserSignalSubscriptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserSignalSubscriptionInclude<ExtArgs> | null
+  where?: Prisma.UserSignalSubscriptionWhereInput
+  orderBy?: Prisma.UserSignalSubscriptionOrderByWithRelationInput | Prisma.UserSignalSubscriptionOrderByWithRelationInput[]
+  cursor?: Prisma.UserSignalSubscriptionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserSignalSubscriptionScalarFieldEnum | Prisma.UserSignalSubscriptionScalarFieldEnum[]
 }
 
 /**

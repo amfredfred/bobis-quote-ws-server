@@ -242,8 +242,8 @@ export type NotificationLogWhereInput = {
   opened?: Prisma.BoolFilter<"NotificationLog"> | boolean
   openedAt?: Prisma.DateTimeNullableFilter<"NotificationLog"> | Date | string | null
   signalAlertId?: Prisma.UuidNullableFilter<"NotificationLog"> | string | null
-  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
   signalAlert?: Prisma.XOR<Prisma.SignalAlertNullableScalarRelationFilter, Prisma.SignalAlertWhereInput> | null
+  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
 }
 
 export type NotificationLogOrderByWithRelationInput = {
@@ -260,8 +260,8 @@ export type NotificationLogOrderByWithRelationInput = {
   opened?: Prisma.SortOrder
   openedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   signalAlertId?: Prisma.SortOrderInput | Prisma.SortOrder
-  profile?: Prisma.ProfileOrderByWithRelationInput
   signalAlert?: Prisma.SignalAlertOrderByWithRelationInput
+  profile?: Prisma.ProfileOrderByWithRelationInput
 }
 
 export type NotificationLogWhereUniqueInput = Prisma.AtLeast<{
@@ -281,8 +281,8 @@ export type NotificationLogWhereUniqueInput = Prisma.AtLeast<{
   opened?: Prisma.BoolFilter<"NotificationLog"> | boolean
   openedAt?: Prisma.DateTimeNullableFilter<"NotificationLog"> | Date | string | null
   signalAlertId?: Prisma.UuidNullableFilter<"NotificationLog"> | string | null
-  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
   signalAlert?: Prisma.XOR<Prisma.SignalAlertNullableScalarRelationFilter, Prisma.SignalAlertWhereInput> | null
+  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
 }, "id">
 
 export type NotificationLogOrderByWithAggregationInput = {
@@ -335,8 +335,8 @@ export type NotificationLogCreateInput = {
   delivered?: boolean
   opened?: boolean
   openedAt?: Date | string | null
-  profile: Prisma.ProfileCreateNestedOneWithoutNotificationLogsInput
   signalAlert?: Prisma.SignalAlertCreateNestedOneWithoutNotificationLogsInput
+  profile: Prisma.ProfileCreateNestedOneWithoutNotificationLogsInput
 }
 
 export type NotificationLogUncheckedCreateInput = {
@@ -367,8 +367,8 @@ export type NotificationLogUpdateInput = {
   delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
   opened?: Prisma.BoolFieldUpdateOperationsInput | boolean
   openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profile?: Prisma.ProfileUpdateOneRequiredWithoutNotificationLogsNestedInput
   signalAlert?: Prisma.SignalAlertUpdateOneWithoutNotificationLogsNestedInput
+  profile?: Prisma.ProfileUpdateOneRequiredWithoutNotificationLogsNestedInput
 }
 
 export type NotificationLogUncheckedUpdateInput = {
@@ -844,8 +844,8 @@ export type NotificationLogSelect<ExtArgs extends runtime.Types.Extensions.Inter
   opened?: boolean
   openedAt?: boolean
   signalAlertId?: boolean
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   signalAlert?: boolean | Prisma.NotificationLog$signalAlertArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["notificationLog"]>
 
 export type NotificationLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -862,8 +862,8 @@ export type NotificationLogSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   opened?: boolean
   openedAt?: boolean
   signalAlertId?: boolean
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   signalAlert?: boolean | Prisma.NotificationLog$signalAlertArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["notificationLog"]>
 
 export type NotificationLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -880,8 +880,8 @@ export type NotificationLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   opened?: boolean
   openedAt?: boolean
   signalAlertId?: boolean
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   signalAlert?: boolean | Prisma.NotificationLog$signalAlertArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["notificationLog"]>
 
 export type NotificationLogSelectScalar = {
@@ -902,23 +902,23 @@ export type NotificationLogSelectScalar = {
 
 export type NotificationLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "notificationType" | "accountId" | "strategyId" | "title" | "body" | "data" | "sentAt" | "delivered" | "opened" | "openedAt" | "signalAlertId", ExtArgs["result"]["notificationLog"]>
 export type NotificationLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   signalAlert?: boolean | Prisma.NotificationLog$signalAlertArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }
 export type NotificationLogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   signalAlert?: boolean | Prisma.NotificationLog$signalAlertArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }
 export type NotificationLogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   signalAlert?: boolean | Prisma.NotificationLog$signalAlertArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }
 
 export type $NotificationLogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "NotificationLog"
   objects: {
-    profile: Prisma.$ProfilePayload<ExtArgs>
     signalAlert: Prisma.$SignalAlertPayload<ExtArgs> | null
+    profile: Prisma.$ProfilePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1328,8 +1328,8 @@ readonly fields: NotificationLogFieldRefs;
  */
 export interface Prisma__NotificationLogClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  profile<T extends Prisma.ProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   signalAlert<T extends Prisma.NotificationLog$signalAlertArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.NotificationLog$signalAlertArgs<ExtArgs>>): Prisma.Prisma__SignalAlertClient<runtime.Types.Result.GetResult<Prisma.$SignalAlertPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  profile<T extends Prisma.ProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -304,8 +304,8 @@ export type TradingStrategyWhereInput = {
   aiChecklistItems?: Prisma.JsonNullableFilter<"TradingStrategy">
   createdAt?: Prisma.DateTimeFilter<"TradingStrategy"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"TradingStrategy"> | Date | string | null
-  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
   journalTrades?: Prisma.JournalTradeListRelationFilter
+  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
 }
 
 export type TradingStrategyOrderByWithRelationInput = {
@@ -327,8 +327,8 @@ export type TradingStrategyOrderByWithRelationInput = {
   aiChecklistItems?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  profile?: Prisma.ProfileOrderByWithRelationInput
   journalTrades?: Prisma.JournalTradeOrderByRelationAggregateInput
+  profile?: Prisma.ProfileOrderByWithRelationInput
 }
 
 export type TradingStrategyWhereUniqueInput = Prisma.AtLeast<{
@@ -353,8 +353,8 @@ export type TradingStrategyWhereUniqueInput = Prisma.AtLeast<{
   aiChecklistItems?: Prisma.JsonNullableFilter<"TradingStrategy">
   createdAt?: Prisma.DateTimeFilter<"TradingStrategy"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"TradingStrategy"> | Date | string | null
-  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
   journalTrades?: Prisma.JournalTradeListRelationFilter
+  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
 }, "id">
 
 export type TradingStrategyOrderByWithAggregationInput = {
@@ -425,8 +425,8 @@ export type TradingStrategyCreateInput = {
   aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  profile: Prisma.ProfileCreateNestedOneWithoutTradingStrategiesInput
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutStrategyInput
+  profile: Prisma.ProfileCreateNestedOneWithoutTradingStrategiesInput
 }
 
 export type TradingStrategyUncheckedCreateInput = {
@@ -469,8 +469,8 @@ export type TradingStrategyUpdateInput = {
   aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profile?: Prisma.ProfileUpdateOneRequiredWithoutTradingStrategiesNestedInput
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutStrategyNestedInput
+  profile?: Prisma.ProfileUpdateOneRequiredWithoutTradingStrategiesNestedInput
 }
 
 export type TradingStrategyUncheckedUpdateInput = {
@@ -1019,8 +1019,8 @@ export type TradingStrategySelect<ExtArgs extends runtime.Types.Extensions.Inter
   aiChecklistItems?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   journalTrades?: boolean | Prisma.TradingStrategy$journalTradesArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TradingStrategyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tradingStrategy"]>
 
@@ -1091,8 +1091,8 @@ export type TradingStrategySelectScalar = {
 
 export type TradingStrategyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "description" | "tradingStyle" | "tradingHoursStart" | "tradingHoursEnd" | "sessionReminderMins" | "isDefault" | "isArchived" | "aiRephrasedDesc" | "aiNotes" | "aiParameters" | "aiReminderPhrases" | "aiRiskGuidelines" | "aiChecklistItems" | "createdAt" | "updatedAt", ExtArgs["result"]["tradingStrategy"]>
 export type TradingStrategyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   journalTrades?: boolean | Prisma.TradingStrategy$journalTradesArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TradingStrategyCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TradingStrategyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1105,8 +1105,8 @@ export type TradingStrategyIncludeUpdateManyAndReturn<ExtArgs extends runtime.Ty
 export type $TradingStrategyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TradingStrategy"
   objects: {
-    profile: Prisma.$ProfilePayload<ExtArgs>
     journalTrades: Prisma.$JournalTradePayload<ExtArgs>[]
+    profile: Prisma.$ProfilePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1521,8 +1521,8 @@ readonly fields: TradingStrategyFieldRefs;
  */
 export interface Prisma__TradingStrategyClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  profile<T extends Prisma.ProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   journalTrades<T extends Prisma.TradingStrategy$journalTradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingStrategy$journalTradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalTradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  profile<T extends Prisma.ProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

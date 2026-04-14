@@ -403,7 +403,9 @@ export const ModelName = {
   MetricsGauge: 'MetricsGauge',
   ReferralLink: 'ReferralLink',
   Referral: 'Referral',
-  ReferralReward: 'ReferralReward'
+  ReferralReward: 'ReferralReward',
+  referral_link_clicks: 'referral_link_clicks',
+  referral_milestone_events: 'referral_milestone_events'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -419,7 +421,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "profile" | "tradingAccount" | "signal" | "trade" | "journalTrade" | "journalChecklistItem" | "tradingStrategy" | "signalAlert" | "signalZone" | "userSignalSubscription" | "notificationLog" | "tradingAnalytics" | "newsArticle" | "socialSentimentAggregate" | "queueJob" | "metricsCounter" | "metricsGauge" | "referralLink" | "referral" | "referralReward"
+    modelProps: "profile" | "tradingAccount" | "signal" | "trade" | "journalTrade" | "journalChecklistItem" | "tradingStrategy" | "signalAlert" | "signalZone" | "userSignalSubscription" | "notificationLog" | "tradingAnalytics" | "newsArticle" | "socialSentimentAggregate" | "queueJob" | "metricsCounter" | "metricsGauge" | "referralLink" | "referral" | "referralReward" | "referral_link_clicks" | "referral_milestone_events"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1903,6 +1905,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    referral_link_clicks: {
+      payload: Prisma.$referral_link_clicksPayload<ExtArgs>
+      fields: Prisma.referral_link_clicksFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.referral_link_clicksFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.referral_link_clicksFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>
+        }
+        findFirst: {
+          args: Prisma.referral_link_clicksFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.referral_link_clicksFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>
+        }
+        findMany: {
+          args: Prisma.referral_link_clicksFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>[]
+        }
+        create: {
+          args: Prisma.referral_link_clicksCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>
+        }
+        createMany: {
+          args: Prisma.referral_link_clicksCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.referral_link_clicksCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>[]
+        }
+        delete: {
+          args: Prisma.referral_link_clicksDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>
+        }
+        update: {
+          args: Prisma.referral_link_clicksUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>
+        }
+        deleteMany: {
+          args: Prisma.referral_link_clicksDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.referral_link_clicksUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.referral_link_clicksUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>[]
+        }
+        upsert: {
+          args: Prisma.referral_link_clicksUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>
+        }
+        aggregate: {
+          args: Prisma.Referral_link_clicksAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReferral_link_clicks>
+        }
+        groupBy: {
+          args: Prisma.referral_link_clicksGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Referral_link_clicksGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.referral_link_clicksCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Referral_link_clicksCountAggregateOutputType> | number
+        }
+      }
+    }
+    referral_milestone_events: {
+      payload: Prisma.$referral_milestone_eventsPayload<ExtArgs>
+      fields: Prisma.referral_milestone_eventsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.referral_milestone_eventsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.referral_milestone_eventsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>
+        }
+        findFirst: {
+          args: Prisma.referral_milestone_eventsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.referral_milestone_eventsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>
+        }
+        findMany: {
+          args: Prisma.referral_milestone_eventsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>[]
+        }
+        create: {
+          args: Prisma.referral_milestone_eventsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>
+        }
+        createMany: {
+          args: Prisma.referral_milestone_eventsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.referral_milestone_eventsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>[]
+        }
+        delete: {
+          args: Prisma.referral_milestone_eventsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>
+        }
+        update: {
+          args: Prisma.referral_milestone_eventsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>
+        }
+        deleteMany: {
+          args: Prisma.referral_milestone_eventsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.referral_milestone_eventsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.referral_milestone_eventsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>[]
+        }
+        upsert: {
+          args: Prisma.referral_milestone_eventsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>
+        }
+        aggregate: {
+          args: Prisma.Referral_milestone_eventsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReferral_milestone_events>
+        }
+        groupBy: {
+          args: Prisma.referral_milestone_eventsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Referral_milestone_eventsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.referral_milestone_eventsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Referral_milestone_eventsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1960,13 +2110,13 @@ export const ProfileScalarFieldEnum = {
   lastNotificationSentAt: 'lastNotificationSentAt',
   notificationSentToday: 'notificationSentToday',
   lastNotificationReset: 'lastNotificationReset',
-  subscriptionTier: 'subscriptionTier',
-  isPro: 'isPro',
   proExpiresAt: 'proExpiresAt',
   revenuecatAppUserId: 'revenuecatAppUserId',
   timezone: 'timezone',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  subscriptionTier: 'subscriptionTier',
+  isPro: 'isPro'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
@@ -2157,12 +2307,10 @@ export const SignalAlertScalarFieldEnum = {
   htfBosDirection: 'htfBosDirection',
   htfTimestamp: 'htfTimestamp',
   htfBrokenAt: 'htfBrokenAt',
-  htfInterval: 'htfInterval',
   ltfRangeHigh: 'ltfRangeHigh',
   ltfRangeLow: 'ltfRangeLow',
   ltfTimestamp: 'ltfTimestamp',
   ltfSlLevel: 'ltfSlLevel',
-  ltfInterval: 'ltfInterval',
   rejectionOpen: 'rejectionOpen',
   rejectionHigh: 'rejectionHigh',
   rejectionLow: 'rejectionLow',
@@ -2181,7 +2329,9 @@ export const SignalAlertScalarFieldEnum = {
   closedAt: 'closedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  zoneId: 'zoneId'
+  zoneId: 'zoneId',
+  htfInterval: 'htfInterval',
+  ltfInterval: 'ltfInterval'
 } as const
 
 export type SignalAlertScalarFieldEnum = (typeof SignalAlertScalarFieldEnum)[keyof typeof SignalAlertScalarFieldEnum]
@@ -2196,20 +2346,20 @@ export const SignalZoneScalarFieldEnum = {
   htfRangeHigh: 'htfRangeHigh',
   htfRangeLow: 'htfRangeLow',
   htfBosDirection: 'htfBosDirection',
-  htfInterval: 'htfInterval',
-  htfTimestamp: 'htfTimestamp',
-  htfTpLevel: 'htfTpLevel',
   ltfRangeHigh: 'ltfRangeHigh',
   ltfRangeLow: 'ltfRangeLow',
   ltfSlLevel: 'ltfSlLevel',
-  ltfInterval: 'ltfInterval',
-  ltfTimestamp: 'ltfTimestamp',
   rawPayload: 'rawPayload',
   pendingAt: 'pendingAt',
   triggeredAt: 'triggeredAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  signalId: 'signalId'
+  signalId: 'signalId',
+  htfInterval: 'htfInterval',
+  htfTimestamp: 'htfTimestamp',
+  htfTpLevel: 'htfTpLevel',
+  ltfInterval: 'ltfInterval',
+  ltfTimestamp: 'ltfTimestamp'
 } as const
 
 export type SignalZoneScalarFieldEnum = (typeof SignalZoneScalarFieldEnum)[keyof typeof SignalZoneScalarFieldEnum]
@@ -2352,7 +2502,12 @@ export const ReferralLinkScalarFieldEnum = {
   userId: 'userId',
   referralCode: 'referralCode',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  influencer_tier: 'influencer_tier',
+  total_clicks: 'total_clicks',
+  unique_clicks: 'unique_clicks',
+  payout_preference: 'payout_preference',
+  custom_slug: 'custom_slug'
 } as const
 
 export type ReferralLinkScalarFieldEnum = (typeof ReferralLinkScalarFieldEnum)[keyof typeof ReferralLinkScalarFieldEnum]
@@ -2374,13 +2529,15 @@ export const ReferralScalarFieldEnum = {
   referrerRewardClaimedAt: 'referrerRewardClaimedAt',
   refereeRewardClaimed: 'refereeRewardClaimed',
   refereeRewardClaimedAt: 'refereeRewardClaimedAt',
-  refereeTierAtSubscription: 'refereeTierAtSubscription',
-  refereeSubscriptionPrice: 'refereeSubscriptionPrice',
   utmSource: 'utmSource',
   utmMedium: 'utmMedium',
   ipAddress: 'ipAddress',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  refereeSubscriptionPrice: 'refereeSubscriptionPrice',
+  refereeTierAtSubscription: 'refereeTierAtSubscription',
+  referee_bonus_days: 'referee_bonus_days',
+  referee_bonus_applied: 'referee_bonus_applied'
 } as const
 
 export type ReferralScalarFieldEnum = (typeof ReferralScalarFieldEnum)[keyof typeof ReferralScalarFieldEnum]
@@ -2391,21 +2548,48 @@ export const ReferralRewardScalarFieldEnum = {
   referralId: 'referralId',
   userId: 'userId',
   rewardType: 'rewardType',
-  tierAwarded: 'tierAwarded',
-  tierValue: 'tierValue',
-  monthsAwarded: 'monthsAwarded',
-  status: 'status',
-  claimedAt: 'claimedAt',
-  expiresAt: 'expiresAt',
-  appliedToUserId: 'appliedToUserId',
-  newExpiryDate: 'newExpiryDate',
   amount: 'amount',
+  expiresAt: 'expiresAt',
   usedAt: 'usedAt',
   usedWithSubscription: 'usedWithSubscription',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  appliedToUserId: 'appliedToUserId',
+  claimedAt: 'claimedAt',
+  monthsAwarded: 'monthsAwarded',
+  newExpiryDate: 'newExpiryDate',
+  status: 'status',
+  tierAwarded: 'tierAwarded',
+  tierValue: 'tierValue',
+  reward_subtype: 'reward_subtype',
+  credit_amount: 'credit_amount'
 } as const
 
 export type ReferralRewardScalarFieldEnum = (typeof ReferralRewardScalarFieldEnum)[keyof typeof ReferralRewardScalarFieldEnum]
+
+
+export const Referral_link_clicksScalarFieldEnum = {
+  id: 'id',
+  referral_code: 'referral_code',
+  ip_hash: 'ip_hash',
+  ua_hash: 'ua_hash',
+  country_code: 'country_code',
+  is_unique: 'is_unique',
+  clicked_at: 'clicked_at'
+} as const
+
+export type Referral_link_clicksScalarFieldEnum = (typeof Referral_link_clicksScalarFieldEnum)[keyof typeof Referral_link_clicksScalarFieldEnum]
+
+
+export const Referral_milestone_eventsScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  from_tier: 'from_tier',
+  to_tier: 'to_tier',
+  confirmed_count: 'confirmed_count',
+  achieved_at: 'achieved_at'
+} as const
+
+export type Referral_milestone_eventsScalarFieldEnum = (typeof Referral_milestone_eventsScalarFieldEnum)[keyof typeof Referral_milestone_eventsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2961,6 +3145,8 @@ export type GlobalOmitConfig = {
   referralLink?: Prisma.ReferralLinkOmit
   referral?: Prisma.ReferralOmit
   referralReward?: Prisma.ReferralRewardOmit
+  referral_link_clicks?: Prisma.referral_link_clicksOmit
+  referral_milestone_events?: Prisma.referral_milestone_eventsOmit
 }
 
 /* Types for Logging */

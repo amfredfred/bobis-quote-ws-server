@@ -29,19 +29,19 @@ export type AggregateSignalZone = {
 export type SignalZoneAvgAggregateOutputType = {
   htfRangeHigh: number | null
   htfRangeLow: number | null
-  htfTpLevel: number | null
   ltfRangeHigh: number | null
   ltfRangeLow: number | null
   ltfSlLevel: number | null
+  htfTpLevel: number | null
 }
 
 export type SignalZoneSumAggregateOutputType = {
   htfRangeHigh: number | null
   htfRangeLow: number | null
-  htfTpLevel: number | null
   ltfRangeHigh: number | null
   ltfRangeLow: number | null
   ltfSlLevel: number | null
+  htfTpLevel: number | null
 }
 
 export type SignalZoneMinAggregateOutputType = {
@@ -53,19 +53,19 @@ export type SignalZoneMinAggregateOutputType = {
   htfRangeHigh: number | null
   htfRangeLow: number | null
   htfBosDirection: string | null
-  htfInterval: string | null
-  htfTimestamp: Date | null
-  htfTpLevel: number | null
   ltfRangeHigh: number | null
   ltfRangeLow: number | null
   ltfSlLevel: number | null
-  ltfInterval: string | null
-  ltfTimestamp: Date | null
   pendingAt: Date | null
   triggeredAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
   signalId: string | null
+  htfInterval: string | null
+  htfTimestamp: Date | null
+  htfTpLevel: number | null
+  ltfInterval: string | null
+  ltfTimestamp: Date | null
 }
 
 export type SignalZoneMaxAggregateOutputType = {
@@ -77,19 +77,19 @@ export type SignalZoneMaxAggregateOutputType = {
   htfRangeHigh: number | null
   htfRangeLow: number | null
   htfBosDirection: string | null
-  htfInterval: string | null
-  htfTimestamp: Date | null
-  htfTpLevel: number | null
   ltfRangeHigh: number | null
   ltfRangeLow: number | null
   ltfSlLevel: number | null
-  ltfInterval: string | null
-  ltfTimestamp: Date | null
   pendingAt: Date | null
   triggeredAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
   signalId: string | null
+  htfInterval: string | null
+  htfTimestamp: Date | null
+  htfTpLevel: number | null
+  ltfInterval: string | null
+  ltfTimestamp: Date | null
 }
 
 export type SignalZoneCountAggregateOutputType = {
@@ -101,20 +101,20 @@ export type SignalZoneCountAggregateOutputType = {
   htfRangeHigh: number
   htfRangeLow: number
   htfBosDirection: number
-  htfInterval: number
-  htfTimestamp: number
-  htfTpLevel: number
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfSlLevel: number
-  ltfInterval: number
-  ltfTimestamp: number
   rawPayload: number
   pendingAt: number
   triggeredAt: number
   createdAt: number
   updatedAt: number
   signalId: number
+  htfInterval: number
+  htfTimestamp: number
+  htfTpLevel: number
+  ltfInterval: number
+  ltfTimestamp: number
   _all: number
 }
 
@@ -122,19 +122,19 @@ export type SignalZoneCountAggregateOutputType = {
 export type SignalZoneAvgAggregateInputType = {
   htfRangeHigh?: true
   htfRangeLow?: true
-  htfTpLevel?: true
   ltfRangeHigh?: true
   ltfRangeLow?: true
   ltfSlLevel?: true
+  htfTpLevel?: true
 }
 
 export type SignalZoneSumAggregateInputType = {
   htfRangeHigh?: true
   htfRangeLow?: true
-  htfTpLevel?: true
   ltfRangeHigh?: true
   ltfRangeLow?: true
   ltfSlLevel?: true
+  htfTpLevel?: true
 }
 
 export type SignalZoneMinAggregateInputType = {
@@ -146,19 +146,19 @@ export type SignalZoneMinAggregateInputType = {
   htfRangeHigh?: true
   htfRangeLow?: true
   htfBosDirection?: true
-  htfInterval?: true
-  htfTimestamp?: true
-  htfTpLevel?: true
   ltfRangeHigh?: true
   ltfRangeLow?: true
   ltfSlLevel?: true
-  ltfInterval?: true
-  ltfTimestamp?: true
   pendingAt?: true
   triggeredAt?: true
   createdAt?: true
   updatedAt?: true
   signalId?: true
+  htfInterval?: true
+  htfTimestamp?: true
+  htfTpLevel?: true
+  ltfInterval?: true
+  ltfTimestamp?: true
 }
 
 export type SignalZoneMaxAggregateInputType = {
@@ -170,19 +170,19 @@ export type SignalZoneMaxAggregateInputType = {
   htfRangeHigh?: true
   htfRangeLow?: true
   htfBosDirection?: true
-  htfInterval?: true
-  htfTimestamp?: true
-  htfTpLevel?: true
   ltfRangeHigh?: true
   ltfRangeLow?: true
   ltfSlLevel?: true
-  ltfInterval?: true
-  ltfTimestamp?: true
   pendingAt?: true
   triggeredAt?: true
   createdAt?: true
   updatedAt?: true
   signalId?: true
+  htfInterval?: true
+  htfTimestamp?: true
+  htfTpLevel?: true
+  ltfInterval?: true
+  ltfTimestamp?: true
 }
 
 export type SignalZoneCountAggregateInputType = {
@@ -194,20 +194,20 @@ export type SignalZoneCountAggregateInputType = {
   htfRangeHigh?: true
   htfRangeLow?: true
   htfBosDirection?: true
-  htfInterval?: true
-  htfTimestamp?: true
-  htfTpLevel?: true
   ltfRangeHigh?: true
   ltfRangeLow?: true
   ltfSlLevel?: true
-  ltfInterval?: true
-  ltfTimestamp?: true
   rawPayload?: true
   pendingAt?: true
   triggeredAt?: true
   createdAt?: true
   updatedAt?: true
   signalId?: true
+  htfInterval?: true
+  htfTimestamp?: true
+  htfTpLevel?: true
+  ltfInterval?: true
+  ltfTimestamp?: true
   _all?: true
 }
 
@@ -306,20 +306,20 @@ export type SignalZoneGroupByOutputType = {
   htfRangeHigh: number
   htfRangeLow: number
   htfBosDirection: string
-  htfInterval: string | null
-  htfTimestamp: Date | null
-  htfTpLevel: number | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfSlLevel: number
-  ltfInterval: string | null
-  ltfTimestamp: Date | null
   rawPayload: runtime.JsonValue
   pendingAt: Date
   triggeredAt: Date | null
   createdAt: Date
   updatedAt: Date
   signalId: string | null
+  htfInterval: string | null
+  htfTimestamp: Date | null
+  htfTpLevel: number | null
+  ltfInterval: string | null
+  ltfTimestamp: Date | null
   _count: SignalZoneCountAggregateOutputType | null
   _avg: SignalZoneAvgAggregateOutputType | null
   _sum: SignalZoneSumAggregateOutputType | null
@@ -354,20 +354,20 @@ export type SignalZoneWhereInput = {
   htfRangeHigh?: Prisma.FloatFilter<"SignalZone"> | number
   htfRangeLow?: Prisma.FloatFilter<"SignalZone"> | number
   htfBosDirection?: Prisma.StringFilter<"SignalZone"> | string
-  htfInterval?: Prisma.StringNullableFilter<"SignalZone"> | string | null
-  htfTimestamp?: Prisma.DateTimeNullableFilter<"SignalZone"> | Date | string | null
-  htfTpLevel?: Prisma.FloatNullableFilter<"SignalZone"> | number | null
   ltfRangeHigh?: Prisma.FloatFilter<"SignalZone"> | number
   ltfRangeLow?: Prisma.FloatFilter<"SignalZone"> | number
   ltfSlLevel?: Prisma.FloatFilter<"SignalZone"> | number
-  ltfInterval?: Prisma.StringNullableFilter<"SignalZone"> | string | null
-  ltfTimestamp?: Prisma.DateTimeNullableFilter<"SignalZone"> | Date | string | null
   rawPayload?: Prisma.JsonFilter<"SignalZone">
   pendingAt?: Prisma.DateTimeFilter<"SignalZone"> | Date | string
   triggeredAt?: Prisma.DateTimeNullableFilter<"SignalZone"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SignalZone"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SignalZone"> | Date | string
   signalId?: Prisma.UuidNullableFilter<"SignalZone"> | string | null
+  htfInterval?: Prisma.StringNullableFilter<"SignalZone"> | string | null
+  htfTimestamp?: Prisma.DateTimeNullableFilter<"SignalZone"> | Date | string | null
+  htfTpLevel?: Prisma.FloatNullableFilter<"SignalZone"> | number | null
+  ltfInterval?: Prisma.StringNullableFilter<"SignalZone"> | string | null
+  ltfTimestamp?: Prisma.DateTimeNullableFilter<"SignalZone"> | Date | string | null
   signal?: Prisma.XOR<Prisma.SignalAlertNullableScalarRelationFilter, Prisma.SignalAlertWhereInput> | null
 }
 
@@ -380,20 +380,20 @@ export type SignalZoneOrderByWithRelationInput = {
   htfRangeHigh?: Prisma.SortOrder
   htfRangeLow?: Prisma.SortOrder
   htfBosDirection?: Prisma.SortOrder
-  htfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
-  htfTimestamp?: Prisma.SortOrderInput | Prisma.SortOrder
-  htfTpLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   ltfRangeHigh?: Prisma.SortOrder
   ltfRangeLow?: Prisma.SortOrder
   ltfSlLevel?: Prisma.SortOrder
-  ltfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
-  ltfTimestamp?: Prisma.SortOrderInput | Prisma.SortOrder
   rawPayload?: Prisma.SortOrder
   pendingAt?: Prisma.SortOrder
   triggeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   signalId?: Prisma.SortOrderInput | Prisma.SortOrder
+  htfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
+  htfTimestamp?: Prisma.SortOrderInput | Prisma.SortOrder
+  htfTpLevel?: Prisma.SortOrderInput | Prisma.SortOrder
+  ltfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
+  ltfTimestamp?: Prisma.SortOrderInput | Prisma.SortOrder
   signal?: Prisma.SignalAlertOrderByWithRelationInput
 }
 
@@ -409,20 +409,20 @@ export type SignalZoneWhereUniqueInput = Prisma.AtLeast<{
   htfRangeHigh?: Prisma.FloatFilter<"SignalZone"> | number
   htfRangeLow?: Prisma.FloatFilter<"SignalZone"> | number
   htfBosDirection?: Prisma.StringFilter<"SignalZone"> | string
-  htfInterval?: Prisma.StringNullableFilter<"SignalZone"> | string | null
-  htfTimestamp?: Prisma.DateTimeNullableFilter<"SignalZone"> | Date | string | null
-  htfTpLevel?: Prisma.FloatNullableFilter<"SignalZone"> | number | null
   ltfRangeHigh?: Prisma.FloatFilter<"SignalZone"> | number
   ltfRangeLow?: Prisma.FloatFilter<"SignalZone"> | number
   ltfSlLevel?: Prisma.FloatFilter<"SignalZone"> | number
-  ltfInterval?: Prisma.StringNullableFilter<"SignalZone"> | string | null
-  ltfTimestamp?: Prisma.DateTimeNullableFilter<"SignalZone"> | Date | string | null
   rawPayload?: Prisma.JsonFilter<"SignalZone">
   pendingAt?: Prisma.DateTimeFilter<"SignalZone"> | Date | string
   triggeredAt?: Prisma.DateTimeNullableFilter<"SignalZone"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SignalZone"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SignalZone"> | Date | string
   signalId?: Prisma.UuidNullableFilter<"SignalZone"> | string | null
+  htfInterval?: Prisma.StringNullableFilter<"SignalZone"> | string | null
+  htfTimestamp?: Prisma.DateTimeNullableFilter<"SignalZone"> | Date | string | null
+  htfTpLevel?: Prisma.FloatNullableFilter<"SignalZone"> | number | null
+  ltfInterval?: Prisma.StringNullableFilter<"SignalZone"> | string | null
+  ltfTimestamp?: Prisma.DateTimeNullableFilter<"SignalZone"> | Date | string | null
   signal?: Prisma.XOR<Prisma.SignalAlertNullableScalarRelationFilter, Prisma.SignalAlertWhereInput> | null
 }, "id" | "engineKey">
 
@@ -435,20 +435,20 @@ export type SignalZoneOrderByWithAggregationInput = {
   htfRangeHigh?: Prisma.SortOrder
   htfRangeLow?: Prisma.SortOrder
   htfBosDirection?: Prisma.SortOrder
-  htfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
-  htfTimestamp?: Prisma.SortOrderInput | Prisma.SortOrder
-  htfTpLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   ltfRangeHigh?: Prisma.SortOrder
   ltfRangeLow?: Prisma.SortOrder
   ltfSlLevel?: Prisma.SortOrder
-  ltfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
-  ltfTimestamp?: Prisma.SortOrderInput | Prisma.SortOrder
   rawPayload?: Prisma.SortOrder
   pendingAt?: Prisma.SortOrder
   triggeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   signalId?: Prisma.SortOrderInput | Prisma.SortOrder
+  htfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
+  htfTimestamp?: Prisma.SortOrderInput | Prisma.SortOrder
+  htfTpLevel?: Prisma.SortOrderInput | Prisma.SortOrder
+  ltfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
+  ltfTimestamp?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SignalZoneCountOrderByAggregateInput
   _avg?: Prisma.SignalZoneAvgOrderByAggregateInput
   _max?: Prisma.SignalZoneMaxOrderByAggregateInput
@@ -468,20 +468,20 @@ export type SignalZoneScalarWhereWithAggregatesInput = {
   htfRangeHigh?: Prisma.FloatWithAggregatesFilter<"SignalZone"> | number
   htfRangeLow?: Prisma.FloatWithAggregatesFilter<"SignalZone"> | number
   htfBosDirection?: Prisma.StringWithAggregatesFilter<"SignalZone"> | string
-  htfInterval?: Prisma.StringNullableWithAggregatesFilter<"SignalZone"> | string | null
-  htfTimestamp?: Prisma.DateTimeNullableWithAggregatesFilter<"SignalZone"> | Date | string | null
-  htfTpLevel?: Prisma.FloatNullableWithAggregatesFilter<"SignalZone"> | number | null
   ltfRangeHigh?: Prisma.FloatWithAggregatesFilter<"SignalZone"> | number
   ltfRangeLow?: Prisma.FloatWithAggregatesFilter<"SignalZone"> | number
   ltfSlLevel?: Prisma.FloatWithAggregatesFilter<"SignalZone"> | number
-  ltfInterval?: Prisma.StringNullableWithAggregatesFilter<"SignalZone"> | string | null
-  ltfTimestamp?: Prisma.DateTimeNullableWithAggregatesFilter<"SignalZone"> | Date | string | null
   rawPayload?: Prisma.JsonWithAggregatesFilter<"SignalZone">
   pendingAt?: Prisma.DateTimeWithAggregatesFilter<"SignalZone"> | Date | string
   triggeredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SignalZone"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SignalZone"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SignalZone"> | Date | string
   signalId?: Prisma.UuidNullableWithAggregatesFilter<"SignalZone"> | string | null
+  htfInterval?: Prisma.StringNullableWithAggregatesFilter<"SignalZone"> | string | null
+  htfTimestamp?: Prisma.DateTimeNullableWithAggregatesFilter<"SignalZone"> | Date | string | null
+  htfTpLevel?: Prisma.FloatNullableWithAggregatesFilter<"SignalZone"> | number | null
+  ltfInterval?: Prisma.StringNullableWithAggregatesFilter<"SignalZone"> | string | null
+  ltfTimestamp?: Prisma.DateTimeNullableWithAggregatesFilter<"SignalZone"> | Date | string | null
 }
 
 export type SignalZoneCreateInput = {
@@ -493,20 +493,20 @@ export type SignalZoneCreateInput = {
   htfRangeHigh: number
   htfRangeLow: number
   htfBosDirection: string
-  htfInterval?: string | null
-  htfTimestamp?: Date | string | null
-  htfTpLevel?: number | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfSlLevel: number
-  ltfInterval?: string | null
-  ltfTimestamp?: Date | string | null
   rawPayload: Prisma.JsonNullValueInput | runtime.InputJsonValue
   pendingAt: Date | string
   triggeredAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   signalId?: string | null
+  htfInterval?: string | null
+  htfTimestamp?: Date | string | null
+  htfTpLevel?: number | null
+  ltfInterval?: string | null
+  ltfTimestamp?: Date | string | null
   signal?: Prisma.SignalAlertCreateNestedOneWithoutZoneInput
 }
 
@@ -519,20 +519,20 @@ export type SignalZoneUncheckedCreateInput = {
   htfRangeHigh: number
   htfRangeLow: number
   htfBosDirection: string
-  htfInterval?: string | null
-  htfTimestamp?: Date | string | null
-  htfTpLevel?: number | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfSlLevel: number
-  ltfInterval?: string | null
-  ltfTimestamp?: Date | string | null
   rawPayload: Prisma.JsonNullValueInput | runtime.InputJsonValue
   pendingAt: Date | string
   triggeredAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   signalId?: string | null
+  htfInterval?: string | null
+  htfTimestamp?: Date | string | null
+  htfTpLevel?: number | null
+  ltfInterval?: string | null
+  ltfTimestamp?: Date | string | null
   signal?: Prisma.SignalAlertUncheckedCreateNestedOneWithoutZoneInput
 }
 
@@ -545,20 +545,20 @@ export type SignalZoneUpdateInput = {
   htfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   htfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  htfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfTpLevel?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ltfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawPayload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   pendingAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   triggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  htfTpLevel?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   signal?: Prisma.SignalAlertUpdateOneWithoutZoneNestedInput
 }
 
@@ -571,20 +571,20 @@ export type SignalZoneUncheckedUpdateInput = {
   htfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   htfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  htfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfTpLevel?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ltfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawPayload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   pendingAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   triggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  htfTpLevel?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   signal?: Prisma.SignalAlertUncheckedUpdateOneWithoutZoneNestedInput
 }
 
@@ -597,20 +597,20 @@ export type SignalZoneCreateManyInput = {
   htfRangeHigh: number
   htfRangeLow: number
   htfBosDirection: string
-  htfInterval?: string | null
-  htfTimestamp?: Date | string | null
-  htfTpLevel?: number | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfSlLevel: number
-  ltfInterval?: string | null
-  ltfTimestamp?: Date | string | null
   rawPayload: Prisma.JsonNullValueInput | runtime.InputJsonValue
   pendingAt: Date | string
   triggeredAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   signalId?: string | null
+  htfInterval?: string | null
+  htfTimestamp?: Date | string | null
+  htfTpLevel?: number | null
+  ltfInterval?: string | null
+  ltfTimestamp?: Date | string | null
 }
 
 export type SignalZoneUpdateManyMutationInput = {
@@ -622,20 +622,20 @@ export type SignalZoneUpdateManyMutationInput = {
   htfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   htfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  htfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfTpLevel?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ltfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawPayload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   pendingAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   triggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  htfTpLevel?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SignalZoneUncheckedUpdateManyInput = {
@@ -647,20 +647,20 @@ export type SignalZoneUncheckedUpdateManyInput = {
   htfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   htfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  htfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfTpLevel?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ltfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawPayload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   pendingAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   triggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  htfTpLevel?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SignalZoneNullableScalarRelationFilter = {
@@ -677,29 +677,29 @@ export type SignalZoneCountOrderByAggregateInput = {
   htfRangeHigh?: Prisma.SortOrder
   htfRangeLow?: Prisma.SortOrder
   htfBosDirection?: Prisma.SortOrder
-  htfInterval?: Prisma.SortOrder
-  htfTimestamp?: Prisma.SortOrder
-  htfTpLevel?: Prisma.SortOrder
   ltfRangeHigh?: Prisma.SortOrder
   ltfRangeLow?: Prisma.SortOrder
   ltfSlLevel?: Prisma.SortOrder
-  ltfInterval?: Prisma.SortOrder
-  ltfTimestamp?: Prisma.SortOrder
   rawPayload?: Prisma.SortOrder
   pendingAt?: Prisma.SortOrder
   triggeredAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   signalId?: Prisma.SortOrder
+  htfInterval?: Prisma.SortOrder
+  htfTimestamp?: Prisma.SortOrder
+  htfTpLevel?: Prisma.SortOrder
+  ltfInterval?: Prisma.SortOrder
+  ltfTimestamp?: Prisma.SortOrder
 }
 
 export type SignalZoneAvgOrderByAggregateInput = {
   htfRangeHigh?: Prisma.SortOrder
   htfRangeLow?: Prisma.SortOrder
-  htfTpLevel?: Prisma.SortOrder
   ltfRangeHigh?: Prisma.SortOrder
   ltfRangeLow?: Prisma.SortOrder
   ltfSlLevel?: Prisma.SortOrder
+  htfTpLevel?: Prisma.SortOrder
 }
 
 export type SignalZoneMaxOrderByAggregateInput = {
@@ -711,19 +711,19 @@ export type SignalZoneMaxOrderByAggregateInput = {
   htfRangeHigh?: Prisma.SortOrder
   htfRangeLow?: Prisma.SortOrder
   htfBosDirection?: Prisma.SortOrder
-  htfInterval?: Prisma.SortOrder
-  htfTimestamp?: Prisma.SortOrder
-  htfTpLevel?: Prisma.SortOrder
   ltfRangeHigh?: Prisma.SortOrder
   ltfRangeLow?: Prisma.SortOrder
   ltfSlLevel?: Prisma.SortOrder
-  ltfInterval?: Prisma.SortOrder
-  ltfTimestamp?: Prisma.SortOrder
   pendingAt?: Prisma.SortOrder
   triggeredAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   signalId?: Prisma.SortOrder
+  htfInterval?: Prisma.SortOrder
+  htfTimestamp?: Prisma.SortOrder
+  htfTpLevel?: Prisma.SortOrder
+  ltfInterval?: Prisma.SortOrder
+  ltfTimestamp?: Prisma.SortOrder
 }
 
 export type SignalZoneMinOrderByAggregateInput = {
@@ -735,28 +735,28 @@ export type SignalZoneMinOrderByAggregateInput = {
   htfRangeHigh?: Prisma.SortOrder
   htfRangeLow?: Prisma.SortOrder
   htfBosDirection?: Prisma.SortOrder
-  htfInterval?: Prisma.SortOrder
-  htfTimestamp?: Prisma.SortOrder
-  htfTpLevel?: Prisma.SortOrder
   ltfRangeHigh?: Prisma.SortOrder
   ltfRangeLow?: Prisma.SortOrder
   ltfSlLevel?: Prisma.SortOrder
-  ltfInterval?: Prisma.SortOrder
-  ltfTimestamp?: Prisma.SortOrder
   pendingAt?: Prisma.SortOrder
   triggeredAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   signalId?: Prisma.SortOrder
+  htfInterval?: Prisma.SortOrder
+  htfTimestamp?: Prisma.SortOrder
+  htfTpLevel?: Prisma.SortOrder
+  ltfInterval?: Prisma.SortOrder
+  ltfTimestamp?: Prisma.SortOrder
 }
 
 export type SignalZoneSumOrderByAggregateInput = {
   htfRangeHigh?: Prisma.SortOrder
   htfRangeLow?: Prisma.SortOrder
-  htfTpLevel?: Prisma.SortOrder
   ltfRangeHigh?: Prisma.SortOrder
   ltfRangeLow?: Prisma.SortOrder
   ltfSlLevel?: Prisma.SortOrder
+  htfTpLevel?: Prisma.SortOrder
 }
 
 export type SignalZoneCreateNestedOneWithoutSignalInput = {
@@ -788,20 +788,20 @@ export type SignalZoneCreateWithoutSignalInput = {
   htfRangeHigh: number
   htfRangeLow: number
   htfBosDirection: string
-  htfInterval?: string | null
-  htfTimestamp?: Date | string | null
-  htfTpLevel?: number | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfSlLevel: number
-  ltfInterval?: string | null
-  ltfTimestamp?: Date | string | null
   rawPayload: Prisma.JsonNullValueInput | runtime.InputJsonValue
   pendingAt: Date | string
   triggeredAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   signalId?: string | null
+  htfInterval?: string | null
+  htfTimestamp?: Date | string | null
+  htfTpLevel?: number | null
+  ltfInterval?: string | null
+  ltfTimestamp?: Date | string | null
 }
 
 export type SignalZoneUncheckedCreateWithoutSignalInput = {
@@ -813,20 +813,20 @@ export type SignalZoneUncheckedCreateWithoutSignalInput = {
   htfRangeHigh: number
   htfRangeLow: number
   htfBosDirection: string
-  htfInterval?: string | null
-  htfTimestamp?: Date | string | null
-  htfTpLevel?: number | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfSlLevel: number
-  ltfInterval?: string | null
-  ltfTimestamp?: Date | string | null
   rawPayload: Prisma.JsonNullValueInput | runtime.InputJsonValue
   pendingAt: Date | string
   triggeredAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   signalId?: string | null
+  htfInterval?: string | null
+  htfTimestamp?: Date | string | null
+  htfTpLevel?: number | null
+  ltfInterval?: string | null
+  ltfTimestamp?: Date | string | null
 }
 
 export type SignalZoneCreateOrConnectWithoutSignalInput = {
@@ -854,20 +854,20 @@ export type SignalZoneUpdateWithoutSignalInput = {
   htfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   htfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  htfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfTpLevel?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ltfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawPayload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   pendingAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   triggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  htfTpLevel?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SignalZoneUncheckedUpdateWithoutSignalInput = {
@@ -879,20 +879,20 @@ export type SignalZoneUncheckedUpdateWithoutSignalInput = {
   htfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   htfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  htfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfTpLevel?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ltfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawPayload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   pendingAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   triggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  htfTpLevel?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfTimestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -906,20 +906,20 @@ export type SignalZoneSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   htfRangeHigh?: boolean
   htfRangeLow?: boolean
   htfBosDirection?: boolean
-  htfInterval?: boolean
-  htfTimestamp?: boolean
-  htfTpLevel?: boolean
   ltfRangeHigh?: boolean
   ltfRangeLow?: boolean
   ltfSlLevel?: boolean
-  ltfInterval?: boolean
-  ltfTimestamp?: boolean
   rawPayload?: boolean
   pendingAt?: boolean
   triggeredAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   signalId?: boolean
+  htfInterval?: boolean
+  htfTimestamp?: boolean
+  htfTpLevel?: boolean
+  ltfInterval?: boolean
+  ltfTimestamp?: boolean
   signal?: boolean | Prisma.SignalZone$signalArgs<ExtArgs>
 }, ExtArgs["result"]["signalZone"]>
 
@@ -932,20 +932,20 @@ export type SignalZoneSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   htfRangeHigh?: boolean
   htfRangeLow?: boolean
   htfBosDirection?: boolean
-  htfInterval?: boolean
-  htfTimestamp?: boolean
-  htfTpLevel?: boolean
   ltfRangeHigh?: boolean
   ltfRangeLow?: boolean
   ltfSlLevel?: boolean
-  ltfInterval?: boolean
-  ltfTimestamp?: boolean
   rawPayload?: boolean
   pendingAt?: boolean
   triggeredAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   signalId?: boolean
+  htfInterval?: boolean
+  htfTimestamp?: boolean
+  htfTpLevel?: boolean
+  ltfInterval?: boolean
+  ltfTimestamp?: boolean
 }, ExtArgs["result"]["signalZone"]>
 
 export type SignalZoneSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -957,20 +957,20 @@ export type SignalZoneSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   htfRangeHigh?: boolean
   htfRangeLow?: boolean
   htfBosDirection?: boolean
-  htfInterval?: boolean
-  htfTimestamp?: boolean
-  htfTpLevel?: boolean
   ltfRangeHigh?: boolean
   ltfRangeLow?: boolean
   ltfSlLevel?: boolean
-  ltfInterval?: boolean
-  ltfTimestamp?: boolean
   rawPayload?: boolean
   pendingAt?: boolean
   triggeredAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   signalId?: boolean
+  htfInterval?: boolean
+  htfTimestamp?: boolean
+  htfTpLevel?: boolean
+  ltfInterval?: boolean
+  ltfTimestamp?: boolean
 }, ExtArgs["result"]["signalZone"]>
 
 export type SignalZoneSelectScalar = {
@@ -982,23 +982,23 @@ export type SignalZoneSelectScalar = {
   htfRangeHigh?: boolean
   htfRangeLow?: boolean
   htfBosDirection?: boolean
-  htfInterval?: boolean
-  htfTimestamp?: boolean
-  htfTpLevel?: boolean
   ltfRangeHigh?: boolean
   ltfRangeLow?: boolean
   ltfSlLevel?: boolean
-  ltfInterval?: boolean
-  ltfTimestamp?: boolean
   rawPayload?: boolean
   pendingAt?: boolean
   triggeredAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   signalId?: boolean
+  htfInterval?: boolean
+  htfTimestamp?: boolean
+  htfTpLevel?: boolean
+  ltfInterval?: boolean
+  ltfTimestamp?: boolean
 }
 
-export type SignalZoneOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "engineKey" | "symbol" | "direction" | "status" | "htfRangeHigh" | "htfRangeLow" | "htfBosDirection" | "htfInterval" | "htfTimestamp" | "htfTpLevel" | "ltfRangeHigh" | "ltfRangeLow" | "ltfSlLevel" | "ltfInterval" | "ltfTimestamp" | "rawPayload" | "pendingAt" | "triggeredAt" | "createdAt" | "updatedAt" | "signalId", ExtArgs["result"]["signalZone"]>
+export type SignalZoneOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "engineKey" | "symbol" | "direction" | "status" | "htfRangeHigh" | "htfRangeLow" | "htfBosDirection" | "ltfRangeHigh" | "ltfRangeLow" | "ltfSlLevel" | "rawPayload" | "pendingAt" | "triggeredAt" | "createdAt" | "updatedAt" | "signalId" | "htfInterval" | "htfTimestamp" | "htfTpLevel" | "ltfInterval" | "ltfTimestamp", ExtArgs["result"]["signalZone"]>
 export type SignalZoneInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   signal?: boolean | Prisma.SignalZone$signalArgs<ExtArgs>
 }
@@ -1019,20 +1019,20 @@ export type $SignalZonePayload<ExtArgs extends runtime.Types.Extensions.Internal
     htfRangeHigh: number
     htfRangeLow: number
     htfBosDirection: string
-    htfInterval: string | null
-    htfTimestamp: Date | null
-    htfTpLevel: number | null
     ltfRangeHigh: number
     ltfRangeLow: number
     ltfSlLevel: number
-    ltfInterval: string | null
-    ltfTimestamp: Date | null
     rawPayload: runtime.JsonValue
     pendingAt: Date
     triggeredAt: Date | null
     createdAt: Date
     updatedAt: Date
     signalId: string | null
+    htfInterval: string | null
+    htfTimestamp: Date | null
+    htfTpLevel: number | null
+    ltfInterval: string | null
+    ltfTimestamp: Date | null
   }, ExtArgs["result"]["signalZone"]>
   composites: {}
 }
@@ -1465,20 +1465,20 @@ export interface SignalZoneFieldRefs {
   readonly htfRangeHigh: Prisma.FieldRef<"SignalZone", 'Float'>
   readonly htfRangeLow: Prisma.FieldRef<"SignalZone", 'Float'>
   readonly htfBosDirection: Prisma.FieldRef<"SignalZone", 'String'>
-  readonly htfInterval: Prisma.FieldRef<"SignalZone", 'String'>
-  readonly htfTimestamp: Prisma.FieldRef<"SignalZone", 'DateTime'>
-  readonly htfTpLevel: Prisma.FieldRef<"SignalZone", 'Float'>
   readonly ltfRangeHigh: Prisma.FieldRef<"SignalZone", 'Float'>
   readonly ltfRangeLow: Prisma.FieldRef<"SignalZone", 'Float'>
   readonly ltfSlLevel: Prisma.FieldRef<"SignalZone", 'Float'>
-  readonly ltfInterval: Prisma.FieldRef<"SignalZone", 'String'>
-  readonly ltfTimestamp: Prisma.FieldRef<"SignalZone", 'DateTime'>
   readonly rawPayload: Prisma.FieldRef<"SignalZone", 'Json'>
   readonly pendingAt: Prisma.FieldRef<"SignalZone", 'DateTime'>
   readonly triggeredAt: Prisma.FieldRef<"SignalZone", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"SignalZone", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"SignalZone", 'DateTime'>
   readonly signalId: Prisma.FieldRef<"SignalZone", 'String'>
+  readonly htfInterval: Prisma.FieldRef<"SignalZone", 'String'>
+  readonly htfTimestamp: Prisma.FieldRef<"SignalZone", 'DateTime'>
+  readonly htfTpLevel: Prisma.FieldRef<"SignalZone", 'Float'>
+  readonly ltfInterval: Prisma.FieldRef<"SignalZone", 'String'>
+  readonly ltfTimestamp: Prisma.FieldRef<"SignalZone", 'DateTime'>
 }
     
 

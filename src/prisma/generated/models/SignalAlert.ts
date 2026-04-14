@@ -88,12 +88,10 @@ export type SignalAlertMinAggregateOutputType = {
   htfBosDirection: string | null
   htfTimestamp: Date | null
   htfBrokenAt: Date | null
-  htfInterval: string | null
   ltfRangeHigh: number | null
   ltfRangeLow: number | null
   ltfTimestamp: Date | null
   ltfSlLevel: number | null
-  ltfInterval: string | null
   rejectionOpen: number | null
   rejectionHigh: number | null
   rejectionLow: number | null
@@ -111,6 +109,8 @@ export type SignalAlertMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   zoneId: string | null
+  htfInterval: string | null
+  ltfInterval: string | null
 }
 
 export type SignalAlertMaxAggregateOutputType = {
@@ -131,12 +131,10 @@ export type SignalAlertMaxAggregateOutputType = {
   htfBosDirection: string | null
   htfTimestamp: Date | null
   htfBrokenAt: Date | null
-  htfInterval: string | null
   ltfRangeHigh: number | null
   ltfRangeLow: number | null
   ltfTimestamp: Date | null
   ltfSlLevel: number | null
-  ltfInterval: string | null
   rejectionOpen: number | null
   rejectionHigh: number | null
   rejectionLow: number | null
@@ -154,6 +152,8 @@ export type SignalAlertMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   zoneId: string | null
+  htfInterval: string | null
+  ltfInterval: string | null
 }
 
 export type SignalAlertCountAggregateOutputType = {
@@ -174,12 +174,10 @@ export type SignalAlertCountAggregateOutputType = {
   htfBosDirection: number
   htfTimestamp: number
   htfBrokenAt: number
-  htfInterval: number
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfTimestamp: number
   ltfSlLevel: number
-  ltfInterval: number
   rejectionOpen: number
   rejectionHigh: number
   rejectionLow: number
@@ -199,6 +197,8 @@ export type SignalAlertCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   zoneId: number
+  htfInterval: number
+  ltfInterval: number
   _all: number
 }
 
@@ -265,12 +265,10 @@ export type SignalAlertMinAggregateInputType = {
   htfBosDirection?: true
   htfTimestamp?: true
   htfBrokenAt?: true
-  htfInterval?: true
   ltfRangeHigh?: true
   ltfRangeLow?: true
   ltfTimestamp?: true
   ltfSlLevel?: true
-  ltfInterval?: true
   rejectionOpen?: true
   rejectionHigh?: true
   rejectionLow?: true
@@ -288,6 +286,8 @@ export type SignalAlertMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   zoneId?: true
+  htfInterval?: true
+  ltfInterval?: true
 }
 
 export type SignalAlertMaxAggregateInputType = {
@@ -308,12 +308,10 @@ export type SignalAlertMaxAggregateInputType = {
   htfBosDirection?: true
   htfTimestamp?: true
   htfBrokenAt?: true
-  htfInterval?: true
   ltfRangeHigh?: true
   ltfRangeLow?: true
   ltfTimestamp?: true
   ltfSlLevel?: true
-  ltfInterval?: true
   rejectionOpen?: true
   rejectionHigh?: true
   rejectionLow?: true
@@ -331,6 +329,8 @@ export type SignalAlertMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   zoneId?: true
+  htfInterval?: true
+  ltfInterval?: true
 }
 
 export type SignalAlertCountAggregateInputType = {
@@ -351,12 +351,10 @@ export type SignalAlertCountAggregateInputType = {
   htfBosDirection?: true
   htfTimestamp?: true
   htfBrokenAt?: true
-  htfInterval?: true
   ltfRangeHigh?: true
   ltfRangeLow?: true
   ltfTimestamp?: true
   ltfSlLevel?: true
-  ltfInterval?: true
   rejectionOpen?: true
   rejectionHigh?: true
   rejectionLow?: true
@@ -376,6 +374,8 @@ export type SignalAlertCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   zoneId?: true
+  htfInterval?: true
+  ltfInterval?: true
   _all?: true
 }
 
@@ -483,12 +483,10 @@ export type SignalAlertGroupByOutputType = {
   htfBosDirection: string
   htfTimestamp: Date
   htfBrokenAt: Date | null
-  htfInterval: string | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfTimestamp: Date
   ltfSlLevel: number
-  ltfInterval: string | null
   rejectionOpen: number
   rejectionHigh: number
   rejectionLow: number
@@ -508,6 +506,8 @@ export type SignalAlertGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   zoneId: string | null
+  htfInterval: string | null
+  ltfInterval: string | null
   _count: SignalAlertCountAggregateOutputType | null
   _avg: SignalAlertAvgAggregateOutputType | null
   _sum: SignalAlertSumAggregateOutputType | null
@@ -551,12 +551,10 @@ export type SignalAlertWhereInput = {
   htfBosDirection?: Prisma.StringFilter<"SignalAlert"> | string
   htfTimestamp?: Prisma.DateTimeFilter<"SignalAlert"> | Date | string
   htfBrokenAt?: Prisma.DateTimeNullableFilter<"SignalAlert"> | Date | string | null
-  htfInterval?: Prisma.StringNullableFilter<"SignalAlert"> | string | null
   ltfRangeHigh?: Prisma.FloatFilter<"SignalAlert"> | number
   ltfRangeLow?: Prisma.FloatFilter<"SignalAlert"> | number
   ltfTimestamp?: Prisma.DateTimeFilter<"SignalAlert"> | Date | string
   ltfSlLevel?: Prisma.FloatFilter<"SignalAlert"> | number
-  ltfInterval?: Prisma.StringNullableFilter<"SignalAlert"> | string | null
   rejectionOpen?: Prisma.FloatFilter<"SignalAlert"> | number
   rejectionHigh?: Prisma.FloatFilter<"SignalAlert"> | number
   rejectionLow?: Prisma.FloatFilter<"SignalAlert"> | number
@@ -576,8 +574,10 @@ export type SignalAlertWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"SignalAlert"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SignalAlert"> | Date | string
   zoneId?: Prisma.UuidNullableFilter<"SignalAlert"> | string | null
-  zone?: Prisma.XOR<Prisma.SignalZoneNullableScalarRelationFilter, Prisma.SignalZoneWhereInput> | null
+  htfInterval?: Prisma.StringNullableFilter<"SignalAlert"> | string | null
+  ltfInterval?: Prisma.StringNullableFilter<"SignalAlert"> | string | null
   notificationLogs?: Prisma.NotificationLogListRelationFilter
+  zone?: Prisma.XOR<Prisma.SignalZoneNullableScalarRelationFilter, Prisma.SignalZoneWhereInput> | null
 }
 
 export type SignalAlertOrderByWithRelationInput = {
@@ -598,12 +598,10 @@ export type SignalAlertOrderByWithRelationInput = {
   htfBosDirection?: Prisma.SortOrder
   htfTimestamp?: Prisma.SortOrder
   htfBrokenAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  htfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
   ltfRangeHigh?: Prisma.SortOrder
   ltfRangeLow?: Prisma.SortOrder
   ltfTimestamp?: Prisma.SortOrder
   ltfSlLevel?: Prisma.SortOrder
-  ltfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
   rejectionOpen?: Prisma.SortOrder
   rejectionHigh?: Prisma.SortOrder
   rejectionLow?: Prisma.SortOrder
@@ -623,8 +621,10 @@ export type SignalAlertOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   zoneId?: Prisma.SortOrderInput | Prisma.SortOrder
-  zone?: Prisma.SignalZoneOrderByWithRelationInput
+  htfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
+  ltfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
   notificationLogs?: Prisma.NotificationLogOrderByRelationAggregateInput
+  zone?: Prisma.SignalZoneOrderByWithRelationInput
 }
 
 export type SignalAlertWhereUniqueInput = Prisma.AtLeast<{
@@ -649,12 +649,10 @@ export type SignalAlertWhereUniqueInput = Prisma.AtLeast<{
   htfBosDirection?: Prisma.StringFilter<"SignalAlert"> | string
   htfTimestamp?: Prisma.DateTimeFilter<"SignalAlert"> | Date | string
   htfBrokenAt?: Prisma.DateTimeNullableFilter<"SignalAlert"> | Date | string | null
-  htfInterval?: Prisma.StringNullableFilter<"SignalAlert"> | string | null
   ltfRangeHigh?: Prisma.FloatFilter<"SignalAlert"> | number
   ltfRangeLow?: Prisma.FloatFilter<"SignalAlert"> | number
   ltfTimestamp?: Prisma.DateTimeFilter<"SignalAlert"> | Date | string
   ltfSlLevel?: Prisma.FloatFilter<"SignalAlert"> | number
-  ltfInterval?: Prisma.StringNullableFilter<"SignalAlert"> | string | null
   rejectionOpen?: Prisma.FloatFilter<"SignalAlert"> | number
   rejectionHigh?: Prisma.FloatFilter<"SignalAlert"> | number
   rejectionLow?: Prisma.FloatFilter<"SignalAlert"> | number
@@ -673,8 +671,10 @@ export type SignalAlertWhereUniqueInput = Prisma.AtLeast<{
   closedAt?: Prisma.DateTimeNullableFilter<"SignalAlert"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SignalAlert"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SignalAlert"> | Date | string
-  zone?: Prisma.XOR<Prisma.SignalZoneNullableScalarRelationFilter, Prisma.SignalZoneWhereInput> | null
+  htfInterval?: Prisma.StringNullableFilter<"SignalAlert"> | string | null
+  ltfInterval?: Prisma.StringNullableFilter<"SignalAlert"> | string | null
   notificationLogs?: Prisma.NotificationLogListRelationFilter
+  zone?: Prisma.XOR<Prisma.SignalZoneNullableScalarRelationFilter, Prisma.SignalZoneWhereInput> | null
 }, "id" | "engineId" | "zoneId">
 
 export type SignalAlertOrderByWithAggregationInput = {
@@ -695,12 +695,10 @@ export type SignalAlertOrderByWithAggregationInput = {
   htfBosDirection?: Prisma.SortOrder
   htfTimestamp?: Prisma.SortOrder
   htfBrokenAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  htfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
   ltfRangeHigh?: Prisma.SortOrder
   ltfRangeLow?: Prisma.SortOrder
   ltfTimestamp?: Prisma.SortOrder
   ltfSlLevel?: Prisma.SortOrder
-  ltfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
   rejectionOpen?: Prisma.SortOrder
   rejectionHigh?: Prisma.SortOrder
   rejectionLow?: Prisma.SortOrder
@@ -720,6 +718,8 @@ export type SignalAlertOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   zoneId?: Prisma.SortOrderInput | Prisma.SortOrder
+  htfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
+  ltfInterval?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SignalAlertCountOrderByAggregateInput
   _avg?: Prisma.SignalAlertAvgOrderByAggregateInput
   _max?: Prisma.SignalAlertMaxOrderByAggregateInput
@@ -748,12 +748,10 @@ export type SignalAlertScalarWhereWithAggregatesInput = {
   htfBosDirection?: Prisma.StringWithAggregatesFilter<"SignalAlert"> | string
   htfTimestamp?: Prisma.DateTimeWithAggregatesFilter<"SignalAlert"> | Date | string
   htfBrokenAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SignalAlert"> | Date | string | null
-  htfInterval?: Prisma.StringNullableWithAggregatesFilter<"SignalAlert"> | string | null
   ltfRangeHigh?: Prisma.FloatWithAggregatesFilter<"SignalAlert"> | number
   ltfRangeLow?: Prisma.FloatWithAggregatesFilter<"SignalAlert"> | number
   ltfTimestamp?: Prisma.DateTimeWithAggregatesFilter<"SignalAlert"> | Date | string
   ltfSlLevel?: Prisma.FloatWithAggregatesFilter<"SignalAlert"> | number
-  ltfInterval?: Prisma.StringNullableWithAggregatesFilter<"SignalAlert"> | string | null
   rejectionOpen?: Prisma.FloatWithAggregatesFilter<"SignalAlert"> | number
   rejectionHigh?: Prisma.FloatWithAggregatesFilter<"SignalAlert"> | number
   rejectionLow?: Prisma.FloatWithAggregatesFilter<"SignalAlert"> | number
@@ -773,6 +771,8 @@ export type SignalAlertScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SignalAlert"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SignalAlert"> | Date | string
   zoneId?: Prisma.UuidNullableWithAggregatesFilter<"SignalAlert"> | string | null
+  htfInterval?: Prisma.StringNullableWithAggregatesFilter<"SignalAlert"> | string | null
+  ltfInterval?: Prisma.StringNullableWithAggregatesFilter<"SignalAlert"> | string | null
 }
 
 export type SignalAlertCreateInput = {
@@ -793,12 +793,10 @@ export type SignalAlertCreateInput = {
   htfBosDirection: string
   htfTimestamp: Date | string
   htfBrokenAt?: Date | string | null
-  htfInterval?: string | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfTimestamp: Date | string
   ltfSlLevel: number
-  ltfInterval?: string | null
   rejectionOpen: number
   rejectionHigh: number
   rejectionLow: number
@@ -817,8 +815,10 @@ export type SignalAlertCreateInput = {
   closedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  zone?: Prisma.SignalZoneCreateNestedOneWithoutSignalInput
+  htfInterval?: string | null
+  ltfInterval?: string | null
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutSignalAlertInput
+  zone?: Prisma.SignalZoneCreateNestedOneWithoutSignalInput
 }
 
 export type SignalAlertUncheckedCreateInput = {
@@ -839,12 +839,10 @@ export type SignalAlertUncheckedCreateInput = {
   htfBosDirection: string
   htfTimestamp: Date | string
   htfBrokenAt?: Date | string | null
-  htfInterval?: string | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfTimestamp: Date | string
   ltfSlLevel: number
-  ltfInterval?: string | null
   rejectionOpen: number
   rejectionHigh: number
   rejectionLow: number
@@ -864,6 +862,8 @@ export type SignalAlertUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   zoneId?: string | null
+  htfInterval?: string | null
+  ltfInterval?: string | null
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutSignalAlertInput
 }
 
@@ -885,12 +885,10 @@ export type SignalAlertUpdateInput = {
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
   htfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   htfBrokenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectionOpen?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionLow?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -909,8 +907,10 @@ export type SignalAlertUpdateInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  zone?: Prisma.SignalZoneUpdateOneWithoutSignalNestedInput
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutSignalAlertNestedInput
+  zone?: Prisma.SignalZoneUpdateOneWithoutSignalNestedInput
 }
 
 export type SignalAlertUncheckedUpdateInput = {
@@ -931,12 +931,10 @@ export type SignalAlertUncheckedUpdateInput = {
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
   htfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   htfBrokenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectionOpen?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionLow?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -956,6 +954,8 @@ export type SignalAlertUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   zoneId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutSignalAlertNestedInput
 }
 
@@ -977,12 +977,10 @@ export type SignalAlertCreateManyInput = {
   htfBosDirection: string
   htfTimestamp: Date | string
   htfBrokenAt?: Date | string | null
-  htfInterval?: string | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfTimestamp: Date | string
   ltfSlLevel: number
-  ltfInterval?: string | null
   rejectionOpen: number
   rejectionHigh: number
   rejectionLow: number
@@ -1002,6 +1000,8 @@ export type SignalAlertCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   zoneId?: string | null
+  htfInterval?: string | null
+  ltfInterval?: string | null
 }
 
 export type SignalAlertUpdateManyMutationInput = {
@@ -1022,12 +1022,10 @@ export type SignalAlertUpdateManyMutationInput = {
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
   htfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   htfBrokenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectionOpen?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionLow?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1046,6 +1044,8 @@ export type SignalAlertUpdateManyMutationInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SignalAlertUncheckedUpdateManyInput = {
@@ -1066,12 +1066,10 @@ export type SignalAlertUncheckedUpdateManyInput = {
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
   htfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   htfBrokenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectionOpen?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionLow?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1091,6 +1089,8 @@ export type SignalAlertUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   zoneId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SignalAlertCountOrderByAggregateInput = {
@@ -1111,12 +1111,10 @@ export type SignalAlertCountOrderByAggregateInput = {
   htfBosDirection?: Prisma.SortOrder
   htfTimestamp?: Prisma.SortOrder
   htfBrokenAt?: Prisma.SortOrder
-  htfInterval?: Prisma.SortOrder
   ltfRangeHigh?: Prisma.SortOrder
   ltfRangeLow?: Prisma.SortOrder
   ltfTimestamp?: Prisma.SortOrder
   ltfSlLevel?: Prisma.SortOrder
-  ltfInterval?: Prisma.SortOrder
   rejectionOpen?: Prisma.SortOrder
   rejectionHigh?: Prisma.SortOrder
   rejectionLow?: Prisma.SortOrder
@@ -1136,6 +1134,8 @@ export type SignalAlertCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   zoneId?: Prisma.SortOrder
+  htfInterval?: Prisma.SortOrder
+  ltfInterval?: Prisma.SortOrder
 }
 
 export type SignalAlertAvgOrderByAggregateInput = {
@@ -1178,12 +1178,10 @@ export type SignalAlertMaxOrderByAggregateInput = {
   htfBosDirection?: Prisma.SortOrder
   htfTimestamp?: Prisma.SortOrder
   htfBrokenAt?: Prisma.SortOrder
-  htfInterval?: Prisma.SortOrder
   ltfRangeHigh?: Prisma.SortOrder
   ltfRangeLow?: Prisma.SortOrder
   ltfTimestamp?: Prisma.SortOrder
   ltfSlLevel?: Prisma.SortOrder
-  ltfInterval?: Prisma.SortOrder
   rejectionOpen?: Prisma.SortOrder
   rejectionHigh?: Prisma.SortOrder
   rejectionLow?: Prisma.SortOrder
@@ -1201,6 +1199,8 @@ export type SignalAlertMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   zoneId?: Prisma.SortOrder
+  htfInterval?: Prisma.SortOrder
+  ltfInterval?: Prisma.SortOrder
 }
 
 export type SignalAlertMinOrderByAggregateInput = {
@@ -1221,12 +1221,10 @@ export type SignalAlertMinOrderByAggregateInput = {
   htfBosDirection?: Prisma.SortOrder
   htfTimestamp?: Prisma.SortOrder
   htfBrokenAt?: Prisma.SortOrder
-  htfInterval?: Prisma.SortOrder
   ltfRangeHigh?: Prisma.SortOrder
   ltfRangeLow?: Prisma.SortOrder
   ltfTimestamp?: Prisma.SortOrder
   ltfSlLevel?: Prisma.SortOrder
-  ltfInterval?: Prisma.SortOrder
   rejectionOpen?: Prisma.SortOrder
   rejectionHigh?: Prisma.SortOrder
   rejectionLow?: Prisma.SortOrder
@@ -1244,6 +1242,8 @@ export type SignalAlertMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   zoneId?: Prisma.SortOrder
+  htfInterval?: Prisma.SortOrder
+  ltfInterval?: Prisma.SortOrder
 }
 
 export type SignalAlertSumOrderByAggregateInput = {
@@ -1347,12 +1347,10 @@ export type SignalAlertCreateWithoutZoneInput = {
   htfBosDirection: string
   htfTimestamp: Date | string
   htfBrokenAt?: Date | string | null
-  htfInterval?: string | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfTimestamp: Date | string
   ltfSlLevel: number
-  ltfInterval?: string | null
   rejectionOpen: number
   rejectionHigh: number
   rejectionLow: number
@@ -1371,6 +1369,8 @@ export type SignalAlertCreateWithoutZoneInput = {
   closedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  htfInterval?: string | null
+  ltfInterval?: string | null
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutSignalAlertInput
 }
 
@@ -1392,12 +1392,10 @@ export type SignalAlertUncheckedCreateWithoutZoneInput = {
   htfBosDirection: string
   htfTimestamp: Date | string
   htfBrokenAt?: Date | string | null
-  htfInterval?: string | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfTimestamp: Date | string
   ltfSlLevel: number
-  ltfInterval?: string | null
   rejectionOpen: number
   rejectionHigh: number
   rejectionLow: number
@@ -1416,6 +1414,8 @@ export type SignalAlertUncheckedCreateWithoutZoneInput = {
   closedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  htfInterval?: string | null
+  ltfInterval?: string | null
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutSignalAlertInput
 }
 
@@ -1453,12 +1453,10 @@ export type SignalAlertUpdateWithoutZoneInput = {
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
   htfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   htfBrokenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectionOpen?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionLow?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1477,6 +1475,8 @@ export type SignalAlertUpdateWithoutZoneInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutSignalAlertNestedInput
 }
 
@@ -1498,12 +1498,10 @@ export type SignalAlertUncheckedUpdateWithoutZoneInput = {
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
   htfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   htfBrokenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectionOpen?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionLow?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1522,6 +1520,8 @@ export type SignalAlertUncheckedUpdateWithoutZoneInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutSignalAlertNestedInput
 }
 
@@ -1543,12 +1543,10 @@ export type SignalAlertCreateWithoutNotificationLogsInput = {
   htfBosDirection: string
   htfTimestamp: Date | string
   htfBrokenAt?: Date | string | null
-  htfInterval?: string | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfTimestamp: Date | string
   ltfSlLevel: number
-  ltfInterval?: string | null
   rejectionOpen: number
   rejectionHigh: number
   rejectionLow: number
@@ -1567,6 +1565,8 @@ export type SignalAlertCreateWithoutNotificationLogsInput = {
   closedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  htfInterval?: string | null
+  ltfInterval?: string | null
   zone?: Prisma.SignalZoneCreateNestedOneWithoutSignalInput
 }
 
@@ -1588,12 +1588,10 @@ export type SignalAlertUncheckedCreateWithoutNotificationLogsInput = {
   htfBosDirection: string
   htfTimestamp: Date | string
   htfBrokenAt?: Date | string | null
-  htfInterval?: string | null
   ltfRangeHigh: number
   ltfRangeLow: number
   ltfTimestamp: Date | string
   ltfSlLevel: number
-  ltfInterval?: string | null
   rejectionOpen: number
   rejectionHigh: number
   rejectionLow: number
@@ -1613,6 +1611,8 @@ export type SignalAlertUncheckedCreateWithoutNotificationLogsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   zoneId?: string | null
+  htfInterval?: string | null
+  ltfInterval?: string | null
 }
 
 export type SignalAlertCreateOrConnectWithoutNotificationLogsInput = {
@@ -1649,12 +1649,10 @@ export type SignalAlertUpdateWithoutNotificationLogsInput = {
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
   htfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   htfBrokenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectionOpen?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionLow?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1673,6 +1671,8 @@ export type SignalAlertUpdateWithoutNotificationLogsInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zone?: Prisma.SignalZoneUpdateOneWithoutSignalNestedInput
 }
 
@@ -1694,12 +1694,10 @@ export type SignalAlertUncheckedUpdateWithoutNotificationLogsInput = {
   htfBosDirection?: Prisma.StringFieldUpdateOperationsInput | string
   htfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   htfBrokenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ltfRangeHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfRangeLow?: Prisma.FloatFieldUpdateOperationsInput | number
   ltfTimestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ltfSlLevel?: Prisma.FloatFieldUpdateOperationsInput | number
-  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectionOpen?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionHigh?: Prisma.FloatFieldUpdateOperationsInput | number
   rejectionLow?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1719,6 +1717,8 @@ export type SignalAlertUncheckedUpdateWithoutNotificationLogsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   zoneId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  htfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltfInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1770,12 +1770,10 @@ export type SignalAlertSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   htfBosDirection?: boolean
   htfTimestamp?: boolean
   htfBrokenAt?: boolean
-  htfInterval?: boolean
   ltfRangeHigh?: boolean
   ltfRangeLow?: boolean
   ltfTimestamp?: boolean
   ltfSlLevel?: boolean
-  ltfInterval?: boolean
   rejectionOpen?: boolean
   rejectionHigh?: boolean
   rejectionLow?: boolean
@@ -1795,8 +1793,10 @@ export type SignalAlertSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   createdAt?: boolean
   updatedAt?: boolean
   zoneId?: boolean
-  zone?: boolean | Prisma.SignalAlert$zoneArgs<ExtArgs>
+  htfInterval?: boolean
+  ltfInterval?: boolean
   notificationLogs?: boolean | Prisma.SignalAlert$notificationLogsArgs<ExtArgs>
+  zone?: boolean | Prisma.SignalAlert$zoneArgs<ExtArgs>
   _count?: boolean | Prisma.SignalAlertCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["signalAlert"]>
 
@@ -1818,12 +1818,10 @@ export type SignalAlertSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   htfBosDirection?: boolean
   htfTimestamp?: boolean
   htfBrokenAt?: boolean
-  htfInterval?: boolean
   ltfRangeHigh?: boolean
   ltfRangeLow?: boolean
   ltfTimestamp?: boolean
   ltfSlLevel?: boolean
-  ltfInterval?: boolean
   rejectionOpen?: boolean
   rejectionHigh?: boolean
   rejectionLow?: boolean
@@ -1843,6 +1841,8 @@ export type SignalAlertSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   zoneId?: boolean
+  htfInterval?: boolean
+  ltfInterval?: boolean
   zone?: boolean | Prisma.SignalAlert$zoneArgs<ExtArgs>
 }, ExtArgs["result"]["signalAlert"]>
 
@@ -1864,12 +1864,10 @@ export type SignalAlertSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   htfBosDirection?: boolean
   htfTimestamp?: boolean
   htfBrokenAt?: boolean
-  htfInterval?: boolean
   ltfRangeHigh?: boolean
   ltfRangeLow?: boolean
   ltfTimestamp?: boolean
   ltfSlLevel?: boolean
-  ltfInterval?: boolean
   rejectionOpen?: boolean
   rejectionHigh?: boolean
   rejectionLow?: boolean
@@ -1889,6 +1887,8 @@ export type SignalAlertSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   zoneId?: boolean
+  htfInterval?: boolean
+  ltfInterval?: boolean
   zone?: boolean | Prisma.SignalAlert$zoneArgs<ExtArgs>
 }, ExtArgs["result"]["signalAlert"]>
 
@@ -1910,12 +1910,10 @@ export type SignalAlertSelectScalar = {
   htfBosDirection?: boolean
   htfTimestamp?: boolean
   htfBrokenAt?: boolean
-  htfInterval?: boolean
   ltfRangeHigh?: boolean
   ltfRangeLow?: boolean
   ltfTimestamp?: boolean
   ltfSlLevel?: boolean
-  ltfInterval?: boolean
   rejectionOpen?: boolean
   rejectionHigh?: boolean
   rejectionLow?: boolean
@@ -1935,12 +1933,14 @@ export type SignalAlertSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   zoneId?: boolean
+  htfInterval?: boolean
+  ltfInterval?: boolean
 }
 
-export type SignalAlertOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "engineId" | "symbol" | "direction" | "status" | "outcome" | "entryPrice" | "stopLoss" | "tp1" | "tp2" | "riskRewardRatio" | "riskPips" | "htfRangeHigh" | "htfRangeLow" | "htfBosDirection" | "htfTimestamp" | "htfBrokenAt" | "htfInterval" | "ltfRangeHigh" | "ltfRangeLow" | "ltfTimestamp" | "ltfSlLevel" | "ltfInterval" | "rejectionOpen" | "rejectionHigh" | "rejectionLow" | "rejectionClose" | "rejectionTimestamp" | "rejectionWickRatio" | "rejectionPattern" | "rejectionWickTip" | "rawPayload" | "realizedRr" | "closePrice" | "chartPath" | "chartData" | "triggeredAt" | "tp1HitAt" | "closedAt" | "createdAt" | "updatedAt" | "zoneId", ExtArgs["result"]["signalAlert"]>
+export type SignalAlertOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "engineId" | "symbol" | "direction" | "status" | "outcome" | "entryPrice" | "stopLoss" | "tp1" | "tp2" | "riskRewardRatio" | "riskPips" | "htfRangeHigh" | "htfRangeLow" | "htfBosDirection" | "htfTimestamp" | "htfBrokenAt" | "ltfRangeHigh" | "ltfRangeLow" | "ltfTimestamp" | "ltfSlLevel" | "rejectionOpen" | "rejectionHigh" | "rejectionLow" | "rejectionClose" | "rejectionTimestamp" | "rejectionWickRatio" | "rejectionPattern" | "rejectionWickTip" | "rawPayload" | "realizedRr" | "closePrice" | "chartPath" | "chartData" | "triggeredAt" | "tp1HitAt" | "closedAt" | "createdAt" | "updatedAt" | "zoneId" | "htfInterval" | "ltfInterval", ExtArgs["result"]["signalAlert"]>
 export type SignalAlertInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  zone?: boolean | Prisma.SignalAlert$zoneArgs<ExtArgs>
   notificationLogs?: boolean | Prisma.SignalAlert$notificationLogsArgs<ExtArgs>
+  zone?: boolean | Prisma.SignalAlert$zoneArgs<ExtArgs>
   _count?: boolean | Prisma.SignalAlertCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SignalAlertIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1953,8 +1953,8 @@ export type SignalAlertIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.
 export type $SignalAlertPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SignalAlert"
   objects: {
-    zone: Prisma.$SignalZonePayload<ExtArgs> | null
     notificationLogs: Prisma.$NotificationLogPayload<ExtArgs>[]
+    zone: Prisma.$SignalZonePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1974,12 +1974,10 @@ export type $SignalAlertPayload<ExtArgs extends runtime.Types.Extensions.Interna
     htfBosDirection: string
     htfTimestamp: Date
     htfBrokenAt: Date | null
-    htfInterval: string | null
     ltfRangeHigh: number
     ltfRangeLow: number
     ltfTimestamp: Date
     ltfSlLevel: number
-    ltfInterval: string | null
     rejectionOpen: number
     rejectionHigh: number
     rejectionLow: number
@@ -1999,6 +1997,8 @@ export type $SignalAlertPayload<ExtArgs extends runtime.Types.Extensions.Interna
     createdAt: Date
     updatedAt: Date
     zoneId: string | null
+    htfInterval: string | null
+    ltfInterval: string | null
   }, ExtArgs["result"]["signalAlert"]>
   composites: {}
 }
@@ -2393,8 +2393,8 @@ readonly fields: SignalAlertFieldRefs;
  */
 export interface Prisma__SignalAlertClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  zone<T extends Prisma.SignalAlert$zoneArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SignalAlert$zoneArgs<ExtArgs>>): Prisma.Prisma__SignalZoneClient<runtime.Types.Result.GetResult<Prisma.$SignalZonePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   notificationLogs<T extends Prisma.SignalAlert$notificationLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SignalAlert$notificationLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  zone<T extends Prisma.SignalAlert$zoneArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SignalAlert$zoneArgs<ExtArgs>>): Prisma.Prisma__SignalZoneClient<runtime.Types.Result.GetResult<Prisma.$SignalZonePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2441,12 +2441,10 @@ export interface SignalAlertFieldRefs {
   readonly htfBosDirection: Prisma.FieldRef<"SignalAlert", 'String'>
   readonly htfTimestamp: Prisma.FieldRef<"SignalAlert", 'DateTime'>
   readonly htfBrokenAt: Prisma.FieldRef<"SignalAlert", 'DateTime'>
-  readonly htfInterval: Prisma.FieldRef<"SignalAlert", 'String'>
   readonly ltfRangeHigh: Prisma.FieldRef<"SignalAlert", 'Float'>
   readonly ltfRangeLow: Prisma.FieldRef<"SignalAlert", 'Float'>
   readonly ltfTimestamp: Prisma.FieldRef<"SignalAlert", 'DateTime'>
   readonly ltfSlLevel: Prisma.FieldRef<"SignalAlert", 'Float'>
-  readonly ltfInterval: Prisma.FieldRef<"SignalAlert", 'String'>
   readonly rejectionOpen: Prisma.FieldRef<"SignalAlert", 'Float'>
   readonly rejectionHigh: Prisma.FieldRef<"SignalAlert", 'Float'>
   readonly rejectionLow: Prisma.FieldRef<"SignalAlert", 'Float'>
@@ -2466,6 +2464,8 @@ export interface SignalAlertFieldRefs {
   readonly createdAt: Prisma.FieldRef<"SignalAlert", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"SignalAlert", 'DateTime'>
   readonly zoneId: Prisma.FieldRef<"SignalAlert", 'String'>
+  readonly htfInterval: Prisma.FieldRef<"SignalAlert", 'String'>
+  readonly ltfInterval: Prisma.FieldRef<"SignalAlert", 'String'>
 }
     
 
@@ -2862,25 +2862,6 @@ export type SignalAlertDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * SignalAlert.zone
- */
-export type SignalAlert$zoneArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SignalZone
-   */
-  select?: Prisma.SignalZoneSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the SignalZone
-   */
-  omit?: Prisma.SignalZoneOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SignalZoneInclude<ExtArgs> | null
-  where?: Prisma.SignalZoneWhereInput
-}
-
-/**
  * SignalAlert.notificationLogs
  */
 export type SignalAlert$notificationLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2902,6 +2883,25 @@ export type SignalAlert$notificationLogsArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.NotificationLogScalarFieldEnum | Prisma.NotificationLogScalarFieldEnum[]
+}
+
+/**
+ * SignalAlert.zone
+ */
+export type SignalAlert$zoneArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SignalZone
+   */
+  select?: Prisma.SignalZoneSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SignalZone
+   */
+  omit?: Prisma.SignalZoneOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SignalZoneInclude<ExtArgs> | null
+  where?: Prisma.SignalZoneWhereInput
 }
 
 /**

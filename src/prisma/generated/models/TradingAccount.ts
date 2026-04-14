@@ -460,10 +460,10 @@ export type TradingAccountWhereInput = {
   isActive?: Prisma.BoolFilter<"TradingAccount"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TradingAccount"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"TradingAccount"> | Date | string | null
-  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
   journalTrades?: Prisma.JournalTradeListRelationFilter
-  trades?: Prisma.TradeListRelationFilter
   signals?: Prisma.SignalListRelationFilter
+  trades?: Prisma.TradeListRelationFilter
+  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
 }
 
 export type TradingAccountOrderByWithRelationInput = {
@@ -497,10 +497,10 @@ export type TradingAccountOrderByWithRelationInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  profile?: Prisma.ProfileOrderByWithRelationInput
   journalTrades?: Prisma.JournalTradeOrderByRelationAggregateInput
-  trades?: Prisma.TradeOrderByRelationAggregateInput
   signals?: Prisma.SignalOrderByRelationAggregateInput
+  trades?: Prisma.TradeOrderByRelationAggregateInput
+  profile?: Prisma.ProfileOrderByWithRelationInput
 }
 
 export type TradingAccountWhereUniqueInput = Prisma.AtLeast<{
@@ -538,11 +538,11 @@ export type TradingAccountWhereUniqueInput = Prisma.AtLeast<{
   isActive?: Prisma.BoolFilter<"TradingAccount"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TradingAccount"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"TradingAccount"> | Date | string | null
-  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
   journalTrades?: Prisma.JournalTradeListRelationFilter
-  trades?: Prisma.TradeListRelationFilter
   signals?: Prisma.SignalListRelationFilter
-}, "id" | "metaApiAccountId" | "userId_name" | "accountNumber">
+  trades?: Prisma.TradeListRelationFilter
+  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
+}, "id" | "accountNumber" | "metaApiAccountId" | "userId_name">
 
 export type TradingAccountOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -648,10 +648,10 @@ export type TradingAccountCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  profile: Prisma.ProfileCreateNestedOneWithoutTradingAccountsInput
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutAccountInput
-  trades?: Prisma.TradeCreateNestedManyWithoutAccountInput
   signals?: Prisma.SignalCreateNestedManyWithoutAccountInput
+  trades?: Prisma.TradeCreateNestedManyWithoutAccountInput
+  profile: Prisma.ProfileCreateNestedOneWithoutTradingAccountsInput
 }
 
 export type TradingAccountUncheckedCreateInput = {
@@ -686,8 +686,8 @@ export type TradingAccountUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutAccountInput
-  trades?: Prisma.TradeUncheckedCreateNestedManyWithoutAccountInput
   signals?: Prisma.SignalUncheckedCreateNestedManyWithoutAccountInput
+  trades?: Prisma.TradeUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type TradingAccountUpdateInput = {
@@ -720,10 +720,10 @@ export type TradingAccountUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profile?: Prisma.ProfileUpdateOneRequiredWithoutTradingAccountsNestedInput
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutAccountNestedInput
-  trades?: Prisma.TradeUpdateManyWithoutAccountNestedInput
   signals?: Prisma.SignalUpdateManyWithoutAccountNestedInput
+  trades?: Prisma.TradeUpdateManyWithoutAccountNestedInput
+  profile?: Prisma.ProfileUpdateOneRequiredWithoutTradingAccountsNestedInput
 }
 
 export type TradingAccountUncheckedUpdateInput = {
@@ -758,8 +758,8 @@ export type TradingAccountUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutAccountNestedInput
-  trades?: Prisma.TradeUncheckedUpdateManyWithoutAccountNestedInput
   signals?: Prisma.SignalUncheckedUpdateManyWithoutAccountNestedInput
+  trades?: Prisma.TradeUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type TradingAccountCreateManyInput = {
@@ -1156,8 +1156,8 @@ export type TradingAccountCreateWithoutProfileInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutAccountInput
-  trades?: Prisma.TradeCreateNestedManyWithoutAccountInput
   signals?: Prisma.SignalCreateNestedManyWithoutAccountInput
+  trades?: Prisma.TradeCreateNestedManyWithoutAccountInput
 }
 
 export type TradingAccountUncheckedCreateWithoutProfileInput = {
@@ -1191,8 +1191,8 @@ export type TradingAccountUncheckedCreateWithoutProfileInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutAccountInput
-  trades?: Prisma.TradeUncheckedCreateNestedManyWithoutAccountInput
   signals?: Prisma.SignalUncheckedCreateNestedManyWithoutAccountInput
+  trades?: Prisma.TradeUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type TradingAccountCreateOrConnectWithoutProfileInput = {
@@ -1287,9 +1287,9 @@ export type TradingAccountCreateWithoutSignalsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  profile: Prisma.ProfileCreateNestedOneWithoutTradingAccountsInput
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutAccountInput
   trades?: Prisma.TradeCreateNestedManyWithoutAccountInput
+  profile: Prisma.ProfileCreateNestedOneWithoutTradingAccountsInput
 }
 
 export type TradingAccountUncheckedCreateWithoutSignalsInput = {
@@ -1373,9 +1373,9 @@ export type TradingAccountUpdateWithoutSignalsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profile?: Prisma.ProfileUpdateOneRequiredWithoutTradingAccountsNestedInput
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutAccountNestedInput
   trades?: Prisma.TradeUpdateManyWithoutAccountNestedInput
+  profile?: Prisma.ProfileUpdateOneRequiredWithoutTradingAccountsNestedInput
 }
 
 export type TradingAccountUncheckedUpdateWithoutSignalsInput = {
@@ -1443,9 +1443,9 @@ export type TradingAccountCreateWithoutTradesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  profile: Prisma.ProfileCreateNestedOneWithoutTradingAccountsInput
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutAccountInput
   signals?: Prisma.SignalCreateNestedManyWithoutAccountInput
+  profile: Prisma.ProfileCreateNestedOneWithoutTradingAccountsInput
 }
 
 export type TradingAccountUncheckedCreateWithoutTradesInput = {
@@ -1529,9 +1529,9 @@ export type TradingAccountUpdateWithoutTradesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profile?: Prisma.ProfileUpdateOneRequiredWithoutTradingAccountsNestedInput
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutAccountNestedInput
   signals?: Prisma.SignalUpdateManyWithoutAccountNestedInput
+  profile?: Prisma.ProfileUpdateOneRequiredWithoutTradingAccountsNestedInput
 }
 
 export type TradingAccountUncheckedUpdateWithoutTradesInput = {
@@ -1599,9 +1599,9 @@ export type TradingAccountCreateWithoutJournalTradesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  profile: Prisma.ProfileCreateNestedOneWithoutTradingAccountsInput
-  trades?: Prisma.TradeCreateNestedManyWithoutAccountInput
   signals?: Prisma.SignalCreateNestedManyWithoutAccountInput
+  trades?: Prisma.TradeCreateNestedManyWithoutAccountInput
+  profile: Prisma.ProfileCreateNestedOneWithoutTradingAccountsInput
 }
 
 export type TradingAccountUncheckedCreateWithoutJournalTradesInput = {
@@ -1635,8 +1635,8 @@ export type TradingAccountUncheckedCreateWithoutJournalTradesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  trades?: Prisma.TradeUncheckedCreateNestedManyWithoutAccountInput
   signals?: Prisma.SignalUncheckedCreateNestedManyWithoutAccountInput
+  trades?: Prisma.TradeUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type TradingAccountCreateOrConnectWithoutJournalTradesInput = {
@@ -1685,9 +1685,9 @@ export type TradingAccountUpdateWithoutJournalTradesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profile?: Prisma.ProfileUpdateOneRequiredWithoutTradingAccountsNestedInput
-  trades?: Prisma.TradeUpdateManyWithoutAccountNestedInput
   signals?: Prisma.SignalUpdateManyWithoutAccountNestedInput
+  trades?: Prisma.TradeUpdateManyWithoutAccountNestedInput
+  profile?: Prisma.ProfileUpdateOneRequiredWithoutTradingAccountsNestedInput
 }
 
 export type TradingAccountUncheckedUpdateWithoutJournalTradesInput = {
@@ -1721,8 +1721,8 @@ export type TradingAccountUncheckedUpdateWithoutJournalTradesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  trades?: Prisma.TradeUncheckedUpdateManyWithoutAccountNestedInput
   signals?: Prisma.SignalUncheckedUpdateManyWithoutAccountNestedInput
+  trades?: Prisma.TradeUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type TradingAccountCreateManyProfileInput = {
@@ -1788,8 +1788,8 @@ export type TradingAccountUpdateWithoutProfileInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutAccountNestedInput
-  trades?: Prisma.TradeUpdateManyWithoutAccountNestedInput
   signals?: Prisma.SignalUpdateManyWithoutAccountNestedInput
+  trades?: Prisma.TradeUpdateManyWithoutAccountNestedInput
 }
 
 export type TradingAccountUncheckedUpdateWithoutProfileInput = {
@@ -1823,8 +1823,8 @@ export type TradingAccountUncheckedUpdateWithoutProfileInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutAccountNestedInput
-  trades?: Prisma.TradeUncheckedUpdateManyWithoutAccountNestedInput
   signals?: Prisma.SignalUncheckedUpdateManyWithoutAccountNestedInput
+  trades?: Prisma.TradeUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type TradingAccountUncheckedUpdateManyWithoutProfileInput = {
@@ -1866,14 +1866,14 @@ export type TradingAccountUncheckedUpdateManyWithoutProfileInput = {
 
 export type TradingAccountCountOutputType = {
   journalTrades: number
-  trades: number
   signals: number
+  trades: number
 }
 
 export type TradingAccountCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journalTrades?: boolean | TradingAccountCountOutputTypeCountJournalTradesArgs
-  trades?: boolean | TradingAccountCountOutputTypeCountTradesArgs
   signals?: boolean | TradingAccountCountOutputTypeCountSignalsArgs
+  trades?: boolean | TradingAccountCountOutputTypeCountTradesArgs
 }
 
 /**
@@ -1896,15 +1896,15 @@ export type TradingAccountCountOutputTypeCountJournalTradesArgs<ExtArgs extends 
 /**
  * TradingAccountCountOutputType without action
  */
-export type TradingAccountCountOutputTypeCountTradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TradeWhereInput
+export type TradingAccountCountOutputTypeCountSignalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SignalWhereInput
 }
 
 /**
  * TradingAccountCountOutputType without action
  */
-export type TradingAccountCountOutputTypeCountSignalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SignalWhereInput
+export type TradingAccountCountOutputTypeCountTradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TradeWhereInput
 }
 
 
@@ -1939,10 +1939,10 @@ export type TradingAccountSelect<ExtArgs extends runtime.Types.Extensions.Intern
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   journalTrades?: boolean | Prisma.TradingAccount$journalTradesArgs<ExtArgs>
-  trades?: boolean | Prisma.TradingAccount$tradesArgs<ExtArgs>
   signals?: boolean | Prisma.TradingAccount$signalsArgs<ExtArgs>
+  trades?: boolean | Prisma.TradingAccount$tradesArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TradingAccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tradingAccount"]>
 
@@ -2049,10 +2049,10 @@ export type TradingAccountSelectScalar = {
 
 export type TradingAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "accountType" | "name" | "accountNumber" | "currency" | "startBalance" | "currentBalance" | "platform" | "metaApiAccountId" | "autoTradeEnabled" | "riskConfig" | "lastSyncAt" | "lastError" | "lastErrorAt" | "maxDailyLoss" | "maxTotalDrawdown" | "minProfitTarget" | "maxTradesPerDay" | "tradingDaysLeft" | "drawdownWarningPercent" | "profitWarningPercent" | "tradesWarningThreshold" | "daysWarningThreshold" | "todayTradeCount" | "todayPnl" | "lastStatsReset" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["tradingAccount"]>
 export type TradingAccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   journalTrades?: boolean | Prisma.TradingAccount$journalTradesArgs<ExtArgs>
-  trades?: boolean | Prisma.TradingAccount$tradesArgs<ExtArgs>
   signals?: boolean | Prisma.TradingAccount$signalsArgs<ExtArgs>
+  trades?: boolean | Prisma.TradingAccount$tradesArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TradingAccountCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TradingAccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2065,10 +2065,10 @@ export type TradingAccountIncludeUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type $TradingAccountPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TradingAccount"
   objects: {
-    profile: Prisma.$ProfilePayload<ExtArgs>
     journalTrades: Prisma.$JournalTradePayload<ExtArgs>[]
-    trades: Prisma.$TradePayload<ExtArgs>[]
     signals: Prisma.$SignalPayload<ExtArgs>[]
+    trades: Prisma.$TradePayload<ExtArgs>[]
+    profile: Prisma.$ProfilePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2495,10 +2495,10 @@ readonly fields: TradingAccountFieldRefs;
  */
 export interface Prisma__TradingAccountClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  profile<T extends Prisma.ProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   journalTrades<T extends Prisma.TradingAccount$journalTradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccount$journalTradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalTradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  trades<T extends Prisma.TradingAccount$tradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccount$tradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   signals<T extends Prisma.TradingAccount$signalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccount$signalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SignalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  trades<T extends Prisma.TradingAccount$tradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccount$tradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  profile<T extends Prisma.ProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2978,30 +2978,6 @@ export type TradingAccount$journalTradesArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
- * TradingAccount.trades
- */
-export type TradingAccount$tradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Trade
-   */
-  select?: Prisma.TradeSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Trade
-   */
-  omit?: Prisma.TradeOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TradeInclude<ExtArgs> | null
-  where?: Prisma.TradeWhereInput
-  orderBy?: Prisma.TradeOrderByWithRelationInput | Prisma.TradeOrderByWithRelationInput[]
-  cursor?: Prisma.TradeWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TradeScalarFieldEnum | Prisma.TradeScalarFieldEnum[]
-}
-
-/**
  * TradingAccount.signals
  */
 export type TradingAccount$signalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3023,6 +2999,30 @@ export type TradingAccount$signalsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.SignalScalarFieldEnum | Prisma.SignalScalarFieldEnum[]
+}
+
+/**
+ * TradingAccount.trades
+ */
+export type TradingAccount$tradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Trade
+   */
+  select?: Prisma.TradeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Trade
+   */
+  omit?: Prisma.TradeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TradeInclude<ExtArgs> | null
+  where?: Prisma.TradeWhereInput
+  orderBy?: Prisma.TradeOrderByWithRelationInput | Prisma.TradeOrderByWithRelationInput[]
+  cursor?: Prisma.TradeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TradeScalarFieldEnum | Prisma.TradeScalarFieldEnum[]
 }
 
 /**

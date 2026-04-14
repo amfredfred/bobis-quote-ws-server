@@ -27,15 +27,17 @@ export type AggregateReferralReward = {
 }
 
 export type ReferralRewardAvgAggregateOutputType = {
-  tierValue: runtime.Decimal | null
-  monthsAwarded: number | null
   amount: runtime.Decimal | null
+  monthsAwarded: number | null
+  tierValue: runtime.Decimal | null
+  credit_amount: runtime.Decimal | null
 }
 
 export type ReferralRewardSumAggregateOutputType = {
-  tierValue: runtime.Decimal | null
-  monthsAwarded: number | null
   amount: runtime.Decimal | null
+  monthsAwarded: number | null
+  tierValue: runtime.Decimal | null
+  credit_amount: runtime.Decimal | null
 }
 
 export type ReferralRewardMinAggregateOutputType = {
@@ -43,18 +45,20 @@ export type ReferralRewardMinAggregateOutputType = {
   referralId: string | null
   userId: string | null
   rewardType: string | null
-  tierAwarded: string | null
-  tierValue: runtime.Decimal | null
-  monthsAwarded: number | null
-  status: string | null
-  claimedAt: Date | null
-  expiresAt: Date | null
-  appliedToUserId: string | null
-  newExpiryDate: Date | null
   amount: runtime.Decimal | null
+  expiresAt: Date | null
   usedAt: Date | null
   usedWithSubscription: string | null
   createdAt: Date | null
+  appliedToUserId: string | null
+  claimedAt: Date | null
+  monthsAwarded: number | null
+  newExpiryDate: Date | null
+  status: string | null
+  tierAwarded: string | null
+  tierValue: runtime.Decimal | null
+  reward_subtype: string | null
+  credit_amount: runtime.Decimal | null
 }
 
 export type ReferralRewardMaxAggregateOutputType = {
@@ -62,18 +66,20 @@ export type ReferralRewardMaxAggregateOutputType = {
   referralId: string | null
   userId: string | null
   rewardType: string | null
-  tierAwarded: string | null
-  tierValue: runtime.Decimal | null
-  monthsAwarded: number | null
-  status: string | null
-  claimedAt: Date | null
-  expiresAt: Date | null
-  appliedToUserId: string | null
-  newExpiryDate: Date | null
   amount: runtime.Decimal | null
+  expiresAt: Date | null
   usedAt: Date | null
   usedWithSubscription: string | null
   createdAt: Date | null
+  appliedToUserId: string | null
+  claimedAt: Date | null
+  monthsAwarded: number | null
+  newExpiryDate: Date | null
+  status: string | null
+  tierAwarded: string | null
+  tierValue: runtime.Decimal | null
+  reward_subtype: string | null
+  credit_amount: runtime.Decimal | null
 }
 
 export type ReferralRewardCountAggregateOutputType = {
@@ -81,32 +87,36 @@ export type ReferralRewardCountAggregateOutputType = {
   referralId: number
   userId: number
   rewardType: number
-  tierAwarded: number
-  tierValue: number
-  monthsAwarded: number
-  status: number
-  claimedAt: number
-  expiresAt: number
-  appliedToUserId: number
-  newExpiryDate: number
   amount: number
+  expiresAt: number
   usedAt: number
   usedWithSubscription: number
   createdAt: number
+  appliedToUserId: number
+  claimedAt: number
+  monthsAwarded: number
+  newExpiryDate: number
+  status: number
+  tierAwarded: number
+  tierValue: number
+  reward_subtype: number
+  credit_amount: number
   _all: number
 }
 
 
 export type ReferralRewardAvgAggregateInputType = {
-  tierValue?: true
-  monthsAwarded?: true
   amount?: true
+  monthsAwarded?: true
+  tierValue?: true
+  credit_amount?: true
 }
 
 export type ReferralRewardSumAggregateInputType = {
-  tierValue?: true
-  monthsAwarded?: true
   amount?: true
+  monthsAwarded?: true
+  tierValue?: true
+  credit_amount?: true
 }
 
 export type ReferralRewardMinAggregateInputType = {
@@ -114,18 +124,20 @@ export type ReferralRewardMinAggregateInputType = {
   referralId?: true
   userId?: true
   rewardType?: true
-  tierAwarded?: true
-  tierValue?: true
-  monthsAwarded?: true
-  status?: true
-  claimedAt?: true
-  expiresAt?: true
-  appliedToUserId?: true
-  newExpiryDate?: true
   amount?: true
+  expiresAt?: true
   usedAt?: true
   usedWithSubscription?: true
   createdAt?: true
+  appliedToUserId?: true
+  claimedAt?: true
+  monthsAwarded?: true
+  newExpiryDate?: true
+  status?: true
+  tierAwarded?: true
+  tierValue?: true
+  reward_subtype?: true
+  credit_amount?: true
 }
 
 export type ReferralRewardMaxAggregateInputType = {
@@ -133,18 +145,20 @@ export type ReferralRewardMaxAggregateInputType = {
   referralId?: true
   userId?: true
   rewardType?: true
-  tierAwarded?: true
-  tierValue?: true
-  monthsAwarded?: true
-  status?: true
-  claimedAt?: true
-  expiresAt?: true
-  appliedToUserId?: true
-  newExpiryDate?: true
   amount?: true
+  expiresAt?: true
   usedAt?: true
   usedWithSubscription?: true
   createdAt?: true
+  appliedToUserId?: true
+  claimedAt?: true
+  monthsAwarded?: true
+  newExpiryDate?: true
+  status?: true
+  tierAwarded?: true
+  tierValue?: true
+  reward_subtype?: true
+  credit_amount?: true
 }
 
 export type ReferralRewardCountAggregateInputType = {
@@ -152,18 +166,20 @@ export type ReferralRewardCountAggregateInputType = {
   referralId?: true
   userId?: true
   rewardType?: true
-  tierAwarded?: true
-  tierValue?: true
-  monthsAwarded?: true
-  status?: true
-  claimedAt?: true
-  expiresAt?: true
-  appliedToUserId?: true
-  newExpiryDate?: true
   amount?: true
+  expiresAt?: true
   usedAt?: true
   usedWithSubscription?: true
   createdAt?: true
+  appliedToUserId?: true
+  claimedAt?: true
+  monthsAwarded?: true
+  newExpiryDate?: true
+  status?: true
+  tierAwarded?: true
+  tierValue?: true
+  reward_subtype?: true
+  credit_amount?: true
   _all?: true
 }
 
@@ -258,18 +274,20 @@ export type ReferralRewardGroupByOutputType = {
   referralId: string
   userId: string
   rewardType: string
-  tierAwarded: string | null
-  tierValue: runtime.Decimal | null
-  monthsAwarded: number
-  status: string
-  claimedAt: Date | null
-  expiresAt: Date
-  appliedToUserId: string | null
-  newExpiryDate: Date | null
   amount: runtime.Decimal
+  expiresAt: Date
   usedAt: Date | null
   usedWithSubscription: string | null
   createdAt: Date
+  appliedToUserId: string | null
+  claimedAt: Date | null
+  monthsAwarded: number
+  newExpiryDate: Date | null
+  status: string
+  tierAwarded: string | null
+  tierValue: runtime.Decimal | null
+  reward_subtype: string | null
+  credit_amount: runtime.Decimal | null
   _count: ReferralRewardCountAggregateOutputType | null
   _avg: ReferralRewardAvgAggregateOutputType | null
   _sum: ReferralRewardSumAggregateOutputType | null
@@ -300,18 +318,20 @@ export type ReferralRewardWhereInput = {
   referralId?: Prisma.UuidFilter<"ReferralReward"> | string
   userId?: Prisma.UuidFilter<"ReferralReward"> | string
   rewardType?: Prisma.StringFilter<"ReferralReward"> | string
-  tierAwarded?: Prisma.StringNullableFilter<"ReferralReward"> | string | null
-  tierValue?: Prisma.DecimalNullableFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFilter<"ReferralReward"> | number
-  status?: Prisma.StringFilter<"ReferralReward"> | string
-  claimedAt?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
-  expiresAt?: Prisma.DateTimeFilter<"ReferralReward"> | Date | string
-  appliedToUserId?: Prisma.UuidNullableFilter<"ReferralReward"> | string | null
-  newExpiryDate?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
   amount?: Prisma.DecimalFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFilter<"ReferralReward"> | Date | string
   usedAt?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
   usedWithSubscription?: Prisma.StringNullableFilter<"ReferralReward"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ReferralReward"> | Date | string
+  appliedToUserId?: Prisma.UuidNullableFilter<"ReferralReward"> | string | null
+  claimedAt?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
+  monthsAwarded?: Prisma.IntFilter<"ReferralReward"> | number
+  newExpiryDate?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
+  status?: Prisma.StringFilter<"ReferralReward"> | string
+  tierAwarded?: Prisma.StringNullableFilter<"ReferralReward"> | string | null
+  tierValue?: Prisma.DecimalNullableFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.StringNullableFilter<"ReferralReward"> | string | null
+  credit_amount?: Prisma.DecimalNullableFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referral?: Prisma.XOR<Prisma.ReferralScalarRelationFilter, Prisma.ReferralWhereInput>
   profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
 }
@@ -321,18 +341,20 @@ export type ReferralRewardOrderByWithRelationInput = {
   referralId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   rewardType?: Prisma.SortOrder
-  tierAwarded?: Prisma.SortOrderInput | Prisma.SortOrder
-  tierValue?: Prisma.SortOrderInput | Prisma.SortOrder
-  monthsAwarded?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  claimedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  expiresAt?: Prisma.SortOrder
-  appliedToUserId?: Prisma.SortOrderInput | Prisma.SortOrder
-  newExpiryDate?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
   usedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   usedWithSubscription?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  appliedToUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  claimedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  monthsAwarded?: Prisma.SortOrder
+  newExpiryDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  tierAwarded?: Prisma.SortOrderInput | Prisma.SortOrder
+  tierValue?: Prisma.SortOrderInput | Prisma.SortOrder
+  reward_subtype?: Prisma.SortOrderInput | Prisma.SortOrder
+  credit_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   referral?: Prisma.ReferralOrderByWithRelationInput
   profile?: Prisma.ProfileOrderByWithRelationInput
 }
@@ -345,18 +367,20 @@ export type ReferralRewardWhereUniqueInput = Prisma.AtLeast<{
   referralId?: Prisma.UuidFilter<"ReferralReward"> | string
   userId?: Prisma.UuidFilter<"ReferralReward"> | string
   rewardType?: Prisma.StringFilter<"ReferralReward"> | string
-  tierAwarded?: Prisma.StringNullableFilter<"ReferralReward"> | string | null
-  tierValue?: Prisma.DecimalNullableFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFilter<"ReferralReward"> | number
-  status?: Prisma.StringFilter<"ReferralReward"> | string
-  claimedAt?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
-  expiresAt?: Prisma.DateTimeFilter<"ReferralReward"> | Date | string
-  appliedToUserId?: Prisma.UuidNullableFilter<"ReferralReward"> | string | null
-  newExpiryDate?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
   amount?: Prisma.DecimalFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFilter<"ReferralReward"> | Date | string
   usedAt?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
   usedWithSubscription?: Prisma.StringNullableFilter<"ReferralReward"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ReferralReward"> | Date | string
+  appliedToUserId?: Prisma.UuidNullableFilter<"ReferralReward"> | string | null
+  claimedAt?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
+  monthsAwarded?: Prisma.IntFilter<"ReferralReward"> | number
+  newExpiryDate?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
+  status?: Prisma.StringFilter<"ReferralReward"> | string
+  tierAwarded?: Prisma.StringNullableFilter<"ReferralReward"> | string | null
+  tierValue?: Prisma.DecimalNullableFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.StringNullableFilter<"ReferralReward"> | string | null
+  credit_amount?: Prisma.DecimalNullableFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referral?: Prisma.XOR<Prisma.ReferralScalarRelationFilter, Prisma.ReferralWhereInput>
   profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
 }, "id">
@@ -366,18 +390,20 @@ export type ReferralRewardOrderByWithAggregationInput = {
   referralId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   rewardType?: Prisma.SortOrder
-  tierAwarded?: Prisma.SortOrderInput | Prisma.SortOrder
-  tierValue?: Prisma.SortOrderInput | Prisma.SortOrder
-  monthsAwarded?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  claimedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  expiresAt?: Prisma.SortOrder
-  appliedToUserId?: Prisma.SortOrderInput | Prisma.SortOrder
-  newExpiryDate?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
   usedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   usedWithSubscription?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  appliedToUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  claimedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  monthsAwarded?: Prisma.SortOrder
+  newExpiryDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  tierAwarded?: Prisma.SortOrderInput | Prisma.SortOrder
+  tierValue?: Prisma.SortOrderInput | Prisma.SortOrder
+  reward_subtype?: Prisma.SortOrderInput | Prisma.SortOrder
+  credit_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ReferralRewardCountOrderByAggregateInput
   _avg?: Prisma.ReferralRewardAvgOrderByAggregateInput
   _max?: Prisma.ReferralRewardMaxOrderByAggregateInput
@@ -393,35 +419,39 @@ export type ReferralRewardScalarWhereWithAggregatesInput = {
   referralId?: Prisma.UuidWithAggregatesFilter<"ReferralReward"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"ReferralReward"> | string
   rewardType?: Prisma.StringWithAggregatesFilter<"ReferralReward"> | string
-  tierAwarded?: Prisma.StringNullableWithAggregatesFilter<"ReferralReward"> | string | null
-  tierValue?: Prisma.DecimalNullableWithAggregatesFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntWithAggregatesFilter<"ReferralReward"> | number
-  status?: Prisma.StringWithAggregatesFilter<"ReferralReward"> | string
-  claimedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ReferralReward"> | Date | string | null
-  expiresAt?: Prisma.DateTimeWithAggregatesFilter<"ReferralReward"> | Date | string
-  appliedToUserId?: Prisma.UuidNullableWithAggregatesFilter<"ReferralReward"> | string | null
-  newExpiryDate?: Prisma.DateTimeNullableWithAggregatesFilter<"ReferralReward"> | Date | string | null
   amount?: Prisma.DecimalWithAggregatesFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeWithAggregatesFilter<"ReferralReward"> | Date | string
   usedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ReferralReward"> | Date | string | null
   usedWithSubscription?: Prisma.StringNullableWithAggregatesFilter<"ReferralReward"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ReferralReward"> | Date | string
+  appliedToUserId?: Prisma.UuidNullableWithAggregatesFilter<"ReferralReward"> | string | null
+  claimedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ReferralReward"> | Date | string | null
+  monthsAwarded?: Prisma.IntWithAggregatesFilter<"ReferralReward"> | number
+  newExpiryDate?: Prisma.DateTimeNullableWithAggregatesFilter<"ReferralReward"> | Date | string | null
+  status?: Prisma.StringWithAggregatesFilter<"ReferralReward"> | string
+  tierAwarded?: Prisma.StringNullableWithAggregatesFilter<"ReferralReward"> | string | null
+  tierValue?: Prisma.DecimalNullableWithAggregatesFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.StringNullableWithAggregatesFilter<"ReferralReward"> | string | null
+  credit_amount?: Prisma.DecimalNullableWithAggregatesFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardCreateInput = {
   id?: string
   rewardType: string
-  tierAwarded?: string | null
-  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: number
-  status?: string
-  claimedAt?: Date | string | null
-  expiresAt: Date | string
-  appliedToUserId?: string | null
-  newExpiryDate?: Date | string | null
   amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt: Date | string
   usedAt?: Date | string | null
   usedWithSubscription?: string | null
   createdAt?: Date | string
+  appliedToUserId?: string | null
+  claimedAt?: Date | string | null
+  monthsAwarded?: number
+  newExpiryDate?: Date | string | null
+  status?: string
+  tierAwarded?: string | null
+  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: string | null
+  credit_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referral: Prisma.ReferralCreateNestedOneWithoutRewardsInput
   profile: Prisma.ProfileCreateNestedOneWithoutReferralRewardsInput
 }
@@ -431,35 +461,39 @@ export type ReferralRewardUncheckedCreateInput = {
   referralId: string
   userId: string
   rewardType: string
-  tierAwarded?: string | null
-  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: number
-  status?: string
-  claimedAt?: Date | string | null
-  expiresAt: Date | string
-  appliedToUserId?: string | null
-  newExpiryDate?: Date | string | null
   amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt: Date | string
   usedAt?: Date | string | null
   usedWithSubscription?: string | null
   createdAt?: Date | string
+  appliedToUserId?: string | null
+  claimedAt?: Date | string | null
+  monthsAwarded?: number
+  newExpiryDate?: Date | string | null
+  status?: string
+  tierAwarded?: string | null
+  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: string | null
+  credit_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rewardType?: Prisma.StringFieldUpdateOperationsInput | string
-  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usedWithSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
+  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credit_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referral?: Prisma.ReferralUpdateOneRequiredWithoutRewardsNestedInput
   profile?: Prisma.ProfileUpdateOneRequiredWithoutReferralRewardsNestedInput
 }
@@ -469,18 +503,20 @@ export type ReferralRewardUncheckedUpdateInput = {
   referralId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   rewardType?: Prisma.StringFieldUpdateOperationsInput | string
-  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usedWithSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
+  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credit_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardCreateManyInput = {
@@ -488,35 +524,39 @@ export type ReferralRewardCreateManyInput = {
   referralId: string
   userId: string
   rewardType: string
-  tierAwarded?: string | null
-  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: number
-  status?: string
-  claimedAt?: Date | string | null
-  expiresAt: Date | string
-  appliedToUserId?: string | null
-  newExpiryDate?: Date | string | null
   amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt: Date | string
   usedAt?: Date | string | null
   usedWithSubscription?: string | null
   createdAt?: Date | string
+  appliedToUserId?: string | null
+  claimedAt?: Date | string | null
+  monthsAwarded?: number
+  newExpiryDate?: Date | string | null
+  status?: string
+  tierAwarded?: string | null
+  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: string | null
+  credit_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rewardType?: Prisma.StringFieldUpdateOperationsInput | string
-  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usedWithSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
+  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credit_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardUncheckedUpdateManyInput = {
@@ -524,18 +564,20 @@ export type ReferralRewardUncheckedUpdateManyInput = {
   referralId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   rewardType?: Prisma.StringFieldUpdateOperationsInput | string
-  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usedWithSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
+  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credit_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardListRelationFilter = {
@@ -553,24 +595,27 @@ export type ReferralRewardCountOrderByAggregateInput = {
   referralId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   rewardType?: Prisma.SortOrder
-  tierAwarded?: Prisma.SortOrder
-  tierValue?: Prisma.SortOrder
-  monthsAwarded?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  claimedAt?: Prisma.SortOrder
-  expiresAt?: Prisma.SortOrder
-  appliedToUserId?: Prisma.SortOrder
-  newExpiryDate?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
   usedAt?: Prisma.SortOrder
   usedWithSubscription?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  appliedToUserId?: Prisma.SortOrder
+  claimedAt?: Prisma.SortOrder
+  monthsAwarded?: Prisma.SortOrder
+  newExpiryDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  tierAwarded?: Prisma.SortOrder
+  tierValue?: Prisma.SortOrder
+  reward_subtype?: Prisma.SortOrder
+  credit_amount?: Prisma.SortOrder
 }
 
 export type ReferralRewardAvgOrderByAggregateInput = {
-  tierValue?: Prisma.SortOrder
-  monthsAwarded?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  monthsAwarded?: Prisma.SortOrder
+  tierValue?: Prisma.SortOrder
+  credit_amount?: Prisma.SortOrder
 }
 
 export type ReferralRewardMaxOrderByAggregateInput = {
@@ -578,18 +623,20 @@ export type ReferralRewardMaxOrderByAggregateInput = {
   referralId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   rewardType?: Prisma.SortOrder
-  tierAwarded?: Prisma.SortOrder
-  tierValue?: Prisma.SortOrder
-  monthsAwarded?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  claimedAt?: Prisma.SortOrder
-  expiresAt?: Prisma.SortOrder
-  appliedToUserId?: Prisma.SortOrder
-  newExpiryDate?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
   usedAt?: Prisma.SortOrder
   usedWithSubscription?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  appliedToUserId?: Prisma.SortOrder
+  claimedAt?: Prisma.SortOrder
+  monthsAwarded?: Prisma.SortOrder
+  newExpiryDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  tierAwarded?: Prisma.SortOrder
+  tierValue?: Prisma.SortOrder
+  reward_subtype?: Prisma.SortOrder
+  credit_amount?: Prisma.SortOrder
 }
 
 export type ReferralRewardMinOrderByAggregateInput = {
@@ -597,24 +644,27 @@ export type ReferralRewardMinOrderByAggregateInput = {
   referralId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   rewardType?: Prisma.SortOrder
-  tierAwarded?: Prisma.SortOrder
-  tierValue?: Prisma.SortOrder
-  monthsAwarded?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  claimedAt?: Prisma.SortOrder
-  expiresAt?: Prisma.SortOrder
-  appliedToUserId?: Prisma.SortOrder
-  newExpiryDate?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
   usedAt?: Prisma.SortOrder
   usedWithSubscription?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  appliedToUserId?: Prisma.SortOrder
+  claimedAt?: Prisma.SortOrder
+  monthsAwarded?: Prisma.SortOrder
+  newExpiryDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  tierAwarded?: Prisma.SortOrder
+  tierValue?: Prisma.SortOrder
+  reward_subtype?: Prisma.SortOrder
+  credit_amount?: Prisma.SortOrder
 }
 
 export type ReferralRewardSumOrderByAggregateInput = {
-  tierValue?: Prisma.SortOrder
-  monthsAwarded?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  monthsAwarded?: Prisma.SortOrder
+  tierValue?: Prisma.SortOrder
+  credit_amount?: Prisma.SortOrder
 }
 
 export type ReferralRewardCreateNestedManyWithoutProfileInput = {
@@ -712,18 +762,20 @@ export type DecimalFieldUpdateOperationsInput = {
 export type ReferralRewardCreateWithoutProfileInput = {
   id?: string
   rewardType: string
-  tierAwarded?: string | null
-  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: number
-  status?: string
-  claimedAt?: Date | string | null
-  expiresAt: Date | string
-  appliedToUserId?: string | null
-  newExpiryDate?: Date | string | null
   amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt: Date | string
   usedAt?: Date | string | null
   usedWithSubscription?: string | null
   createdAt?: Date | string
+  appliedToUserId?: string | null
+  claimedAt?: Date | string | null
+  monthsAwarded?: number
+  newExpiryDate?: Date | string | null
+  status?: string
+  tierAwarded?: string | null
+  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: string | null
+  credit_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referral: Prisma.ReferralCreateNestedOneWithoutRewardsInput
 }
 
@@ -731,18 +783,20 @@ export type ReferralRewardUncheckedCreateWithoutProfileInput = {
   id?: string
   referralId: string
   rewardType: string
-  tierAwarded?: string | null
-  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: number
-  status?: string
-  claimedAt?: Date | string | null
-  expiresAt: Date | string
-  appliedToUserId?: string | null
-  newExpiryDate?: Date | string | null
   amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt: Date | string
   usedAt?: Date | string | null
   usedWithSubscription?: string | null
   createdAt?: Date | string
+  appliedToUserId?: string | null
+  claimedAt?: Date | string | null
+  monthsAwarded?: number
+  newExpiryDate?: Date | string | null
+  status?: string
+  tierAwarded?: string | null
+  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: string | null
+  credit_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardCreateOrConnectWithoutProfileInput = {
@@ -779,35 +833,39 @@ export type ReferralRewardScalarWhereInput = {
   referralId?: Prisma.UuidFilter<"ReferralReward"> | string
   userId?: Prisma.UuidFilter<"ReferralReward"> | string
   rewardType?: Prisma.StringFilter<"ReferralReward"> | string
-  tierAwarded?: Prisma.StringNullableFilter<"ReferralReward"> | string | null
-  tierValue?: Prisma.DecimalNullableFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFilter<"ReferralReward"> | number
-  status?: Prisma.StringFilter<"ReferralReward"> | string
-  claimedAt?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
-  expiresAt?: Prisma.DateTimeFilter<"ReferralReward"> | Date | string
-  appliedToUserId?: Prisma.UuidNullableFilter<"ReferralReward"> | string | null
-  newExpiryDate?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
   amount?: Prisma.DecimalFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFilter<"ReferralReward"> | Date | string
   usedAt?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
   usedWithSubscription?: Prisma.StringNullableFilter<"ReferralReward"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ReferralReward"> | Date | string
+  appliedToUserId?: Prisma.UuidNullableFilter<"ReferralReward"> | string | null
+  claimedAt?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
+  monthsAwarded?: Prisma.IntFilter<"ReferralReward"> | number
+  newExpiryDate?: Prisma.DateTimeNullableFilter<"ReferralReward"> | Date | string | null
+  status?: Prisma.StringFilter<"ReferralReward"> | string
+  tierAwarded?: Prisma.StringNullableFilter<"ReferralReward"> | string | null
+  tierValue?: Prisma.DecimalNullableFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.StringNullableFilter<"ReferralReward"> | string | null
+  credit_amount?: Prisma.DecimalNullableFilter<"ReferralReward"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardCreateWithoutReferralInput = {
   id?: string
   rewardType: string
-  tierAwarded?: string | null
-  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: number
-  status?: string
-  claimedAt?: Date | string | null
-  expiresAt: Date | string
-  appliedToUserId?: string | null
-  newExpiryDate?: Date | string | null
   amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt: Date | string
   usedAt?: Date | string | null
   usedWithSubscription?: string | null
   createdAt?: Date | string
+  appliedToUserId?: string | null
+  claimedAt?: Date | string | null
+  monthsAwarded?: number
+  newExpiryDate?: Date | string | null
+  status?: string
+  tierAwarded?: string | null
+  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: string | null
+  credit_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   profile: Prisma.ProfileCreateNestedOneWithoutReferralRewardsInput
 }
 
@@ -815,18 +873,20 @@ export type ReferralRewardUncheckedCreateWithoutReferralInput = {
   id?: string
   userId: string
   rewardType: string
-  tierAwarded?: string | null
-  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: number
-  status?: string
-  claimedAt?: Date | string | null
-  expiresAt: Date | string
-  appliedToUserId?: string | null
-  newExpiryDate?: Date | string | null
   amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt: Date | string
   usedAt?: Date | string | null
   usedWithSubscription?: string | null
   createdAt?: Date | string
+  appliedToUserId?: string | null
+  claimedAt?: Date | string | null
+  monthsAwarded?: number
+  newExpiryDate?: Date | string | null
+  status?: string
+  tierAwarded?: string | null
+  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: string | null
+  credit_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardCreateOrConnectWithoutReferralInput = {
@@ -859,35 +919,39 @@ export type ReferralRewardCreateManyProfileInput = {
   id?: string
   referralId: string
   rewardType: string
-  tierAwarded?: string | null
-  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: number
-  status?: string
-  claimedAt?: Date | string | null
-  expiresAt: Date | string
-  appliedToUserId?: string | null
-  newExpiryDate?: Date | string | null
   amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt: Date | string
   usedAt?: Date | string | null
   usedWithSubscription?: string | null
   createdAt?: Date | string
+  appliedToUserId?: string | null
+  claimedAt?: Date | string | null
+  monthsAwarded?: number
+  newExpiryDate?: Date | string | null
+  status?: string
+  tierAwarded?: string | null
+  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: string | null
+  credit_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardUpdateWithoutProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rewardType?: Prisma.StringFieldUpdateOperationsInput | string
-  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usedWithSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
+  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credit_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referral?: Prisma.ReferralUpdateOneRequiredWithoutRewardsNestedInput
 }
 
@@ -895,71 +959,79 @@ export type ReferralRewardUncheckedUpdateWithoutProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   referralId?: Prisma.StringFieldUpdateOperationsInput | string
   rewardType?: Prisma.StringFieldUpdateOperationsInput | string
-  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usedWithSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
+  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credit_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardUncheckedUpdateManyWithoutProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   referralId?: Prisma.StringFieldUpdateOperationsInput | string
   rewardType?: Prisma.StringFieldUpdateOperationsInput | string
-  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usedWithSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
+  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credit_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardCreateManyReferralInput = {
   id?: string
   userId: string
   rewardType: string
-  tierAwarded?: string | null
-  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: number
-  status?: string
-  claimedAt?: Date | string | null
-  expiresAt: Date | string
-  appliedToUserId?: string | null
-  newExpiryDate?: Date | string | null
   amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt: Date | string
   usedAt?: Date | string | null
   usedWithSubscription?: string | null
   createdAt?: Date | string
+  appliedToUserId?: string | null
+  claimedAt?: Date | string | null
+  monthsAwarded?: number
+  newExpiryDate?: Date | string | null
+  status?: string
+  tierAwarded?: string | null
+  tierValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: string | null
+  credit_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardUpdateWithoutReferralInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rewardType?: Prisma.StringFieldUpdateOperationsInput | string
-  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usedWithSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
+  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credit_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   profile?: Prisma.ProfileUpdateOneRequiredWithoutReferralRewardsNestedInput
 }
 
@@ -967,36 +1039,40 @@ export type ReferralRewardUncheckedUpdateWithoutReferralInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   rewardType?: Prisma.StringFieldUpdateOperationsInput | string
-  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usedWithSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
+  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credit_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type ReferralRewardUncheckedUpdateManyWithoutReferralInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   rewardType?: Prisma.StringFieldUpdateOperationsInput | string
-  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usedWithSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appliedToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  monthsAwarded?: Prisma.IntFieldUpdateOperationsInput | number
+  newExpiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  tierAwarded?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tierValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reward_subtype?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credit_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 
@@ -1006,18 +1082,20 @@ export type ReferralRewardSelect<ExtArgs extends runtime.Types.Extensions.Intern
   referralId?: boolean
   userId?: boolean
   rewardType?: boolean
-  tierAwarded?: boolean
-  tierValue?: boolean
-  monthsAwarded?: boolean
-  status?: boolean
-  claimedAt?: boolean
-  expiresAt?: boolean
-  appliedToUserId?: boolean
-  newExpiryDate?: boolean
   amount?: boolean
+  expiresAt?: boolean
   usedAt?: boolean
   usedWithSubscription?: boolean
   createdAt?: boolean
+  appliedToUserId?: boolean
+  claimedAt?: boolean
+  monthsAwarded?: boolean
+  newExpiryDate?: boolean
+  status?: boolean
+  tierAwarded?: boolean
+  tierValue?: boolean
+  reward_subtype?: boolean
+  credit_amount?: boolean
   referral?: boolean | Prisma.ReferralDefaultArgs<ExtArgs>
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referralReward"]>
@@ -1027,18 +1105,20 @@ export type ReferralRewardSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   referralId?: boolean
   userId?: boolean
   rewardType?: boolean
-  tierAwarded?: boolean
-  tierValue?: boolean
-  monthsAwarded?: boolean
-  status?: boolean
-  claimedAt?: boolean
-  expiresAt?: boolean
-  appliedToUserId?: boolean
-  newExpiryDate?: boolean
   amount?: boolean
+  expiresAt?: boolean
   usedAt?: boolean
   usedWithSubscription?: boolean
   createdAt?: boolean
+  appliedToUserId?: boolean
+  claimedAt?: boolean
+  monthsAwarded?: boolean
+  newExpiryDate?: boolean
+  status?: boolean
+  tierAwarded?: boolean
+  tierValue?: boolean
+  reward_subtype?: boolean
+  credit_amount?: boolean
   referral?: boolean | Prisma.ReferralDefaultArgs<ExtArgs>
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referralReward"]>
@@ -1048,18 +1128,20 @@ export type ReferralRewardSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   referralId?: boolean
   userId?: boolean
   rewardType?: boolean
-  tierAwarded?: boolean
-  tierValue?: boolean
-  monthsAwarded?: boolean
-  status?: boolean
-  claimedAt?: boolean
-  expiresAt?: boolean
-  appliedToUserId?: boolean
-  newExpiryDate?: boolean
   amount?: boolean
+  expiresAt?: boolean
   usedAt?: boolean
   usedWithSubscription?: boolean
   createdAt?: boolean
+  appliedToUserId?: boolean
+  claimedAt?: boolean
+  monthsAwarded?: boolean
+  newExpiryDate?: boolean
+  status?: boolean
+  tierAwarded?: boolean
+  tierValue?: boolean
+  reward_subtype?: boolean
+  credit_amount?: boolean
   referral?: boolean | Prisma.ReferralDefaultArgs<ExtArgs>
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referralReward"]>
@@ -1069,21 +1151,23 @@ export type ReferralRewardSelectScalar = {
   referralId?: boolean
   userId?: boolean
   rewardType?: boolean
-  tierAwarded?: boolean
-  tierValue?: boolean
-  monthsAwarded?: boolean
-  status?: boolean
-  claimedAt?: boolean
-  expiresAt?: boolean
-  appliedToUserId?: boolean
-  newExpiryDate?: boolean
   amount?: boolean
+  expiresAt?: boolean
   usedAt?: boolean
   usedWithSubscription?: boolean
   createdAt?: boolean
+  appliedToUserId?: boolean
+  claimedAt?: boolean
+  monthsAwarded?: boolean
+  newExpiryDate?: boolean
+  status?: boolean
+  tierAwarded?: boolean
+  tierValue?: boolean
+  reward_subtype?: boolean
+  credit_amount?: boolean
 }
 
-export type ReferralRewardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "referralId" | "userId" | "rewardType" | "tierAwarded" | "tierValue" | "monthsAwarded" | "status" | "claimedAt" | "expiresAt" | "appliedToUserId" | "newExpiryDate" | "amount" | "usedAt" | "usedWithSubscription" | "createdAt", ExtArgs["result"]["referralReward"]>
+export type ReferralRewardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "referralId" | "userId" | "rewardType" | "amount" | "expiresAt" | "usedAt" | "usedWithSubscription" | "createdAt" | "appliedToUserId" | "claimedAt" | "monthsAwarded" | "newExpiryDate" | "status" | "tierAwarded" | "tierValue" | "reward_subtype" | "credit_amount", ExtArgs["result"]["referralReward"]>
 export type ReferralRewardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   referral?: boolean | Prisma.ReferralDefaultArgs<ExtArgs>
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
@@ -1108,18 +1192,20 @@ export type $ReferralRewardPayload<ExtArgs extends runtime.Types.Extensions.Inte
     referralId: string
     userId: string
     rewardType: string
-    tierAwarded: string | null
-    tierValue: runtime.Decimal | null
-    monthsAwarded: number
-    status: string
-    claimedAt: Date | null
-    expiresAt: Date
-    appliedToUserId: string | null
-    newExpiryDate: Date | null
     amount: runtime.Decimal
+    expiresAt: Date
     usedAt: Date | null
     usedWithSubscription: string | null
     createdAt: Date
+    appliedToUserId: string | null
+    claimedAt: Date | null
+    monthsAwarded: number
+    newExpiryDate: Date | null
+    status: string
+    tierAwarded: string | null
+    tierValue: runtime.Decimal | null
+    reward_subtype: string | null
+    credit_amount: runtime.Decimal | null
   }, ExtArgs["result"]["referralReward"]>
   composites: {}
 }
@@ -1549,18 +1635,20 @@ export interface ReferralRewardFieldRefs {
   readonly referralId: Prisma.FieldRef<"ReferralReward", 'String'>
   readonly userId: Prisma.FieldRef<"ReferralReward", 'String'>
   readonly rewardType: Prisma.FieldRef<"ReferralReward", 'String'>
-  readonly tierAwarded: Prisma.FieldRef<"ReferralReward", 'String'>
-  readonly tierValue: Prisma.FieldRef<"ReferralReward", 'Decimal'>
-  readonly monthsAwarded: Prisma.FieldRef<"ReferralReward", 'Int'>
-  readonly status: Prisma.FieldRef<"ReferralReward", 'String'>
-  readonly claimedAt: Prisma.FieldRef<"ReferralReward", 'DateTime'>
-  readonly expiresAt: Prisma.FieldRef<"ReferralReward", 'DateTime'>
-  readonly appliedToUserId: Prisma.FieldRef<"ReferralReward", 'String'>
-  readonly newExpiryDate: Prisma.FieldRef<"ReferralReward", 'DateTime'>
   readonly amount: Prisma.FieldRef<"ReferralReward", 'Decimal'>
+  readonly expiresAt: Prisma.FieldRef<"ReferralReward", 'DateTime'>
   readonly usedAt: Prisma.FieldRef<"ReferralReward", 'DateTime'>
   readonly usedWithSubscription: Prisma.FieldRef<"ReferralReward", 'String'>
   readonly createdAt: Prisma.FieldRef<"ReferralReward", 'DateTime'>
+  readonly appliedToUserId: Prisma.FieldRef<"ReferralReward", 'String'>
+  readonly claimedAt: Prisma.FieldRef<"ReferralReward", 'DateTime'>
+  readonly monthsAwarded: Prisma.FieldRef<"ReferralReward", 'Int'>
+  readonly newExpiryDate: Prisma.FieldRef<"ReferralReward", 'DateTime'>
+  readonly status: Prisma.FieldRef<"ReferralReward", 'String'>
+  readonly tierAwarded: Prisma.FieldRef<"ReferralReward", 'String'>
+  readonly tierValue: Prisma.FieldRef<"ReferralReward", 'Decimal'>
+  readonly reward_subtype: Prisma.FieldRef<"ReferralReward", 'String'>
+  readonly credit_amount: Prisma.FieldRef<"ReferralReward", 'Decimal'>
 }
     
 

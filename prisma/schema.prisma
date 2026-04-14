@@ -9,106 +9,84 @@ datasource db {
   schemas  = ["public"]
 }
 
-// ── Profile ───────────────────────────────────────────────────────────────────
-
 model Profile {
-  userId                String  @id @map("user_id") @db.Uuid
-  username              String? @unique
-  displayName           String? @map("display_name")
-  avatarUrl             String? @map("avatar_url")
-  notificationPushToken String? @map("notification_push_token")
-
-  pushEnabled          Boolean @default(true) @map("push_enabled")
-  strategyReminders    Boolean @default(true) @map("strategy_reminders")
-  accountAlerts        Boolean @default(true) @map("account_alerts")
-  sessionReminders     Boolean @default(true) @map("session_reminders")
-  drawdownWarnings     Boolean @default(true) @map("drawdown_warnings")
-  profitTargetAlerts   Boolean @default(false) @map("profit_target_alerts")
-  signalAlertsEnabled  Boolean @default(false) @map("signal_alerts_enabled")
-  maxTradesWarnings    Boolean @default(true) @map("max_trades_warnings")
-  tradingDaysReminders Boolean @default(true) @map("trading_days_reminders")
-
-  lastNotificationSentAt DateTime? @map("last_notification_sent_at") @db.Timestamptz(6)
-  notificationSentToday  Int       @default(0) @map("notification_sent_today")
-  lastNotificationReset  DateTime? @map("last_notification_reset") @db.Timestamptz(6)
-
-  subscriptionTier    String?   @map("subscription_tier") // "basic" | "pro" | "elite" | null
-  isPro               Boolean   @default(false) @map("is_pro")
-  proExpiresAt        DateTime? @map("pro_expires_at") @db.Timestamptz(6)
-  revenuecatAppUserId String?   @map("revenuecat_app_user_id")
-  timezone            String    @default("America/New_York")
-
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  tradingAccounts     TradingAccount[]
-  tradingStrategies   TradingStrategy[]
-  tradingAnalytics    TradingAnalytics[]
-  notificationLogs    NotificationLog[]
-  signalSubscriptions UserSignalSubscription[]
-  journalTrades       JournalTrade[]
-
-  referralLink       ReferralLink?
-  referralsGiven     Referral[]      @relation("ReferrerReferrals")
-  referralsReceived  Referral[]      @relation("RefereeReferrals")
-  referralRewards    ReferralReward[]
+  userId                    String                      @id @map("user_id") @db.Uuid
+  username                  String?                     @unique
+  displayName               String?                     @map("display_name")
+  avatarUrl                 String?                     @map("avatar_url")
+  notificationPushToken     String?                     @map("notification_push_token")
+  pushEnabled               Boolean                     @default(true) @map("push_enabled")
+  strategyReminders         Boolean                     @default(true) @map("strategy_reminders")
+  accountAlerts             Boolean                     @default(true) @map("account_alerts")
+  sessionReminders          Boolean                     @default(true) @map("session_reminders")
+  drawdownWarnings          Boolean                     @default(true) @map("drawdown_warnings")
+  profitTargetAlerts        Boolean                     @default(false) @map("profit_target_alerts")
+  signalAlertsEnabled       Boolean                     @default(false) @map("signal_alerts_enabled")
+  maxTradesWarnings         Boolean                     @default(true) @map("max_trades_warnings")
+  tradingDaysReminders      Boolean                     @default(true) @map("trading_days_reminders")
+  lastNotificationSentAt    DateTime?                   @map("last_notification_sent_at") @db.Timestamptz(6)
+  notificationSentToday     Int                         @default(0) @map("notification_sent_today")
+  lastNotificationReset     DateTime?                   @map("last_notification_reset") @db.Timestamptz(6)
+  proExpiresAt              DateTime?                   @map("pro_expires_at") @db.Timestamptz(6)
+  revenuecatAppUserId       String?                     @map("revenuecat_app_user_id")
+  timezone                  String                      @default("America/New_York")
+  createdAt                 DateTime                    @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt                 DateTime?                   @updatedAt @map("updated_at") @db.Timestamptz(6)
+  subscriptionTier          String?                     @map("subscription_tier")
+  isPro                     Boolean                     @default(false) @map("is_pro")
+  journalTrades             JournalTrade[]
+  notificationLogs          NotificationLog[]
+  referralLink              ReferralLink?
+  referral_milestone_events referral_milestone_events[]
+  referralRewards           ReferralReward[]
+  referralsReceived         Referral[]                  @relation("RefereeReferrals")
+  referralsGiven            Referral[]                  @relation("ReferrerReferrals")
+  tradingAccounts           TradingAccount[]
+  tradingAnalytics          TradingAnalytics[]
+  tradingStrategies         TradingStrategy[]
+  signalSubscriptions       UserSignalSubscription[]
 
   @@map("profiles")
   @@schema("public")
 }
 
-// ── Trading accounts (unified journal + execution) ────────────────────────────
-
 model TradingAccount {
-  id             String             @id @default(uuid()) @db.Uuid
-  userId         String             @map("user_id") @db.Uuid
-  accountType    JournalAccountType @default(personal) @map("account_type")
-  name           String
-  accountNumber  String             @map("account_number")
-  currency       String             @default("usd")
-  startBalance   Float              @map("start_balance")
-  currentBalance Float?             @map("current_balance")
-
-  // Broker connection — null = manual account
-  platform         BrokerPlatform?
-  metaApiAccountId String?         @unique @map("meta_api_account_id")
-  autoTradeEnabled Boolean         @default(false) @map("auto_trade_enabled")
-  riskConfig       Json?           @map("risk_config")
-
-  // Sync state
-  lastSyncAt  DateTime? @map("last_sync_at") @db.Timestamptz(6)
-  lastError   String?   @map("last_error")
-  lastErrorAt DateTime? @map("last_error_at")
-
-  // Challenge rules
-  maxDailyLoss     Float? @map("max_daily_loss")
-  maxTotalDrawdown Float? @map("max_total_drawdown")
-  minProfitTarget  Float? @map("min_profit_target")
-  maxTradesPerDay  Int?   @map("max_trades_per_day")
-  tradingDaysLeft  Int?   @map("trading_days_left")
-
-  // Warning thresholds
-  drawdownWarningPercent Float? @default(80) @map("drawdown_warning_percent")
-  profitWarningPercent   Float? @default(90) @map("profit_warning_percent")
-  tradesWarningThreshold Int?   @default(1) @map("trades_warning_threshold")
-  daysWarningThreshold   Int?   @default(5) @map("days_warning_threshold")
-
-  // Daily stats
-  todayTradeCount Int       @default(0) @map("today_trade_count")
-  todayPnl        Float     @default(0) @map("today_pnl")
-  lastStatsReset  DateTime? @map("last_stats_reset") @db.Timestamptz(6)
-
-  isActive  Boolean   @default(true) @map("is_active")
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  profile       Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  journalTrades JournalTrade[]
-  trades        Trade[]
-  signals       Signal[]
+  id                     String             @id @default(uuid()) @db.Uuid
+  userId                 String             @map("user_id") @db.Uuid
+  accountType            JournalAccountType @default(personal) @map("account_type")
+  name                   String
+  accountNumber          String             @unique @map("account_number")
+  currency               String             @default("usd")
+  startBalance           Float              @map("start_balance")
+  currentBalance         Float?             @map("current_balance")
+  platform               BrokerPlatform?
+  metaApiAccountId       String?            @unique @map("meta_api_account_id")
+  autoTradeEnabled       Boolean            @default(false) @map("auto_trade_enabled")
+  riskConfig             Json?              @map("risk_config")
+  lastSyncAt             DateTime?          @map("last_sync_at") @db.Timestamptz(6)
+  lastError              String?            @map("last_error")
+  lastErrorAt            DateTime?          @map("last_error_at")
+  maxDailyLoss           Float?             @map("max_daily_loss")
+  maxTotalDrawdown       Float?             @map("max_total_drawdown")
+  minProfitTarget        Float?             @map("min_profit_target")
+  maxTradesPerDay        Int?               @map("max_trades_per_day")
+  tradingDaysLeft        Int?               @map("trading_days_left")
+  drawdownWarningPercent Float?             @default(80) @map("drawdown_warning_percent")
+  profitWarningPercent   Float?             @default(90) @map("profit_warning_percent")
+  tradesWarningThreshold Int?               @default(1) @map("trades_warning_threshold")
+  daysWarningThreshold   Int?               @default(5) @map("days_warning_threshold")
+  todayTradeCount        Int                @default(0) @map("today_trade_count")
+  todayPnl               Float              @default(0) @map("today_pnl")
+  lastStatsReset         DateTime?          @map("last_stats_reset") @db.Timestamptz(6)
+  isActive               Boolean            @default(true) @map("is_active")
+  createdAt              DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt              DateTime?          @updatedAt @map("updated_at") @db.Timestamptz(6)
+  journalTrades          JournalTrade[]
+  signals                Signal[]
+  trades                 Trade[]
+  profile                Profile            @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@unique([userId, name])
-  @@unique([accountNumber])
   @@index([userId])
   @@index([isActive])
   @@map("trading_accounts")
@@ -134,11 +112,10 @@ model Signal {
   triggeredAt BigInt?         @map("triggered_at")
   outcome     String?
   tradeId     String?         @map("trade_id") @db.Uuid
-
-  account   TradingAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  trade     Trade?         @relation(fields: [tradeId], references: [id], onDelete: SetNull)
-  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime?      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  createdAt   DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime?       @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  account     TradingAccount  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  trade       Trade?          @relation(fields: [tradeId], references: [id])
 
   @@index([accountId, symbol])
   @@index([accountId, status])
@@ -148,41 +125,36 @@ model Signal {
 }
 
 model Trade {
-  id        String      @id @default(uuid()) @db.Uuid
-  accountId String      @map("account_id") @db.Uuid
-  signalId  String      @map("signal_id") @db.Uuid
-  symbol    String
-  side      OrderSide
-  status    TradeStatus @default(OPEN)
-  plan      Json
-
-  entryTicket Int?   @map("entry_ticket")
-  entryPrice  Float? @map("entry_price")
-  entryLots   Float  @map("entry_lots")
-  currentLots Float  @map("current_lots")
-  stopLoss    Float  @map("stop_loss")
+  id          String         @id @default(uuid()) @db.Uuid
+  accountId   String         @map("account_id") @db.Uuid
+  signalId    String         @map("signal_id") @db.Uuid
+  symbol      String
+  side        OrderSide
+  status      TradeStatus    @default(OPEN)
+  plan        Json
+  entryTicket Int?           @map("entry_ticket")
+  entryPrice  Float?         @map("entry_price")
+  entryLots   Float          @map("entry_lots")
+  currentLots Float          @map("current_lots")
+  stopLoss    Float          @map("stop_loss")
   tp1         Float
   tp2         Float
-
-  tp1Hit   Boolean   @default(false) @map("tp1_hit")
-  tp1HitAt DateTime? @map("tp1_hit_at")
-  tp2Hit   Boolean   @default(false) @map("tp2_hit")
-  tp2HitAt DateTime? @map("tp2_hit_at")
-  slHit    Boolean   @default(false) @map("sl_hit")
-  slHitAt  DateTime? @map("sl_hit_at")
-
-  openedAt    DateTime?    @map("opened_at")
-  closedAt    DateTime?    @map("closed_at")
-  closeReason CloseReason? @map("close_reason")
-  closePrice  Float?       @map("close_price")
-  realizedPnl Float?       @map("realized_pnl")
-  realizedRR  Float?       @map("realized_rr")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  account TradingAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  signals Signal[]
+  tp1Hit      Boolean        @default(false) @map("tp1_hit")
+  tp1HitAt    DateTime?      @map("tp1_hit_at")
+  tp2Hit      Boolean        @default(false) @map("tp2_hit")
+  tp2HitAt    DateTime?      @map("tp2_hit_at")
+  slHit       Boolean        @default(false) @map("sl_hit")
+  slHitAt     DateTime?      @map("sl_hit_at")
+  openedAt    DateTime?      @map("opened_at")
+  closedAt    DateTime?      @map("closed_at")
+  closeReason CloseReason?   @map("close_reason")
+  closePrice  Float?         @map("close_price")
+  realizedPnl Float?         @map("realized_pnl")
+  realizedRR  Float?         @map("realized_rr")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+  signals     Signal[]
+  account     TradingAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
 
   @@index([openedAt])
   @@index([accountId, status])
@@ -192,151 +164,130 @@ model Trade {
   @@schema("public")
 }
 
-// ── Journal trades ────────────────────────────────────────────────────────────
-
 model JournalTrade {
-  id              String              @id @default(uuid()) @db.Uuid
-  userId          String              @map("user_id") @db.Uuid
-  accountId       String              @map("account_id") @db.Uuid
-  strategyId      String              @map("strategy_id") @db.Uuid
+  id              String                 @id @default(uuid()) @db.Uuid
+  userId          String                 @map("user_id") @db.Uuid
+  accountId       String                 @map("account_id") @db.Uuid
+  strategyId      String                 @map("strategy_id") @db.Uuid
   symbol          String
   direction       TradeDirection
-  status          JournalTradeStatus  @default(pending)
+  status          JournalTradeStatus     @default(pending)
   result          JournalTradeResult?
-  entryPrice      Float               @map("entry_price")
-  exitPrice       Float?              @map("exit_price")
+  entryPrice      Float                  @map("entry_price")
+  exitPrice       Float?                 @map("exit_price")
   quantity        Float
-  ticketId        String?             @map("ticket_id")
+  ticketId        String?                @map("ticket_id")
   pnl             Float?
-  pnlPercent      Float?              @map("pnl_percent")
-  commission      Float               @default(0)
-  swap            Float               @default(0)
-  followedPlan    Boolean?            @map("followed_plan")
-  convictionLevel Conviction?         @map("conviction_level")
-  emotionBefore   Emotion?            @map("emotion_before")
-  emotionAfter    Emotion?            @map("emotion_after")
-  notesBefore     String?             @map("notes_before")
-  notesAfter      String?             @map("notes_after")
-  screenshotUrls  String[]            @map("screenshot_urls")
-  tradeDate       DateTime?           @map("trade_date")
-  closedAt        DateTime?           @map("closed_at")
-  source          String              @default("manual")
-
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  account        TradingAccount         @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  strategy       TradingStrategy        @relation(fields: [strategyId], references: [id], onDelete: Cascade)
-  checklistItems JournalChecklistItem[]
-  profile        Profile?               @relation(fields: [profileUserId], references: [userId])
-  profileUserId  String?                @db.Uuid
+  pnlPercent      Float?                 @map("pnl_percent")
+  commission      Float                  @default(0)
+  swap            Float                  @default(0)
+  followedPlan    Boolean?               @map("followed_plan")
+  convictionLevel Conviction?            @map("conviction_level")
+  emotionBefore   Emotion?               @map("emotion_before")
+  emotionAfter    Emotion?               @map("emotion_after")
+  notesBefore     String?                @map("notes_before")
+  notesAfter      String?                @map("notes_after")
+  screenshotUrls  String[]               @map("screenshot_urls")
+  tradeDate       DateTime?              @map("trade_date")
+  closedAt        DateTime?              @map("closed_at")
+  source          String                 @default("manual")
+  createdAt       DateTime               @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime?              @updatedAt @map("updated_at") @db.Timestamptz(6)
+  profileUserId   String?                @db.Uuid
+  checklistItems  JournalChecklistItem[]
+  account         TradingAccount         @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  profile         Profile?               @relation(fields: [profileUserId], references: [userId])
+  strategy        TradingStrategy        @relation(fields: [strategyId], references: [id], onDelete: Cascade)
 
   @@map("journal_trades")
   @@schema("public")
 }
 
 model JournalChecklistItem {
-  id            String  @id @default(uuid()) @db.Uuid
-  tradeId       String  @map("trade_id") @db.Uuid
-  checklistText String  @map("checklist_text")
-  answeredYes   Boolean @map("answered_yes")
+  id            String       @id @default(uuid()) @db.Uuid
+  tradeId       String       @map("trade_id") @db.Uuid
+  checklistText String       @map("checklist_text")
+  answeredYes   Boolean      @map("answered_yes")
   note          String?
-  isAiGenerated Boolean @default(true) @map("is_ai_generated")
-
-  trade JournalTrade @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  isAiGenerated Boolean      @default(true) @map("is_ai_generated")
+  trade         JournalTrade @relation(fields: [tradeId], references: [id], onDelete: Cascade)
 
   @@unique([tradeId, checklistText])
   @@map("journal_checklist_items")
   @@schema("public")
 }
 
-// ── Trading strategy ──────────────────────────────────────────────────────────
-
 model TradingStrategy {
-  id           String        @id @default(uuid()) @db.Uuid
-  userId       String        @map("user_id") @db.Uuid
-  name         String
-  description  String
-  tradingStyle TradingStyle? @map("trading_style")
-
-  tradingHoursStart   String? @default("09:00") @map("trading_hours_start")
-  tradingHoursEnd     String? @default("16:00") @map("trading_hours_end")
-  sessionReminderMins Int?    @default(5) @map("session_reminder_mins")
-
-  isDefault  Boolean @default(false) @map("is_default")
-  isArchived Boolean @default(false) @map("is_archived")
-
-  aiRephrasedDesc   String? @map("ai_rephrased_desc")
-  aiNotes           String? @map("ai_notes")
-  aiParameters      Json?   @map("ai_parameters")
-  aiReminderPhrases Json?   @map("ai_reminder_phrases")
-  aiRiskGuidelines  Json?   @map("ai_risk_guidelines")
-  aiChecklistItems  Json?   @map("ai_checklist_items")
-
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  profile       Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  journalTrades JournalTrade[]
+  id                  String         @id @default(uuid()) @db.Uuid
+  userId              String         @map("user_id") @db.Uuid
+  name                String
+  description         String
+  tradingStyle        TradingStyle?  @map("trading_style")
+  tradingHoursStart   String?        @default("09:00") @map("trading_hours_start")
+  tradingHoursEnd     String?        @default("16:00") @map("trading_hours_end")
+  sessionReminderMins Int?           @default(5) @map("session_reminder_mins")
+  isDefault           Boolean        @default(false) @map("is_default")
+  isArchived          Boolean        @default(false) @map("is_archived")
+  aiRephrasedDesc     String?        @map("ai_rephrased_desc")
+  aiNotes             String?        @map("ai_notes")
+  aiParameters        Json?          @map("ai_parameters")
+  aiReminderPhrases   Json?          @map("ai_reminder_phrases")
+  aiRiskGuidelines    Json?          @map("ai_risk_guidelines")
+  aiChecklistItems    Json?          @map("ai_checklist_items")
+  createdAt           DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt           DateTime?      @updatedAt @map("updated_at") @db.Timestamptz(6)
+  journalTrades       JournalTrade[]
+  profile             Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@map("trading_strategies")
   @@schema("public")
 }
 
-// ── Signal alerts (app-facing) ────────────────────────────────────────────────
-
 model SignalAlert {
-  id        String            @id @default(uuid()) @db.Uuid
-  engineId  String            @unique @map("engine_id")
-  symbol    String
-  direction SignalDirection
-  status    SignalAlertStatus @default(PENDING)
-  outcome   SignalOutcome?
-
-  entryPrice      Float @map("entry_price")
-  stopLoss        Float @map("stop_loss")
-  tp1             Float
-  tp2             Float
-  riskRewardRatio Float @map("risk_reward_ratio")
-  riskPips        Float @map("risk_pips")
-
-  htfRangeHigh    Float     @map("htf_range_high")
-  htfRangeLow     Float     @map("htf_range_low")
-  htfBosDirection String    @map("htf_bos_direction")
-  htfTimestamp    DateTime  @map("htf_timestamp")
-  htfBrokenAt     DateTime? @map("htf_broken_at")
-  htfInterval     String?   @map("htf_interval")
-
-  ltfRangeHigh Float    @map("ltf_range_high")
-  ltfRangeLow  Float    @map("ltf_range_low")
-  ltfTimestamp DateTime @map("ltf_timestamp")
-  ltfSlLevel   Float    @map("ltf_sl_level")
-  ltfInterval  String?  @map("ltf_interval")
-
-  rejectionOpen      Float    @map("rejection_open")
-  rejectionHigh      Float    @map("rejection_high")
-  rejectionLow       Float    @map("rejection_low")
-  rejectionClose     Float    @map("rejection_close")
-  rejectionTimestamp DateTime @map("rejection_timestamp")
-  rejectionWickRatio Float    @map("rejection_wick_ratio")
-  rejectionPattern   String   @map("rejection_pattern")
-  rejectionWickTip   Float    @map("rejection_wick_tip")
-
-  rawPayload Json    @map("raw_payload")
-  realizedRr Float?  @map("realized_rr")
-  closePrice Float?  @map("close_price")
-  chartPath  String? @map("chart_path")
-  chartData  Json?   @map("chart_data")
-
-  triggeredAt DateTime? @map("triggered_at")
-  tp1HitAt    DateTime? @map("tp1_hit_at")
-  closedAt    DateTime? @map("closed_at")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-
-  zoneId           String?           @unique @map("zone_id") @db.Uuid
-  zone             SignalZone?       @relation(fields: [zoneId], references: [id])
-  notificationLogs NotificationLog[]
+  id                 String            @id @default(uuid()) @db.Uuid
+  engineId           String            @unique @map("engine_id")
+  symbol             String
+  direction          SignalDirection
+  status             SignalAlertStatus @default(PENDING)
+  outcome            SignalOutcome?
+  entryPrice         Float             @map("entry_price")
+  stopLoss           Float             @map("stop_loss")
+  tp1                Float
+  tp2                Float
+  riskRewardRatio    Float             @map("risk_reward_ratio")
+  riskPips           Float             @map("risk_pips")
+  htfRangeHigh       Float             @map("htf_range_high")
+  htfRangeLow        Float             @map("htf_range_low")
+  htfBosDirection    String            @map("htf_bos_direction")
+  htfTimestamp       DateTime          @map("htf_timestamp")
+  htfBrokenAt        DateTime?         @map("htf_broken_at")
+  ltfRangeHigh       Float             @map("ltf_range_high")
+  ltfRangeLow        Float             @map("ltf_range_low")
+  ltfTimestamp       DateTime          @map("ltf_timestamp")
+  ltfSlLevel         Float             @map("ltf_sl_level")
+  rejectionOpen      Float             @map("rejection_open")
+  rejectionHigh      Float             @map("rejection_high")
+  rejectionLow       Float             @map("rejection_low")
+  rejectionClose     Float             @map("rejection_close")
+  rejectionTimestamp DateTime          @map("rejection_timestamp")
+  rejectionWickRatio Float             @map("rejection_wick_ratio")
+  rejectionPattern   String            @map("rejection_pattern")
+  rejectionWickTip   Float             @map("rejection_wick_tip")
+  rawPayload         Json              @map("raw_payload")
+  realizedRr         Float?            @map("realized_rr")
+  closePrice         Float?            @map("close_price")
+  chartPath          String?           @map("chart_path")
+  chartData          Json?             @map("chart_data")
+  triggeredAt        DateTime?         @map("triggered_at")
+  tp1HitAt           DateTime?         @map("tp1_hit_at")
+  closedAt           DateTime?         @map("closed_at")
+  createdAt          DateTime          @default(now()) @map("created_at")
+  updatedAt          DateTime          @updatedAt @map("updated_at")
+  zoneId             String?           @unique @map("zone_id") @db.Uuid
+  htfInterval        String?           @map("htf_interval")
+  ltfInterval        String?           @map("ltf_interval")
+  notificationLogs   NotificationLog[]
+  zone               SignalZone?       @relation(fields: [zoneId], references: [id])
 
   @@index([symbol])
   @@index([status])
@@ -346,33 +297,29 @@ model SignalAlert {
 }
 
 model SignalZone {
-  id        String           @id @default(uuid()) @db.Uuid
-  engineKey String           @unique @map("engine_key")
-  symbol    String
-  direction SignalDirection
-  status    SignalZoneStatus @default(WATCHING)
-
-  htfRangeHigh    Float     @map("htf_range_high")
-  htfRangeLow     Float     @map("htf_range_low")
-  htfBosDirection String    @map("htf_bos_direction")
-  htfInterval     String?   @map("htf_interval")
-  htfTimestamp    DateTime? @map("htf_timestamp")
-  htfTpLevel      Float?    @map("htf_tp_level")
-
-  ltfRangeHigh Float     @map("ltf_range_high")
-  ltfRangeLow  Float     @map("ltf_range_low")
-  ltfSlLevel   Float     @map("ltf_sl_level")
-  ltfInterval  String?   @map("ltf_interval")
-  ltfTimestamp DateTime? @map("ltf_timestamp")
-
-  rawPayload  Json      @map("raw_payload")
-  pendingAt   DateTime  @map("pending_at")
-  triggeredAt DateTime? @map("triggered_at")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-
-  signalId String?      @map("signal_id") @db.Uuid
-  signal   SignalAlert?
+  id              String           @id @default(uuid()) @db.Uuid
+  engineKey       String           @unique @map("engine_key")
+  symbol          String
+  direction       SignalDirection
+  status          SignalZoneStatus @default(WATCHING)
+  htfRangeHigh    Float            @map("htf_range_high")
+  htfRangeLow     Float            @map("htf_range_low")
+  htfBosDirection String           @map("htf_bos_direction")
+  ltfRangeHigh    Float            @map("ltf_range_high")
+  ltfRangeLow     Float            @map("ltf_range_low")
+  ltfSlLevel      Float            @map("ltf_sl_level")
+  rawPayload      Json             @map("raw_payload")
+  pendingAt       DateTime         @map("pending_at")
+  triggeredAt     DateTime?        @map("triggered_at")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  signalId        String?          @map("signal_id") @db.Uuid
+  htfInterval     String?          @map("htf_interval")
+  htfTimestamp    DateTime?        @map("htf_timestamp")
+  htfTpLevel      Float?           @map("htf_tp_level")
+  ltfInterval     String?          @map("ltf_interval")
+  ltfTimestamp    DateTime?        @map("ltf_timestamp")
+  signal          SignalAlert?
 
   @@index([symbol])
   @@index([status])
@@ -386,16 +333,13 @@ model UserSignalSubscription {
   userId    String   @map("user_id") @db.Uuid
   symbol    String
   createdAt DateTime @default(now()) @map("created_at")
-
-  profile Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  profile   Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@unique([userId, symbol])
   @@index([symbol])
   @@map("user_signal_subscriptions")
   @@schema("public")
 }
-
-// ── Notifications ─────────────────────────────────────────────────────────────
 
 model NotificationLog {
   id               String           @id @default(uuid()) @db.Uuid
@@ -411,9 +355,8 @@ model NotificationLog {
   opened           Boolean          @default(false)
   openedAt         DateTime?        @map("opened_at") @db.Timestamptz(6)
   signalAlertId    String?          @map("signal_alert_id") @db.Uuid
-
-  profile     Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  signalAlert SignalAlert? @relation(fields: [signalAlertId], references: [id])
+  signalAlert      SignalAlert?     @relation(fields: [signalAlertId], references: [id])
+  profile          Profile          @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@index([userId, sentAt])
   @@index([notificationType, sentAt])
@@ -421,36 +364,28 @@ model NotificationLog {
   @@schema("public")
 }
 
-// ── Analytics ─────────────────────────────────────────────────────────────────
-
 model TradingAnalytics {
-  id               String  @id @default(uuid()) @db.Uuid
-  userId           String  @map("user_id") @db.Uuid
-  tradingAccountId String? @map("trading_account_id") @db.Uuid
-
-  performanceSummary    String   @map("performance_summary")
+  id                    String    @id @default(uuid()) @db.Uuid
+  userId                String    @map("user_id") @db.Uuid
+  tradingAccountId      String?   @map("trading_account_id") @db.Uuid
+  performanceSummary    String    @map("performance_summary")
   strengths             String[]
   weaknesses            String[]
   tips                  String[]
-  psychologicalInsights String[] @map("psychological_insights")
-  nextSteps             String[] @map("next_steps")
-
-  overallRiskLevel     RiskLevel @map("overall_risk_level")
-  keyRisks             String[]  @map("key_risks")
-  suggestedAdjustments String[]  @map("suggested_adjustments")
-
-  winRate     Float? @map("win_rate")
-  totalTrades Int?   @map("total_trades")
-  profitLoss  Float? @map("profit_loss")
-
-  aiModelVersion String    @map("ai_model_version")
-  dataRangeStart DateTime? @map("data_range_start")
-  dataRangeEnd   DateTime? @map("data_range_end")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  profile Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  psychologicalInsights String[]  @map("psychological_insights")
+  nextSteps             String[]  @map("next_steps")
+  overallRiskLevel      RiskLevel @map("overall_risk_level")
+  keyRisks              String[]  @map("key_risks")
+  suggestedAdjustments  String[]  @map("suggested_adjustments")
+  winRate               Float?    @map("win_rate")
+  totalTrades           Int?      @map("total_trades")
+  profitLoss            Float?    @map("profit_loss")
+  aiModelVersion        String    @map("ai_model_version")
+  dataRangeStart        DateTime? @map("data_range_start")
+  dataRangeEnd          DateTime? @map("data_range_end")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+  profile               Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@unique([userId, tradingAccountId])
   @@index([userId])
@@ -458,26 +393,22 @@ model TradingAnalytics {
   @@schema("public")
 }
 
-// ── Market data ───────────────────────────────────────────────────────────────
-
 model NewsArticle {
-  id          String   @id @default(cuid())
-  source      String
-  headline    String   @db.Text
-  summary     String?  @db.Text
-  url         String?  @unique
-  publishedAt DateTime @map("published_at")
-
+  id                  String   @id @default(cuid())
+  source              String
+  headline            String
+  summary             String?
+  url                 String?  @unique
+  publishedAt         DateTime @map("published_at")
   isRelevant          Boolean  @default(true) @map("is_relevant")
   category            String?
   sentiment           String?
   symbols             String[] @default([])
   importance          String?
-  tradingImplications String?  @map("trading_implications") @db.Text
+  tradingImplications String?  @map("trading_implications")
   affectedMarkets     String[] @default([]) @map("affected_markets")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
 
   @@index([publishedAt])
   @@index([category])
@@ -503,13 +434,11 @@ model SocialSentimentAggregate {
   @@schema("public")
 }
 
-// ── Queue ─────────────────────────────────────────────────────────────────────
-
 model QueueJob {
   id           String    @id @default(cuid())
   queueName    String    @map("queue_name")
   jobName      String    @map("job_name")
-  jobData      String    @map("job_data") @db.Text
+  jobData      String    @map("job_data")
   status       String    @default("pending")
   scheduledAt  DateTime  @default(now()) @map("scheduled_at")
   startedAt    DateTime? @map("started_at")
@@ -529,8 +458,6 @@ model QueueJob {
   @@schema("public")
 }
 
-// ── Metrics ───────────────────────────────────────────────────────────────────
-
 model MetricsCounter {
   name      String @id
   value     BigInt @default(0)
@@ -549,16 +476,19 @@ model MetricsGauge {
   @@schema("public")
 }
 
-// ── Referral system ───────────────────────────────────────────────────────────
-
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
 model ReferralLink {
-  id           String   @id @default(uuid()) @db.Uuid
-  userId       String   @unique @map("user_id") @db.Uuid
-  referralCode String   @unique @map("referral_code") @db.VarChar(12)
-  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  profile Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  id                String   @id @default(uuid()) @db.Uuid
+  userId            String   @unique @map("user_id") @db.Uuid
+  referralCode      String   @unique @map("referral_code") @db.VarChar(12)
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+  influencer_tier   String   @default("starter") @db.VarChar(20)
+  total_clicks      Int      @default(0)
+  unique_clicks     Int      @default(0)
+  payout_preference String   @default("subscription") @db.VarChar(20)
+  custom_slug       String?  @db.VarChar(50)
+  profile           Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@index([userId])
   @@map("referral_links")
@@ -566,38 +496,33 @@ model ReferralLink {
 }
 
 model Referral {
-  id           String         @id @default(uuid()) @db.Uuid
-  referrerId   String         @map("referrer_id") @db.Uuid
-  refereeId    String?        @map("referee_id") @db.Uuid
-  referralCode String         @map("referral_code") @db.VarChar(12)
-  status       ReferralStatus @default(pending)
-
-  signedUpAt   DateTime? @map("signed_up_at") @db.Timestamptz(6)
-  subscribedAt DateTime? @map("subscribed_at") @db.Timestamptz(6)
-
-  referrerReward           String?   @map("referrer_reward") @db.VarChar(50)
-  refereeReward            String?   @map("referee_reward") @db.VarChar(50)
-  referrerRewardAmount     Decimal?  @map("referrer_reward_amount") @db.Decimal(10, 2)
-  refereeRewardAmount      Decimal?  @map("referee_reward_amount") @db.Decimal(10, 2)
-  referrerRewardClaimed    Boolean   @default(false) @map("referrer_reward_claimed")
-  referrerRewardClaimedAt  DateTime? @map("referrer_reward_claimed_at") @db.Timestamptz(6)
-  refereeRewardClaimed     Boolean   @default(false) @map("referee_reward_claimed")
-  refereeRewardClaimedAt   DateTime? @map("referee_reward_claimed_at") @db.Timestamptz(6)
-
-  // Tier tracking — set when referee subscribes
-  refereeTierAtSubscription String?  @map("referee_tier_at_subscription") @db.VarChar(20)
-  refereeSubscriptionPrice  Decimal? @map("referee_subscription_price") @db.Decimal(10, 2)
-
-  utmSource String? @map("utm_source") @db.VarChar(100)
-  utmMedium String? @map("utm_medium") @db.VarChar(100)
-  ipAddress String? @map("ip_address") @db.VarChar(50)
-
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  referrer Profile          @relation("ReferrerReferrals", fields: [referrerId], references: [userId], onDelete: Cascade)
-  referee  Profile?         @relation("RefereeReferrals", fields: [refereeId], references: [userId], onDelete: SetNull)
-  rewards  ReferralReward[]
+  id                        String           @id @default(uuid()) @db.Uuid
+  referrerId                String           @map("referrer_id") @db.Uuid
+  refereeId                 String?          @map("referee_id") @db.Uuid
+  referralCode              String           @map("referral_code") @db.VarChar(12)
+  status                    ReferralStatus   @default(pending)
+  signedUpAt                DateTime?        @map("signed_up_at") @db.Timestamptz(6)
+  subscribedAt              DateTime?        @map("subscribed_at") @db.Timestamptz(6)
+  referrerReward            String?          @map("referrer_reward") @db.VarChar(50)
+  refereeReward             String?          @map("referee_reward") @db.VarChar(50)
+  referrerRewardAmount      Decimal?         @map("referrer_reward_amount") @db.Decimal(10, 2)
+  refereeRewardAmount       Decimal?         @map("referee_reward_amount") @db.Decimal(10, 2)
+  referrerRewardClaimed     Boolean          @default(false) @map("referrer_reward_claimed")
+  referrerRewardClaimedAt   DateTime?        @map("referrer_reward_claimed_at") @db.Timestamptz(6)
+  refereeRewardClaimed      Boolean          @default(false) @map("referee_reward_claimed")
+  refereeRewardClaimedAt    DateTime?        @map("referee_reward_claimed_at") @db.Timestamptz(6)
+  utmSource                 String?          @map("utm_source") @db.VarChar(100)
+  utmMedium                 String?          @map("utm_medium") @db.VarChar(100)
+  ipAddress                 String?          @map("ip_address") @db.VarChar(50)
+  createdAt                 DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt                 DateTime         @updatedAt @map("updated_at") @db.Timestamptz(6)
+  refereeSubscriptionPrice  Decimal?         @map("referee_subscription_price") @db.Decimal(10, 2)
+  refereeTierAtSubscription String?          @map("referee_tier_at_subscription") @db.VarChar(20)
+  referee_bonus_days        Int              @default(0)
+  referee_bonus_applied     Boolean          @default(false)
+  rewards                   ReferralReward[]
+  referee                   Profile?         @relation("RefereeReferrals", fields: [refereeId], references: [userId])
+  referrer                  Profile          @relation("ReferrerReferrals", fields: [referrerId], references: [userId], onDelete: Cascade)
 
   @@index([referrerId, status])
   @@index([refereeId])
@@ -608,34 +533,26 @@ model Referral {
 }
 
 model ReferralReward {
-  id         String @id @default(uuid()) @db.Uuid
-  referralId String @map("referral_id") @db.Uuid
-  userId     String @map("user_id") @db.Uuid
-  rewardType String @map("reward_type") @db.VarChar(50)
-
-  // ── Tier-based reward fields ───────────────────────────────────────────────
-  tierAwarded   String?  @map("tier_awarded") @db.VarChar(20)
-  tierValue     Decimal? @map("tier_value") @db.Decimal(10, 2)
-  monthsAwarded Int      @default(1) @map("months_awarded")
-
-  // ── Lifecycle — status: "pending" | "claimed" | "expired" ─────────────────
-  status    String    @default("pending") @map("status") @db.VarChar(20)
-  claimedAt DateTime? @map("claimed_at") @db.Timestamptz(6)
-  expiresAt DateTime  @map("expires_at") @db.Timestamptz(6)
-
-  // ── Subscription extension info (set on claim) ────────────────────────────
-  appliedToUserId String?   @map("applied_to_user_id") @db.Uuid
-  newExpiryDate   DateTime? @map("new_expiry_date") @db.Timestamptz(6)
-
-  // ── Legacy credit fields (kept for backward compat) ───────────────────────
+  id                   String    @id @default(uuid()) @db.Uuid
+  referralId           String    @map("referral_id") @db.Uuid
+  userId               String    @map("user_id") @db.Uuid
+  rewardType           String    @map("reward_type") @db.VarChar(50)
   amount               Decimal   @default(0) @map("amount") @db.Decimal(10, 2)
+  expiresAt            DateTime  @map("expires_at") @db.Timestamptz(6)
   usedAt               DateTime? @map("used_at") @db.Timestamptz(6)
   usedWithSubscription String?   @map("used_with_subscription") @db.VarChar(50)
-
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-
-  referral Referral @relation(fields: [referralId], references: [id], onDelete: Cascade)
-  profile  Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  createdAt            DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  appliedToUserId      String?   @map("applied_to_user_id") @db.Uuid
+  claimedAt            DateTime? @map("claimed_at") @db.Timestamptz(6)
+  monthsAwarded        Int       @default(1) @map("months_awarded")
+  newExpiryDate        DateTime? @map("new_expiry_date") @db.Timestamptz(6)
+  status               String    @default("pending") @map("status") @db.VarChar(20)
+  tierAwarded          String?   @map("tier_awarded") @db.VarChar(20)
+  tierValue            Decimal?  @map("tier_value") @db.Decimal(10, 2)
+  reward_subtype       String?   @db.VarChar(30)
+  credit_amount        Decimal?  @db.Decimal(10, 2)
+  referral             Referral  @relation(fields: [referralId], references: [id], onDelete: Cascade)
+  profile              Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@index([userId, status])
   @@index([userId, expiresAt])
@@ -643,9 +560,34 @@ model ReferralReward {
   @@schema("public")
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ENUMS
-// ─────────────────────────────────────────────────────────────────────────────
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model referral_link_clicks {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  referral_code String   @db.VarChar(50)
+  ip_hash       String?  @db.VarChar(64)
+  ua_hash       String?  @db.VarChar(64)
+  country_code  String?  @db.Char(2)
+  is_unique     Boolean  @default(false)
+  clicked_at    DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([referral_code, clicked_at(sort: Desc)], map: "rlc_code_time_idx")
+  @@index([ip_hash, referral_code], map: "rlc_ip_code_idx")
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model referral_milestone_events {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id         String   @db.Uuid
+  from_tier       String?  @db.VarChar(20)
+  to_tier         String   @db.VarChar(20)
+  confirmed_count Int
+  achieved_at     DateTime @default(now()) @db.Timestamptz(6)
+  profiles        Profile  @relation(fields: [user_id], references: [userId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id, achieved_at(sort: Desc)], map: "rme_user_idx")
+  @@schema("public")
+}
 
 enum OrderSide {
   BUY

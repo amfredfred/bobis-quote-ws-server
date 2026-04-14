@@ -14,14 +14,26 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model ReferralLink
- * 
+ * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
  */
 export type ReferralLinkModel = runtime.Types.Result.DefaultSelection<Prisma.$ReferralLinkPayload>
 
 export type AggregateReferralLink = {
   _count: ReferralLinkCountAggregateOutputType | null
+  _avg: ReferralLinkAvgAggregateOutputType | null
+  _sum: ReferralLinkSumAggregateOutputType | null
   _min: ReferralLinkMinAggregateOutputType | null
   _max: ReferralLinkMaxAggregateOutputType | null
+}
+
+export type ReferralLinkAvgAggregateOutputType = {
+  total_clicks: number | null
+  unique_clicks: number | null
+}
+
+export type ReferralLinkSumAggregateOutputType = {
+  total_clicks: number | null
+  unique_clicks: number | null
 }
 
 export type ReferralLinkMinAggregateOutputType = {
@@ -30,6 +42,11 @@ export type ReferralLinkMinAggregateOutputType = {
   referralCode: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  influencer_tier: string | null
+  total_clicks: number | null
+  unique_clicks: number | null
+  payout_preference: string | null
+  custom_slug: string | null
 }
 
 export type ReferralLinkMaxAggregateOutputType = {
@@ -38,6 +55,11 @@ export type ReferralLinkMaxAggregateOutputType = {
   referralCode: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  influencer_tier: string | null
+  total_clicks: number | null
+  unique_clicks: number | null
+  payout_preference: string | null
+  custom_slug: string | null
 }
 
 export type ReferralLinkCountAggregateOutputType = {
@@ -46,9 +68,24 @@ export type ReferralLinkCountAggregateOutputType = {
   referralCode: number
   createdAt: number
   updatedAt: number
+  influencer_tier: number
+  total_clicks: number
+  unique_clicks: number
+  payout_preference: number
+  custom_slug: number
   _all: number
 }
 
+
+export type ReferralLinkAvgAggregateInputType = {
+  total_clicks?: true
+  unique_clicks?: true
+}
+
+export type ReferralLinkSumAggregateInputType = {
+  total_clicks?: true
+  unique_clicks?: true
+}
 
 export type ReferralLinkMinAggregateInputType = {
   id?: true
@@ -56,6 +93,11 @@ export type ReferralLinkMinAggregateInputType = {
   referralCode?: true
   createdAt?: true
   updatedAt?: true
+  influencer_tier?: true
+  total_clicks?: true
+  unique_clicks?: true
+  payout_preference?: true
+  custom_slug?: true
 }
 
 export type ReferralLinkMaxAggregateInputType = {
@@ -64,6 +106,11 @@ export type ReferralLinkMaxAggregateInputType = {
   referralCode?: true
   createdAt?: true
   updatedAt?: true
+  influencer_tier?: true
+  total_clicks?: true
+  unique_clicks?: true
+  payout_preference?: true
+  custom_slug?: true
 }
 
 export type ReferralLinkCountAggregateInputType = {
@@ -72,6 +119,11 @@ export type ReferralLinkCountAggregateInputType = {
   referralCode?: true
   createdAt?: true
   updatedAt?: true
+  influencer_tier?: true
+  total_clicks?: true
+  unique_clicks?: true
+  payout_preference?: true
+  custom_slug?: true
   _all?: true
 }
 
@@ -113,6 +165,18 @@ export type ReferralLinkAggregateArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ReferralLinkAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ReferralLinkSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ReferralLinkMinAggregateInputType
@@ -143,6 +207,8 @@ export type ReferralLinkGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   _count?: ReferralLinkCountAggregateInputType | true
+  _avg?: ReferralLinkAvgAggregateInputType
+  _sum?: ReferralLinkSumAggregateInputType
   _min?: ReferralLinkMinAggregateInputType
   _max?: ReferralLinkMaxAggregateInputType
 }
@@ -153,7 +219,14 @@ export type ReferralLinkGroupByOutputType = {
   referralCode: string
   createdAt: Date
   updatedAt: Date
+  influencer_tier: string
+  total_clicks: number
+  unique_clicks: number
+  payout_preference: string
+  custom_slug: string | null
   _count: ReferralLinkCountAggregateOutputType | null
+  _avg: ReferralLinkAvgAggregateOutputType | null
+  _sum: ReferralLinkSumAggregateOutputType | null
   _min: ReferralLinkMinAggregateOutputType | null
   _max: ReferralLinkMaxAggregateOutputType | null
 }
@@ -182,6 +255,11 @@ export type ReferralLinkWhereInput = {
   referralCode?: Prisma.StringFilter<"ReferralLink"> | string
   createdAt?: Prisma.DateTimeFilter<"ReferralLink"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ReferralLink"> | Date | string
+  influencer_tier?: Prisma.StringFilter<"ReferralLink"> | string
+  total_clicks?: Prisma.IntFilter<"ReferralLink"> | number
+  unique_clicks?: Prisma.IntFilter<"ReferralLink"> | number
+  payout_preference?: Prisma.StringFilter<"ReferralLink"> | string
+  custom_slug?: Prisma.StringNullableFilter<"ReferralLink"> | string | null
   profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
 }
 
@@ -191,6 +269,11 @@ export type ReferralLinkOrderByWithRelationInput = {
   referralCode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  influencer_tier?: Prisma.SortOrder
+  total_clicks?: Prisma.SortOrder
+  unique_clicks?: Prisma.SortOrder
+  payout_preference?: Prisma.SortOrder
+  custom_slug?: Prisma.SortOrderInput | Prisma.SortOrder
   profile?: Prisma.ProfileOrderByWithRelationInput
 }
 
@@ -203,6 +286,11 @@ export type ReferralLinkWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ReferralLinkWhereInput | Prisma.ReferralLinkWhereInput[]
   createdAt?: Prisma.DateTimeFilter<"ReferralLink"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ReferralLink"> | Date | string
+  influencer_tier?: Prisma.StringFilter<"ReferralLink"> | string
+  total_clicks?: Prisma.IntFilter<"ReferralLink"> | number
+  unique_clicks?: Prisma.IntFilter<"ReferralLink"> | number
+  payout_preference?: Prisma.StringFilter<"ReferralLink"> | string
+  custom_slug?: Prisma.StringNullableFilter<"ReferralLink"> | string | null
   profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
 }, "id" | "userId" | "referralCode">
 
@@ -212,9 +300,16 @@ export type ReferralLinkOrderByWithAggregationInput = {
   referralCode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  influencer_tier?: Prisma.SortOrder
+  total_clicks?: Prisma.SortOrder
+  unique_clicks?: Prisma.SortOrder
+  payout_preference?: Prisma.SortOrder
+  custom_slug?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ReferralLinkCountOrderByAggregateInput
+  _avg?: Prisma.ReferralLinkAvgOrderByAggregateInput
   _max?: Prisma.ReferralLinkMaxOrderByAggregateInput
   _min?: Prisma.ReferralLinkMinOrderByAggregateInput
+  _sum?: Prisma.ReferralLinkSumOrderByAggregateInput
 }
 
 export type ReferralLinkScalarWhereWithAggregatesInput = {
@@ -226,6 +321,11 @@ export type ReferralLinkScalarWhereWithAggregatesInput = {
   referralCode?: Prisma.StringWithAggregatesFilter<"ReferralLink"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ReferralLink"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ReferralLink"> | Date | string
+  influencer_tier?: Prisma.StringWithAggregatesFilter<"ReferralLink"> | string
+  total_clicks?: Prisma.IntWithAggregatesFilter<"ReferralLink"> | number
+  unique_clicks?: Prisma.IntWithAggregatesFilter<"ReferralLink"> | number
+  payout_preference?: Prisma.StringWithAggregatesFilter<"ReferralLink"> | string
+  custom_slug?: Prisma.StringNullableWithAggregatesFilter<"ReferralLink"> | string | null
 }
 
 export type ReferralLinkCreateInput = {
@@ -233,6 +333,11 @@ export type ReferralLinkCreateInput = {
   referralCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  influencer_tier?: string
+  total_clicks?: number
+  unique_clicks?: number
+  payout_preference?: string
+  custom_slug?: string | null
   profile: Prisma.ProfileCreateNestedOneWithoutReferralLinkInput
 }
 
@@ -242,6 +347,11 @@ export type ReferralLinkUncheckedCreateInput = {
   referralCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  influencer_tier?: string
+  total_clicks?: number
+  unique_clicks?: number
+  payout_preference?: string
+  custom_slug?: string | null
 }
 
 export type ReferralLinkUpdateInput = {
@@ -249,6 +359,11 @@ export type ReferralLinkUpdateInput = {
   referralCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  influencer_tier?: Prisma.StringFieldUpdateOperationsInput | string
+  total_clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  unique_clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  payout_preference?: Prisma.StringFieldUpdateOperationsInput | string
+  custom_slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profile?: Prisma.ProfileUpdateOneRequiredWithoutReferralLinkNestedInput
 }
 
@@ -258,6 +373,11 @@ export type ReferralLinkUncheckedUpdateInput = {
   referralCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  influencer_tier?: Prisma.StringFieldUpdateOperationsInput | string
+  total_clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  unique_clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  payout_preference?: Prisma.StringFieldUpdateOperationsInput | string
+  custom_slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ReferralLinkCreateManyInput = {
@@ -266,6 +386,11 @@ export type ReferralLinkCreateManyInput = {
   referralCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  influencer_tier?: string
+  total_clicks?: number
+  unique_clicks?: number
+  payout_preference?: string
+  custom_slug?: string | null
 }
 
 export type ReferralLinkUpdateManyMutationInput = {
@@ -273,6 +398,11 @@ export type ReferralLinkUpdateManyMutationInput = {
   referralCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  influencer_tier?: Prisma.StringFieldUpdateOperationsInput | string
+  total_clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  unique_clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  payout_preference?: Prisma.StringFieldUpdateOperationsInput | string
+  custom_slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ReferralLinkUncheckedUpdateManyInput = {
@@ -281,6 +411,11 @@ export type ReferralLinkUncheckedUpdateManyInput = {
   referralCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  influencer_tier?: Prisma.StringFieldUpdateOperationsInput | string
+  total_clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  unique_clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  payout_preference?: Prisma.StringFieldUpdateOperationsInput | string
+  custom_slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ReferralLinkNullableScalarRelationFilter = {
@@ -294,6 +429,16 @@ export type ReferralLinkCountOrderByAggregateInput = {
   referralCode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  influencer_tier?: Prisma.SortOrder
+  total_clicks?: Prisma.SortOrder
+  unique_clicks?: Prisma.SortOrder
+  payout_preference?: Prisma.SortOrder
+  custom_slug?: Prisma.SortOrder
+}
+
+export type ReferralLinkAvgOrderByAggregateInput = {
+  total_clicks?: Prisma.SortOrder
+  unique_clicks?: Prisma.SortOrder
 }
 
 export type ReferralLinkMaxOrderByAggregateInput = {
@@ -302,6 +447,11 @@ export type ReferralLinkMaxOrderByAggregateInput = {
   referralCode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  influencer_tier?: Prisma.SortOrder
+  total_clicks?: Prisma.SortOrder
+  unique_clicks?: Prisma.SortOrder
+  payout_preference?: Prisma.SortOrder
+  custom_slug?: Prisma.SortOrder
 }
 
 export type ReferralLinkMinOrderByAggregateInput = {
@@ -310,6 +460,16 @@ export type ReferralLinkMinOrderByAggregateInput = {
   referralCode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  influencer_tier?: Prisma.SortOrder
+  total_clicks?: Prisma.SortOrder
+  unique_clicks?: Prisma.SortOrder
+  payout_preference?: Prisma.SortOrder
+  custom_slug?: Prisma.SortOrder
+}
+
+export type ReferralLinkSumOrderByAggregateInput = {
+  total_clicks?: Prisma.SortOrder
+  unique_clicks?: Prisma.SortOrder
 }
 
 export type ReferralLinkCreateNestedOneWithoutProfileInput = {
@@ -349,6 +509,11 @@ export type ReferralLinkCreateWithoutProfileInput = {
   referralCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  influencer_tier?: string
+  total_clicks?: number
+  unique_clicks?: number
+  payout_preference?: string
+  custom_slug?: string | null
 }
 
 export type ReferralLinkUncheckedCreateWithoutProfileInput = {
@@ -356,6 +521,11 @@ export type ReferralLinkUncheckedCreateWithoutProfileInput = {
   referralCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  influencer_tier?: string
+  total_clicks?: number
+  unique_clicks?: number
+  payout_preference?: string
+  custom_slug?: string | null
 }
 
 export type ReferralLinkCreateOrConnectWithoutProfileInput = {
@@ -379,6 +549,11 @@ export type ReferralLinkUpdateWithoutProfileInput = {
   referralCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  influencer_tier?: Prisma.StringFieldUpdateOperationsInput | string
+  total_clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  unique_clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  payout_preference?: Prisma.StringFieldUpdateOperationsInput | string
+  custom_slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ReferralLinkUncheckedUpdateWithoutProfileInput = {
@@ -386,6 +561,11 @@ export type ReferralLinkUncheckedUpdateWithoutProfileInput = {
   referralCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  influencer_tier?: Prisma.StringFieldUpdateOperationsInput | string
+  total_clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  unique_clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  payout_preference?: Prisma.StringFieldUpdateOperationsInput | string
+  custom_slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -396,6 +576,11 @@ export type ReferralLinkSelect<ExtArgs extends runtime.Types.Extensions.Internal
   referralCode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  influencer_tier?: boolean
+  total_clicks?: boolean
+  unique_clicks?: boolean
+  payout_preference?: boolean
+  custom_slug?: boolean
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referralLink"]>
 
@@ -405,6 +590,11 @@ export type ReferralLinkSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   referralCode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  influencer_tier?: boolean
+  total_clicks?: boolean
+  unique_clicks?: boolean
+  payout_preference?: boolean
+  custom_slug?: boolean
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referralLink"]>
 
@@ -414,6 +604,11 @@ export type ReferralLinkSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   referralCode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  influencer_tier?: boolean
+  total_clicks?: boolean
+  unique_clicks?: boolean
+  payout_preference?: boolean
+  custom_slug?: boolean
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referralLink"]>
 
@@ -423,9 +618,14 @@ export type ReferralLinkSelectScalar = {
   referralCode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  influencer_tier?: boolean
+  total_clicks?: boolean
+  unique_clicks?: boolean
+  payout_preference?: boolean
+  custom_slug?: boolean
 }
 
-export type ReferralLinkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "referralCode" | "createdAt" | "updatedAt", ExtArgs["result"]["referralLink"]>
+export type ReferralLinkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "referralCode" | "createdAt" | "updatedAt" | "influencer_tier" | "total_clicks" | "unique_clicks" | "payout_preference" | "custom_slug", ExtArgs["result"]["referralLink"]>
 export type ReferralLinkInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }
@@ -447,6 +647,11 @@ export type $ReferralLinkPayload<ExtArgs extends runtime.Types.Extensions.Intern
     referralCode: string
     createdAt: Date
     updatedAt: Date
+    influencer_tier: string
+    total_clicks: number
+    unique_clicks: number
+    payout_preference: string
+    custom_slug: string | null
   }, ExtArgs["result"]["referralLink"]>
   composites: {}
 }
@@ -876,6 +1081,11 @@ export interface ReferralLinkFieldRefs {
   readonly referralCode: Prisma.FieldRef<"ReferralLink", 'String'>
   readonly createdAt: Prisma.FieldRef<"ReferralLink", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ReferralLink", 'DateTime'>
+  readonly influencer_tier: Prisma.FieldRef<"ReferralLink", 'String'>
+  readonly total_clicks: Prisma.FieldRef<"ReferralLink", 'Int'>
+  readonly unique_clicks: Prisma.FieldRef<"ReferralLink", 'Int'>
+  readonly payout_preference: Prisma.FieldRef<"ReferralLink", 'String'>
+  readonly custom_slug: Prisma.FieldRef<"ReferralLink", 'String'>
 }
     
 

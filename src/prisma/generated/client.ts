@@ -126,7 +126,7 @@ export type MetricsCounter = Prisma.MetricsCounterModel
 export type MetricsGauge = Prisma.MetricsGaugeModel
 /**
  * Model ReferralLink
- * 
+ * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
  */
 export type ReferralLink = Prisma.ReferralLinkModel
 /**
@@ -139,3 +139,13 @@ export type Referral = Prisma.ReferralModel
  * 
  */
 export type ReferralReward = Prisma.ReferralRewardModel
+/**
+ * Model referral_link_clicks
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type referral_link_clicks = Prisma.referral_link_clicksModel
+/**
+ * Model referral_milestone_events
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type referral_milestone_events = Prisma.referral_milestone_eventsModel

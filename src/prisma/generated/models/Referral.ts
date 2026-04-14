@@ -30,12 +30,14 @@ export type ReferralAvgAggregateOutputType = {
   referrerRewardAmount: runtime.Decimal | null
   refereeRewardAmount: runtime.Decimal | null
   refereeSubscriptionPrice: runtime.Decimal | null
+  referee_bonus_days: number | null
 }
 
 export type ReferralSumAggregateOutputType = {
   referrerRewardAmount: runtime.Decimal | null
   refereeRewardAmount: runtime.Decimal | null
   refereeSubscriptionPrice: runtime.Decimal | null
+  referee_bonus_days: number | null
 }
 
 export type ReferralMinAggregateOutputType = {
@@ -54,13 +56,15 @@ export type ReferralMinAggregateOutputType = {
   referrerRewardClaimedAt: Date | null
   refereeRewardClaimed: boolean | null
   refereeRewardClaimedAt: Date | null
-  refereeTierAtSubscription: string | null
-  refereeSubscriptionPrice: runtime.Decimal | null
   utmSource: string | null
   utmMedium: string | null
   ipAddress: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  refereeSubscriptionPrice: runtime.Decimal | null
+  refereeTierAtSubscription: string | null
+  referee_bonus_days: number | null
+  referee_bonus_applied: boolean | null
 }
 
 export type ReferralMaxAggregateOutputType = {
@@ -79,13 +83,15 @@ export type ReferralMaxAggregateOutputType = {
   referrerRewardClaimedAt: Date | null
   refereeRewardClaimed: boolean | null
   refereeRewardClaimedAt: Date | null
-  refereeTierAtSubscription: string | null
-  refereeSubscriptionPrice: runtime.Decimal | null
   utmSource: string | null
   utmMedium: string | null
   ipAddress: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  refereeSubscriptionPrice: runtime.Decimal | null
+  refereeTierAtSubscription: string | null
+  referee_bonus_days: number | null
+  referee_bonus_applied: boolean | null
 }
 
 export type ReferralCountAggregateOutputType = {
@@ -104,13 +110,15 @@ export type ReferralCountAggregateOutputType = {
   referrerRewardClaimedAt: number
   refereeRewardClaimed: number
   refereeRewardClaimedAt: number
-  refereeTierAtSubscription: number
-  refereeSubscriptionPrice: number
   utmSource: number
   utmMedium: number
   ipAddress: number
   createdAt: number
   updatedAt: number
+  refereeSubscriptionPrice: number
+  refereeTierAtSubscription: number
+  referee_bonus_days: number
+  referee_bonus_applied: number
   _all: number
 }
 
@@ -119,12 +127,14 @@ export type ReferralAvgAggregateInputType = {
   referrerRewardAmount?: true
   refereeRewardAmount?: true
   refereeSubscriptionPrice?: true
+  referee_bonus_days?: true
 }
 
 export type ReferralSumAggregateInputType = {
   referrerRewardAmount?: true
   refereeRewardAmount?: true
   refereeSubscriptionPrice?: true
+  referee_bonus_days?: true
 }
 
 export type ReferralMinAggregateInputType = {
@@ -143,13 +153,15 @@ export type ReferralMinAggregateInputType = {
   referrerRewardClaimedAt?: true
   refereeRewardClaimed?: true
   refereeRewardClaimedAt?: true
-  refereeTierAtSubscription?: true
-  refereeSubscriptionPrice?: true
   utmSource?: true
   utmMedium?: true
   ipAddress?: true
   createdAt?: true
   updatedAt?: true
+  refereeSubscriptionPrice?: true
+  refereeTierAtSubscription?: true
+  referee_bonus_days?: true
+  referee_bonus_applied?: true
 }
 
 export type ReferralMaxAggregateInputType = {
@@ -168,13 +180,15 @@ export type ReferralMaxAggregateInputType = {
   referrerRewardClaimedAt?: true
   refereeRewardClaimed?: true
   refereeRewardClaimedAt?: true
-  refereeTierAtSubscription?: true
-  refereeSubscriptionPrice?: true
   utmSource?: true
   utmMedium?: true
   ipAddress?: true
   createdAt?: true
   updatedAt?: true
+  refereeSubscriptionPrice?: true
+  refereeTierAtSubscription?: true
+  referee_bonus_days?: true
+  referee_bonus_applied?: true
 }
 
 export type ReferralCountAggregateInputType = {
@@ -193,13 +207,15 @@ export type ReferralCountAggregateInputType = {
   referrerRewardClaimedAt?: true
   refereeRewardClaimed?: true
   refereeRewardClaimedAt?: true
-  refereeTierAtSubscription?: true
-  refereeSubscriptionPrice?: true
   utmSource?: true
   utmMedium?: true
   ipAddress?: true
   createdAt?: true
   updatedAt?: true
+  refereeSubscriptionPrice?: true
+  refereeTierAtSubscription?: true
+  referee_bonus_days?: true
+  referee_bonus_applied?: true
   _all?: true
 }
 
@@ -305,13 +321,15 @@ export type ReferralGroupByOutputType = {
   referrerRewardClaimedAt: Date | null
   refereeRewardClaimed: boolean
   refereeRewardClaimedAt: Date | null
-  refereeTierAtSubscription: string | null
-  refereeSubscriptionPrice: runtime.Decimal | null
   utmSource: string | null
   utmMedium: string | null
   ipAddress: string | null
   createdAt: Date
   updatedAt: Date
+  refereeSubscriptionPrice: runtime.Decimal | null
+  refereeTierAtSubscription: string | null
+  referee_bonus_days: number
+  referee_bonus_applied: boolean
   _count: ReferralCountAggregateOutputType | null
   _avg: ReferralAvgAggregateOutputType | null
   _sum: ReferralSumAggregateOutputType | null
@@ -353,16 +371,18 @@ export type ReferralWhereInput = {
   referrerRewardClaimedAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
   refereeRewardClaimed?: Prisma.BoolFilter<"Referral"> | boolean
   refereeRewardClaimedAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
-  refereeTierAtSubscription?: Prisma.StringNullableFilter<"Referral"> | string | null
-  refereeSubscriptionPrice?: Prisma.DecimalNullableFilter<"Referral"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.StringNullableFilter<"Referral"> | string | null
   utmMedium?: Prisma.StringNullableFilter<"Referral"> | string | null
   ipAddress?: Prisma.StringNullableFilter<"Referral"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Referral"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Referral"> | Date | string
-  referrer?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
-  referee?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
+  refereeSubscriptionPrice?: Prisma.DecimalNullableFilter<"Referral"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.StringNullableFilter<"Referral"> | string | null
+  referee_bonus_days?: Prisma.IntFilter<"Referral"> | number
+  referee_bonus_applied?: Prisma.BoolFilter<"Referral"> | boolean
   rewards?: Prisma.ReferralRewardListRelationFilter
+  referee?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
+  referrer?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
 }
 
 export type ReferralOrderByWithRelationInput = {
@@ -381,16 +401,18 @@ export type ReferralOrderByWithRelationInput = {
   referrerRewardClaimedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   refereeRewardClaimed?: Prisma.SortOrder
   refereeRewardClaimedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  refereeTierAtSubscription?: Prisma.SortOrderInput | Prisma.SortOrder
-  refereeSubscriptionPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   utmSource?: Prisma.SortOrderInput | Prisma.SortOrder
   utmMedium?: Prisma.SortOrderInput | Prisma.SortOrder
   ipAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  referrer?: Prisma.ProfileOrderByWithRelationInput
-  referee?: Prisma.ProfileOrderByWithRelationInput
+  refereeSubscriptionPrice?: Prisma.SortOrderInput | Prisma.SortOrder
+  refereeTierAtSubscription?: Prisma.SortOrderInput | Prisma.SortOrder
+  referee_bonus_days?: Prisma.SortOrder
+  referee_bonus_applied?: Prisma.SortOrder
   rewards?: Prisma.ReferralRewardOrderByRelationAggregateInput
+  referee?: Prisma.ProfileOrderByWithRelationInput
+  referrer?: Prisma.ProfileOrderByWithRelationInput
 }
 
 export type ReferralWhereUniqueInput = Prisma.AtLeast<{
@@ -412,16 +434,18 @@ export type ReferralWhereUniqueInput = Prisma.AtLeast<{
   referrerRewardClaimedAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
   refereeRewardClaimed?: Prisma.BoolFilter<"Referral"> | boolean
   refereeRewardClaimedAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
-  refereeTierAtSubscription?: Prisma.StringNullableFilter<"Referral"> | string | null
-  refereeSubscriptionPrice?: Prisma.DecimalNullableFilter<"Referral"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.StringNullableFilter<"Referral"> | string | null
   utmMedium?: Prisma.StringNullableFilter<"Referral"> | string | null
   ipAddress?: Prisma.StringNullableFilter<"Referral"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Referral"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Referral"> | Date | string
-  referrer?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
-  referee?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
+  refereeSubscriptionPrice?: Prisma.DecimalNullableFilter<"Referral"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.StringNullableFilter<"Referral"> | string | null
+  referee_bonus_days?: Prisma.IntFilter<"Referral"> | number
+  referee_bonus_applied?: Prisma.BoolFilter<"Referral"> | boolean
   rewards?: Prisma.ReferralRewardListRelationFilter
+  referee?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
+  referrer?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
 }, "id">
 
 export type ReferralOrderByWithAggregationInput = {
@@ -440,13 +464,15 @@ export type ReferralOrderByWithAggregationInput = {
   referrerRewardClaimedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   refereeRewardClaimed?: Prisma.SortOrder
   refereeRewardClaimedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  refereeTierAtSubscription?: Prisma.SortOrderInput | Prisma.SortOrder
-  refereeSubscriptionPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   utmSource?: Prisma.SortOrderInput | Prisma.SortOrder
   utmMedium?: Prisma.SortOrderInput | Prisma.SortOrder
   ipAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  refereeSubscriptionPrice?: Prisma.SortOrderInput | Prisma.SortOrder
+  refereeTierAtSubscription?: Prisma.SortOrderInput | Prisma.SortOrder
+  referee_bonus_days?: Prisma.SortOrder
+  referee_bonus_applied?: Prisma.SortOrder
   _count?: Prisma.ReferralCountOrderByAggregateInput
   _avg?: Prisma.ReferralAvgOrderByAggregateInput
   _max?: Prisma.ReferralMaxOrderByAggregateInput
@@ -473,13 +499,15 @@ export type ReferralScalarWhereWithAggregatesInput = {
   referrerRewardClaimedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Referral"> | Date | string | null
   refereeRewardClaimed?: Prisma.BoolWithAggregatesFilter<"Referral"> | boolean
   refereeRewardClaimedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Referral"> | Date | string | null
-  refereeTierAtSubscription?: Prisma.StringNullableWithAggregatesFilter<"Referral"> | string | null
-  refereeSubscriptionPrice?: Prisma.DecimalNullableWithAggregatesFilter<"Referral"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.StringNullableWithAggregatesFilter<"Referral"> | string | null
   utmMedium?: Prisma.StringNullableWithAggregatesFilter<"Referral"> | string | null
   ipAddress?: Prisma.StringNullableWithAggregatesFilter<"Referral"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Referral"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Referral"> | Date | string
+  refereeSubscriptionPrice?: Prisma.DecimalNullableWithAggregatesFilter<"Referral"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.StringNullableWithAggregatesFilter<"Referral"> | string | null
+  referee_bonus_days?: Prisma.IntWithAggregatesFilter<"Referral"> | number
+  referee_bonus_applied?: Prisma.BoolWithAggregatesFilter<"Referral"> | boolean
 }
 
 export type ReferralCreateInput = {
@@ -496,16 +524,18 @@ export type ReferralCreateInput = {
   referrerRewardClaimedAt?: Date | string | null
   refereeRewardClaimed?: boolean
   refereeRewardClaimedAt?: Date | string | null
-  refereeTierAtSubscription?: string | null
-  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: string | null
   utmMedium?: string | null
   ipAddress?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  referrer: Prisma.ProfileCreateNestedOneWithoutReferralsGivenInput
-  referee?: Prisma.ProfileCreateNestedOneWithoutReferralsReceivedInput
+  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: string | null
+  referee_bonus_days?: number
+  referee_bonus_applied?: boolean
   rewards?: Prisma.ReferralRewardCreateNestedManyWithoutReferralInput
+  referee?: Prisma.ProfileCreateNestedOneWithoutReferralsReceivedInput
+  referrer: Prisma.ProfileCreateNestedOneWithoutReferralsGivenInput
 }
 
 export type ReferralUncheckedCreateInput = {
@@ -524,13 +554,15 @@ export type ReferralUncheckedCreateInput = {
   referrerRewardClaimedAt?: Date | string | null
   refereeRewardClaimed?: boolean
   refereeRewardClaimedAt?: Date | string | null
-  refereeTierAtSubscription?: string | null
-  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: string | null
   utmMedium?: string | null
   ipAddress?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: string | null
+  referee_bonus_days?: number
+  referee_bonus_applied?: boolean
   rewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutReferralInput
 }
 
@@ -548,16 +580,18 @@ export type ReferralUpdateInput = {
   referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  referrer?: Prisma.ProfileUpdateOneRequiredWithoutReferralsGivenNestedInput
-  referee?: Prisma.ProfileUpdateOneWithoutReferralsReceivedNestedInput
+  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referee_bonus_days?: Prisma.IntFieldUpdateOperationsInput | number
+  referee_bonus_applied?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rewards?: Prisma.ReferralRewardUpdateManyWithoutReferralNestedInput
+  referee?: Prisma.ProfileUpdateOneWithoutReferralsReceivedNestedInput
+  referrer?: Prisma.ProfileUpdateOneRequiredWithoutReferralsGivenNestedInput
 }
 
 export type ReferralUncheckedUpdateInput = {
@@ -576,13 +610,15 @@ export type ReferralUncheckedUpdateInput = {
   referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referee_bonus_days?: Prisma.IntFieldUpdateOperationsInput | number
+  referee_bonus_applied?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutReferralNestedInput
 }
 
@@ -602,13 +638,15 @@ export type ReferralCreateManyInput = {
   referrerRewardClaimedAt?: Date | string | null
   refereeRewardClaimed?: boolean
   refereeRewardClaimedAt?: Date | string | null
-  refereeTierAtSubscription?: string | null
-  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: string | null
   utmMedium?: string | null
   ipAddress?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: string | null
+  referee_bonus_days?: number
+  referee_bonus_applied?: boolean
 }
 
 export type ReferralUpdateManyMutationInput = {
@@ -625,13 +663,15 @@ export type ReferralUpdateManyMutationInput = {
   referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referee_bonus_days?: Prisma.IntFieldUpdateOperationsInput | number
+  referee_bonus_applied?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ReferralUncheckedUpdateManyInput = {
@@ -650,13 +690,15 @@ export type ReferralUncheckedUpdateManyInput = {
   referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referee_bonus_days?: Prisma.IntFieldUpdateOperationsInput | number
+  referee_bonus_applied?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ReferralListRelationFilter = {
@@ -685,19 +727,22 @@ export type ReferralCountOrderByAggregateInput = {
   referrerRewardClaimedAt?: Prisma.SortOrder
   refereeRewardClaimed?: Prisma.SortOrder
   refereeRewardClaimedAt?: Prisma.SortOrder
-  refereeTierAtSubscription?: Prisma.SortOrder
-  refereeSubscriptionPrice?: Prisma.SortOrder
   utmSource?: Prisma.SortOrder
   utmMedium?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  refereeSubscriptionPrice?: Prisma.SortOrder
+  refereeTierAtSubscription?: Prisma.SortOrder
+  referee_bonus_days?: Prisma.SortOrder
+  referee_bonus_applied?: Prisma.SortOrder
 }
 
 export type ReferralAvgOrderByAggregateInput = {
   referrerRewardAmount?: Prisma.SortOrder
   refereeRewardAmount?: Prisma.SortOrder
   refereeSubscriptionPrice?: Prisma.SortOrder
+  referee_bonus_days?: Prisma.SortOrder
 }
 
 export type ReferralMaxOrderByAggregateInput = {
@@ -716,13 +761,15 @@ export type ReferralMaxOrderByAggregateInput = {
   referrerRewardClaimedAt?: Prisma.SortOrder
   refereeRewardClaimed?: Prisma.SortOrder
   refereeRewardClaimedAt?: Prisma.SortOrder
-  refereeTierAtSubscription?: Prisma.SortOrder
-  refereeSubscriptionPrice?: Prisma.SortOrder
   utmSource?: Prisma.SortOrder
   utmMedium?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  refereeSubscriptionPrice?: Prisma.SortOrder
+  refereeTierAtSubscription?: Prisma.SortOrder
+  referee_bonus_days?: Prisma.SortOrder
+  referee_bonus_applied?: Prisma.SortOrder
 }
 
 export type ReferralMinOrderByAggregateInput = {
@@ -741,31 +788,27 @@ export type ReferralMinOrderByAggregateInput = {
   referrerRewardClaimedAt?: Prisma.SortOrder
   refereeRewardClaimed?: Prisma.SortOrder
   refereeRewardClaimedAt?: Prisma.SortOrder
-  refereeTierAtSubscription?: Prisma.SortOrder
-  refereeSubscriptionPrice?: Prisma.SortOrder
   utmSource?: Prisma.SortOrder
   utmMedium?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  refereeSubscriptionPrice?: Prisma.SortOrder
+  refereeTierAtSubscription?: Prisma.SortOrder
+  referee_bonus_days?: Prisma.SortOrder
+  referee_bonus_applied?: Prisma.SortOrder
 }
 
 export type ReferralSumOrderByAggregateInput = {
   referrerRewardAmount?: Prisma.SortOrder
   refereeRewardAmount?: Prisma.SortOrder
   refereeSubscriptionPrice?: Prisma.SortOrder
+  referee_bonus_days?: Prisma.SortOrder
 }
 
 export type ReferralScalarRelationFilter = {
   is?: Prisma.ReferralWhereInput
   isNot?: Prisma.ReferralWhereInput
-}
-
-export type ReferralCreateNestedManyWithoutReferrerInput = {
-  create?: Prisma.XOR<Prisma.ReferralCreateWithoutReferrerInput, Prisma.ReferralUncheckedCreateWithoutReferrerInput> | Prisma.ReferralCreateWithoutReferrerInput[] | Prisma.ReferralUncheckedCreateWithoutReferrerInput[]
-  connectOrCreate?: Prisma.ReferralCreateOrConnectWithoutReferrerInput | Prisma.ReferralCreateOrConnectWithoutReferrerInput[]
-  createMany?: Prisma.ReferralCreateManyReferrerInputEnvelope
-  connect?: Prisma.ReferralWhereUniqueInput | Prisma.ReferralWhereUniqueInput[]
 }
 
 export type ReferralCreateNestedManyWithoutRefereeInput = {
@@ -775,7 +818,7 @@ export type ReferralCreateNestedManyWithoutRefereeInput = {
   connect?: Prisma.ReferralWhereUniqueInput | Prisma.ReferralWhereUniqueInput[]
 }
 
-export type ReferralUncheckedCreateNestedManyWithoutReferrerInput = {
+export type ReferralCreateNestedManyWithoutReferrerInput = {
   create?: Prisma.XOR<Prisma.ReferralCreateWithoutReferrerInput, Prisma.ReferralUncheckedCreateWithoutReferrerInput> | Prisma.ReferralCreateWithoutReferrerInput[] | Prisma.ReferralUncheckedCreateWithoutReferrerInput[]
   connectOrCreate?: Prisma.ReferralCreateOrConnectWithoutReferrerInput | Prisma.ReferralCreateOrConnectWithoutReferrerInput[]
   createMany?: Prisma.ReferralCreateManyReferrerInputEnvelope
@@ -789,18 +832,11 @@ export type ReferralUncheckedCreateNestedManyWithoutRefereeInput = {
   connect?: Prisma.ReferralWhereUniqueInput | Prisma.ReferralWhereUniqueInput[]
 }
 
-export type ReferralUpdateManyWithoutReferrerNestedInput = {
+export type ReferralUncheckedCreateNestedManyWithoutReferrerInput = {
   create?: Prisma.XOR<Prisma.ReferralCreateWithoutReferrerInput, Prisma.ReferralUncheckedCreateWithoutReferrerInput> | Prisma.ReferralCreateWithoutReferrerInput[] | Prisma.ReferralUncheckedCreateWithoutReferrerInput[]
   connectOrCreate?: Prisma.ReferralCreateOrConnectWithoutReferrerInput | Prisma.ReferralCreateOrConnectWithoutReferrerInput[]
-  upsert?: Prisma.ReferralUpsertWithWhereUniqueWithoutReferrerInput | Prisma.ReferralUpsertWithWhereUniqueWithoutReferrerInput[]
   createMany?: Prisma.ReferralCreateManyReferrerInputEnvelope
-  set?: Prisma.ReferralWhereUniqueInput | Prisma.ReferralWhereUniqueInput[]
-  disconnect?: Prisma.ReferralWhereUniqueInput | Prisma.ReferralWhereUniqueInput[]
-  delete?: Prisma.ReferralWhereUniqueInput | Prisma.ReferralWhereUniqueInput[]
   connect?: Prisma.ReferralWhereUniqueInput | Prisma.ReferralWhereUniqueInput[]
-  update?: Prisma.ReferralUpdateWithWhereUniqueWithoutReferrerInput | Prisma.ReferralUpdateWithWhereUniqueWithoutReferrerInput[]
-  updateMany?: Prisma.ReferralUpdateManyWithWhereWithoutReferrerInput | Prisma.ReferralUpdateManyWithWhereWithoutReferrerInput[]
-  deleteMany?: Prisma.ReferralScalarWhereInput | Prisma.ReferralScalarWhereInput[]
 }
 
 export type ReferralUpdateManyWithoutRefereeNestedInput = {
@@ -817,7 +853,7 @@ export type ReferralUpdateManyWithoutRefereeNestedInput = {
   deleteMany?: Prisma.ReferralScalarWhereInput | Prisma.ReferralScalarWhereInput[]
 }
 
-export type ReferralUncheckedUpdateManyWithoutReferrerNestedInput = {
+export type ReferralUpdateManyWithoutReferrerNestedInput = {
   create?: Prisma.XOR<Prisma.ReferralCreateWithoutReferrerInput, Prisma.ReferralUncheckedCreateWithoutReferrerInput> | Prisma.ReferralCreateWithoutReferrerInput[] | Prisma.ReferralUncheckedCreateWithoutReferrerInput[]
   connectOrCreate?: Prisma.ReferralCreateOrConnectWithoutReferrerInput | Prisma.ReferralCreateOrConnectWithoutReferrerInput[]
   upsert?: Prisma.ReferralUpsertWithWhereUniqueWithoutReferrerInput | Prisma.ReferralUpsertWithWhereUniqueWithoutReferrerInput[]
@@ -842,6 +878,20 @@ export type ReferralUncheckedUpdateManyWithoutRefereeNestedInput = {
   connect?: Prisma.ReferralWhereUniqueInput | Prisma.ReferralWhereUniqueInput[]
   update?: Prisma.ReferralUpdateWithWhereUniqueWithoutRefereeInput | Prisma.ReferralUpdateWithWhereUniqueWithoutRefereeInput[]
   updateMany?: Prisma.ReferralUpdateManyWithWhereWithoutRefereeInput | Prisma.ReferralUpdateManyWithWhereWithoutRefereeInput[]
+  deleteMany?: Prisma.ReferralScalarWhereInput | Prisma.ReferralScalarWhereInput[]
+}
+
+export type ReferralUncheckedUpdateManyWithoutReferrerNestedInput = {
+  create?: Prisma.XOR<Prisma.ReferralCreateWithoutReferrerInput, Prisma.ReferralUncheckedCreateWithoutReferrerInput> | Prisma.ReferralCreateWithoutReferrerInput[] | Prisma.ReferralUncheckedCreateWithoutReferrerInput[]
+  connectOrCreate?: Prisma.ReferralCreateOrConnectWithoutReferrerInput | Prisma.ReferralCreateOrConnectWithoutReferrerInput[]
+  upsert?: Prisma.ReferralUpsertWithWhereUniqueWithoutReferrerInput | Prisma.ReferralUpsertWithWhereUniqueWithoutReferrerInput[]
+  createMany?: Prisma.ReferralCreateManyReferrerInputEnvelope
+  set?: Prisma.ReferralWhereUniqueInput | Prisma.ReferralWhereUniqueInput[]
+  disconnect?: Prisma.ReferralWhereUniqueInput | Prisma.ReferralWhereUniqueInput[]
+  delete?: Prisma.ReferralWhereUniqueInput | Prisma.ReferralWhereUniqueInput[]
+  connect?: Prisma.ReferralWhereUniqueInput | Prisma.ReferralWhereUniqueInput[]
+  update?: Prisma.ReferralUpdateWithWhereUniqueWithoutReferrerInput | Prisma.ReferralUpdateWithWhereUniqueWithoutReferrerInput[]
+  updateMany?: Prisma.ReferralUpdateManyWithWhereWithoutReferrerInput | Prisma.ReferralUpdateManyWithWhereWithoutReferrerInput[]
   deleteMany?: Prisma.ReferralScalarWhereInput | Prisma.ReferralScalarWhereInput[]
 }
 
@@ -871,66 +921,6 @@ export type ReferralUpdateOneRequiredWithoutRewardsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ReferralUpdateToOneWithWhereWithoutRewardsInput, Prisma.ReferralUpdateWithoutRewardsInput>, Prisma.ReferralUncheckedUpdateWithoutRewardsInput>
 }
 
-export type ReferralCreateWithoutReferrerInput = {
-  id?: string
-  referralCode: string
-  status?: $Enums.ReferralStatus
-  signedUpAt?: Date | string | null
-  subscribedAt?: Date | string | null
-  referrerReward?: string | null
-  refereeReward?: string | null
-  referrerRewardAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  refereeRewardAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  referrerRewardClaimed?: boolean
-  referrerRewardClaimedAt?: Date | string | null
-  refereeRewardClaimed?: boolean
-  refereeRewardClaimedAt?: Date | string | null
-  refereeTierAtSubscription?: string | null
-  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  utmSource?: string | null
-  utmMedium?: string | null
-  ipAddress?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  referee?: Prisma.ProfileCreateNestedOneWithoutReferralsReceivedInput
-  rewards?: Prisma.ReferralRewardCreateNestedManyWithoutReferralInput
-}
-
-export type ReferralUncheckedCreateWithoutReferrerInput = {
-  id?: string
-  refereeId?: string | null
-  referralCode: string
-  status?: $Enums.ReferralStatus
-  signedUpAt?: Date | string | null
-  subscribedAt?: Date | string | null
-  referrerReward?: string | null
-  refereeReward?: string | null
-  referrerRewardAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  refereeRewardAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  referrerRewardClaimed?: boolean
-  referrerRewardClaimedAt?: Date | string | null
-  refereeRewardClaimed?: boolean
-  refereeRewardClaimedAt?: Date | string | null
-  refereeTierAtSubscription?: string | null
-  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  utmSource?: string | null
-  utmMedium?: string | null
-  ipAddress?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  rewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutReferralInput
-}
-
-export type ReferralCreateOrConnectWithoutReferrerInput = {
-  where: Prisma.ReferralWhereUniqueInput
-  create: Prisma.XOR<Prisma.ReferralCreateWithoutReferrerInput, Prisma.ReferralUncheckedCreateWithoutReferrerInput>
-}
-
-export type ReferralCreateManyReferrerInputEnvelope = {
-  data: Prisma.ReferralCreateManyReferrerInput | Prisma.ReferralCreateManyReferrerInput[]
-  skipDuplicates?: boolean
-}
-
 export type ReferralCreateWithoutRefereeInput = {
   id?: string
   referralCode: string
@@ -945,15 +935,17 @@ export type ReferralCreateWithoutRefereeInput = {
   referrerRewardClaimedAt?: Date | string | null
   refereeRewardClaimed?: boolean
   refereeRewardClaimedAt?: Date | string | null
-  refereeTierAtSubscription?: string | null
-  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: string | null
   utmMedium?: string | null
   ipAddress?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  referrer: Prisma.ProfileCreateNestedOneWithoutReferralsGivenInput
+  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: string | null
+  referee_bonus_days?: number
+  referee_bonus_applied?: boolean
   rewards?: Prisma.ReferralRewardCreateNestedManyWithoutReferralInput
+  referrer: Prisma.ProfileCreateNestedOneWithoutReferralsGivenInput
 }
 
 export type ReferralUncheckedCreateWithoutRefereeInput = {
@@ -971,13 +963,15 @@ export type ReferralUncheckedCreateWithoutRefereeInput = {
   referrerRewardClaimedAt?: Date | string | null
   refereeRewardClaimed?: boolean
   refereeRewardClaimedAt?: Date | string | null
-  refereeTierAtSubscription?: string | null
-  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: string | null
   utmMedium?: string | null
   ipAddress?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: string | null
+  referee_bonus_days?: number
+  referee_bonus_applied?: boolean
   rewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutReferralInput
 }
 
@@ -991,20 +985,84 @@ export type ReferralCreateManyRefereeInputEnvelope = {
   skipDuplicates?: boolean
 }
 
-export type ReferralUpsertWithWhereUniqueWithoutReferrerInput = {
+export type ReferralCreateWithoutReferrerInput = {
+  id?: string
+  referralCode: string
+  status?: $Enums.ReferralStatus
+  signedUpAt?: Date | string | null
+  subscribedAt?: Date | string | null
+  referrerReward?: string | null
+  refereeReward?: string | null
+  referrerRewardAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeRewardAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  referrerRewardClaimed?: boolean
+  referrerRewardClaimedAt?: Date | string | null
+  refereeRewardClaimed?: boolean
+  refereeRewardClaimedAt?: Date | string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  ipAddress?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: string | null
+  referee_bonus_days?: number
+  referee_bonus_applied?: boolean
+  rewards?: Prisma.ReferralRewardCreateNestedManyWithoutReferralInput
+  referee?: Prisma.ProfileCreateNestedOneWithoutReferralsReceivedInput
+}
+
+export type ReferralUncheckedCreateWithoutReferrerInput = {
+  id?: string
+  refereeId?: string | null
+  referralCode: string
+  status?: $Enums.ReferralStatus
+  signedUpAt?: Date | string | null
+  subscribedAt?: Date | string | null
+  referrerReward?: string | null
+  refereeReward?: string | null
+  referrerRewardAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeRewardAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  referrerRewardClaimed?: boolean
+  referrerRewardClaimedAt?: Date | string | null
+  refereeRewardClaimed?: boolean
+  refereeRewardClaimedAt?: Date | string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  ipAddress?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: string | null
+  referee_bonus_days?: number
+  referee_bonus_applied?: boolean
+  rewards?: Prisma.ReferralRewardUncheckedCreateNestedManyWithoutReferralInput
+}
+
+export type ReferralCreateOrConnectWithoutReferrerInput = {
   where: Prisma.ReferralWhereUniqueInput
-  update: Prisma.XOR<Prisma.ReferralUpdateWithoutReferrerInput, Prisma.ReferralUncheckedUpdateWithoutReferrerInput>
   create: Prisma.XOR<Prisma.ReferralCreateWithoutReferrerInput, Prisma.ReferralUncheckedCreateWithoutReferrerInput>
 }
 
-export type ReferralUpdateWithWhereUniqueWithoutReferrerInput = {
-  where: Prisma.ReferralWhereUniqueInput
-  data: Prisma.XOR<Prisma.ReferralUpdateWithoutReferrerInput, Prisma.ReferralUncheckedUpdateWithoutReferrerInput>
+export type ReferralCreateManyReferrerInputEnvelope = {
+  data: Prisma.ReferralCreateManyReferrerInput | Prisma.ReferralCreateManyReferrerInput[]
+  skipDuplicates?: boolean
 }
 
-export type ReferralUpdateManyWithWhereWithoutReferrerInput = {
+export type ReferralUpsertWithWhereUniqueWithoutRefereeInput = {
+  where: Prisma.ReferralWhereUniqueInput
+  update: Prisma.XOR<Prisma.ReferralUpdateWithoutRefereeInput, Prisma.ReferralUncheckedUpdateWithoutRefereeInput>
+  create: Prisma.XOR<Prisma.ReferralCreateWithoutRefereeInput, Prisma.ReferralUncheckedCreateWithoutRefereeInput>
+}
+
+export type ReferralUpdateWithWhereUniqueWithoutRefereeInput = {
+  where: Prisma.ReferralWhereUniqueInput
+  data: Prisma.XOR<Prisma.ReferralUpdateWithoutRefereeInput, Prisma.ReferralUncheckedUpdateWithoutRefereeInput>
+}
+
+export type ReferralUpdateManyWithWhereWithoutRefereeInput = {
   where: Prisma.ReferralScalarWhereInput
-  data: Prisma.XOR<Prisma.ReferralUpdateManyMutationInput, Prisma.ReferralUncheckedUpdateManyWithoutReferrerInput>
+  data: Prisma.XOR<Prisma.ReferralUpdateManyMutationInput, Prisma.ReferralUncheckedUpdateManyWithoutRefereeInput>
 }
 
 export type ReferralScalarWhereInput = {
@@ -1026,29 +1084,31 @@ export type ReferralScalarWhereInput = {
   referrerRewardClaimedAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
   refereeRewardClaimed?: Prisma.BoolFilter<"Referral"> | boolean
   refereeRewardClaimedAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
-  refereeTierAtSubscription?: Prisma.StringNullableFilter<"Referral"> | string | null
-  refereeSubscriptionPrice?: Prisma.DecimalNullableFilter<"Referral"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.StringNullableFilter<"Referral"> | string | null
   utmMedium?: Prisma.StringNullableFilter<"Referral"> | string | null
   ipAddress?: Prisma.StringNullableFilter<"Referral"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Referral"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Referral"> | Date | string
+  refereeSubscriptionPrice?: Prisma.DecimalNullableFilter<"Referral"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.StringNullableFilter<"Referral"> | string | null
+  referee_bonus_days?: Prisma.IntFilter<"Referral"> | number
+  referee_bonus_applied?: Prisma.BoolFilter<"Referral"> | boolean
 }
 
-export type ReferralUpsertWithWhereUniqueWithoutRefereeInput = {
+export type ReferralUpsertWithWhereUniqueWithoutReferrerInput = {
   where: Prisma.ReferralWhereUniqueInput
-  update: Prisma.XOR<Prisma.ReferralUpdateWithoutRefereeInput, Prisma.ReferralUncheckedUpdateWithoutRefereeInput>
-  create: Prisma.XOR<Prisma.ReferralCreateWithoutRefereeInput, Prisma.ReferralUncheckedCreateWithoutRefereeInput>
+  update: Prisma.XOR<Prisma.ReferralUpdateWithoutReferrerInput, Prisma.ReferralUncheckedUpdateWithoutReferrerInput>
+  create: Prisma.XOR<Prisma.ReferralCreateWithoutReferrerInput, Prisma.ReferralUncheckedCreateWithoutReferrerInput>
 }
 
-export type ReferralUpdateWithWhereUniqueWithoutRefereeInput = {
+export type ReferralUpdateWithWhereUniqueWithoutReferrerInput = {
   where: Prisma.ReferralWhereUniqueInput
-  data: Prisma.XOR<Prisma.ReferralUpdateWithoutRefereeInput, Prisma.ReferralUncheckedUpdateWithoutRefereeInput>
+  data: Prisma.XOR<Prisma.ReferralUpdateWithoutReferrerInput, Prisma.ReferralUncheckedUpdateWithoutReferrerInput>
 }
 
-export type ReferralUpdateManyWithWhereWithoutRefereeInput = {
+export type ReferralUpdateManyWithWhereWithoutReferrerInput = {
   where: Prisma.ReferralScalarWhereInput
-  data: Prisma.XOR<Prisma.ReferralUpdateManyMutationInput, Prisma.ReferralUncheckedUpdateManyWithoutRefereeInput>
+  data: Prisma.XOR<Prisma.ReferralUpdateManyMutationInput, Prisma.ReferralUncheckedUpdateManyWithoutReferrerInput>
 }
 
 export type ReferralCreateWithoutRewardsInput = {
@@ -1065,15 +1125,17 @@ export type ReferralCreateWithoutRewardsInput = {
   referrerRewardClaimedAt?: Date | string | null
   refereeRewardClaimed?: boolean
   refereeRewardClaimedAt?: Date | string | null
-  refereeTierAtSubscription?: string | null
-  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: string | null
   utmMedium?: string | null
   ipAddress?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  referrer: Prisma.ProfileCreateNestedOneWithoutReferralsGivenInput
+  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: string | null
+  referee_bonus_days?: number
+  referee_bonus_applied?: boolean
   referee?: Prisma.ProfileCreateNestedOneWithoutReferralsReceivedInput
+  referrer: Prisma.ProfileCreateNestedOneWithoutReferralsGivenInput
 }
 
 export type ReferralUncheckedCreateWithoutRewardsInput = {
@@ -1092,13 +1154,15 @@ export type ReferralUncheckedCreateWithoutRewardsInput = {
   referrerRewardClaimedAt?: Date | string | null
   refereeRewardClaimed?: boolean
   refereeRewardClaimedAt?: Date | string | null
-  refereeTierAtSubscription?: string | null
-  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: string | null
   utmMedium?: string | null
   ipAddress?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: string | null
+  referee_bonus_days?: number
+  referee_bonus_applied?: boolean
 }
 
 export type ReferralCreateOrConnectWithoutRewardsInput = {
@@ -1131,15 +1195,17 @@ export type ReferralUpdateWithoutRewardsInput = {
   referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  referrer?: Prisma.ProfileUpdateOneRequiredWithoutReferralsGivenNestedInput
+  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referee_bonus_days?: Prisma.IntFieldUpdateOperationsInput | number
+  referee_bonus_applied?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referee?: Prisma.ProfileUpdateOneWithoutReferralsReceivedNestedInput
+  referrer?: Prisma.ProfileUpdateOneRequiredWithoutReferralsGivenNestedInput
 }
 
 export type ReferralUncheckedUpdateWithoutRewardsInput = {
@@ -1158,37 +1224,15 @@ export type ReferralUncheckedUpdateWithoutRewardsInput = {
   referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type ReferralCreateManyReferrerInput = {
-  id?: string
-  refereeId?: string | null
-  referralCode: string
-  status?: $Enums.ReferralStatus
-  signedUpAt?: Date | string | null
-  subscribedAt?: Date | string | null
-  referrerReward?: string | null
-  refereeReward?: string | null
-  referrerRewardAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  refereeRewardAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  referrerRewardClaimed?: boolean
-  referrerRewardClaimedAt?: Date | string | null
-  refereeRewardClaimed?: boolean
-  refereeRewardClaimedAt?: Date | string | null
-  refereeTierAtSubscription?: string | null
-  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  utmSource?: string | null
-  utmMedium?: string | null
-  ipAddress?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referee_bonus_days?: Prisma.IntFieldUpdateOperationsInput | number
+  referee_bonus_applied?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ReferralCreateManyRefereeInput = {
@@ -1206,87 +1250,41 @@ export type ReferralCreateManyRefereeInput = {
   referrerRewardClaimedAt?: Date | string | null
   refereeRewardClaimed?: boolean
   refereeRewardClaimedAt?: Date | string | null
-  refereeTierAtSubscription?: string | null
-  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: string | null
   utmMedium?: string | null
   ipAddress?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: string | null
+  referee_bonus_days?: number
+  referee_bonus_applied?: boolean
 }
 
-export type ReferralUpdateWithoutReferrerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumReferralStatusFieldUpdateOperationsInput | $Enums.ReferralStatus
-  signedUpAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscribedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  referrerReward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeReward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  referrerRewardAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  refereeRewardAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  referrerRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  referee?: Prisma.ProfileUpdateOneWithoutReferralsReceivedNestedInput
-  rewards?: Prisma.ReferralRewardUpdateManyWithoutReferralNestedInput
-}
-
-export type ReferralUncheckedUpdateWithoutReferrerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  refereeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumReferralStatusFieldUpdateOperationsInput | $Enums.ReferralStatus
-  signedUpAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscribedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  referrerReward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeReward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  referrerRewardAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  refereeRewardAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  referrerRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  rewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutReferralNestedInput
-}
-
-export type ReferralUncheckedUpdateManyWithoutReferrerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  refereeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumReferralStatusFieldUpdateOperationsInput | $Enums.ReferralStatus
-  signedUpAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscribedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  referrerReward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeReward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  referrerRewardAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  refereeRewardAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  referrerRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+export type ReferralCreateManyReferrerInput = {
+  id?: string
+  refereeId?: string | null
+  referralCode: string
+  status?: $Enums.ReferralStatus
+  signedUpAt?: Date | string | null
+  subscribedAt?: Date | string | null
+  referrerReward?: string | null
+  refereeReward?: string | null
+  referrerRewardAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeRewardAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  referrerRewardClaimed?: boolean
+  referrerRewardClaimedAt?: Date | string | null
+  refereeRewardClaimed?: boolean
+  refereeRewardClaimedAt?: Date | string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  ipAddress?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refereeSubscriptionPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: string | null
+  referee_bonus_days?: number
+  referee_bonus_applied?: boolean
 }
 
 export type ReferralUpdateWithoutRefereeInput = {
@@ -1303,15 +1301,17 @@ export type ReferralUpdateWithoutRefereeInput = {
   referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  referrer?: Prisma.ProfileUpdateOneRequiredWithoutReferralsGivenNestedInput
+  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referee_bonus_days?: Prisma.IntFieldUpdateOperationsInput | number
+  referee_bonus_applied?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rewards?: Prisma.ReferralRewardUpdateManyWithoutReferralNestedInput
+  referrer?: Prisma.ProfileUpdateOneRequiredWithoutReferralsGivenNestedInput
 }
 
 export type ReferralUncheckedUpdateWithoutRefereeInput = {
@@ -1329,13 +1329,15 @@ export type ReferralUncheckedUpdateWithoutRefereeInput = {
   referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referee_bonus_days?: Prisma.IntFieldUpdateOperationsInput | number
+  referee_bonus_applied?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutReferralNestedInput
 }
 
@@ -1354,13 +1356,95 @@ export type ReferralUncheckedUpdateManyWithoutRefereeInput = {
   referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referee_bonus_days?: Prisma.IntFieldUpdateOperationsInput | number
+  referee_bonus_applied?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+export type ReferralUpdateWithoutReferrerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumReferralStatusFieldUpdateOperationsInput | $Enums.ReferralStatus
+  signedUpAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscribedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  referrerReward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refereeReward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referrerRewardAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeRewardAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  referrerRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referee_bonus_days?: Prisma.IntFieldUpdateOperationsInput | number
+  referee_bonus_applied?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rewards?: Prisma.ReferralRewardUpdateManyWithoutReferralNestedInput
+  referee?: Prisma.ProfileUpdateOneWithoutReferralsReceivedNestedInput
+}
+
+export type ReferralUncheckedUpdateWithoutReferrerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  refereeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumReferralStatusFieldUpdateOperationsInput | $Enums.ReferralStatus
+  signedUpAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscribedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  referrerReward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refereeReward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referrerRewardAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeRewardAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  referrerRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referee_bonus_days?: Prisma.IntFieldUpdateOperationsInput | number
+  referee_bonus_applied?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rewards?: Prisma.ReferralRewardUncheckedUpdateManyWithoutReferralNestedInput
+}
+
+export type ReferralUncheckedUpdateManyWithoutReferrerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  refereeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumReferralStatusFieldUpdateOperationsInput | $Enums.ReferralStatus
+  signedUpAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscribedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  referrerReward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refereeReward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referrerRewardAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeRewardAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  referrerRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  referrerRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refereeRewardClaimed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  refereeRewardClaimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refereeSubscriptionPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  refereeTierAtSubscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referee_bonus_days?: Prisma.IntFieldUpdateOperationsInput | number
+  referee_bonus_applied?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -1410,16 +1494,18 @@ export type ReferralSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   referrerRewardClaimedAt?: boolean
   refereeRewardClaimed?: boolean
   refereeRewardClaimedAt?: boolean
-  refereeTierAtSubscription?: boolean
-  refereeSubscriptionPrice?: boolean
   utmSource?: boolean
   utmMedium?: boolean
   ipAddress?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  referrer?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
-  referee?: boolean | Prisma.Referral$refereeArgs<ExtArgs>
+  refereeSubscriptionPrice?: boolean
+  refereeTierAtSubscription?: boolean
+  referee_bonus_days?: boolean
+  referee_bonus_applied?: boolean
   rewards?: boolean | Prisma.Referral$rewardsArgs<ExtArgs>
+  referee?: boolean | Prisma.Referral$refereeArgs<ExtArgs>
+  referrer?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.ReferralCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referral"]>
 
@@ -1439,15 +1525,17 @@ export type ReferralSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   referrerRewardClaimedAt?: boolean
   refereeRewardClaimed?: boolean
   refereeRewardClaimedAt?: boolean
-  refereeTierAtSubscription?: boolean
-  refereeSubscriptionPrice?: boolean
   utmSource?: boolean
   utmMedium?: boolean
   ipAddress?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  referrer?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
+  refereeSubscriptionPrice?: boolean
+  refereeTierAtSubscription?: boolean
+  referee_bonus_days?: boolean
+  referee_bonus_applied?: boolean
   referee?: boolean | Prisma.Referral$refereeArgs<ExtArgs>
+  referrer?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referral"]>
 
 export type ReferralSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1466,15 +1554,17 @@ export type ReferralSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   referrerRewardClaimedAt?: boolean
   refereeRewardClaimed?: boolean
   refereeRewardClaimedAt?: boolean
-  refereeTierAtSubscription?: boolean
-  refereeSubscriptionPrice?: boolean
   utmSource?: boolean
   utmMedium?: boolean
   ipAddress?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  referrer?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
+  refereeSubscriptionPrice?: boolean
+  refereeTierAtSubscription?: boolean
+  referee_bonus_days?: boolean
+  referee_bonus_applied?: boolean
   referee?: boolean | Prisma.Referral$refereeArgs<ExtArgs>
+  referrer?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referral"]>
 
 export type ReferralSelectScalar = {
@@ -1493,37 +1583,39 @@ export type ReferralSelectScalar = {
   referrerRewardClaimedAt?: boolean
   refereeRewardClaimed?: boolean
   refereeRewardClaimedAt?: boolean
-  refereeTierAtSubscription?: boolean
-  refereeSubscriptionPrice?: boolean
   utmSource?: boolean
   utmMedium?: boolean
   ipAddress?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  refereeSubscriptionPrice?: boolean
+  refereeTierAtSubscription?: boolean
+  referee_bonus_days?: boolean
+  referee_bonus_applied?: boolean
 }
 
-export type ReferralOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "referrerId" | "refereeId" | "referralCode" | "status" | "signedUpAt" | "subscribedAt" | "referrerReward" | "refereeReward" | "referrerRewardAmount" | "refereeRewardAmount" | "referrerRewardClaimed" | "referrerRewardClaimedAt" | "refereeRewardClaimed" | "refereeRewardClaimedAt" | "refereeTierAtSubscription" | "refereeSubscriptionPrice" | "utmSource" | "utmMedium" | "ipAddress" | "createdAt" | "updatedAt", ExtArgs["result"]["referral"]>
+export type ReferralOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "referrerId" | "refereeId" | "referralCode" | "status" | "signedUpAt" | "subscribedAt" | "referrerReward" | "refereeReward" | "referrerRewardAmount" | "refereeRewardAmount" | "referrerRewardClaimed" | "referrerRewardClaimedAt" | "refereeRewardClaimed" | "refereeRewardClaimedAt" | "utmSource" | "utmMedium" | "ipAddress" | "createdAt" | "updatedAt" | "refereeSubscriptionPrice" | "refereeTierAtSubscription" | "referee_bonus_days" | "referee_bonus_applied", ExtArgs["result"]["referral"]>
 export type ReferralInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  referrer?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
-  referee?: boolean | Prisma.Referral$refereeArgs<ExtArgs>
   rewards?: boolean | Prisma.Referral$rewardsArgs<ExtArgs>
+  referee?: boolean | Prisma.Referral$refereeArgs<ExtArgs>
+  referrer?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.ReferralCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ReferralIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  referrer?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   referee?: boolean | Prisma.Referral$refereeArgs<ExtArgs>
+  referrer?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }
 export type ReferralIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  referrer?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   referee?: boolean | Prisma.Referral$refereeArgs<ExtArgs>
+  referrer?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }
 
 export type $ReferralPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Referral"
   objects: {
-    referrer: Prisma.$ProfilePayload<ExtArgs>
-    referee: Prisma.$ProfilePayload<ExtArgs> | null
     rewards: Prisma.$ReferralRewardPayload<ExtArgs>[]
+    referee: Prisma.$ProfilePayload<ExtArgs> | null
+    referrer: Prisma.$ProfilePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1541,13 +1633,15 @@ export type $ReferralPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     referrerRewardClaimedAt: Date | null
     refereeRewardClaimed: boolean
     refereeRewardClaimedAt: Date | null
-    refereeTierAtSubscription: string | null
-    refereeSubscriptionPrice: runtime.Decimal | null
     utmSource: string | null
     utmMedium: string | null
     ipAddress: string | null
     createdAt: Date
     updatedAt: Date
+    refereeSubscriptionPrice: runtime.Decimal | null
+    refereeTierAtSubscription: string | null
+    referee_bonus_days: number
+    referee_bonus_applied: boolean
   }, ExtArgs["result"]["referral"]>
   composites: {}
 }
@@ -1942,9 +2036,9 @@ readonly fields: ReferralFieldRefs;
  */
 export interface Prisma__ReferralClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  referrer<T extends Prisma.ProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  referee<T extends Prisma.Referral$refereeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Referral$refereeArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   rewards<T extends Prisma.Referral$rewardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Referral$rewardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferralRewardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  referee<T extends Prisma.Referral$refereeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Referral$refereeArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  referrer<T extends Prisma.ProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1989,13 +2083,15 @@ export interface ReferralFieldRefs {
   readonly referrerRewardClaimedAt: Prisma.FieldRef<"Referral", 'DateTime'>
   readonly refereeRewardClaimed: Prisma.FieldRef<"Referral", 'Boolean'>
   readonly refereeRewardClaimedAt: Prisma.FieldRef<"Referral", 'DateTime'>
-  readonly refereeTierAtSubscription: Prisma.FieldRef<"Referral", 'String'>
-  readonly refereeSubscriptionPrice: Prisma.FieldRef<"Referral", 'Decimal'>
   readonly utmSource: Prisma.FieldRef<"Referral", 'String'>
   readonly utmMedium: Prisma.FieldRef<"Referral", 'String'>
   readonly ipAddress: Prisma.FieldRef<"Referral", 'String'>
   readonly createdAt: Prisma.FieldRef<"Referral", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Referral", 'DateTime'>
+  readonly refereeSubscriptionPrice: Prisma.FieldRef<"Referral", 'Decimal'>
+  readonly refereeTierAtSubscription: Prisma.FieldRef<"Referral", 'String'>
+  readonly referee_bonus_days: Prisma.FieldRef<"Referral", 'Int'>
+  readonly referee_bonus_applied: Prisma.FieldRef<"Referral", 'Boolean'>
 }
     
 
@@ -2392,25 +2488,6 @@ export type ReferralDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Referral.referee
- */
-export type Referral$refereeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Profile
-   */
-  select?: Prisma.ProfileSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Profile
-   */
-  omit?: Prisma.ProfileOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProfileInclude<ExtArgs> | null
-  where?: Prisma.ProfileWhereInput
-}
-
-/**
  * Referral.rewards
  */
 export type Referral$rewardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2432,6 +2509,25 @@ export type Referral$rewardsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.ReferralRewardScalarFieldEnum | Prisma.ReferralRewardScalarFieldEnum[]
+}
+
+/**
+ * Referral.referee
+ */
+export type Referral$refereeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Profile
+   */
+  select?: Prisma.ProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Profile
+   */
+  omit?: Prisma.ProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
+  where?: Prisma.ProfileWhereInput
 }
 
 /**
