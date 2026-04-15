@@ -1,3 +1,5 @@
+'use strict'
+
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { AuthRequest } from './jwt-auth.guard';
 

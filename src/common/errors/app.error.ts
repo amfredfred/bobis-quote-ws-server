@@ -1,5 +1,3 @@
-'use strict';
-
 import { ErrorCode, ErrorMessage } from './error.codes';
 
 /**

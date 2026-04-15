@@ -26,11 +26,11 @@ export class ImportAccountDto {
   @IsString() login!: string;
   @IsString() password!: string;
   @IsString() server!: string;
-  @IsInt() startBalance: number;
-  @IsInt() maxDailyLoss: number;
-  @IsInt() maxTotalDrawdown: number;
-  @IsInt() minProfitTarget: number;
-  @IsInt() maxTradesPerDay: number;
+  @IsInt() @IsOptional() startBalance?: number;
+  @IsInt() @IsOptional() maxDailyLoss?: number;
+  @IsInt() @IsOptional() maxTotalDrawdown?: number;
+  @IsInt() @IsOptional() minProfitTarget?: number;
+  @IsInt() @IsOptional() maxTradesPerDay?: number;
   @IsIn(['mt4', 'mt5']) platform!: 'mt4' | 'mt5';
   @IsIn([JournalAccountType.prop, JournalAccountType.personal, JournalAccountType.demo]) accountType;
   @IsOptional() @IsBoolean() autoTradeEnabled?: boolean;

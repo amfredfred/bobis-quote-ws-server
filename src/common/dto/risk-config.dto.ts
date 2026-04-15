@@ -53,4 +53,25 @@ export class RiskConfigDto {
 
   @IsOptional() @IsString()
   comment?: string;
+
+  @IsOptional() @IsIn(['all', 'standard', 'ultra'])
+  tradeMode?: 'all' | 'standard' | 'ultra';
+
+  @IsOptional() @IsNumber() @Min(0)
+  slRatioThreshold?: number;
+
+  @IsOptional() @IsNumber() @Min(0)
+  maxConsecutiveLosses?: number;
+
+  @IsOptional() @IsNumber() @Min(0)
+  pauseAfterStreakH?: number;
+
+  @IsOptional() @IsNumber() @Min(0)
+  maxDailyLosses?: number;
+
+  @IsOptional() @IsNumber() @Min(0)
+  maxLossesPerWindow?: number;
+
+  @IsOptional() @IsNumber() @Min(0)
+  lossWindowHours?: number;
 }

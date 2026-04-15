@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuthRequest } from './jwt-auth.guard';
+import { AppError } from '@src/common/errors';
 
 @Injectable()
 export class ProGuard implements CanActivate {
@@ -18,12 +19,17 @@ export class ProGuard implements CanActivate {
    * Returns true if active, throws ForbiddenException if not.
    */
   async checkPro(userId: string): Promise<true> {
-    const profile = await this.prisma.profile.findUnique({
-      where:  { userId },
-      select: { subscriptionTier: true },
-    });
+    let profile: { subscriptionTier: string | null } | null;
 
-    // Any paid tier satisfies the Pro guard
+    try {
+      profile = await this.prisma.profile.findUnique({
+        where:  { userId },
+        select: { subscriptionTier: true },
+      });
+    } catch (err) {
+      throw new AppError('ACCOUNT_SYNC_FAILED', err);
+    }
+
     const active = profile?.subscriptionTier != null;
     if (!active) throw new ForbiddenException('Active subscription required');
 

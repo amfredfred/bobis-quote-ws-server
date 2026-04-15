@@ -1,3 +1,5 @@
+'use strict'
+
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { JwtVerifierService } from './jwt-verifier.service';
 import { Request } from 'express';

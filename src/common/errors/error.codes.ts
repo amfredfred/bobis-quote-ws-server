@@ -25,6 +25,12 @@ export const ErrorCode = Object.freeze({
     AUTO_TRADE_REQUIRES_BROKER: 'Auto-trade requires a connected broker account.',
     ACCOUNT_SYNC_FAILED: 'Failed to sync account data. Please try again shortly.',
 
+    // ✅ NEW: Tier-specific access errors
+    BROKER_SYNC_NOT_ALLOWED: 'Your current plan does not support connecting a broker account.',
+    PIPELINE_NOT_ALLOWED: 'Auto-trade is not available on your current plan.',
+    SIGNAL_SUBSCRIPTION_NOT_ALLOWED: 'Signal subscriptions are not available on your current plan.',
+    SIGNAL_SUBSCRIPTION_LIMIT_REACHED: 'You have reached your signal subscription limit.',
+
     // ── Subscription / Tier ───────────────────────────────────────────────────
     UPGRADE_REQUIRED: 'This feature requires a higher subscription tier.',
     SUBSCRIPTION_INACTIVE: 'Your subscription is inactive. Please renew to continue.',

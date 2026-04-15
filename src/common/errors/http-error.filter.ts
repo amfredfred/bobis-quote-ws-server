@@ -14,7 +14,7 @@ export class HttpErrorFilter implements ExceptionFilter {
     catch(exception: unknown, host: ArgumentsHost): void {
         const ctx = host.switchToHttp();
         const res = ctx.getResponse<Response>();
-        const req = ctx.getRequest<Request>();
+        const req = ctx.getRequest<Request>(); 
 
         const { message, code, httpStatus, internal } = resolveError(exception);
 
