@@ -3,7 +3,8 @@
 import { NestFactory } from '@nestjs/core';
 import { RequestMethod, ValidationPipe, Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
-import { IoAdapter } from '@nestjs/platform-socket.io'; 
+import { IoAdapter } from '@nestjs/platform-socket.io';
+import { HttpErrorFilter } from './common/errors';
 
 const logger = new Logger('Bootstrap');
 
@@ -31,12 +32,14 @@ process.on('uncaughtException', (err: Error) => {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
- 
+
   app.useWebSocketAdapter(new IoAdapter(app));
   app.setGlobalPrefix('api/v1', {
     exclude: [{ path: 'admin/(.*)', method: RequestMethod.ALL }]
   });
- 
+
+  app.useGlobalFilters(new HttpErrorFilter());
+
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
     whitelist: true,

@@ -52,6 +52,7 @@ import { CreateStrategyDto, UpdateStrategyDto } from '../strategy/strategy.servi
 import { PerformanceHandler } from './handlers/performance.handler';
 import { ReferralHandler } from './handlers/referral.handler';
 import { SkipThrottle } from '@nestjs/throttler';
+import { resolveError } from '../common/errors';
 
 // ── Payload shapes ─────────────────────────────────────────────────────────────
 
@@ -299,8 +300,8 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       const data = await (handler as (p: any) => Promise<unknown>)(msg.payload);
       this._reply(client, msg.command, data, msg.requestId);
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Internal error';
-      this.logger.error(`[${msg.command}] ${message}`);
+      const { message, code, internal } = resolveError(e);
+      this.logger.error(`[${msg.command}] ${code}`, internal instanceof Error ? internal.stack : String(internal));
       this._error(client, msg.requestId, message, msg.command);
     }
   }
@@ -373,10 +374,10 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       // Performance Hub — pro+ tier-gated, global signal intelligence
       'performance.dashboard': () => this.performanceHandler.dashboard(userId),
       // Referral
-      'referral.link':         () => this.referralHandler.getLink(userId),
-      'referral.track':        (p) => this.referralHandler.trackSignup(userId, p.referralCode),
-      'referral.dashboard':    () => this.referralHandler.getDashboard(userId),
-      'referral.confirm':      (p) => this.referralHandler.confirm(userId, p.tier),
+      'referral.link': () => this.referralHandler.getLink(userId),
+      'referral.track': (p) => this.referralHandler.trackSignup(userId, p.referralCode),
+      'referral.dashboard': () => this.referralHandler.getDashboard(userId),
+      'referral.confirm': (p) => this.referralHandler.confirm(userId, p.tier),
       'referral.reward.claim': (p) => this.referralHandler.claimReward(userId, p.rewardId),
       'referral.setPayoutPreference': (p) => this.referralHandler.setPayoutPreference(userId, p.preference),
       'referral.setSlug': (p) => this.referralHandler.setCustomSlug(userId, p.slug),
