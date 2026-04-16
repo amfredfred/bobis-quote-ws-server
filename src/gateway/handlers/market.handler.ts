@@ -44,12 +44,12 @@ export class MarketHandler {
     userId: string,
     params: { symbol?: string; status?: string; limit?: number; offset?: number },
   ) {
-    await this.tierGuard.checkCanAccessTradeIdeas(userId);
+    // await this.tierGuard.checkCanAccessTradeIdeas(userId);
     return this.listAlerts(userId, params);
   }
 
   async tradeIdeasDashboard(userId: string) {
-    await this.tierGuard.checkCanAccessTradeIdeas(userId);
+    // await this.tierGuard.checkCanAccessTradeIdeas(userId);
     return this.dashboardStats(userId);
   }
 
