@@ -40,6 +40,9 @@ export interface AccountRiskConfig {
   // Spread quality gate
   slRatioThreshold: number;   // reject if spread > SL_pips * threshold (default 0.3)
 
+  // Hedging guard — when true, BUY+SELL on the same symbol cannot coexist
+  noHedging: boolean;
+
   // Loss-guard circuit breaker (mirrors Python LossTracker)
   maxConsecutiveLosses: number;   // Guard 1: pause after N losses in a row (0 = disabled, default 3)
   pauseAfterStreakH: number;   // Guard 1: pause duration in hours (default 12)
@@ -79,6 +82,7 @@ export const DEFAULT_RISK_CONFIG: AccountRiskConfig = {
   minLotSize: 0.01,
   symbolFilter: [],
   slRatioThreshold: 0.3,     // spread must be < 30% of SL size
+  noHedging: false,
   maxConsecutiveLosses: 3,       // Guard 1
   pauseAfterStreakH: 12,      // Guard 1
   maxDailyLosses: 3,       // Guard 2

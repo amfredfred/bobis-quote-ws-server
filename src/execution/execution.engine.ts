@@ -55,7 +55,8 @@ export class ExecutionEngine {
       ]);
 
       // ── 3. Risk (spread rule needs symbolInfo) ────────────────────────────
-      const risk = this.riskEngine.evaluate(signal, this.store.getOpenTrades(), this._dailyLossPct, symbolInfo);
+      const openTrades = this.store.getOpenTrades();
+      const risk = this.riskEngine.evaluate({ signal, openTrades, dailyLossPct: this._dailyLossPct, symbolInfo });
       if (!risk.approved) {
         this.bus.emit(EventNames.RISK_REJECTED, { signal, reason: risk.reason ?? 'unknown' });
         return null;

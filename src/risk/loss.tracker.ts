@@ -51,34 +51,34 @@ function dayEndMs(date: Date): number {
 export interface LossTrackerConfig {
   // Guard 1 — consecutive streak
   maxConsecutiveLosses: number;    // default 3
-  pauseAfterStreakH:    number;    // default 12
+  pauseAfterStreakH: number;    // default 12
 
   // Guard 2 — daily cap (0 = disabled)
-  maxDailyLosses:      number;    // default 3
+  maxDailyLosses: number;    // default 3
 
   // Guard 3 — rolling window (0 = disabled)
-  maxLossesPerWindow:  number;    // default 2
-  lossWindowHours:     number;    // default 4
+  maxLossesPerWindow: number;    // default 2
+  lossWindowHours: number;    // default 4
 }
 
 export interface LossTrackerStats {
   consecutiveLosses: number;
-  dailyLosses:       number;
-  paused:            boolean;
-  pausedUntilMs:     number | null;
-  guardConfig:       LossTrackerConfig;
+  dailyLosses: number;
+  paused: boolean;
+  pausedUntilMs: number | null;
+  guardConfig: LossTrackerConfig;
 }
 
 export class LossTracker {
   private readonly logger;
-  private readonly cfg:        LossTrackerConfig;
+  private readonly cfg: LossTrackerConfig;
 
   // [closedAtMs, isLoss] pairs — today's trades only, sorted ascending
   private history: Array<[number, boolean]> = [];
   private pausedUntil = 0;
 
   constructor(cfg: LossTrackerConfig, accountId: string) {
-    this.cfg    = cfg;
+    this.cfg = cfg;
     this.logger = createLogger(`loss-tracker.${accountId.slice(0, 8)}`);
   }
 
@@ -89,14 +89,14 @@ export class LossTracker {
     accountId: string,
   ): Promise<void> {
     const todayStart = dayStartMs(new Date());
-    const todayEnd   = dayEndMs(new Date());
+    const todayEnd = dayEndMs(new Date());
 
     try {
       const trades = await prisma.trade.findMany({
         where: {
           accountId,
           closedAt: { gte: new Date(todayStart), lt: new Date(todayEnd) },
-          status:   { in: ['CLOSED', 'CANCELLED'] },
+          status: { in: ['CLOSED', 'CANCELLED'] },
         },
         select: { id: true, closedAt: true, closeReason: true },
         orderBy: { closedAt: 'asc' },
@@ -109,9 +109,9 @@ export class LossTracker {
       this._recomputePause();
 
       this.logger.info('Hydrated', {
-        trades:  this.history.length,
-        losses:  this.history.filter(([, l]) => l).length,
-        paused:  this.pausedUntil > nowMs(),
+        trades: this.history.length,
+        losses: this.history.filter(([, l]) => l).length,
+        paused: this.pausedUntil > nowMs(),
       });
     } catch (err) {
       this.logger.warn('Could not hydrate from DB', { error: String(err) });
@@ -135,11 +135,11 @@ export class LossTracker {
     this._recomputePause();
 
     this.logger.info('Trade closed', {
-      tradeId:          trade.id,
-      outcome:          isLoss ? 'LOSS' : 'WIN/NEUTRAL',
+      tradeId: trade.id,
+      outcome: isLoss ? 'LOSS' : 'WIN/NEUTRAL',
       consecutiveLosses: this._consecutiveLosses(),
-      dailyLosses:      this._dailyLosses(),
-      paused:           this.pausedUntil > nowMs(),
+      dailyLosses: this._dailyLosses(),
+      paused: this.pausedUntil > nowMs(),
     });
   }
 
@@ -159,17 +159,17 @@ export class LossTracker {
     const paused = this.pausedUntil > 0 && now < this.pausedUntil;
     return {
       consecutiveLosses: this._consecutiveLosses(),
-      dailyLosses:       this._dailyLosses(),
+      dailyLosses: this._dailyLosses(),
       paused,
-      pausedUntilMs:     paused ? this.pausedUntil : null,
-      guardConfig:       this.cfg,
+      pausedUntilMs: paused ? this.pausedUntil : null,
+      guardConfig: this.cfg,
     };
   }
 
   // ── Internal ─────────────────────────────────────────────────────────────
 
   private _recomputePause(): void {
-    const now        = nowMs();
+    const now = nowMs();
     const candidates: number[] = [];
 
     // Guard 1 — consecutive streak
@@ -199,8 +199,8 @@ export class LossTracker {
 
     // Guard 3 — rolling window
     if (this.cfg.maxLossesPerWindow > 0 && this.cfg.lossWindowHours > 0) {
-      const windowMs   = this.cfg.lossWindowHours * 3_600_000;
-      const lossTimes  = this.history.filter(([, l]) => l).map(([ts]) => ts);
+      const windowMs = this.cfg.lossWindowHours * 3_600_000;
+      const lossTimes = this.history.filter(([, l]) => l).map(([ts]) => ts);
       for (const startTs of lossTimes) {
         const count = lossTimes.filter(ts => ts - startTs >= 0 && ts - startTs <= windowMs).length;
         if (count >= this.cfg.maxLossesPerWindow) {
@@ -229,5 +229,15 @@ export class LossTracker {
   private _dailyLosses(): number {
     const todayStart = dayStartMs(new Date());
     return this.history.filter(([ts, isLoss]) => isLoss && ts >= todayStart).length;
+  }
+
+  public updateConfig(patch: Partial<LossTrackerConfig>): void {
+    this.cfg.maxConsecutiveLosses = patch.maxConsecutiveLosses ?? this.cfg.maxConsecutiveLosses;
+    this.cfg.pauseAfterStreakH = patch.pauseAfterStreakH ?? this.cfg.pauseAfterStreakH;
+    this.cfg.maxDailyLosses = patch.maxDailyLosses ?? this.cfg.maxDailyLosses;
+    this.cfg.maxLossesPerWindow = patch.maxLossesPerWindow ?? this.cfg.maxLossesPerWindow;
+    this.cfg.lossWindowHours = patch.lossWindowHours ?? this.cfg.lossWindowHours;
+
+    this._recomputePause();
   }
 }

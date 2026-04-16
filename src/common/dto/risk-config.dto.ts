@@ -60,6 +60,9 @@ export class RiskConfigDto {
   @IsOptional() @IsNumber() @Min(0)
   slRatioThreshold?: number;
 
+  @IsOptional() @IsBoolean()
+  noHedging?: boolean;
+
   @IsOptional() @IsNumber() @Min(0)
   maxConsecutiveLosses?: number;
 

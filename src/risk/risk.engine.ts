@@ -3,7 +3,7 @@
 import { InboundSignal } from '../common/types/signal.types';
 import { Trade } from '../common/types/trade.types';
 import { AccountRiskConfig } from '../common/types/account.types';
-import { ALL_RULES, RiskRule } from './risk.rules';
+import { ALL_RULES, RiskRule, RuleContext } from './risk.rules';
 import { LossTracker, LossTrackerConfig } from './loss.tracker';
 import type { SymbolInfo } from '../common/types/position.types';
 import { AccountMetrics } from '../core/metrics/account.metrics';
@@ -12,6 +12,15 @@ import { createLogger } from '../common/logger/logger';
 export interface RiskResult {
   approved: boolean;
   reason?: string;
+}
+
+export interface EvaluateParams {
+  signal: InboundSignal;
+  openTrades: Trade[];
+  dailyLossPct: number;
+  effectiveOpen?: number;
+  effectiveSymbol?: number;
+  symbolInfo?: SymbolInfo;
 }
 
 export class RiskEngine {
@@ -59,28 +68,65 @@ export class RiskEngine {
     return t;
   }
 
-  evaluate(signal: InboundSignal, openTrades: Trade[], dailyLossPct: number, symbolInfo?: SymbolInfo): RiskResult {
+  evaluate(params: EvaluateParams): RiskResult {
+    const {
+      signal,
+      openTrades,
+      dailyLossPct,
+      effectiveOpen: providedEffectiveOpen = 0,
+      effectiveSymbol: providedEffectiveSymbol = 0,
+      symbolInfo,
+    } = params;
+
+    if (this.rules.length === 0) {
+      throw new Error("No risk rules configured");
+    }
+
     const openCount = openTrades.filter(t => t.status === 'OPEN' || t.status === 'PARTIALLY_CLOSED').length;
     const symbolCount = openTrades.filter(t => t.symbol === signal.symbol && (t.status === 'OPEN' || t.status === 'PARTIALLY_CLOSED')).length;
-    const effectiveOpen = openCount + this.pendingTotal();
-    const effectiveSymbol = symbolCount + (this.pending.get(signal.symbol) ?? 0);
+
+    const finalEffectiveOpen = providedEffectiveOpen || (openCount + this.pendingTotal());
+    const finalEffectiveSymbol = providedEffectiveSymbol || (symbolCount + (this.pending.get(signal.symbol) ?? 0));
+
+    // Build context once (mirrors Python's RuleContext)
+    const ctx: RuleContext = {
+      signal,
+      openTrades,
+      config: this.config,
+      dailyLossPct,
+      effectiveOpen: finalEffectiveOpen,
+      effectiveSymbol: finalEffectiveSymbol,
+      symbolInfo,
+      lossTracker: this.lossTracker,
+    };
 
     for (const rule of this.rules) {
-      const result = rule(signal, openTrades, this.config, dailyLossPct, effectiveOpen, effectiveSymbol, symbolInfo, this.lossTracker);
+      const result = rule(ctx);
       if (!result.approved) {
-        this.logger.warn('Rejected', { signalId: signal.id, symbol: signal.symbol, reason: result.reason });
+        this.logger.warn('Risk rejected', {
+          signalId: signal.id,
+          symbol: signal.symbol,
+          reason: result.reason
+        });
         this.metrics.increment('risk.rejected');
         this.metrics.increment(`risk.rejected_by.${result.reason.split(' ')[0].toLowerCase()}`);
         return { approved: false, reason: result.reason };
       }
     }
 
-    this.logger.info('Approved', { signalId: signal.id, symbol: signal.symbol, rr: signal.riskRewardRatio });
+    this.logger.info('Risk approved', {
+      signalId: signal.id,
+      symbol: signal.symbol,
+      direction: signal.direction,
+      rr: signal.riskRewardRatio
+    });
     this.metrics.increment('risk.approved');
     return { approved: true };
   }
 
   updateConfig(patch: Partial<AccountRiskConfig>): void {
     this.config = { ...this.config, ...patch };
+    // Update loss tracker config when risk mode or limits change
+    this.lossTracker.updateConfig?.(this._lossTrackerConfig());
   }
 }
