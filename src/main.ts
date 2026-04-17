@@ -35,7 +35,7 @@ async function bootstrap() {
 
   app.useWebSocketAdapter(new IoAdapter(app));
   app.setGlobalPrefix('api/v1', {
-    exclude: [{ path: 'admin/(.*)', method: RequestMethod.ALL }]
+    exclude: [{ path: 'admin/(.*)', method: RequestMethod.ALL }, { path: 'webhooks/(.*)', method: RequestMethod.POST }],
   });
 
   app.useGlobalFilters(new HttpErrorFilter());

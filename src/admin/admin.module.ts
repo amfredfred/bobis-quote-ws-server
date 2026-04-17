@@ -8,9 +8,10 @@ import { MetricsModule } from '../core/metrics/metrics.module';
 import { AuthModule } from '../auth/auth.module';
 import { PrismaModule } from '../prisma/prisma.module';
 import { NotificationsModule } from '../notifications/notifications.module';
+import { ReferralModule } from '@src/referral/referral.module';
 
 @Module({
-  imports:     [PipelineModule, MetricsModule, AuthModule, PrismaModule, NotificationsModule],
+  imports:     [PipelineModule, MetricsModule, AuthModule, PrismaModule, NotificationsModule, ReferralModule],
   controllers: [AdminController, RevenueCatWebhookController],
 })
 export class AdminModule {}

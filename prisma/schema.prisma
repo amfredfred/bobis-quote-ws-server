@@ -29,11 +29,11 @@ model Profile {
   lastNotificationReset     DateTime?                   @map("last_notification_reset") @db.Timestamptz(6)
   proExpiresAt              DateTime?                   @map("pro_expires_at") @db.Timestamptz(6)
   revenuecatAppUserId       String?                     @map("revenuecat_app_user_id")
+  subscriptionStatus        SubscriptionStatus?         @map("subscription_status")
   timezone                  String                      @default("America/New_York")
   createdAt                 DateTime                    @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt                 DateTime?                   @updatedAt @map("updated_at") @db.Timestamptz(6)
   subscriptionTier          String?                     @map("subscription_tier")
-  isPro                     Boolean                     @default(false) @map("is_pro")
   journalTrades             JournalTrade[]
   notificationLogs          NotificationLog[]
   referralLink              ReferralLink?
@@ -586,6 +586,15 @@ model referral_milestone_events {
   profiles        Profile  @relation(fields: [user_id], references: [userId], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([user_id, achieved_at(sort: Desc)], map: "rme_user_idx")
+  @@schema("public")
+}
+
+enum SubscriptionStatus {
+  CANCELLED
+  EXPIRED
+  ACTIVE
+  PAYMENT_FAILED
+
   @@schema("public")
 }
 

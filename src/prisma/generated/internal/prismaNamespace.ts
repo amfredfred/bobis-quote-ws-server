@@ -2112,6 +2112,7 @@ export const ProfileScalarFieldEnum = {
   lastNotificationReset: 'lastNotificationReset',
   proExpiresAt: 'proExpiresAt',
   revenuecatAppUserId: 'revenuecatAppUserId',
+  subscriptionStatus: 'subscriptionStatus',
   timezone: 'timezone',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -2692,6 +2693,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SubscriptionStatus'
+ */
+export type EnumSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'SubscriptionStatus[]'
+ */
+export type ListEnumSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionStatus[]'>
     
 
 

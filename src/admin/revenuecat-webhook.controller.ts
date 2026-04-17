@@ -3,18 +3,17 @@
 import {
   Controller, Post, Body, Headers,
   UnauthorizedException, BadRequestException,
-  Logger, HttpCode, HttpStatus,
+  HttpCode, HttpStatus,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PipelineManager } from '../pipeline/pipeline.manager';
-import { createLogger } from '../common/logger/logger';
+import { ReferralService } from '../referral/referral.service';
 import { ConfigService } from '@nestjs/config';
+import { createLogger } from '../common/logger/logger';
 
-const log = createLogger('revenuecat-webhook');
+const logger = createLogger('revenuecat-webhook');
 
-// ── RevenueCat event types we care about ──────────────────────────────────────
-// https://www.revenuecat.com/docs/integrations/webhooks/event-types-and-fields
-
+// RevenueCat event types
 const GRANT_EVENTS = new Set([
   'INITIAL_PURCHASE',
   'RENEWAL',
@@ -27,37 +26,33 @@ const REVOKE_EVENTS = new Set([
   'CANCELLATION',
   'EXPIRATION',
   'BILLING_ISSUE',
-  'SUBSCRIBER_ALIAS',  // treat as revoke — re-grant on next renewal
+  'SUBSCRIBER_ALIAS',
 ]);
 
 interface RcWebhookPayload {
   event: {
+    id?: string;
     type: string;
     app_user_id: string;
     original_app_user_id?: string;
     expiration_at_ms?: number | null;
     product_id?: string;
-    // entitlement_ids is present on purchase/renewal events
     entitlement_ids?: string[];
-    // offered_offering_id to determine which offering was used
     offered_offering_id?: string;
   };
 }
 
-// ── Controller ────────────────────────────────────────────────────────────────
-
 @Controller('webhooks/revenuecat')
 export class RevenueCatWebhookController {
-  private readonly logger = new Logger(RevenueCatWebhookController.name);
-
   constructor(
     private readonly prisma: PrismaService,
     private readonly pipeline: PipelineManager,
-    private readonly config: ConfigService
+    private readonly config: ConfigService,
+    private readonly referralService: ReferralService,
   ) { }
 
-  private get rcKey(): string {
-    return this.config.get<string>('REVENUECAT_SECRET_KEY') ?? '';
+  private get webhookSecret(): string {
+    return this.config.get<string>('REVENUECAT_WEBHOOK_SECRET') ?? '';
   }
 
   @Post()
@@ -66,14 +61,13 @@ export class RevenueCatWebhookController {
     @Headers('authorization') authHeader: string,
     @Body() body: RcWebhookPayload,
   ) {
-    // RevenueCat sends: Authorization: Bearer <REVENUECAT_SECRET_KEY>
-    if (!this.rcKey) {
-      this.logger.warn('REVENUECAT_SECRET_KEY not configured — rejecting webhook');
+    // Verify webhook
+    if (!this.webhookSecret) {
       throw new UnauthorizedException('Webhook not configured');
     }
 
     const token = authHeader?.replace(/^Bearer\s+/i, '').trim();
-    if (token !== this.rcKey) {
+    if (token !== this.webhookSecret) {
       throw new UnauthorizedException('Invalid webhook secret');
     }
 
@@ -83,58 +77,125 @@ export class RevenueCatWebhookController {
     }
 
     const rcUserId = event.original_app_user_id ?? event.app_user_id;
-    log.info(`RevenueCat webhook: ${event.type} for rcUserId=${rcUserId}`);
+    const eventType = event.type;
 
-    // Find the profile by revenuecatAppUserId
+    logger.info(`RevenueCat webhook: ${eventType} for rcUserId=${rcUserId}`);
+
+    // Find profile by RevenueCat user ID
     const profile = await this.prisma.profile.findFirst({
       where: { revenuecatAppUserId: rcUserId },
-      select: { userId: true, subscriptionTier: true },
+      select: { userId: true },
     });
 
     if (!profile) {
-      // User may not have synced yet — log and return 200 to avoid RC retrying
-      log.info(`No profile found for rcUserId=${rcUserId} — ignoring`);
+      logger.info(`No profile found for rcUserId=${rcUserId} — ignoring`);
       return { received: true };
     }
 
-    if (GRANT_EVENTS.has(event.type)) {
-      await this._grantPro(profile.userId, event.expiration_at_ms, event.entitlement_ids ?? []);
-    } else if (REVOKE_EVENTS.has(event.type)) {
-      await this._revokePro(profile.userId);
-    } else {
-      log.info(`Unhandled event type ${event.type} — no action`);
+    if (GRANT_EVENTS.has(eventType)) {
+      await this.handleGrantEvent(profile.userId, event);
+    } else if (REVOKE_EVENTS.has(eventType)) {
+      await this.handleRevokeEvent(profile.userId);
     }
 
     return { received: true };
   }
 
-  // ── Helpers ──────────────────────────────────────────────────────────────────
-
-  private async _grantPro(userId: string, expirationMs?: number | null, entitlementIds?: string[]): Promise<void> {
+  private async handleGrantEvent(
+    userId: string,
+    event: RcWebhookPayload['event'],
+  ): Promise<void> {
+    const expirationMs = event.expiration_at_ms;
     const proExpiresAt = expirationMs ? new Date(expirationMs) : null;
+    const tier = this.tierFromEntitlements(event.entitlement_ids ?? []);
 
-    // Derive tier from entitlement identifier (highest wins)
-    const tier = this._tierFromEntitlements(entitlementIds ?? []);
-
+    // Update subscription
     await this.prisma.profile.update({
       where: { userId },
-      data: { proExpiresAt, subscriptionTier: tier },
+      data: {
+        proExpiresAt,
+        subscriptionTier: tier,
+        subscriptionStatus: 'ACTIVE',
+      },
     });
 
-    log.info(`Pro GRANTED for userId=${userId}, tier=${tier}, expires=${proExpiresAt?.toISOString() ?? 'lifetime'}`);
+    logger.info(`Pro GRANTED for userId=${userId}`, {
+      tier,
+      eventType: event.type,
+      expiresAt: proExpiresAt
+    });
+
+    // Handle referral on initial purchase only
+    if (event.type === 'INITIAL_PURCHASE') {
+      await this.handleReferralOnPurchase(userId, tier);
+    }
   }
 
-  private _tierFromEntitlements(ids: string[]): string {
-    if (ids.some(id => ['elite', 'funded'].includes(id.toLowerCase()))) return 'elite';
-    if (ids.some(id => id.toLowerCase() === 'pro')) return 'pro';
-    if (ids.some(id => id.toLowerCase() === 'basic')) return 'basic';
-    return 'pro'; // default to pro if we have isPro but unknown entitlement
+  private async handleReferralOnPurchase(userId: string, tier: string): Promise<void> {
+    try {
+      // Check if user already has a referral as referee
+      const existingReferral = await this.prisma.referral.findFirst({
+        where: {
+          refereeId: userId,
+          status: { in: ['pending', 'signed_up'] }
+        },
+        select: { referralCode: true }
+      });
+
+      if (!existingReferral) {
+        logger.debug('No pending referral found for user', { userId });
+        return;
+      }
+
+      const referralCode = existingReferral.referralCode;
+
+      // Track signup (this will update the referral from pending/signed_up to subscribed)
+      const signupResult = await this.referralService.trackSignupAuth(userId, referralCode);
+
+      logger.info('Referral signup tracked', {
+        userId,
+        referralCode,
+        result: signupResult.status
+      });
+
+      // Confirm subscription and create rewards
+      const confirmResult = await this.referralService.confirmSubscription(userId, tier);
+
+      logger.info('Subscription confirmed for referral', {
+        userId,
+        tier,
+        referralStatus: confirmResult.status,
+        hasReward: !!confirmResult.tieredReward,
+        rewardMonths: confirmResult.tieredReward?.months,
+        hasRefereeBonus: !!confirmResult.refereeBonus
+      });
+
+      // Apply referee welcome bonus if available
+      if (confirmResult.refereeBonus?.days) {
+        const bonusResult = await this.referralService.applyRefereeBonus(userId);
+        logger.info('Referee bonus applied', {
+          userId,
+          days: bonusResult.days,
+          applied: bonusResult.applied
+        });
+      }
+
+    } catch (error: any) {
+      logger.error('Error handling referral on purchase', {
+        userId,
+        tier,
+        error: error.message,
+        stack: error.stack
+      });
+      // Don't throw - referral failure shouldn't break subscription processing
+    }
   }
 
-  private async _revokePro(userId: string): Promise<void> {
+  private async handleRevokeEvent(userId: string): Promise<void> {
+    // Update subscription status
     await this.prisma.profile.update({
       where: { userId },
-      data: { subscriptionTier: null },
+      data: { subscriptionStatus: 'CANCELLED' },
     });
 
     // Stop and disable any running auto-trade pipelines
@@ -153,9 +214,16 @@ export class RevenueCatWebhookController {
         accounts.map(a => this.pipeline.stopPipeline(a.id))
       );
 
-      log.info(`Stopped ${accounts.length} pipeline(s) for userId=${userId}`);
+      logger.info(`Stopped ${accounts.length} pipeline(s) for userId=${userId}`);
     }
 
-    log.info(`Pro REVOKED for userId=${userId}`);
+    logger.info(`Pro REVOKED for userId=${userId}`);
+  }
+
+  private tierFromEntitlements(entitlementIds: string[]): string {
+    if (entitlementIds.some(id => ['elite', 'funded'].includes(id.toLowerCase()))) return 'elite';
+    if (entitlementIds.some(id => id.toLowerCase() === 'pro')) return 'pro';
+    if (entitlementIds.some(id => id.toLowerCase() === 'basic')) return 'basic';
+    return 'basic';
   }
 }

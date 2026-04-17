@@ -19,7 +19,7 @@ const logger = createLogger('referral.service');
 const REWARD_EXPIRES_DAYS = 90;
 
 /** Display prices used to label reward value. Not authoritative for billing. */
-const TIER_PRICES: Record<string, number> = { basic: 49, pro: 149, elite: 499 };
+const TIER_PRICES: Record<string, number> = { basic: 14.99, pro: 44.97, elite: 149.90 };
 
 /** Welcome bonus days added to the referee's first subscription. */
 const REFEREE_WELCOME_BONUS_DAYS = 7;
@@ -369,7 +369,7 @@ export class ReferralService {
         tier,
         months: r.monthsAwarded,
         value,
-        rewardSubtype: (r as any).rewardSubtype ?? 'subscription_month',
+        rewardSubtype: r.reward_subtype ?? 'subscription_month',
         creditAmount: Number((r as any).creditAmount ?? 0),
         message: `Claim ${r.monthsAwarded} month ${tier.toUpperCase()} (worth $${value})`,
         expiresAt: r.expiresAt,
@@ -382,7 +382,7 @@ export class ReferralService {
       tier: r.tierAwarded ?? 'basic',
       months: r.monthsAwarded,
       value: Number(r.tierValue ?? r.amount ?? 0),
-      rewardSubtype: (r as any).rewardSubtype ?? 'subscription_month',
+      rewardSubtype: r.reward_subtype ?? 'subscription_month',
       claimedAt: r.claimedAt ?? (r as any).usedAt ?? r.createdAt,
       newExpiryDate: r.newExpiryDate,
     }));

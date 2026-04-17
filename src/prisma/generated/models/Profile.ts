@@ -54,6 +54,7 @@ export type ProfileMinAggregateOutputType = {
   lastNotificationReset: Date | null
   proExpiresAt: Date | null
   revenuecatAppUserId: string | null
+  subscriptionStatus: $Enums.SubscriptionStatus | null
   timezone: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -81,6 +82,7 @@ export type ProfileMaxAggregateOutputType = {
   lastNotificationReset: Date | null
   proExpiresAt: Date | null
   revenuecatAppUserId: string | null
+  subscriptionStatus: $Enums.SubscriptionStatus | null
   timezone: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -108,6 +110,7 @@ export type ProfileCountAggregateOutputType = {
   lastNotificationReset: number
   proExpiresAt: number
   revenuecatAppUserId: number
+  subscriptionStatus: number
   timezone: number
   createdAt: number
   updatedAt: number
@@ -145,6 +148,7 @@ export type ProfileMinAggregateInputType = {
   lastNotificationReset?: true
   proExpiresAt?: true
   revenuecatAppUserId?: true
+  subscriptionStatus?: true
   timezone?: true
   createdAt?: true
   updatedAt?: true
@@ -172,6 +176,7 @@ export type ProfileMaxAggregateInputType = {
   lastNotificationReset?: true
   proExpiresAt?: true
   revenuecatAppUserId?: true
+  subscriptionStatus?: true
   timezone?: true
   createdAt?: true
   updatedAt?: true
@@ -199,6 +204,7 @@ export type ProfileCountAggregateInputType = {
   lastNotificationReset?: true
   proExpiresAt?: true
   revenuecatAppUserId?: true
+  subscriptionStatus?: true
   timezone?: true
   createdAt?: true
   updatedAt?: true
@@ -313,6 +319,7 @@ export type ProfileGroupByOutputType = {
   lastNotificationReset: Date | null
   proExpiresAt: Date | null
   revenuecatAppUserId: string | null
+  subscriptionStatus: $Enums.SubscriptionStatus | null
   timezone: string
   createdAt: Date
   updatedAt: Date | null
@@ -363,6 +370,7 @@ export type ProfileWhereInput = {
   lastNotificationReset?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   proExpiresAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   revenuecatAppUserId?: Prisma.StringNullableFilter<"Profile"> | string | null
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusNullableFilter<"Profile"> | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFilter<"Profile"> | string
   createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
@@ -401,6 +409,7 @@ export type ProfileOrderByWithRelationInput = {
   lastNotificationReset?: Prisma.SortOrderInput | Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -442,6 +451,7 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
   lastNotificationReset?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   proExpiresAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   revenuecatAppUserId?: Prisma.StringNullableFilter<"Profile"> | string | null
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusNullableFilter<"Profile"> | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFilter<"Profile"> | string
   createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
@@ -480,6 +490,7 @@ export type ProfileOrderByWithAggregationInput = {
   lastNotificationReset?: Prisma.SortOrderInput | Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -515,6 +526,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   lastNotificationReset?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
   proExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
   revenuecatAppUserId?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusNullableWithAggregatesFilter<"Profile"> | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringWithAggregatesFilter<"Profile"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
@@ -542,6 +554,7 @@ export type ProfileCreateInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -580,6 +593,7 @@ export type ProfileUncheckedCreateInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -618,6 +632,7 @@ export type ProfileUpdateInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -656,6 +671,7 @@ export type ProfileUncheckedUpdateInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -694,6 +710,7 @@ export type ProfileCreateManyInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -721,6 +738,7 @@ export type ProfileUpdateManyMutationInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -748,6 +766,7 @@ export type ProfileUncheckedUpdateManyInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -775,6 +794,7 @@ export type ProfileCountOrderByAggregateInput = {
   lastNotificationReset?: Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -806,6 +826,7 @@ export type ProfileMaxOrderByAggregateInput = {
   lastNotificationReset?: Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -833,6 +854,7 @@ export type ProfileMinOrderByAggregateInput = {
   lastNotificationReset?: Prisma.SortOrder
   proExpiresAt?: Prisma.SortOrder
   revenuecatAppUserId?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -876,6 +898,10 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type NullableEnumSubscriptionStatusFieldUpdateOperationsInput = {
+  set?: $Enums.SubscriptionStatus | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -1060,6 +1086,7 @@ export type ProfileCreateWithoutTradingAccountsInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -1097,6 +1124,7 @@ export type ProfileUncheckedCreateWithoutTradingAccountsInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -1150,6 +1178,7 @@ export type ProfileUpdateWithoutTradingAccountsInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1187,6 +1216,7 @@ export type ProfileUncheckedUpdateWithoutTradingAccountsInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1224,6 +1254,7 @@ export type ProfileCreateWithoutJournalTradesInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -1261,6 +1292,7 @@ export type ProfileUncheckedCreateWithoutJournalTradesInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -1314,6 +1346,7 @@ export type ProfileUpdateWithoutJournalTradesInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1351,6 +1384,7 @@ export type ProfileUncheckedUpdateWithoutJournalTradesInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1388,6 +1422,7 @@ export type ProfileCreateWithoutTradingStrategiesInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -1425,6 +1460,7 @@ export type ProfileUncheckedCreateWithoutTradingStrategiesInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -1478,6 +1514,7 @@ export type ProfileUpdateWithoutTradingStrategiesInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1515,6 +1552,7 @@ export type ProfileUncheckedUpdateWithoutTradingStrategiesInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1552,6 +1590,7 @@ export type ProfileCreateWithoutSignalSubscriptionsInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -1589,6 +1628,7 @@ export type ProfileUncheckedCreateWithoutSignalSubscriptionsInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -1642,6 +1682,7 @@ export type ProfileUpdateWithoutSignalSubscriptionsInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1679,6 +1720,7 @@ export type ProfileUncheckedUpdateWithoutSignalSubscriptionsInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1716,6 +1758,7 @@ export type ProfileCreateWithoutNotificationLogsInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -1753,6 +1796,7 @@ export type ProfileUncheckedCreateWithoutNotificationLogsInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -1806,6 +1850,7 @@ export type ProfileUpdateWithoutNotificationLogsInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1843,6 +1888,7 @@ export type ProfileUncheckedUpdateWithoutNotificationLogsInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1880,6 +1926,7 @@ export type ProfileCreateWithoutTradingAnalyticsInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -1917,6 +1964,7 @@ export type ProfileUncheckedCreateWithoutTradingAnalyticsInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -1970,6 +2018,7 @@ export type ProfileUpdateWithoutTradingAnalyticsInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2007,6 +2056,7 @@ export type ProfileUncheckedUpdateWithoutTradingAnalyticsInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2044,6 +2094,7 @@ export type ProfileCreateWithoutReferralLinkInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -2081,6 +2132,7 @@ export type ProfileUncheckedCreateWithoutReferralLinkInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -2134,6 +2186,7 @@ export type ProfileUpdateWithoutReferralLinkInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2171,6 +2224,7 @@ export type ProfileUncheckedUpdateWithoutReferralLinkInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2208,6 +2262,7 @@ export type ProfileCreateWithoutReferralsReceivedInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -2245,6 +2300,7 @@ export type ProfileUncheckedCreateWithoutReferralsReceivedInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -2287,6 +2343,7 @@ export type ProfileCreateWithoutReferralsGivenInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -2324,6 +2381,7 @@ export type ProfileUncheckedCreateWithoutReferralsGivenInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -2377,6 +2435,7 @@ export type ProfileUpdateWithoutReferralsReceivedInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2414,6 +2473,7 @@ export type ProfileUncheckedUpdateWithoutReferralsReceivedInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2462,6 +2522,7 @@ export type ProfileUpdateWithoutReferralsGivenInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2499,6 +2560,7 @@ export type ProfileUncheckedUpdateWithoutReferralsGivenInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2536,6 +2598,7 @@ export type ProfileCreateWithoutReferralRewardsInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -2573,6 +2636,7 @@ export type ProfileUncheckedCreateWithoutReferralRewardsInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -2626,6 +2690,7 @@ export type ProfileUpdateWithoutReferralRewardsInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2663,6 +2728,7 @@ export type ProfileUncheckedUpdateWithoutReferralRewardsInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2700,6 +2766,7 @@ export type ProfileCreateWithoutReferral_milestone_eventsInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -2737,6 +2804,7 @@ export type ProfileUncheckedCreateWithoutReferral_milestone_eventsInput = {
   lastNotificationReset?: Date | string | null
   proExpiresAt?: Date | string | null
   revenuecatAppUserId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
   timezone?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -2790,6 +2858,7 @@ export type ProfileUpdateWithoutReferral_milestone_eventsInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2827,6 +2896,7 @@ export type ProfileUncheckedUpdateWithoutReferral_milestone_eventsInput = {
   lastNotificationReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   proExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   revenuecatAppUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2976,6 +3046,7 @@ export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   lastNotificationReset?: boolean
   proExpiresAt?: boolean
   revenuecatAppUserId?: boolean
+  subscriptionStatus?: boolean
   timezone?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3015,6 +3086,7 @@ export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   lastNotificationReset?: boolean
   proExpiresAt?: boolean
   revenuecatAppUserId?: boolean
+  subscriptionStatus?: boolean
   timezone?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3042,6 +3114,7 @@ export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   lastNotificationReset?: boolean
   proExpiresAt?: boolean
   revenuecatAppUserId?: boolean
+  subscriptionStatus?: boolean
   timezone?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3069,6 +3142,7 @@ export type ProfileSelectScalar = {
   lastNotificationReset?: boolean
   proExpiresAt?: boolean
   revenuecatAppUserId?: boolean
+  subscriptionStatus?: boolean
   timezone?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3076,7 +3150,7 @@ export type ProfileSelectScalar = {
   isPro?: boolean
 }
 
-export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "username" | "displayName" | "avatarUrl" | "notificationPushToken" | "pushEnabled" | "strategyReminders" | "accountAlerts" | "sessionReminders" | "drawdownWarnings" | "profitTargetAlerts" | "signalAlertsEnabled" | "maxTradesWarnings" | "tradingDaysReminders" | "lastNotificationSentAt" | "notificationSentToday" | "lastNotificationReset" | "proExpiresAt" | "revenuecatAppUserId" | "timezone" | "createdAt" | "updatedAt" | "subscriptionTier" | "isPro", ExtArgs["result"]["profile"]>
+export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "username" | "displayName" | "avatarUrl" | "notificationPushToken" | "pushEnabled" | "strategyReminders" | "accountAlerts" | "sessionReminders" | "drawdownWarnings" | "profitTargetAlerts" | "signalAlertsEnabled" | "maxTradesWarnings" | "tradingDaysReminders" | "lastNotificationSentAt" | "notificationSentToday" | "lastNotificationReset" | "proExpiresAt" | "revenuecatAppUserId" | "subscriptionStatus" | "timezone" | "createdAt" | "updatedAt" | "subscriptionTier" | "isPro", ExtArgs["result"]["profile"]>
 export type ProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journalTrades?: boolean | Prisma.Profile$journalTradesArgs<ExtArgs>
   notificationLogs?: boolean | Prisma.Profile$notificationLogsArgs<ExtArgs>
@@ -3129,6 +3203,7 @@ export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     lastNotificationReset: Date | null
     proExpiresAt: Date | null
     revenuecatAppUserId: string | null
+    subscriptionStatus: $Enums.SubscriptionStatus | null
     timezone: string
     createdAt: Date
     updatedAt: Date | null
@@ -3587,6 +3662,7 @@ export interface ProfileFieldRefs {
   readonly lastNotificationReset: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly proExpiresAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly revenuecatAppUserId: Prisma.FieldRef<"Profile", 'String'>
+  readonly subscriptionStatus: Prisma.FieldRef<"Profile", 'SubscriptionStatus'>
   readonly timezone: Prisma.FieldRef<"Profile", 'String'>
   readonly createdAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Profile", 'DateTime'>
