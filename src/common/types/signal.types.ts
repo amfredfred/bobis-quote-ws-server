@@ -1,5 +1,7 @@
 'use strict'
 
+import { SignalOutcome } from "@src/prisma/generated/enums";
+
 export type SignalDirection = 'LONG' | 'SHORT';
 export type SignalStatus =  'PENDING' | 'TRIGGERED' | 'TP1_HIT' | 'TP2_HIT' | 'SL_HIT' | 'INVALIDATED' | 'EXPIRED';
 
@@ -66,7 +68,7 @@ export interface InboundSignal {
   invalidationLoggedAt?: number;
   expiredAt?: number;
   closedAt?: number;
-  outcome?: string;
+  outcome?: SignalOutcome;
   realizedRR?: number;
   closePrice?: number;
   chartData?: unknown;

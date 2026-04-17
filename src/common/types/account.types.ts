@@ -13,13 +13,13 @@ import { RiskMode } from './trade.types';
  * Set per-account in riskConfig so a trader can run multiple accounts
  * with different modes simultaneously (e.g. one ultra, one standard).
  */
-export type TradeMode = 'all' | 'standard' | 'ultra';
+export type TradeMode = 'scalping' | 'hybrid' | 'all'
 
 /** Maps a TradeMode to the ltfInterval strings it accepts. */
 export const TRADE_MODE_LTF_MAP: Record<TradeMode, string[] | null> = {
   all: null,             // null = no filter, accept everything
-  standard: ['5min', '5m', 'M5'],
-  ultra: ['1min', '1m', 'M1'],
+  hybrid: ['5min', '5m', 'M5'],
+  scalping: ['1min', '1m', 'M1'],
 };
 
 export interface AccountRiskConfig {

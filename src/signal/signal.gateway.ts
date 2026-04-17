@@ -8,6 +8,7 @@ import { BosDirection, InboundSignal } from '../common/types/signal.types';
 import { MarketService } from '../market/market.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { createLogger } from '../common/logger/logger';
+import { SignalOutcome } from '@src/prisma/generated/enums';
 
 const logger = createLogger('signal.gateway');
 
@@ -35,7 +36,7 @@ export interface SignalQueryResult {
   requestId: string;
   signalId: string;
   status: string;
-  outcome: string | null;
+  outcome: SignalOutcome;
   realizedRR: number | null;
   tp1HitAt: number | null;
   tp2HitAt: number | null;
@@ -291,7 +292,7 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
    * Request all armed zones from the engine via zone.sync.
    * Returns [] to clear all zones in DB when engine has no armed zones.
    */
-  private async _syncZones(): Promise<void> {
+  public async _syncZones(): Promise<void> {
     if (this.ws?.readyState !== WebSocket.OPEN) return;
 
     const requestId = crypto.randomUUID();
@@ -349,7 +350,7 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
     );
   }
 
-  private async _reconcileOpenSignals(): Promise<void> {
+  public async _reconcileOpenSignals(): Promise<void> {
     const openSignals = await this.prisma.signalAlert.findMany({
       where: { status: { in: ['TRIGGERED', 'TP1_HIT'] } },
     });
@@ -391,7 +392,7 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
           this.bus.emit({
             ...signal,
             status: result.status as InboundSignal['status'],
-            outcome: result.outcome ?? undefined,
+            outcome: result.outcome,
             realizedRR: result.realizedRR ?? undefined,
             tp1HitAt: result.tp1HitAt ?? undefined,
             tp2HitAt: result.tp2HitAt ?? undefined,

@@ -3,13 +3,15 @@
 import { Injectable, NotFoundException, Inject, forwardRef } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { SignalGateway } from '../signal/signal.gateway';
+import { SignalAlertStatus, SignalOutcome } from '@src/prisma/generated/enums';
+import { InboundSignal } from '@src/common/types/signal.types';
 
 export interface UpsertSignalAlertDto {
   engineId: string;
   symbol: string;
   direction: 'LONG' | 'SHORT';
-  status?: string;
-  outcome?: string;
+  status?: SignalAlertStatus;
+  outcome?: SignalOutcome;
   entryPrice: number;
   stopLoss: number;
   tp1: number;
@@ -75,46 +77,57 @@ export class MarketService {
 
   // ── Signal alerts ──────────────────────────────────────────────────────────
 
-  async upsertSignalAlert(dto: UpsertSignalAlertDto) {
+  async upsertSignalAlert(dto: InboundSignal) {
     return this.prisma.signalAlert.upsert({
-      where: { engineId: dto.engineId },
+      where: { engineId: dto.id },
+
       create: {
-        engineId: dto.engineId,
+        engineId: dto.id,
         symbol: dto.symbol,
-        direction: dto.direction as any,
-        status: (dto.status ?? 'PENDING') as any,
+        direction: dto.direction,
+        status: dto.status ?? 'PENDING',
+
         entryPrice: dto.entryPrice,
         stopLoss: dto.stopLoss,
         tp1: dto.tp1,
         tp2: dto.tp2,
         riskRewardRatio: dto.riskRewardRatio,
         riskPips: dto.riskPips,
-        htfRangeHigh: dto.htfRangeHigh,
-        htfRangeLow: dto.htfRangeLow,
-        htfBosDirection: dto.htfBosDirection,
-        htfTimestamp: new Date(dto.htfTimestamp),
+
+        htfRangeHigh: dto.htfRange.rangeHigh,
+        htfRangeLow: dto.htfRange.rangeLow,
+        htfBosDirection: dto.htfRange.bosDirection,
+        htfTimestamp: new Date(dto.htfRange.timestamp),
         ...(dto.htfInterval ? { htfInterval: dto.htfInterval } : {}),
-        ltfRangeHigh: dto.ltfRangeHigh,
-        ltfRangeLow: dto.ltfRangeLow,
-        ltfTimestamp: new Date(dto.ltfTimestamp),
-        ltfSlLevel: dto.ltfSlLevel,
+
+        ltfRangeHigh: dto.ltfRange.rangeHigh,
+        ltfRangeLow: dto.ltfRange.rangeLow,
+        ltfTimestamp: new Date(dto.ltfRange.timestamp),
+        ltfSlLevel: dto.ltfRange.slLevel,
         ...(dto.ltfInterval ? { ltfInterval: dto.ltfInterval } : {}),
-        rejectionOpen: dto.rejectionOpen,
-        rejectionHigh: dto.rejectionHigh,
-        rejectionLow: dto.rejectionLow,
-        rejectionClose: dto.rejectionClose,
-        rejectionTimestamp: new Date(dto.rejectionTimestamp),
-        rejectionWickRatio: dto.rejectionWickRatio,
-        rejectionPattern: dto.rejectionPattern,
-        rejectionWickTip: dto.rejectionWickTip,
-        rawPayload: dto.rawPayload as any,
+
+        rejectionOpen: dto.rejectionCandle.open,
+        rejectionHigh: dto.rejectionCandle.high,
+        rejectionLow: dto.rejectionCandle.low,
+        rejectionClose: dto.rejectionCandle.close,
+        rejectionTimestamp: new Date(dto.rejectionCandle.timestamp),
+        rejectionWickRatio: dto.rejectionCandle.wickRatio,
+        rejectionPattern: dto.rejectionCandle.pattern,
+        rejectionWickTip: dto.rejectionCandle.wickTip,
+
+        rawPayload: dto as any,
         chartData: dto.chartData as any,
         zoneId: dto.zoneId,
       },
+
       update: {
-        status: dto.status as any,
-        outcome: dto.outcome as any,
-        chartData: dto.chartData as any,
+        status: dto.status ?? undefined,
+        outcome: dto.outcome ?? undefined,
+        chartData: dto.chartData ?? undefined,
+        realizedRr: dto.realizedRR,
+        tp1HitAt: dto.tp1HitAt ? new Date(dto.tp1HitAt) : undefined,
+        closedAt: dto.closedAt ? new Date(dto.closedAt) : undefined,
+        closePrice: dto.closePrice ? dto.tp2 : undefined,
       },
     });
   }
@@ -151,16 +164,20 @@ export class MarketService {
   }
 
   async updateAlertStatus(engineId: string, status: string, extra: Record<string, unknown> = {}) {
-    return this.prisma.signalAlert.update({
+    const updated = await this.prisma.signalAlert.update({
       where: { engineId },
       data: { status: status as any, ...extra },
     });
+
+    await this.signalGateway._reconcileOpenSignals();
+
+    return updated;
   }
 
   // ── Zones ──────────────────────────────────────────────────────────────────
 
   async upsertZone(dto: UpsertZoneDto) {
-    return this.prisma.signalZone.upsert({
+    const zone = await this.prisma.signalZone.upsert({
       where: { engineKey: dto.engineKey },
       create: {
         engineKey: dto.engineKey,
@@ -183,6 +200,10 @@ export class MarketService {
       },
       update: { status: dto.status as any },
     });
+
+    // await this.signalGateway._syncZones();
+
+    return zone;
   }
 
   async getZones(userId: string, params: { symbol?: string; status?: string; limit?: number; offset?: number }) {

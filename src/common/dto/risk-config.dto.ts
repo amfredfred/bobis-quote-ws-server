@@ -54,8 +54,8 @@ export class RiskConfigDto {
   @IsOptional() @IsString()
   comment?: string;
 
-  @IsOptional() @IsIn(['all', 'standard', 'ultra'])
-  tradeMode?: 'all' | 'standard' | 'ultra';
+  @IsOptional() @IsIn(['scalping', 'hybrid', 'all'])
+  tradeMode?: 'scalping' | 'hybrid' | 'all';
 
   @IsOptional() @IsNumber() @Min(0)
   slRatioThreshold?: number;

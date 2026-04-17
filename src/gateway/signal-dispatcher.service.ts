@@ -71,42 +71,9 @@ export class SignalDispatcherService implements OnModuleInit, OnModuleDestroy {
         this.logger.debug(`Dispatching signal ${signal.id} (${symbol} ${signal.direction} ${status})`);
 
         // 1. Persist to DB — fire and forget, don't block the WS push
-        Promise.resolve().then(() => this.marketService.upsertSignalAlert({
-            engineId: signal.id,
-            symbol,
-            direction: signal.direction,
-            status,
-            outcome: signal.outcome,
-            entryPrice: signal.entryPrice,
-            stopLoss: signal.stopLoss,
-            tp1: signal.tp1,
-            tp2: signal.tp2,
-            riskRewardRatio: signal.riskRewardRatio,
-            riskPips: signal.riskPips,
-            htfRangeHigh: signal.htfRange.rangeHigh,
-            htfRangeLow: signal.htfRange.rangeLow,
-            htfBosDirection: signal.htfRange.bosDirection,
-            htfTimestamp: new Date(signal.htfRange.timestamp).toISOString(),
-            htfBrokenAt: signal.htfRange.brokenAt ? new Date(signal.htfRange.brokenAt).toISOString() : undefined,
-            htfInterval: signal.htfInterval,
-            ltfRangeHigh: signal.ltfRange.rangeHigh,
-            ltfRangeLow: signal.ltfRange.rangeLow,
-            ltfTimestamp: new Date(signal.ltfRange.timestamp).toISOString(),
-            ltfSlLevel: signal.ltfRange.slLevel,
-            ltfDirection: signal.ltfRange.direction,
-            ltfInterval: signal.ltfInterval,
-            rejectionOpen: signal.rejectionCandle.open,
-            rejectionHigh: signal.rejectionCandle.high,
-            rejectionLow: signal.rejectionCandle.low,
-            rejectionClose: signal.rejectionCandle.close,
-            rejectionTimestamp: new Date(signal.rejectionCandle.timestamp).toISOString(),
-            rejectionWickRatio: signal.rejectionCandle.wickRatio,
-            rejectionPattern: signal.rejectionCandle.pattern,
-            rejectionWickTip: signal.rejectionCandle.wickTip,
-            chartData: signal.chartData,
-            zoneId: signal.zoneId,
-            rawPayload: signal,
-        })).catch((err: Error) => this.logger.error(`Failed to persist signal ${signal.id}: ${err.message}`));
+        Promise.resolve()
+            .then(() => this.marketService.upsertSignalAlert(signal))
+            .catch((err: Error) => this.logger.error(`Failed to persist signal ${signal.id}: ${err.message}`));
 
         // 2. Update zone status when a signal progresses past PENDING
         if (signal.zoneId && status !== 'PENDING') {
@@ -116,7 +83,7 @@ export class SignalDispatcherService implements OnModuleInit, OnModuleDestroy {
             Promise.resolve().then(() =>
                 this.prisma.signalZone.updateMany({
                     where: { engineKey: { contains: signal.zoneId! } },
-                    data: { status: zoneStatus as any },
+                    data: { status: zoneStatus },
                 })
             ).catch((err: Error) => this.logger.warn(`Zone status update failed: ${err.message}`));
         }

@@ -39,14 +39,8 @@ export class ExecutionEngine {
   async execute(signal: InboundSignal): Promise<Trade | null> {
     const pipelineStart = nowMs();
 
-    // ── 1. Reserve slot BEFORE evaluation to prevent race conditions ────────
-    // By reserving first, concurrent signals for the same symbol will see the
-    // pending count and correctly fail maxExposurePerSymbol / maxOpenTrades checks.
-    this.riskEngine.reserve(signal.symbol);
-
     try {
-      // ── 2. Resolve broker symbol dynamically from account's symbol list ────
-      // No manual suffix needed — MetaAPI returns the exact broker symbol name
+      // ── 1. Resolve broker symbol dynamically from account's symbol list ────
       const brokerSymbol = await this.metaApi.resolveSymbol(this.metaApiAccountId, signal.symbol);
 
       const [accountInfo, symbolInfo] = await Promise.all([
@@ -54,13 +48,18 @@ export class ExecutionEngine {
         this.metaApi.getSymbolInfo(this.metaApiAccountId, brokerSymbol),
       ]);
 
-      // ── 3. Risk (spread rule needs symbolInfo) ────────────────────────────
+      // ── 2. Risk eval BEFORE reserving ────────────────────────────────────
+      // Reserve only after approval so the slot does not count against itself
+      // during evaluation (matches Python: reserve inside lock, after decision).
       const openTrades = this.store.getOpenTrades();
       const risk = this.riskEngine.evaluate({ signal, openTrades, dailyLossPct: this._dailyLossPct, symbolInfo });
       if (!risk.approved) {
         this.bus.emit(EventNames.RISK_REJECTED, { signal, reason: risk.reason ?? 'unknown' });
         return null;
       }
+
+      // ── 3. Reserve slot now that the signal is approved ───────────────────
+      this.riskEngine.reserve(signal.symbol);
 
       this.bus.emit(EventNames.RISK_APPROVED, { signal });
 
@@ -69,6 +68,7 @@ export class ExecutionEngine {
       this.bus.emit(EventNames.TRADE_PLANNED, { plan });
 
       // ── 5. Execute ───────────────────────────────────────────────────────
+
       const brokerSendMs = nowMs();
       const order = await this.metaApi.openOrder(this.metaApiAccountId, {
         symbol: brokerSymbol,

@@ -17,7 +17,6 @@ import { PipelineManager } from '../pipeline/pipeline.manager';
 import { PrismaService } from '../prisma/prisma.service';
 import { RiskConfigDto } from '../common/dto/risk-config.dto';
 import { Type } from 'class-transformer';
-import { JournalAccountType } from '@src/prisma/generated/enums';
 
 // ── DTOs ──────────────────────────────────────────────────────────────────────
 
@@ -26,13 +25,13 @@ export class ImportAccountDto {
   @IsString() login!: string;
   @IsString() password!: string;
   @IsString() server!: string;
-  @IsInt() @IsOptional() startBalance?: number;
-  @IsInt() @IsOptional() maxDailyLoss?: number;
-  @IsInt() @IsOptional() maxTotalDrawdown?: number;
-  @IsInt() @IsOptional() minProfitTarget?: number;
-  @IsInt() @IsOptional() maxTradesPerDay?: number;
+  @IsOptional() @IsInt() startBalance?: number;
+  @IsOptional() @IsInt() maxDailyLoss?: number;
+  @IsOptional() @IsInt() maxTotalDrawdown?: number;
+  @IsOptional() @IsInt() minProfitTarget?: number;
+  @IsOptional() @IsInt() maxTradesPerDay?: number;
   @IsIn(['mt4', 'mt5']) platform!: 'mt4' | 'mt5';
-  @IsIn([JournalAccountType.prop, JournalAccountType.personal, JournalAccountType.demo]) accountType;
+  @IsOptional() @IsIn(['prop', 'personal', 'demo']) accountType?: string;
   @IsOptional() @IsBoolean() autoTradeEnabled?: boolean;
   @IsOptional() @Type(() => RiskConfigDto) riskConfig?: RiskConfigDto;
 }
