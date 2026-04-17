@@ -45,6 +45,7 @@ export class RiskEngine {
       maxDailyLosses: this.config.maxDailyLosses ?? 3,
       maxLossesPerWindow: this.config.maxLossesPerWindow ?? 2,
       lossWindowHours: this.config.lossWindowHours ?? 4,
+      engineTimezone: this.config.engineTimezone ?? 'UTC',
     };
   }
 

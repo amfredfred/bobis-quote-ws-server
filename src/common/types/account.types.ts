@@ -43,12 +43,40 @@ export interface AccountRiskConfig {
   // Hedging guard — when true, BUY+SELL on the same symbol cannot coexist
   noHedging: boolean;
 
+  // ── Portfolio-level correlation guard ──────────────────────────────────────
+  /**
+   * Pair whitelist per account.  When non-empty, signals whose symbol is NOT
+   * in this list are silently dropped before reaching the risk engine or
+   * broker.  Empty array means NO symbols are allowed (default behaviour).
+   *
+   * Example: ['EURUSD', 'GBPUSD', 'XAUUSD']
+   */
+  authorizedPairs: string[];
+
+  /**
+   * Maximum net directional exposure score allowed across the entire portfolio
+   * within any single correlation group (e.g. USD_EXPOSURE, JPY_EXPOSURE).
+   *
+   * The score is an integer count of net-directional units:
+   *   +1 per LONG on a symbol that profits when the group's risk factor rises
+   *   −1 per SHORT (or inverse-symbol LONG) on that factor
+   *
+   * A value of 3 means the engine blocks a trade when the absolute group score
+   * would reach 3, preventing a situation like 3 simultaneous short-USD bets
+   * (LONG EURUSD + LONG GBPUSD + LONG AUDUSD) across all connected accounts.
+   *
+   * Set to 0 to disable the portfolio correlation check entirely.
+   * Default: 3
+   */
+  maxCorrelatedExposure: number;
+
   // Loss-guard circuit breaker (mirrors Python LossTracker)
   maxConsecutiveLosses: number;   // Guard 1: pause after N losses in a row (0 = disabled, default 3)
   pauseAfterStreakH: number;   // Guard 1: pause duration in hours (default 12)
   maxDailyLosses: number;   // Guard 2: max losing trades per day (0 = disabled, default 3)
   maxLossesPerWindow: number;   // Guard 3: max losses within rolling window (0 = disabled, default 2)
   lossWindowHours: number;   // Guard 3: rolling window size in hours (default 4)
+  engineTimezone: string;   // IANA tz for Guard 2 day boundaries (e.g. 'Africa/Lagos', default 'UTC')
   tp1PartialClose: number;
   moveSlToBE: boolean;
   spreadRiskMultiplier: number;
@@ -83,11 +111,14 @@ export const DEFAULT_RISK_CONFIG: AccountRiskConfig = {
   symbolFilter: [],
   slRatioThreshold: 0.3,     // spread must be < 30% of SL size
   noHedging: false,
+  authorizedPairs: [],          // empty = NO pairs allowed
+  maxCorrelatedExposure: 3,     // block when net group exposure reaches ±3
   maxConsecutiveLosses: 3,       // Guard 1
   pauseAfterStreakH: 12,      // Guard 1
   maxDailyLosses: 3,       // Guard 2
   maxLossesPerWindow: 2,       // Guard 3
   lossWindowHours: 4,       // Guard 3
+  engineTimezone: 'UTC',
   tp1PartialClose: 50,
   moveSlToBE: false,
   spreadRiskMultiplier: 1.0,

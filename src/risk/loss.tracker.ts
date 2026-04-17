@@ -38,14 +38,28 @@ const LOSS_REASONS = new Set<CloseReason>(['SL_HIT', 'INVALIDATED', 'CLOSED_WHIL
 
 function nowMs(): number { return Date.now(); }
 
-function dayStartMs(date: Date): number {
-  const d = new Date(date);
-  d.setUTCHours(0, 0, 0, 0);
-  return d.getTime();
+function dayStartMs(date: Date, tz: string): number {
+  // Find the start of the calendar day in the engine timezone
+  const dateStr = new Intl.DateTimeFormat('en-CA', {
+    timeZone: tz,
+    year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(date);
+  // dateStr is YYYY-MM-DD in engine tz — convert that local midnight back to UTC ms
+  const tzOffset = getTzOffsetMs(new Date(dateStr + 'T00:00:00Z'), tz);
+  return new Date(dateStr + 'T00:00:00Z').getTime() - tzOffset;
 }
 
-function dayEndMs(date: Date): number {
-  return dayStartMs(date) + 24 * 3_600_000;
+function dayEndMs(date: Date, tz: string): number {
+  return dayStartMs(date, tz) + 24 * 3_600_000;
+}
+
+function getTzOffsetMs(utcDate: Date, tz: string): number {
+  const fmt = (timeZone: string) =>
+    new Intl.DateTimeFormat('en-CA', {
+      timeZone, year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+    }).format(utcDate).replace(',', '');
+  return new Date(fmt(tz)).getTime() - new Date(fmt('UTC')).getTime();
 }
 
 export interface LossTrackerConfig {
@@ -59,6 +73,9 @@ export interface LossTrackerConfig {
   // Guard 3 — rolling window (0 = disabled)
   maxLossesPerWindow: number;    // default 2
   lossWindowHours: number;    // default 4
+
+  // Timezone for day-boundary calculations (Guard 2 daily cap + midnight rollover)
+  engineTimezone: string;    // default 'UTC', e.g. 'Africa/Lagos', 'America/New_York'
 }
 
 export interface LossTrackerStats {
@@ -88,8 +105,8 @@ export class LossTracker {
     prisma: { trade: { findMany: (args: object) => Promise<Array<{ id: string; closedAt: Date | null; closeReason: string | null }>> } },
     accountId: string,
   ): Promise<void> {
-    const todayStart = dayStartMs(new Date());
-    const todayEnd = dayEndMs(new Date());
+    const todayStart = dayStartMs(new Date(), this.cfg.engineTimezone);
+    const todayEnd = dayEndMs(new Date(), this.cfg.engineTimezone);
 
     try {
       const trades = await prisma.trade.findMany({
@@ -123,7 +140,7 @@ export class LossTracker {
   onTradeClosed(trade: { id: string; closedAt?: number | null; closeReason?: CloseReason | null }): void {
     if (!trade.closedAt) return;
 
-    const todayStart = dayStartMs(new Date());
+    const todayStart = dayStartMs(new Date(), this.cfg.engineTimezone);
     if (trade.closedAt < todayStart) return;
 
     const isLoss = LOSS_REASONS.has(trade.closeReason as CloseReason);
@@ -189,7 +206,7 @@ export class LossTracker {
     if (this.cfg.maxDailyLosses > 0) {
       const dl = this._dailyLosses();
       if (dl >= this.cfg.maxDailyLosses) {
-        const pauseUntil = dayEndMs(new Date());
+        const pauseUntil = dayEndMs(new Date(), this.cfg.engineTimezone);
         if (pauseUntil > now) {
           candidates.push(pauseUntil);
           this.logger.warn('Guard 2 triggered', { dailyLosses: dl });
@@ -227,7 +244,7 @@ export class LossTracker {
   }
 
   private _dailyLosses(): number {
-    const todayStart = dayStartMs(new Date());
+    const todayStart = dayStartMs(new Date(), this.cfg.engineTimezone);
     return this.history.filter(([ts, isLoss]) => isLoss && ts >= todayStart).length;
   }
 
@@ -237,6 +254,7 @@ export class LossTracker {
     this.cfg.maxDailyLosses = patch.maxDailyLosses ?? this.cfg.maxDailyLosses;
     this.cfg.maxLossesPerWindow = patch.maxLossesPerWindow ?? this.cfg.maxLossesPerWindow;
     this.cfg.lossWindowHours = patch.lossWindowHours ?? this.cfg.lossWindowHours;
+    this.cfg.engineTimezone = patch.engineTimezone ?? this.cfg.engineTimezone;
 
     this._recomputePause();
   }

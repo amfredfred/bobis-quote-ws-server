@@ -233,7 +233,7 @@ export type NotificationLogWhereInput = {
   userId?: Prisma.UuidFilter<"NotificationLog"> | string
   notificationType?: Prisma.EnumNotificationTypeFilter<"NotificationLog"> | $Enums.NotificationType
   accountId?: Prisma.UuidNullableFilter<"NotificationLog"> | string | null
-  strategyId?: Prisma.UuidNullableFilter<"NotificationLog"> | string | null
+  strategyId?: Prisma.StringNullableFilter<"NotificationLog"> | string | null
   title?: Prisma.StringFilter<"NotificationLog"> | string
   body?: Prisma.StringFilter<"NotificationLog"> | string
   data?: Prisma.JsonNullableFilter<"NotificationLog">
@@ -272,7 +272,7 @@ export type NotificationLogWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.UuidFilter<"NotificationLog"> | string
   notificationType?: Prisma.EnumNotificationTypeFilter<"NotificationLog"> | $Enums.NotificationType
   accountId?: Prisma.UuidNullableFilter<"NotificationLog"> | string | null
-  strategyId?: Prisma.UuidNullableFilter<"NotificationLog"> | string | null
+  strategyId?: Prisma.StringNullableFilter<"NotificationLog"> | string | null
   title?: Prisma.StringFilter<"NotificationLog"> | string
   body?: Prisma.StringFilter<"NotificationLog"> | string
   data?: Prisma.JsonNullableFilter<"NotificationLog">
@@ -312,7 +312,7 @@ export type NotificationLogScalarWhereWithAggregatesInput = {
   userId?: Prisma.UuidWithAggregatesFilter<"NotificationLog"> | string
   notificationType?: Prisma.EnumNotificationTypeWithAggregatesFilter<"NotificationLog"> | $Enums.NotificationType
   accountId?: Prisma.UuidNullableWithAggregatesFilter<"NotificationLog"> | string | null
-  strategyId?: Prisma.UuidNullableWithAggregatesFilter<"NotificationLog"> | string | null
+  strategyId?: Prisma.StringNullableWithAggregatesFilter<"NotificationLog"> | string | null
   title?: Prisma.StringWithAggregatesFilter<"NotificationLog"> | string
   body?: Prisma.StringWithAggregatesFilter<"NotificationLog"> | string
   data?: Prisma.JsonNullableWithAggregatesFilter<"NotificationLog">
@@ -641,7 +641,7 @@ export type NotificationLogScalarWhereInput = {
   userId?: Prisma.UuidFilter<"NotificationLog"> | string
   notificationType?: Prisma.EnumNotificationTypeFilter<"NotificationLog"> | $Enums.NotificationType
   accountId?: Prisma.UuidNullableFilter<"NotificationLog"> | string | null
-  strategyId?: Prisma.UuidNullableFilter<"NotificationLog"> | string | null
+  strategyId?: Prisma.StringNullableFilter<"NotificationLog"> | string | null
   title?: Prisma.StringFilter<"NotificationLog"> | string
   body?: Prisma.StringFilter<"NotificationLog"> | string
   data?: Prisma.JsonNullableFilter<"NotificationLog">

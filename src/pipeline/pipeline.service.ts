@@ -16,6 +16,7 @@ import { EventBus } from '../core/event-bus/event.bus';
 import { nowMs } from '../common/utils/time.utils';
 import { createLogger } from '../common/logger/logger';
 import { PrismaService } from '../prisma/prisma.service';
+import { SignalValidator } from '../signal/signal.validator';
 
 export interface PipelineSnapshot {
   accountId: string;
@@ -27,14 +28,17 @@ export interface PipelineSnapshot {
   lossGuardStats?: import('../risk/loss.tracker').LossTrackerStats;
 }
 
+
 export class PipelineService {
   private readonly logger;
   private readonly metrics: AccountMetrics;
   private readonly store: PositionStore;
   private readonly riskEngine: RiskEngine;
   private readonly tradePlanner: TradePlanner;
+  private readonly signalValidator: SignalValidator;
   private readonly executionEngine: ExecutionEngine;
   private readonly positionManager: PositionManager;
+  private readonly ownerUserId: string = "unknown";
 
   // Authoritative daily loss comes exclusively from the broker via getDailyLossPct().
   // We do NOT accumulate locally to avoid double-counting during the polling gap.
@@ -50,12 +54,14 @@ export class PipelineService {
     private readonly bus: EventBus,
     private readonly prisma?: PrismaService,
   ) {
+    this.ownerUserId = account.userId;
     this.logger = createLogger(`pipeline.${account.id.slice(0, 8)}`);
     this.metrics = metricsSvc.forAccount(account.id);
     const cfg = account.riskConfig!;
     const metaId = account.metaApiAccountId!; // guaranteed non-null — only autoTrade accounts start pipelines
 
     this.store = new PositionStore();
+    this.signalValidator = new SignalValidator();
     this.riskEngine = new RiskEngine(cfg, account.id, this.metrics);
     this.tradePlanner = new TradePlanner(cfg, account.id);
 
@@ -129,6 +135,16 @@ export class PipelineService {
 
   async handleSignal(signal: InboundSignal): Promise<void> {
     this.metrics.increment('signals.received');
+
+    const validation = this.signalValidator.validate(signal);
+    if (!validation.valid) {
+      this.logger.warn('Signal failed structural validation — rejected before risk eval', {
+        signalId: signal.id, errors: validation.errors,
+      });
+      this.metrics.increment('signals.invalid');
+      return;
+    }
+
     await this.executionEngine.execute(signal);
   }
 

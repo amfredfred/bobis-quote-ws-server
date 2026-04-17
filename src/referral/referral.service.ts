@@ -706,7 +706,6 @@ export class ReferralService {
           data: {
             subscriptionTier: newTier,
             proExpiresAt: newExpiry,
-            isPro: ['pro', 'elite'].includes(newTier),
           },
         }),
       );

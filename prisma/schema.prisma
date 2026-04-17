@@ -346,7 +346,7 @@ model NotificationLog {
   userId           String           @map("user_id") @db.Uuid
   notificationType NotificationType @map("notification_type")
   accountId        String?          @map("account_id") @db.Uuid
-  strategyId       String?          @map("strategy_id") @db.Uuid
+  strategyId       String?          @map("strategy_id") 
   title            String
   body             String
   data             Json?
