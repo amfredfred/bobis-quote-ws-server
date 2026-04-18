@@ -73,6 +73,7 @@ interface Payloads {
   'account.delete': { id: string };
   'account.stats': { id: string };
   'account.pipeline': { id: string };
+  'account.positions': { id: string };
   'account.toggleAutoTrade': { id: string; enabled: boolean };
   'strategies.list': Record<string, never>;
   'strategy.get': { id: string };
@@ -327,6 +328,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'account.delete': (p) => this.accountHandler.delete(userId, p.id),
       'account.stats': (p) => this.accountHandler.stats(userId, p.id),
       'account.pipeline': (p) => this.accountHandler.getPipelineStatus(userId, p.id),
+      'account.positions': (p) => this.accountHandler.getLivePositions(userId, p.id),
       'account.toggleAutoTrade': (p) => this.accountHandler.toggleAutoTrade(userId, p.id, p.enabled),
       // Strategies
       'strategies.list': () => this.strategyHandler.list(userId),

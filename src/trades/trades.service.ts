@@ -1,3 +1,5 @@
+'use strict'
+
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Trade, TradePlan, TradeStatus, OrderSide } from '../common/types/trade.types';
@@ -114,6 +116,107 @@ export class TradesService {
   async findByTicket(accountId: string, ticket: number): Promise<Trade | null> {
     const row = await this.prisma.trade.findFirst({ where: { accountId, entryTicket: ticket } });
     return row ? this._mapTrade(row as PrismaTradeRow) : null;
+  }
+
+  // ── Journal sync ───────────────────────────────────────────────────────────
+
+  /**
+   * Upsert a JournalTrade row from an execution-engine Trade.
+   *
+   * Called twice per trade lifecycle:
+   *   1. On TRADE_OPENED  — creates the record with status=open, source='auto_trade'
+   *   2. On TRADE_CLOSED  — updates result, closeReason, realizedRR, lifecycle timestamps
+   *
+   * Keyed on ticketId (broker ticket number) so restarts don't create duplicates.
+   * Falls back to trade.id as the key when entryTicket is not yet available.
+   *
+   * Strategy is intentionally NULL for auto-trades — the user never selected one.
+   * The schema was updated to make strategy_id nullable for exactly this reason.
+   */
+  async upsertJournalFromExecution(trade: Trade, userId: string): Promise<void> {
+    const ticketKey = trade.entryTicket ? String(trade.entryTicket) : trade.id;
+    const isClosed = trade.status === 'CLOSED';
+
+    // Map execution side → journal direction (lowercase, as JournalTrade requires)
+    const direction = (trade.side === 'BUY' ? 'long' : 'short') as any;
+
+    // Map close reason → journal result
+    const result = isClosed
+      ? (trade.closeReason === 'TP2_HIT'
+        ? 'profit'
+        : trade.closeReason === 'SL_HIT' || trade.closeReason === 'CLOSED_WHILE_DOWN'
+          ? 'loss'
+          : trade.closeReason === 'TP1_HIT'
+            ? 'breakeven'   // partial close only — rare edge case
+            : null)
+      : null;
+
+    const statusJournal = isClosed ? 'closed' : 'open';
+
+    const closeReasonEnum = trade.closeReason as any ?? null;
+
+    try {
+      await this.prisma.journalTrade.upsert({
+        where: { ticketId: ticketKey } as any,
+        create: {
+          userId,
+          accountId: trade.accountId,
+          // strategy intentionally null — auto-trade has no user-selected strategy
+          strategyId: null,
+          symbol: trade.symbol,
+          direction,
+          status: statusJournal as any,
+          result: result as any,
+          entryPrice: trade.entryPrice ?? 0,
+          exitPrice: trade.closePrice ?? null,
+          quantity: trade.entryLots,
+          ticketId: ticketKey,
+          pnl: trade.realizedPnl ?? null,
+          commission: 0,
+          swap: 0,
+          screenshotUrls: [],
+          source: 'auto_trade',
+          tradeDate: trade.openedAt ? new Date(trade.openedAt) : new Date(),
+          closedAt: trade.closedAt ? new Date(trade.closedAt) : null,
+          // Execution context
+          signalId: trade.signalId && trade.signalId !== 'unknown' ? trade.signalId : null,
+          closeReason: closeReasonEnum,
+          realizedRR: trade.realizedRR ?? null,
+          entryLots: trade.entryLots,
+          tp1Hit: trade.tp1Hit,
+          tp1HitAt: trade.tp1HitAt ? new Date(trade.tp1HitAt) : null,
+          tp2Hit: trade.tp2Hit,
+          tp2HitAt: trade.tp2HitAt ? new Date(trade.tp2HitAt) : null,
+          slHit: trade.slHit,
+          slHitAt: trade.slHitAt ? new Date(trade.slHitAt) : null,
+        },
+        update: {
+          status: statusJournal as any,
+          result: result as any,
+          exitPrice: trade.closePrice ?? undefined,
+          pnl: trade.realizedPnl ?? undefined,
+          closedAt: trade.closedAt ? new Date(trade.closedAt) : undefined,
+          // Execution context — always overwrite with latest broker values
+          closeReason: closeReasonEnum,
+          realizedRR: trade.realizedRR ?? undefined,
+          entryLots: trade.entryLots,
+          tp1Hit: trade.tp1Hit,
+          tp1HitAt: trade.tp1HitAt ? new Date(trade.tp1HitAt) : undefined,
+          tp2Hit: trade.tp2Hit,
+          tp2HitAt: trade.tp2HitAt ? new Date(trade.tp2HitAt) : undefined,
+          slHit: trade.slHit,
+          slHitAt: trade.slHitAt ? new Date(trade.slHitAt) : undefined,
+        },
+      });
+      logger.debug('JournalTrade upserted from execution', {
+        tradeId: trade.id, ticket: ticketKey, status: statusJournal,
+      });
+    } catch (err) {
+      // Non-fatal: journal sync failure must not affect broker position management
+      logger.error('Failed to upsert JournalTrade from execution', {
+        tradeId: trade.id, error: String(err),
+      });
+    }
   }
 
   // ── Signal persistence ─────────────────────────────────────────────────────

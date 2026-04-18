@@ -3,6 +3,7 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { AppGateway } from './app.gateway';
 import { SignalDispatcherService } from './signal-dispatcher.service';
+import { TradeDispatcherService } from './trade-dispatcher.service';
 
 // Feature handlers
 import { DashboardHandler } from './handlers/dashboard.handler';
@@ -64,7 +65,7 @@ const HANDLERS = [
     ReferralModule,
     forwardRef(() => PipelineModule),
   ],
-  providers: [AppGateway, SignalDispatcherService, ...HANDLERS],
+  providers: [AppGateway, SignalDispatcherService, TradeDispatcherService, ...HANDLERS],
   exports:   [AppGateway],
 })
 export class GatewayModule {}

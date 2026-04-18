@@ -185,6 +185,13 @@ export class PipelineService {
       tradeId: trade.id,
     }).catch(() => { });
 
+    // Journal sync: create the JournalTrade row so it appears in the Trades page
+    // immediately on entry with source='auto_trade' and all execution context.
+    this.tradesSvc.upsertJournalFromExecution(trade, this.ownerUserId)
+      .catch(err => this.logger.error('Journal upsert failed on open', {
+        tradeId: trade.id, error: String(err),
+      }));
+
     // Trade persistence: retry with exponential back-off so a transient DB
     // failure does not result in a permanently missing trade record.
     this._persistWithRetry(trade);
@@ -217,6 +224,11 @@ export class PipelineService {
       status: trade.status, tp1Hit: true, tp1HitAt: trade.tp1HitAt,
       currentLots: trade.currentLots, stopLoss: trade.stopLoss,
     });
+    // Journal sync: reflect tp1Hit and updated stopLoss (now breakeven) immediately
+    this.tradesSvc.upsertJournalFromExecution(trade, this.ownerUserId)
+      .catch(err => this.logger.error('Journal upsert failed on TP1', {
+        tradeId: trade.id, error: String(err),
+      }));
   }
 
   private _onTp2Hit(trade: Trade): void {
@@ -300,6 +312,13 @@ export class PipelineService {
       closePrice: trade.closePrice, closedAt: trade.closedAt,
       realizedPnl: trade.realizedPnl, realizedRR: trade.realizedRR,
     }).catch(err => this.logger.error('Failed to persist close', { tradeId: trade.id, error: String(err) }));
+
+    // Journal sync: update the JournalTrade row with close context so the
+    // Trades page shows closeReason, realizedRR, and lifecycle timestamps.
+    this.tradesSvc.upsertJournalFromExecution(trade, this.ownerUserId)
+      .catch(err => this.logger.error('Journal upsert failed on close', {
+        tradeId: trade.id, error: String(err),
+      }));
   }
 
   private _onDailyLossUpdate(pct: number): void {

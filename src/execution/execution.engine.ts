@@ -54,14 +54,14 @@ export class ExecutionEngine {
       const openTrades = this.store.getOpenTrades();
       const risk = this.riskEngine.evaluate({ signal, openTrades, dailyLossPct: this._dailyLossPct, symbolInfo });
       if (!risk.approved) {
-        this.bus.emit(EventNames.RISK_REJECTED, { signal, reason: risk.reason ?? 'unknown' });
+        this.bus.emit(EventNames.RISK_REJECTED, { signal, reason: risk.reason ?? 'unknown', accountId: this.accountId });
         return null;
       }
 
       // ── 3. Reserve slot now that the signal is approved ───────────────────
       this.riskEngine.reserve(signal.symbol);
 
-      this.bus.emit(EventNames.RISK_APPROVED, { signal });
+      this.bus.emit(EventNames.RISK_APPROVED, { signal, accountId: this.accountId });
 
       // ── 4. Plan ──────────────────────────────────────────────────────────
       const plan = this.tradePlanner.plan(signal, accountInfo, symbolInfo);

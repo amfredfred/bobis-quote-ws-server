@@ -148,19 +148,19 @@ export interface MonthScore {
 // ─── Session hour ranges (UTC) ─────────────────────────────────────────────────
 
 export const SESSIONS: Record<string, { start: number; end: number }> = {
-  sydney:            { start: 21, end: 6  },  // 21:00–06:00 UTC (wraps midnight)
-  tokyo:             { start: 0,  end: 9  },
-  london:            { start: 7,  end: 16 },
-  new_york:          { start: 12, end: 21 },
+  sydney: { start: 21, end: 6 },  // 21:00–06:00 UTC (wraps midnight)
+  tokyo: { start: 0, end: 9 },
+  london: { start: 7, end: 16 },
+  new_york: { start: 12, end: 21 },
   london_ny_overlap: { start: 12, end: 16 },
 };
 
 function getSession(hourUtc: number): SessionBucket['session'] {
   if (hourUtc >= 12 && hourUtc < 16) return 'london_ny_overlap';
-  if (hourUtc >= 7  && hourUtc < 16) return 'london';
+  if (hourUtc >= 7 && hourUtc < 16) return 'london';
   if (hourUtc >= 12 && hourUtc < 21) return 'new_york';
-  if (hourUtc >= 0  && hourUtc < 9 ) return 'tokyo';
-  if (hourUtc >= 21 || hourUtc < 6 ) return 'sydney';
+  if (hourUtc >= 0 && hourUtc < 9) return 'tokyo';
+  if (hourUtc >= 21 || hourUtc < 6) return 'sydney';
   return 'off_hours';
 }
 
@@ -189,11 +189,11 @@ function computeMonthScore(
   tradeCount: number,
   targetTrades = 20,
 ): MonthScore['breakdown'] & { total: number } {
-  const winRateScore    = Math.round(Math.min(winRate / 60 * 30, 30));          // 60% WR = full score
-  const expScore        = Math.round(Math.min(Math.max(expectancy, 0) / 50 * 30, 30)); // $50 exp = full
-  const consistScore    = Math.round(followedPlanPct / 100 * 20);
-  const volumeScore     = Math.round(Math.min(tradeCount / targetTrades, 1) * 20);
-  const total           = winRateScore + expScore + consistScore + volumeScore;
+  const winRateScore = Math.round(Math.min(winRate / 60 * 30, 30));          // 60% WR = full score
+  const expScore = Math.round(Math.min(Math.max(expectancy, 0) / 50 * 30, 30)); // $50 exp = full
+  const consistScore = Math.round(followedPlanPct / 100 * 20);
+  const volumeScore = Math.round(Math.min(tradeCount / targetTrades, 1) * 20);
+  const total = winRateScore + expScore + consistScore + volumeScore;
   return { winRateScore, expectancyScore: expScore, consistencyScore: consistScore, volumeScore, total };
 }
 
@@ -201,7 +201,7 @@ function computeMonthScore(
 
 @Injectable()
 export class AnalyticsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   // ── 1. Risk of Ruin ──────────────────────────────────────────────────────────
 
@@ -214,16 +214,16 @@ export class AnalyticsService {
       }),
     ]);
 
-    const startBalance      = account?.startBalance ?? 0;
-    const maxDrawdownLimit  = account?.maxTotalDrawdown ?? startBalance * 0.1; // default 10%
-    const winTrades  = trades.filter(t => t.result === 'profit').map(t => t.pnl ?? 0);
+    const startBalance = account?.startBalance ?? 0;
+    const maxDrawdownLimit = account?.maxTotalDrawdown ?? startBalance * 0.1; // default 10%
+    const winTrades = trades.filter(t => t.result === 'profit').map(t => t.pnl ?? 0);
     const lossTrades = trades.filter(t => t.result === 'loss').map(t => Math.abs(t.pnl ?? 0));
 
-    const wins    = winTrades.length;
-    const losses  = lossTrades.length;
-    const total   = trades.length;
+    const wins = winTrades.length;
+    const losses = lossTrades.length;
+    const total = trades.length;
     const winRate = total > 0 ? (wins / total) * 100 : 0;
-    const avgWin  = wins  > 0 ? winTrades.reduce((a, b) => a + b, 0)  / wins   : 0;
+    const avgWin = wins > 0 ? winTrades.reduce((a, b) => a + b, 0) / wins : 0;
     const avgLoss = losses > 0 ? lossTrades.reduce((a, b) => a + b, 0) / losses : 0;
     const expectancy = total > 0
       ? (winRate / 100 * avgWin) - ((1 - winRate / 100) * avgLoss)
@@ -231,15 +231,15 @@ export class AnalyticsService {
 
     // Equity peak & current drawdown
     let equity = startBalance;
-    let peak   = startBalance;
+    let peak = startBalance;
     for (const t of trades) equity += t.pnl ?? 0;
     for (const t of trades) {
       const running = startBalance + trades.slice(0, trades.indexOf(t) + 1).reduce((s, x) => s + (x.pnl ?? 0), 0);
       if (running > peak) peak = running;
     }
-    const currentDrawdown    = Math.max(0, peak - equity);
+    const currentDrawdown = Math.max(0, peak - equity);
     const currentDrawdownPct = startBalance > 0 ? (currentDrawdown / startBalance) * 100 : 0;
-    const drawdownUsedPct    = maxDrawdownLimit > 0 ? (currentDrawdown / maxDrawdownLimit) * 100 : 0;
+    const drawdownUsedPct = maxDrawdownLimit > 0 ? (currentDrawdown / maxDrawdownLimit) * 100 : 0;
 
     // Current consecutive loss streak (from most recent trades)
     let consecutiveLosses = 0;
@@ -256,18 +256,18 @@ export class AnalyticsService {
 
     const streakRiskLevel: RiskOfRuinResult['streakRiskLevel'] =
       lossesToRuin <= 2 ? 'danger' :
-      lossesToRuin <= 5 ? 'caution' : 'safe';
+        lossesToRuin <= 5 ? 'caution' : 'safe';
 
     return {
-      winRate:             Math.round(winRate * 10) / 10,
-      avgWin:              Math.round(avgWin * 100) / 100,
-      avgLoss:             Math.round(avgLoss * 100) / 100,
-      expectancy:          Math.round(expectancy * 100) / 100,
+      winRate: Math.round(winRate * 10) / 10,
+      avgWin: Math.round(avgWin * 100) / 100,
+      avgLoss: Math.round(avgLoss * 100) / 100,
+      expectancy: Math.round(expectancy * 100) / 100,
       riskOfRuin,
-      currentDrawdown:     Math.round(currentDrawdown * 100) / 100,
-      currentDrawdownPct:  Math.round(currentDrawdownPct * 10) / 10,
-      maxAllowedDrawdown:  maxDrawdownLimit,
-      drawdownUsedPct:     Math.round(drawdownUsedPct * 10) / 10,
+      currentDrawdown: Math.round(currentDrawdown * 100) / 100,
+      currentDrawdownPct: Math.round(currentDrawdownPct * 10) / 10,
+      maxAllowedDrawdown: maxDrawdownLimit,
+      drawdownUsedPct: Math.round(drawdownUsedPct * 10) / 10,
       consecutiveLosses,
       lossesToRuin,
       streakRiskLevel,
@@ -282,40 +282,40 @@ export class AnalyticsService {
       this.prisma.profile.findUnique({ where: { userId }, select: { timezone: true } }),
     ]);
     const startBalance = account?.startBalance ?? 0;
-    const tz           = profile?.timezone ?? 'UTC';
+    const tz = profile?.timezone ?? 'UTC';
 
     const where: any = { userId, accountId, status: 'closed' };
     if (startDate) where.tradeDate = { ...where.tradeDate, gte: new Date(startDate) };
-    if (endDate)   where.tradeDate = { ...where.tradeDate, lte: new Date(endDate) };
+    if (endDate) where.tradeDate = { ...where.tradeDate, lte: new Date(endDate) };
 
     const trades = await this.prisma.journalTrade.findMany({ where, orderBy: { tradeDate: 'asc' } });
 
     let running = startBalance;
-    let peak    = startBalance;
-    let maxDD   = 0;
+    let peak = startBalance;
+    let maxDD = 0;
 
     const equityCurve: EquityPoint[] = trades.map(t => {
       running += t.pnl ?? 0;
       if (running > peak) peak = running;
-      const dd    = Math.max(0, peak - running);
+      const dd = Math.max(0, peak - running);
       const ddPct = startBalance > 0 ? (dd / startBalance) * 100 : 0;
       if (dd > maxDD) maxDD = dd;
       const rawDate = t.tradeDate ?? t.createdAt;
       return {
-        date:        toLocalDateString(rawDate, tz),
-        equity:      Math.round((running - startBalance) * 100) / 100,
-        drawdown:    Math.round(dd * 100) / 100,
+        date: toLocalDateString(rawDate, tz),
+        equity: Math.round((running - startBalance) * 100) / 100,
+        drawdown: Math.round(dd * 100) / 100,
         drawdownPct: Math.round(ddPct * 10) / 10,
       };
     });
 
-    const currentDD    = equityCurve.length > 0 ? equityCurve[equityCurve.length - 1].drawdown : 0;
+    const currentDD = equityCurve.length > 0 ? equityCurve[equityCurve.length - 1].drawdown : 0;
     const currentDDPct = equityCurve.length > 0 ? equityCurve[equityCurve.length - 1].drawdownPct : 0;
 
     return {
-      maxDrawdown:        Math.round(maxDD * 100) / 100,
-      maxDrawdownPct:     startBalance > 0 ? Math.round((maxDD / startBalance) * 100 * 10) / 10 : 0,
-      currentDrawdown:    currentDD,
+      maxDrawdown: Math.round(maxDD * 100) / 100,
+      maxDrawdownPct: startBalance > 0 ? Math.round((maxDD / startBalance) * 100 * 10) / 10 : 0,
+      currentDrawdown: currentDD,
       currentDrawdownPct: currentDDPct,
       equityCurve,
     };
@@ -330,17 +330,17 @@ export class AnalyticsService {
     });
 
     const calc = (slice: typeof trades): RollingWindow => {
-      const wins   = slice.filter(t => t.result === 'profit').length;
+      const wins = slice.filter(t => t.result === 'profit').length;
       const losses = slice.filter(t => t.result === 'loss').length;
-      const total  = slice.length;
+      const total = slice.length;
       const totalPnl = slice.reduce((s, t) => s + (t.pnl ?? 0), 0);
       return {
-        trades:     total,
+        trades: total,
         wins,
         losses,
-        winRate:    total > 0 ? Math.round((wins / total) * 100 * 10) / 10 : 0,
+        winRate: total > 0 ? Math.round((wins / total) * 100 * 10) / 10 : 0,
         expectancy: total > 0 ? Math.round((totalPnl / total) * 100) / 100 : 0,
-        totalPnl:   Math.round(totalPnl * 100) / 100,
+        totalPnl: Math.round(totalPnl * 100) / 100,
       };
     };
 
@@ -352,7 +352,7 @@ export class AnalyticsService {
     // Trend: compare last10 WR to last50 WR
     const trend: RollingPerformance['trend'] =
       last10.winRate > last50.winRate + 5 ? 'improving' :
-      last10.winRate < last50.winRate - 5 ? 'declining' : 'stable';
+        last10.winRate < last50.winRate - 5 ? 'declining' : 'stable';
 
     return { last10, last20, last50, allTime, trend };
   }
@@ -371,33 +371,34 @@ export class AnalyticsService {
     const byStrategy = new Map<string, typeof trades>();
     for (const t of trades) {
       const key = t.strategyId;
+      if (!key) continue; // skip trades not tagged with a strategy
       if (!byStrategy.has(key)) byStrategy.set(key, []);
       byStrategy.get(key)!.push(t);
     }
 
     return Array.from(byStrategy.entries()).map(([strategyId, ts]) => {
-      const wins      = ts.filter(t => t.result === 'profit');
-      const losses    = ts.filter(t => t.result === 'loss');
+      const wins = ts.filter(t => t.result === 'profit');
+      const losses = ts.filter(t => t.result === 'loss');
       const breakeven = ts.filter(t => t.result === 'breakeven');
-      const totalPnl  = ts.reduce((s, t) => s + (t.pnl ?? 0), 0);
-      const grossProfit = wins.reduce((s, t)   => s + (t.pnl ?? 0), 0);
-      const grossLoss   = Math.abs(losses.reduce((s, t) => s + (t.pnl ?? 0), 0));
-      const avgWin  = wins.length   > 0 ? grossProfit / wins.length   : 0;
-      const avgLoss = losses.length > 0 ? grossLoss   / losses.length : 0;
+      const totalPnl = ts.reduce((s, t) => s + (t.pnl ?? 0), 0);
+      const grossProfit = wins.reduce((s, t) => s + (t.pnl ?? 0), 0);
+      const grossLoss = Math.abs(losses.reduce((s, t) => s + (t.pnl ?? 0), 0));
+      const avgWin = wins.length > 0 ? grossProfit / wins.length : 0;
+      const avgLoss = losses.length > 0 ? grossLoss / losses.length : 0;
 
       return {
         strategyId,
-        strategyName:  ts[0]?.strategy?.name ?? 'Unknown',
-        trades:        ts.length,
-        wins:          wins.length,
-        losses:        losses.length,
-        breakeven:     breakeven.length,
-        winRate:       ts.length > 0 ? Math.round((wins.length / ts.length) * 100 * 10) / 10 : 0,
-        expectancy:    ts.length > 0 ? Math.round((totalPnl / ts.length) * 100) / 100 : 0,
-        totalPnl:      Math.round(totalPnl * 100) / 100,
-        profitFactor:  grossLoss > 0 ? Math.round((grossProfit / grossLoss) * 100) / 100 : (grossProfit > 0 ? 999 : 0),
-        avgWin:        Math.round(avgWin * 100) / 100,
-        avgLoss:       Math.round(avgLoss * 100) / 100,
+        strategyName: ts[0]?.strategy?.name ?? 'Unknown',
+        trades: ts.length,
+        wins: wins.length,
+        losses: losses.length,
+        breakeven: breakeven.length,
+        winRate: ts.length > 0 ? Math.round((wins.length / ts.length) * 100 * 10) / 10 : 0,
+        expectancy: ts.length > 0 ? Math.round((totalPnl / ts.length) * 100) / 100 : 0,
+        totalPnl: Math.round(totalPnl * 100) / 100,
+        profitFactor: grossLoss > 0 ? Math.round((grossProfit / grossLoss) * 100) / 100 : (grossProfit > 0 ? 999 : 0),
+        avgWin: Math.round(avgWin * 100) / 100,
+        avgLoss: Math.round(avgLoss * 100) / 100,
       };
     }).sort((a, b) => b.totalPnl - a.totalPnl);
   }
@@ -414,55 +415,55 @@ export class AnalyticsService {
     ]);
     const tz = profile?.timezone ?? 'UTC';
 
-    const hourMap  = new Map<number, { wins: number; losses: number; pnl: number; trades: number }>();
-    const sessMap  = new Map<string, { wins: number; losses: number; pnl: number; trades: number }>();
+    const hourMap = new Map<number, { wins: number; losses: number; pnl: number; trades: number }>();
+    const sessMap = new Map<string, { wins: number; losses: number; pnl: number; trades: number }>();
 
     for (const t of trades) {
-      const dt      = t.tradeDate ?? t.createdAt;
-      const hour    = toLocalHour(dt, tz);
+      const dt = t.tradeDate ?? t.createdAt;
+      const hour = toLocalHour(dt, tz);
       const session = getSession(hour);
-      const isWin   = t.result === 'profit';
-      const isLoss  = t.result === 'loss';
-      const pnl     = t.pnl ?? 0;
+      const isWin = t.result === 'profit';
+      const isLoss = t.result === 'loss';
+      const pnl = t.pnl ?? 0;
 
       if (!hourMap.has(hour)) hourMap.set(hour, { wins: 0, losses: 0, pnl: 0, trades: 0 });
       const hb = hourMap.get(hour)!;
       hb.trades++;
       hb.pnl += pnl;
-      if (isWin)  hb.wins++;
+      if (isWin) hb.wins++;
       if (isLoss) hb.losses++;
 
       if (!sessMap.has(session)) sessMap.set(session, { wins: 0, losses: 0, pnl: 0, trades: 0 });
       const sb = sessMap.get(session)!;
       sb.trades++;
       sb.pnl += pnl;
-      if (isWin)  sb.wins++;
+      if (isWin) sb.wins++;
       if (isLoss) sb.losses++;
     }
 
     const hours: HourBucket[] = Array.from(hourMap.entries()).map(([hour, v]) => ({
       hour,
-      trades:  v.trades,
-      wins:    v.wins,
-      losses:  v.losses,
+      trades: v.trades,
+      wins: v.wins,
+      losses: v.losses,
       winRate: v.trades > 0 ? Math.round((v.wins / v.trades) * 100 * 10) / 10 : 0,
-      netPnl:  Math.round(v.pnl * 100) / 100,
+      netPnl: Math.round(v.pnl * 100) / 100,
     })).sort((a, b) => a.hour - b.hour);
 
     const sessions: SessionBucket[] = Array.from(sessMap.entries()).map(([session, v]) => ({
       session: session as SessionBucket['session'],
-      trades:  v.trades,
-      wins:    v.wins,
-      losses:  v.losses,
+      trades: v.trades,
+      wins: v.wins,
+      losses: v.losses,
       winRate: v.trades > 0 ? Math.round((v.wins / v.trades) * 100 * 10) / 10 : 0,
-      netPnl:  Math.round(v.pnl * 100) / 100,
+      netPnl: Math.round(v.pnl * 100) / 100,
     }));
 
     const scored = hours.filter(h => h.trades >= 2);
-    const bestHour  = scored.length > 0 ? scored.reduce((a, b) => b.netPnl > a.netPnl ? b : a) : null;
+    const bestHour = scored.length > 0 ? scored.reduce((a, b) => b.netPnl > a.netPnl ? b : a) : null;
     const worstHour = scored.length > 0 ? scored.reduce((a, b) => b.netPnl < a.netPnl ? b : a) : null;
 
-    const scoredS   = sessions.filter(s => s.trades >= 2);
+    const scoredS = sessions.filter(s => s.trades >= 2);
     const bestSession = scoredS.length > 0 ? scoredS.reduce((a, b) => b.netPnl > a.netPnl ? b : a) : null;
 
     return { hours, sessions, bestHour, worstHour, bestSession };
@@ -475,17 +476,17 @@ export class AnalyticsService {
     if (accountId) where.accountId = accountId;
 
     const trades = await this.prisma.journalTrade.findMany({ where, orderBy: { tradeDate: 'asc' } });
-    const total  = trades.length;
+    const total = trades.length;
     if (total < 5) return [];
 
-    const wins    = trades.filter(t => t.result === 'profit').length;
-    const wr      = wins / total;  // 0–1
+    const wins = trades.filter(t => t.result === 'profit').length;
+    const wr = wins / total;  // 0–1
 
     // Expected max streak formula: ln(N) / ln(1/p)
     const expectedMaxLossStreak = total > 0 && wr < 1
       ? Math.ceil(Math.log(total) / Math.log(1 / (1 - wr)))
       : 0;
-    const expectedMaxWinStreak  = total > 0 && wr > 0
+    const expectedMaxWinStreak = total > 0 && wr > 0
       ? Math.ceil(Math.log(total) / Math.log(1 / wr))
       : 0;
 
@@ -493,7 +494,7 @@ export class AnalyticsService {
     let currentLoss = 0, currentWin = 0;
     let maxLoss = 0, maxWin = 0;
     for (const t of trades) {
-      if (t.result === 'profit')    { currentWin++; currentLoss = 0; if (currentWin  > maxWin)  maxWin  = currentWin;  }
+      if (t.result === 'profit') { currentWin++; currentLoss = 0; if (currentWin > maxWin) maxWin = currentWin; }
       else if (t.result === 'loss') { currentLoss++; currentWin = 0; if (currentLoss > maxLoss) maxLoss = currentLoss; }
       else { currentWin = 0; currentLoss = 0; }
     }
@@ -503,22 +504,22 @@ export class AnalyticsService {
     if (maxLoss > expectedMaxLossStreak) {
       const ratio = maxLoss / Math.max(expectedMaxLossStreak, 1);
       alerts.push({
-        type:     'loss',
-        current:  maxLoss,
+        type: 'loss',
+        current: maxLoss,
         expected: expectedMaxLossStreak,
         severity: ratio >= 2 ? 'danger' : ratio >= 1.5 ? 'warning' : 'info',
-        message:  `Your max loss streak (${maxLoss}) is ${ratio.toFixed(1)}× the expected max for your win rate. Consider reviewing your edge.`,
+        message: `Your max loss streak (${maxLoss}) is ${ratio.toFixed(1)}× the expected max for your win rate. Consider reviewing your edge.`,
       });
     }
 
     if (currentLoss >= 3) {
       const severity = currentLoss >= 5 ? 'danger' : currentLoss >= 3 ? 'warning' : 'info';
       alerts.push({
-        type:     'loss',
-        current:  currentLoss,
+        type: 'loss',
+        current: currentLoss,
         expected: expectedMaxLossStreak,
         severity,
-        message:  `You're currently on a ${currentLoss}-trade loss streak. Check your rule adherence before the next trade.`,
+        message: `You're currently on a ${currentLoss}-trade loss streak. Check your rule adherence before the next trade.`,
       });
     }
 
@@ -540,30 +541,30 @@ export class AnalyticsService {
 
     for (const t of trades) {
       // Extract pattern from notesBefore: looks for #PATTERN or PATTERN: in notes
-      const raw   = t.notesBefore ?? '';
+      const raw = t.notesBefore ?? '';
       const match = raw.match(/#([A-Z_]+)|pattern:\s*([A-Z_]+)/i);
-      const pat   = match ? (match[1] ?? match[2]).toUpperCase() : 'UNTAGGED';
+      const pat = match ? (match[1] ?? match[2]).toUpperCase() : 'UNTAGGED';
 
       if (!patternMap.has(pat)) patternMap.set(pat, { wins: 0, losses: 0, be: 0, pnl: 0, trades: 0 });
       const p = patternMap.get(pat)!;
       p.trades++;
       p.pnl += t.pnl ?? 0;
-      if (t.result === 'profit')   p.wins++;
-      if (t.result === 'loss')     p.losses++;
+      if (t.result === 'profit') p.wins++;
+      if (t.result === 'loss') p.losses++;
       if (t.result === 'breakeven') p.be++;
     }
 
     return Array.from(patternMap.entries()).map(([pattern, v]) => ({
       pattern,
-      trades:     v.trades,
-      wins:       v.wins,
-      losses:     v.losses,
-      breakeven:  v.be,
-      winRate:    v.trades > 0 ? Math.round((v.wins / v.trades) * 100 * 10) / 10 : 0,
-      totalPnl:   Math.round(v.pnl * 100) / 100,
+      trades: v.trades,
+      wins: v.wins,
+      losses: v.losses,
+      breakeven: v.be,
+      winRate: v.trades > 0 ? Math.round((v.wins / v.trades) * 100 * 10) / 10 : 0,
+      totalPnl: Math.round(v.pnl * 100) / 100,
       expectancy: v.trades > 0 ? Math.round((v.pnl / v.trades) * 100) / 100 : 0,
     })).filter(p => p.pattern !== 'UNTAGGED' || p.trades > 0)
-       .sort((a, b) => b.totalPnl - a.totalPnl);
+      .sort((a, b) => b.totalPnl - a.totalPnl);
   }
 
   // ── 8. Monthly Scores ────────────────────────────────────────────────────────
@@ -580,44 +581,44 @@ export class AnalyticsService {
 
     const monthMap = new Map<string, typeof trades>();
     for (const t of trades) {
-      const dt  = t.tradeDate ?? t.createdAt;
+      const dt = t.tradeDate ?? t.createdAt;
       // Use local date string (YYYY-MM-DD) and take the YYYY-MM part
       const key = toLocalDateString(dt, tz).slice(0, 7);
       if (!monthMap.has(key)) monthMap.set(key, []);
       monthMap.get(key)!.push(t);
     }
 
-    const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     return Array.from(monthMap.entries())
       .slice(-months)
       .map(([key, ts]) => {
         const [yr, mo] = key.split('-').map(Number);
-        const wins    = ts.filter(t => t.result === 'profit').length;
-        const losses  = ts.filter(t => t.result === 'loss').length;
-        const total   = ts.length;
+        const wins = ts.filter(t => t.result === 'profit').length;
+        const losses = ts.filter(t => t.result === 'loss').length;
+        const total = ts.length;
         const totalPnl = ts.reduce((s, t) => s + (t.pnl ?? 0), 0);
-        const wr       = total > 0 ? (wins / total) * 100 : 0;
-        const exp      = total > 0 ? totalPnl / total : 0;
+        const wr = total > 0 ? (wins / total) * 100 : 0;
+        const exp = total > 0 ? totalPnl / total : 0;
         const planCount = ts.filter(t => t.followedPlan === true).length;
-        const planPct   = total > 0 ? (planCount / total) * 100 : 0;
+        const planPct = total > 0 ? (planCount / total) * 100 : 0;
         const scoreData = computeMonthScore(wr, exp, planPct, total);
 
         return {
-          year:     yr,
-          month:    mo,
-          label:    `${MONTH_NAMES[mo - 1]} ${yr}`,
-          trades:   total,
+          year: yr,
+          month: mo,
+          label: `${MONTH_NAMES[mo - 1]} ${yr}`,
+          trades: total,
           wins,
           losses,
-          winRate:  Math.round(wr * 10) / 10,
+          winRate: Math.round(wr * 10) / 10,
           totalPnl: Math.round(totalPnl * 100) / 100,
-          score:    scoreData.total,
+          score: scoreData.total,
           breakdown: {
-            winRateScore:     scoreData.winRateScore,
-            expectancyScore:  scoreData.expectancyScore,
+            winRateScore: scoreData.winRateScore,
+            expectancyScore: scoreData.expectancyScore,
             consistencyScore: scoreData.consistencyScore,
-            volumeScore:      scoreData.volumeScore,
+            volumeScore: scoreData.volumeScore,
           },
         };
       });

@@ -567,9 +567,9 @@ export type TradingStrategyOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type TradingStrategyScalarRelationFilter = {
-  is?: Prisma.TradingStrategyWhereInput
-  isNot?: Prisma.TradingStrategyWhereInput
+export type TradingStrategyNullableScalarRelationFilter = {
+  is?: Prisma.TradingStrategyWhereInput | null
+  isNot?: Prisma.TradingStrategyWhereInput | null
 }
 
 export type TradingStrategyCountOrderByAggregateInput = {
@@ -683,10 +683,12 @@ export type TradingStrategyCreateNestedOneWithoutJournalTradesInput = {
   connect?: Prisma.TradingStrategyWhereUniqueInput
 }
 
-export type TradingStrategyUpdateOneRequiredWithoutJournalTradesNestedInput = {
+export type TradingStrategyUpdateOneWithoutJournalTradesNestedInput = {
   create?: Prisma.XOR<Prisma.TradingStrategyCreateWithoutJournalTradesInput, Prisma.TradingStrategyUncheckedCreateWithoutJournalTradesInput>
   connectOrCreate?: Prisma.TradingStrategyCreateOrConnectWithoutJournalTradesInput
   upsert?: Prisma.TradingStrategyUpsertWithoutJournalTradesInput
+  disconnect?: Prisma.TradingStrategyWhereInput | boolean
+  delete?: Prisma.TradingStrategyWhereInput | boolean
   connect?: Prisma.TradingStrategyWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TradingStrategyUpdateToOneWithWhereWithoutJournalTradesInput, Prisma.TradingStrategyUpdateWithoutJournalTradesInput>, Prisma.TradingStrategyUncheckedUpdateWithoutJournalTradesInput>
 }

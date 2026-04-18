@@ -2247,7 +2247,17 @@ export const JournalTradeScalarFieldEnum = {
   source: 'source',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  profileUserId: 'profileUserId'
+  profileUserId: 'profileUserId',
+  signalId: 'signalId',
+  closeReason: 'closeReason',
+  realizedRR: 'realizedRR',
+  entryLots: 'entryLots',
+  tp1Hit: 'tp1Hit',
+  tp1HitAt: 'tp1HitAt',
+  tp2Hit: 'tp2Hit',
+  tp2HitAt: 'tp2HitAt',
+  slHit: 'slHit',
+  slHitAt: 'slHitAt'
 } as const
 
 export type JournalTradeScalarFieldEnum = (typeof JournalTradeScalarFieldEnum)[keyof typeof JournalTradeScalarFieldEnum]

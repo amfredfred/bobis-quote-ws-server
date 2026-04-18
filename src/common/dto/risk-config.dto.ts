@@ -1,6 +1,7 @@
 'use strict';
 
-import { IsString, IsOptional, IsBoolean, IsNumber, IsArray, IsIn, Min, Max } from 'class-validator';
+import { IsString, IsOptional, IsBoolean, IsNumber, IsArray, IsIn, Min, Max, ArrayMaxSize } from 'class-validator';
+import { AUTHORIZED_SYMBOLS } from '../constants';
 
 export class RiskConfigDto {
   @IsOptional() @IsIn(['percentage', 'fixed'])
@@ -42,8 +43,12 @@ export class RiskConfigDto {
    *
    * Case-insensitive; separators (/, -, _) are stripped before comparison.
    * Example: ['EURUSD', 'GBPUSD', 'XAUUSD']
+   *
+   * Capped at 2 symbols per account.
+   * Must be drawn from the known tradeable set.
    */
-  @IsOptional() @IsArray() @IsString({ each: true })
+  @IsOptional() @IsArray() @ArrayMaxSize(2) @IsString({ each: true })
+  @IsIn(AUTHORIZED_SYMBOLS, { each: true })
   authorizedPairs?: string[];
 
   /**

@@ -38,8 +38,8 @@ export type EventName = typeof EventNames[keyof typeof EventNames];
 // ── Typed payloads ────────────────────────────────────────────────────────────
 
 export interface SignalRejectedPayload  { signal: InboundSignal; reason: string[] }
-export interface RiskRejectedPayload    { signal: InboundSignal; reason: string }
-export interface RiskApprovedPayload    { signal: InboundSignal }
+export interface RiskRejectedPayload    { signal: InboundSignal; reason: string; accountId: string }
+export interface RiskApprovedPayload    { signal: InboundSignal; accountId: string }
 export interface TradePlannedPayload    { plan: TradePlan }
 export interface TradeErrorPayload      { signal: InboundSignal; reason: string }
 export interface BrokerErrorPayload     { accountId: string; error: string }

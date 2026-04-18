@@ -168,7 +168,8 @@ model JournalTrade {
   id              String                 @id @default(uuid()) @db.Uuid
   userId          String                 @map("user_id") @db.Uuid
   accountId       String                 @map("account_id") @db.Uuid
-  strategyId      String                 @map("strategy_id") @db.Uuid
+  // Nullable: auto-imported execution trades have no user-selected strategy
+  strategyId      String?                @map("strategy_id") @db.Uuid
   symbol          String
   direction       TradeDirection
   status          JournalTradeStatus     @default(pending)
@@ -194,11 +195,33 @@ model JournalTrade {
   createdAt       DateTime               @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt       DateTime?              @updatedAt @map("updated_at") @db.Timestamptz(6)
   profileUserId   String?                @db.Uuid
+
+  // ── Execution engine context (populated for auto-trades, null for manual) ──
+  // Linked signal alert ID — enables the signal→trade linkage UI
+  signalId        String?                @map("signal_id") @db.Uuid
+  // Why the trade was closed
+  closeReason     CloseReason?           @map("close_reason")
+  // Realised R:R at close (2.0 = +2R, -1.0 = -1R)
+  realizedRR      Float?                 @map("realized_rr")
+  // Entry lot size before TP1 partial close
+  entryLots       Float?                 @map("entry_lots")
+  // TP1 lifecycle
+  tp1Hit          Boolean?               @map("tp1_hit")
+  tp1HitAt        DateTime?              @map("tp1_hit_at")
+  // TP2 lifecycle
+  tp2Hit          Boolean?               @map("tp2_hit")
+  tp2HitAt        DateTime?              @map("tp2_hit_at")
+  // SL lifecycle
+  slHit           Boolean?               @map("sl_hit")
+  slHitAt         DateTime?              @map("sl_hit_at")
+
   checklistItems  JournalChecklistItem[]
   account         TradingAccount         @relation(fields: [accountId], references: [id], onDelete: Cascade)
   profile         Profile?               @relation(fields: [profileUserId], references: [userId])
-  strategy        TradingStrategy        @relation(fields: [strategyId], references: [id], onDelete: Cascade)
+  strategy        TradingStrategy?       @relation(fields: [strategyId], references: [id], onDelete: Cascade)
 
+  @@index([signalId])
+  @@index([source])
   @@map("journal_trades")
   @@schema("public")
 }

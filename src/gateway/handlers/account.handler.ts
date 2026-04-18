@@ -68,6 +68,49 @@ export class AccountHandler {
     };
   }
 
+  /**
+   * Returns live broker positions from PositionStore for this account.
+   * Ownership-checked — only the account owner can query their positions.
+   * Returns [] when no pipeline is running (stopped / not deployed / degraded).
+   * Shape matches ExecutionTradePushPayload on the frontend (WsTradePayload).
+   */
+  async getLivePositions(userId: string, id: string) {
+    await this.svc.findOne(id, userId); // ownership check throws if not owner
+
+    const pipeline = this.pipelineMgr.getPipeline(id);
+    if (!pipeline) return [];
+
+    const trades = pipeline.getOpenTrades();
+
+    return trades.map((trade) => ({
+      tradeId:       trade.id,
+      accountId:     trade.accountId,
+      signalId:      trade.signalId ?? null,
+      symbol:        trade.symbol,
+      direction:     trade.side === 'BUY' ? 'LONG' : 'SHORT',
+      state:         trade.status === 'PARTIALLY_CLOSED' ? 'PARTIALLY_CLOSED'
+                   : trade.status === 'CLOSED'           ? 'CLOSED'
+                   : 'OPEN',
+      entryPrice:    trade.entryPrice ?? 0,
+      stopLoss:      trade.stopLoss,
+      tp1:           trade.tp1,
+      tp2:           trade.tp2,
+      currentLots:   trade.currentLots,
+      entryLots:     trade.entryLots,
+      tp1Hit:        trade.tp1Hit,
+      tp1HitAt:      trade.tp1HitAt ?? null,
+      tp2Hit:        trade.tp2Hit,
+      tp2HitAt:      trade.tp2HitAt ?? null,
+      slHit:         trade.slHit,
+      slHitAt:       trade.slHitAt ?? null,
+      closeReason:   trade.closeReason ?? null,
+      realizedRR:    trade.realizedRR ?? null,
+      unrealizedPnl: null, // live P&L not tracked in PositionStore; added by PositionManager in a future pass
+      openedAt:      trade.openedAt ?? trade.createdAt,
+      closedAt:      trade.closedAt ?? null,
+    }));
+  }
+
   async toggleAutoTrade(userId: string, id: string, enabled: boolean) {
     if (enabled) await this.tierGuard.checkCanEnablePipeline(userId);
 
