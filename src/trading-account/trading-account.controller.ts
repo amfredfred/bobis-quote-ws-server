@@ -109,7 +109,7 @@ export class TradingAccountController {
           `Broker server "${match?.[1] ?? dto.server}" not found. Check the exact server name from your broker.`
         );
       }
-      throw new InternalServerErrorException('Failed to connect to broker. Please try again later.');
+      throw new BadRequestException('Failed to connect to broker. Please check your inputs or try again later.');
     }
 
     // 4. Persist account — rollback MetaApi on failure
