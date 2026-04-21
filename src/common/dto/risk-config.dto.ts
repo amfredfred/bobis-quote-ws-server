@@ -1,6 +1,6 @@
 'use strict';
 
-import { IsString, IsOptional, IsBoolean, IsNumber, IsArray, IsIn, Min, Max, ArrayMaxSize } from 'class-validator';
+import { IsString, IsOptional, IsBoolean, IsNumber, IsArray, IsIn, Min, Max, ArrayMaxSize, Validate } from 'class-validator';
 import { AUTHORIZED_SYMBOLS } from '../constants';
 
 export class RiskConfigDto {
@@ -51,7 +51,14 @@ export class RiskConfigDto {
   @IsArray()
   @ArrayMaxSize(1, { message: 'One account supports exactly one trading pair.' })
   @IsString({ each: true })
-  @IsIn(AUTHORIZED_SYMBOLS, { each: true })
+  @Validate((value: string[]) => {
+    if (!value) return true;
+    return value.every(symbol =>
+      AUTHORIZED_SYMBOLS.some(allowed =>
+        allowed.toUpperCase() === symbol.toUpperCase()
+      )
+    );
+  }, { message: 'Each symbol must be in the authorized symbols list' })
   authorizedPairs?: string[];
 
   /**

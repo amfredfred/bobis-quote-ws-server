@@ -78,7 +78,7 @@ interface Payloads {
   'account.positions': { id: string };
   'account.toggleAutoTrade': { id: string; enabled: boolean };
   'strategies.list': Record<string, never>;
-  'strategy.get': { id: string };
+  'strategy.get': { id: string }
   'strategy.create': CreateStrategyDto;
   'strategy.update': { id: string } & UpdateStrategyDto;
   'strategy.delete': { id: string };
@@ -156,10 +156,19 @@ interface AuthSocket extends Socket {
   commandMap?: CommandMap;
 }
 
-// ── Rate limiter — token bucket per user ──────────────────────────────────────
+// ── Public commands — resolved before auth check ───────────────────────────────
+// These commands are intentionally unauthenticated. They must be side-effect-free
+// and must never expose per-user data. Add new entries here with care.
 
-const RL_RATE = 10;
-const RL_BURST = 30;
+const PUBLIC_COMMANDS = new Set<Command>(['system.config']);
+
+// ── Rate limiter — token bucket per user ──────────────────────────────────────
+//
+// Each user gets a bucket of BURST tokens refilling at RATE tokens/second.
+// Heavy commands cost more tokens. Buckets auto-cleanup after 5min of inactivity.
+
+const RL_RATE = 10;   // tokens restored per second
+const RL_BURST = 30;   // max bucket size
 const RL_CLEANUP = 5 * 60 * 1000;
 
 const RL_COSTS: Partial<Record<string, number>> = {
@@ -236,6 +245,11 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   }
 
   async handleConnection(client: AuthSocket): Promise<void> {
+    // Push system config immediately — before auth so the login page
+    // can gate on maintenance / allowNewSignups without being authenticated.
+    const cfg = this.systemHandler.getConfig();
+    client.emit('system.config', cfg);
+
     try {
       const ip = (client.handshake.headers?.['x-forwarded-for'] as string)?.split(',')[0].trim() ?? client.handshake.address;
       const entry = this.connAttempts.get(ip);
@@ -251,6 +265,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
         const timer = setTimeout(() => this.connAttempts.delete(ip), 60_000);
         this.connAttempts.set(ip, { count: 1, timer });
       }
+
       const token =
         (client.handshake.auth?.['token']) ??
         (client.handshake.headers?.['authorization'])?.replace('Bearer ', '');
@@ -265,11 +280,6 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       await this._joinUserSymbolRooms(client, user.id);
 
       client.emit('connected', { userId: user.id });
-
-      // Server-push system config immediately — zero round-trip for the client.
-      const cfg = this.systemHandler.getConfig();
-      client.emit('system.config', cfg);
-
       this.logger.log(`Connected: ${client.id} (user: ${user.id})`);
     } catch (err) {
       this.logger.error(`Rejected: ${client.id}`, err instanceof Error ? err.message : err);
@@ -287,6 +297,20 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     @ConnectedSocket() client: AuthSocket,
     @MessageBody() msg: WsMessage,
   ): Promise<void> {
+    // ── Public commands — bypass auth entirely ─────────────────────────────
+    if (PUBLIC_COMMANDS.has(msg.command)) {
+      try {
+        const data = await this._dispatchPublic(msg.command);
+        this._reply(client, msg.command, data, msg.requestId);
+      } catch (e: unknown) {
+        const { message, code, internal } = resolveError(e);
+        this.logger.error(`[${msg.command}] ${code}`, internal instanceof Error ? internal.stack : String(internal));
+        this._error(client, msg.requestId, message, msg.command);
+      }
+      return;
+    }
+
+    // ── Authenticated commands ─────────────────────────────────────────────
     if (!client.userId || !client.commandMap) {
       this._error(client, msg.requestId, 'Unauthorized', msg.command);
       return;
@@ -312,9 +336,20 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     }
   }
 
+  // ── Public command dispatcher ──────────────────────────────────────────────
+  // Keeps public routing explicit and separate from the per-user CommandMap.
+  // Adding a new public command: (1) add to PUBLIC_COMMANDS, (2) add a case here.
+
+  private _dispatchPublic(command: Command): Promise<unknown> {
+    switch (command) {
+      case 'system.config': return Promise.resolve(this.systemHandler.getConfig());
+      default: throw new Error(`Unhandled public command: ${command}`);
+    }
+  }
+
   private _buildCommandMap(userId: string): CommandMap {
     return {
-      // System
+      // System (also public — included here so authenticated clients can refresh via commandMap)
       'system.config': () => Promise.resolve(this.systemHandler.getConfig()),
       // Dashboard
       'dashboard.get': (p) => this.dashboardHandler.get(userId, p.accountId),

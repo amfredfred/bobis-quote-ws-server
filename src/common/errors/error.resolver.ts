@@ -1,6 +1,6 @@
 'use strict';
 
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
 import { AppError } from './app.error';
 import { ErrorCode } from './error.codes';
 
@@ -36,11 +36,31 @@ export function resolveError(e: unknown): ResolvedError {
     if (e instanceof HttpException) {
         const status = e.getStatus() as HttpStatus;
         const code = httpStatusToCode(status);
+        const response = e.getResponse();
+
+        // Check if it's a validation error with details
+        let message = ErrorCode[code];
+        let validationDetails = [];
+
+        if (e instanceof BadRequestException && response && typeof response === 'object') {
+            const resObj = response as any;
+            // Class-validator puts details in response.message array
+            if (resObj.message && Array.isArray(resObj.message)) {
+                validationDetails = resObj.message;
+                // Create a detailed message
+                (message as string) = `Validation failed: ${resObj.message.join(', ')}`;
+            } else if (resObj.message && typeof resObj.message === 'string') {
+                message = resObj.message;
+            }
+        }
+
         return {
-            message: ErrorCode[code],
+            message,
             code,
             httpStatus: status,
             internal: e,
+            // Optionally add validation details
+            ...(validationDetails && { validationDetails }),
         };
     }
 

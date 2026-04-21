@@ -7,9 +7,9 @@ import type { SystemConfig } from '../common/types/system-config.types';
 // Static config served until a Prisma-backed SystemConfig table is in place.
 // Bump configVersion to force client session refresh.
 
-const SEED_CONFIG: SystemConfig = {
+export const SEED_CONFIG: SystemConfig = {
   maintenance: false,
-  allowNewSignups: true,
+  allowNewSignups: false,
   maxPairsPerAccount: 1,
   configVersion: '1.0.0',
   fetchedAt: new Date().toISOString(),
