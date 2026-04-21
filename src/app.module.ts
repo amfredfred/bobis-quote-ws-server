@@ -25,6 +25,7 @@ import { MarketModule } from './market/market.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { GatewayModule } from './gateway/gateway.module';
 import { ReferralModule } from './referral/referral.module';
+import { SystemModule } from './system/system.module';
 
 
 @Module({
@@ -32,8 +33,8 @@ import { ReferralModule } from './referral/referral.module';
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     ScheduleModule.forRoot(),
     ThrottlerModule.forRoot([
-      { name: 'global', ttl: 60_000, limit: 60 }, // 60 req/min per IP — general API
-      { name: 'strict', ttl: 60_000, limit: 10 }, // 10 req/min — broker import (hits MetaApi $)
+      { name: 'global', ttl: 60_000, limit: 60 },
+      { name: 'strict', ttl: 60_000, limit: 10 },
     ]),
     // Core
     PrismaModule,
@@ -55,6 +56,8 @@ import { ReferralModule } from './referral/referral.module';
     MarketModule,
     DashboardModule,
     ReferralModule,
+    // System config (single source of truth for pairs, modes, flags)
+    SystemModule,
     // Scheduled jobs
     CronModule,
     // WS gateway (all client-facing commands)

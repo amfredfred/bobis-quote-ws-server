@@ -53,19 +53,17 @@ export const CORRELATION_GROUPS: CorrelationGroup[] = [
     //   +1 → position profits when USD weakens (EURUSD long, USDJPY short, …)
     //   -1 → position profits when USD strengthens
     members: [
+      // Direct USD pairs (short USD exposure)
       { symbol: 'EURUSD', weight: 1 },
       { symbol: 'GBPUSD', weight: 1 },
       { symbol: 'AUDUSD', weight: 1 },
       { symbol: 'NZDUSD', weight: 1 },
       { symbol: 'XAUUSD', weight: 1 },   // gold inverse to USD
-      { symbol: 'XAGUSD', weight: 1 },
+
+      // Inverse USD pairs (long USD exposure)
       { symbol: 'USDJPY', weight: -1 },
       { symbol: 'USDCHF', weight: -1 },
       { symbol: 'USDCAD', weight: -1 },
-      { symbol: 'USDSGD', weight: -1 },
-      { symbol: 'USDHKD', weight: -1 },
-      { symbol: 'USDMXN', weight: -1 },
-      { symbol: 'USDZAR', weight: -1 },
     ],
   },
   {
@@ -74,12 +72,6 @@ export const CORRELATION_GROUPS: CorrelationGroup[] = [
     //   +1 → profits when JPY weakens
     members: [
       { symbol: 'USDJPY', weight: 1 },
-      { symbol: 'EURJPY', weight: 1 },
-      { symbol: 'GBPJPY', weight: 1 },
-      { symbol: 'AUDJPY', weight: 1 },
-      { symbol: 'NZDJPY', weight: 1 },
-      { symbol: 'CADJPY', weight: 1 },
-      { symbol: 'CHFJPY', weight: 1 },
     ],
   },
   {
@@ -87,18 +79,26 @@ export const CORRELATION_GROUPS: CorrelationGroup[] = [
     // Risk factor: global risk-on sentiment.
     //   +1 → profits in risk-on (equities up, AUD/NZD up, JPY/CHF down)
     members: [
+      // Risk-on currencies
       { symbol: 'AUDUSD', weight: 1 },
       { symbol: 'NZDUSD', weight: 1 },
-      { symbol: 'AUDJPY', weight: 1 },
-      { symbol: 'NZDJPY', weight: 1 },
-      { symbol: 'US30', weight: 1 },
-      { symbol: 'US100', weight: 1 },
-      { symbol: 'SPX500', weight: 1 },
-      { symbol: 'NAS100', weight: 1 },
-      { symbol: 'GER40', weight: 1 },
-      { symbol: 'UK100', weight: 1 },
-      { symbol: 'USDCHF', weight: 1 },   // CHF safe-haven: rises risk-off → USD/CHF rises risk-on
-      { symbol: 'USDJPY', weight: 1 },   // JPY safe-haven: same logic
+
+      // US Indices (your refined list)
+      { symbol: 'US30', weight: 1 },   // Dow Jones
+      { symbol: 'US100', weight: 1 },  // NASDAQ-100
+      { symbol: 'US500', weight: 1 },  // S&P 500 / Nasdaq
+
+      // Safe-haven currencies (inverse relationship)
+      { symbol: 'USDCHF', weight: 1 },   // CHF weakens in risk-on → USDCHF rises
+      { symbol: 'USDJPY', weight: 1 },   // JPY weakens in risk-on → USDJPY rises
+    ],
+  },
+  {
+    id: 'CRYPTO_RISK',
+    // Risk factor: Crypto market sentiment (BTC as proxy for entire crypto space)
+    //   +1 → profits when crypto market rallies
+    members: [
+      { symbol: 'BTCUSD', weight: 1 },
     ],
   },
   {
@@ -106,9 +106,6 @@ export const CORRELATION_GROUPS: CorrelationGroup[] = [
     // Risk factor: precious-metals demand.
     members: [
       { symbol: 'XAUUSD', weight: 1 },
-      { symbol: 'XAGUSD', weight: 1 },
-      { symbol: 'XPTUSD', weight: 1 },
-      { symbol: 'XPDUSD', weight: 1 },
     ],
   },
   {
@@ -116,11 +113,10 @@ export const CORRELATION_GROUPS: CorrelationGroup[] = [
     // Risk factor: crude-oil price.
     members: [
       { symbol: 'USOIL', weight: 1 },
-      { symbol: 'UKOIL', weight: 1 },
-      { symbol: 'WTIUSD', weight: 1 },
-      { symbol: 'BCOUSD', weight: 1 },
-      { symbol: 'NGAS', weight: 1 },
+      // Removed: UKOIL, WTIUSD, BCOUSD, NGAS (keeping single oil proxy)
     ],
+    // Note: ENERGY group has no symbols in your refined list
+    // Consider removing this group or keeping as placeholder for future
   },
 ];
 

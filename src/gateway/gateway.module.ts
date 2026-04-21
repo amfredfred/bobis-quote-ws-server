@@ -33,6 +33,8 @@ import { PerformanceModule } from '../performance/performance.module';
 import { PerformanceHandler } from './handlers/performance.handler';
 import { ReferralModule } from '../referral/referral.module';
 import { ReferralHandler } from './handlers/referral.handler';
+import { SystemHandler } from './handlers/system.handler';
+import { SystemModule } from '@src/system/system.module';
 
 const HANDLERS = [
   DashboardHandler,
@@ -45,6 +47,7 @@ const HANDLERS = [
   AnalyticsHandler,
   PerformanceHandler,
   ReferralHandler,
+  SystemHandler
 ];
 
 @Module({
@@ -64,6 +67,7 @@ const HANDLERS = [
     PerformanceModule,
     ReferralModule,
     forwardRef(() => PipelineModule),
+    SystemModule
   ],
   providers: [AppGateway, SignalDispatcherService, TradeDispatcherService, ...HANDLERS],
   exports:   [AppGateway],

@@ -37,30 +37,26 @@ export class RiskConfigDto {
   // ── Portfolio-level correlation guard ──────────────────────────────────────
 
   /**
-   * Per-account pair whitelist.  When non-empty, only the listed symbols can
+   * Per-account pair whitelist. When non-empty, only the listed symbols can
    * be traded on this account; any signal whose symbol is not in the list is
    * dropped at the PipelineManager fan-out layer.
    *
    * Case-insensitive; separators (/, -, _) are stripped before comparison.
-   * Example: ['EURUSD', 'GBPUSD', 'XAUUSD']
+   * Example: ['EURUSD']
    *
-   * Capped at 2 symbols per account.
+   * Capped at 1 symbol per account (enforced by backend and frontend).
    * Must be drawn from the known tradeable set.
    */
-  @IsOptional() @IsArray() @ArrayMaxSize(2) @IsString({ each: true })
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(1, { message: 'One account supports exactly one trading pair.' })
+  @IsString({ each: true })
   @IsIn(AUTHORIZED_SYMBOLS, { each: true })
   authorizedPairs?: string[];
 
   /**
    * Maximum absolute net-directional exposure score per correlation group,
    * measured across **all** connected accounts (portfolio level).
-   *
-   * The guard accumulates a signed score for every open position in each
-   * known correlation group (USD_EXPOSURE, JPY_EXPOSURE, RISK_APPETITE, …).
-   * If accepting a new trade would push any group's |score| to this value,
-   * the trade is blocked for this account.
-   *
-   * Set to 0 to disable the portfolio correlation check.  Default: 3.
    */
   @IsOptional() @IsNumber() @Min(0)
   maxCorrelatedExposure?: number;

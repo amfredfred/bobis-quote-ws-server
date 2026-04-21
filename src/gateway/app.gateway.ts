@@ -37,6 +37,7 @@ import { JournalHandler } from './handlers/journal.handler';
 import { MarketHandler } from './handlers/market.handler';
 import { NotificationsHandler } from './handlers/notifications.handler';
 import { AnalyticsHandler } from './handlers/analytics.handler';
+import { SystemHandler } from './handlers/system.handler';
 
 import {
   CreateTradingAccountDto,
@@ -57,6 +58,7 @@ import { resolveError } from '../common/errors';
 // ── Payload shapes ─────────────────────────────────────────────────────────────
 
 interface Payloads {
+  'system.config': Record<string, never>;
   'dashboard.get': { accountId?: string };
   'dashboard.equity': { accountId: string; startDate?: string; endDate?: string };
   'dashboard.monthlyStats': { accountId: string; year: number; month: number };
@@ -155,12 +157,9 @@ interface AuthSocket extends Socket {
 }
 
 // ── Rate limiter — token bucket per user ──────────────────────────────────────
-//
-// Each user gets a bucket of BURST tokens refilling at RATE tokens/second.
-// Heavy commands cost more tokens. Buckets auto-cleanup after 5min of inactivity.
 
-const RL_RATE = 10;   // tokens restored per second
-const RL_BURST = 30;   // max bucket size
+const RL_RATE = 10;
+const RL_BURST = 30;
 const RL_CLEANUP = 5 * 60 * 1000;
 
 const RL_COSTS: Partial<Record<string, number>> = {
@@ -229,6 +228,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     private readonly analyticsHandler: AnalyticsHandler,
     private readonly performanceHandler: PerformanceHandler,
     private readonly referralHandler: ReferralHandler,
+    private readonly systemHandler: SystemHandler,
   ) { }
 
   afterInit(): void {
@@ -245,7 +245,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
         if (entry.count > 10) {
           client.disconnect();
           this.logger.warn(`Connection flood from ${ip}, count: ${entry.count}`);
-          return; // don't touch the timer — let the original 60s window expire naturally
+          return;
         }
       } else {
         const timer = setTimeout(() => this.connAttempts.delete(ip), 60_000);
@@ -265,6 +265,11 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       await this._joinUserSymbolRooms(client, user.id);
 
       client.emit('connected', { userId: user.id });
+
+      // Server-push system config immediately — zero round-trip for the client.
+      const cfg = this.systemHandler.getConfig();
+      client.emit('system.config', cfg);
+
       this.logger.log(`Connected: ${client.id} (user: ${user.id})`);
     } catch (err) {
       this.logger.error(`Rejected: ${client.id}`, err instanceof Error ? err.message : err);
@@ -309,6 +314,8 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
 
   private _buildCommandMap(userId: string): CommandMap {
     return {
+      // System
+      'system.config': () => Promise.resolve(this.systemHandler.getConfig()),
       // Dashboard
       'dashboard.get': (p) => this.dashboardHandler.get(userId, p.accountId),
       'dashboard.equity': (p) => this.dashboardHandler.equity(userId, p.accountId, p.startDate, p.endDate),
@@ -343,13 +350,13 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'trade.update': (p) => { const { id, ...rest } = p; return this.journalHandler.update(userId, id, rest); },
       'trade.delete': (p) => this.journalHandler.delete(userId, p.id),
       'trades.analytics': (p) => this.journalHandler.analytics(userId, p.accountId),
-      // Market / signals — scoped to caller's subscribed symbols
+      // Market / signals
       'signals.list': (p) => this.marketHandler.listAlerts(userId, p),
       'signal.get': (p) => this.marketHandler.getAlert(p.id),
       'signals.dashboard': () => this.marketHandler.dashboardStats(userId),
       'trades.calendar': (p) => this.marketHandler.calendar(userId, p.year, p.month),
       'zones.list': (p) => this.marketHandler.listZones(userId, p),
-      // Trade Ideas — same feed but tier-gated server-side (pro+ only)
+      // Trade Ideas
       'trade-ideas.list': (p) => this.marketHandler.tradeIdeasList(userId, p),
       'trade-ideas.dashboard': () => this.marketHandler.tradeIdeasDashboard(userId),
       // Subscriptions
@@ -373,7 +380,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'analytics.projection': (p) => this.analyticsHandler.projection(userId, p.accountId, p),
       // Zones
       'zone.get': (p) => this.marketHandler.getZone(p.id),
-      // Performance Hub — pro+ tier-gated, global signal intelligence
+      // Performance Hub
       'performance.dashboard': () => this.performanceHandler.dashboard(userId),
       // Referral
       'referral.link': () => this.referralHandler.getLink(userId),
@@ -410,12 +417,6 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     this.server.emit(event, data);
   }
 
-  /**
-   * Push a signal event to all subscribers of a symbol.
-   * Uses the symbol room for fast fan-out plus each subscriber's user room as a
-   * fallback for recently-reconnected sockets that haven't re-joined yet.
-   * Socket.IO deduplicates delivery when a socket belongs to both rooms.
-   */
   async pushToSymbol(symbol: string, event: string, data: unknown): Promise<void> {
     const upper = symbol.toUpperCase();
     this.server.to(`symbol:${upper}`).emit(event, data);
