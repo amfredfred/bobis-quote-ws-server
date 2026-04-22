@@ -120,7 +120,7 @@ export class JournalTradeService {
       await this.prisma.journalChecklistItem.createMany({
         data: checklistItems.map(item => ({
           tradeId: trade.id,
-          checklistText: item.text,
+          checklistText: item.text ?? '_',
           answeredYes: item.answeredYes,
           note: item.note,
         })),
@@ -160,7 +160,7 @@ export class JournalTradeService {
       await this.prisma.journalChecklistItem.createMany({
         data: checklistItems.map(item => ({
           tradeId: id,
-          checklistText: item.text,
+          checklistText: item.text ?? "_",
           answeredYes: item.answeredYes,
           note: item.note,
         })),

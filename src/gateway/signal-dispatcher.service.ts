@@ -73,6 +73,42 @@ export class SignalDispatcherService implements OnModuleInit, OnModuleDestroy {
         // 1. Persist to DB — fire and forget, don't block the WS push
         Promise.resolve()
             .then(() => this.marketService.upsertSignalAlert(signal))
+            .then(async (_signal) => {
+                // 3. Find all users subscribed to this symbol who have signal alerts enabled
+                const subscribers = await this._getSubscribedUsers(symbol);
+
+                if (!subscribers.length) return;
+
+                this.logger.debug(`Notifying ${subscribers.length} subscribers for ${symbol}`);
+
+                // 4. Send push notifications concurrently (failures are isolated per user)
+                const notificationType = this._statusToNotificationType(status);
+                const { title, body } = this._buildNotificationCopy(signal, symbol, status);
+
+                await Promise.allSettled(
+                    subscribers.map((userId) =>
+                        this.notifications.send({
+                            userId,
+                            title,
+                            body,
+                            notificationType,
+                            signalAlertId: _signal.id,
+                            data: {
+                                signalId: _signal.id,
+                                symbol,
+                                direction: _signal.direction,
+                                status,
+                                entryPrice: String(_signal.entryPrice),
+                                tp1: String(_signal.tp1),
+                                tp2: String(_signal.tp2),
+                                stopLoss: String(_signal.stopLoss),
+                            },
+                        }).catch((err) => {
+                            this.logger.warn(`Push failed for user ${userId}: ${(err as Error).message}`);
+                        }),
+                    ),
+                );
+            })
             .catch((err: Error) => this.logger.error(`Failed to persist signal ${signal.id}: ${err.message}`));
 
         // 2. Update zone status when a signal progresses past PENDING
@@ -91,40 +127,7 @@ export class SignalDispatcherService implements OnModuleInit, OnModuleDestroy {
         // 3. Push the correct WS event name for this status
         this.gateway.pushToSymbol(symbol, STATUS_TO_WS_EVENT[status], signal);
 
-        // 3. Find all users subscribed to this symbol who have signal alerts enabled
-        const subscribers = await this._getSubscribedUsers(symbol);
 
-        if (!subscribers.length) return;
-
-        this.logger.debug(`Notifying ${subscribers.length} subscribers for ${symbol}`);
-
-        // 4. Send push notifications concurrently (failures are isolated per user)
-        const notificationType = this._statusToNotificationType(status);
-        const { title, body } = this._buildNotificationCopy(signal, symbol, status);
-
-        await Promise.allSettled(
-            subscribers.map((userId) =>
-                this.notifications.send({
-                    userId,
-                    title,
-                    body,
-                    notificationType,
-                    signalAlertId: signal.id,
-                    data: {
-                        signalId: signal.id,
-                        symbol,
-                        direction: signal.direction,
-                        status,
-                        entryPrice: String(signal.entryPrice),
-                        tp1: String(signal.tp1),
-                        tp2: String(signal.tp2),
-                        stopLoss: String(signal.stopLoss),
-                    },
-                }).catch((err) => {
-                    this.logger.warn(`Push failed for user ${userId}: ${(err as Error).message}`);
-                }),
-            ),
-        );
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────

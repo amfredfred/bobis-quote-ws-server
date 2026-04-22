@@ -232,7 +232,7 @@ model JournalChecklistItem {
   checklistText String       @map("checklist_text")
   answeredYes   Boolean      @map("answered_yes")
   note          String?
-  isAiGenerated Boolean      @default(true) @map("is_ai_generated")
+  isAiGenerated Boolean      @default(false) @map("is_ai_generated")
   trade         JournalTrade @relation(fields: [tradeId], references: [id], onDelete: Cascade)
 
   @@unique([tradeId, checklistText])
