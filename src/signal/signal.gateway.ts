@@ -23,7 +23,7 @@ interface PendingPayload {
     rangeHigh: number;
     rangeLow: number;
     bosDirection: BosDirection;
-    timestamp: number; 
+    timestamp: number;
     tpLevel: number;
     brokenAt?: number;
     htfCandleOpen?: number;
@@ -463,10 +463,42 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
       'signal.sl_hit', 'signal.invalidated', 'signal.expired',
     ];
     if (!SIGNAL_EVENTS.includes(event)) return;
-    if (!this._isSignal(parsed['payload'])) { logger.warn('Invalid signal payload', { event }); return; }
-    const signal = parsed['payload'];
-    logger.debug('Signal received', { event, id: signal.id, symbol: signal.symbol });
-    this.bus.emit(signal);
+
+    const outer = parsed['payload'] as Record<string, unknown> | undefined;
+    if (!outer) { logger.warn('Signal event missing payload', { event }); return; }
+
+    // signal.triggered  → Python emits signal.to_dict() directly as payload
+    //                     so id, entryPrice, etc. are at root
+    // all other events  → Python emits _update_payload() which nests to_dict()
+    //                     under "signal" key, with signalId/currentStatus at root
+    const isUpdateWrapper = typeof outer['signalId'] === 'string' && typeof outer['signal'] === 'object';
+    const signalData = isUpdateWrapper
+      ? (outer['signal'] as Record<string, unknown>)
+      : outer;
+
+    if (!this._isSignal(signalData)) {
+      logger.warn('Invalid signal payload', { event, isUpdateWrapper, keys: Object.keys(outer) });
+      return;
+    }
+
+    const merged: InboundSignal = {
+      ...(signalData as unknown as InboundSignal),
+      ...(isUpdateWrapper && outer['currentStatus'] !== undefined
+        ? { status: outer['currentStatus'] as InboundSignal['status'] }
+        : {}),
+      ...(isUpdateWrapper && outer['outcome'] !== undefined
+        ? { outcome: outer['outcome'] as SignalOutcome }
+        : {}),
+      ...(isUpdateWrapper && outer['realizedRR'] != null
+        ? { realizedRR: outer['realizedRR'] as number }
+        : {}),
+      ...(isUpdateWrapper && outer['price'] !== undefined
+        ? { closePrice: outer['price'] as number }
+        : {}),
+    };
+
+    logger.debug('Signal received', { event, id: merged.id, symbol: merged.symbol, status: merged.status });
+    this.bus.emit(merged);
   }
 
   // ── Helpers ─────────────────────────────────────────────────────────────────
