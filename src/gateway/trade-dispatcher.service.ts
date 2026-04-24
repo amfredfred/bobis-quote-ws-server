@@ -76,9 +76,8 @@ export interface WsRiskPayload {
 export interface WsLossGuardPayload {
   accountId:          string;
   paused:             boolean;
-  resumeAtMs:         number | null;
-  consecutiveLosses:  number;
-  dailyLosses:        number;
+  resumeAtMs:         number | null; 
+  dailyLossPct:        number;
   triggerReason:      string | null;
 }
 
@@ -232,8 +231,7 @@ export class TradeDispatcherService implements OnModuleInit, OnModuleDestroy {
       accountId,
       paused:             true,
       resumeAtMs:         lgs.pausedUntilMs ?? null,
-      consecutiveLosses:  lgs.consecutiveLosses,
-      dailyLosses:        lgs.dailyLosses,
+      dailyLossPct:        lgs.dailyLossPct,
       triggerReason:      null, // reason not currently surfaced by LossTracker stats()
     };
 
