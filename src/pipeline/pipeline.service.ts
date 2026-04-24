@@ -2,7 +2,7 @@
 
 import { TradingAccount } from '../trading-account/trading-account.service';
 import { InboundSignal, SignalStatus } from '../common/types/signal.types';
-import { CloseReason, Trade } from '../common/types/trade.types';
+import { Trade } from '../common/types/trade.types';
 import { RiskEngine } from '../risk/risk.engine';
 import { TradePlanner } from '../execution/trade.planner';
 import { ExecutionEngine } from '../execution/execution.engine';
@@ -90,9 +90,6 @@ export class PipelineService {
     await this.metaApi.connectAccount(metaId);
 
     try {
-      if (this.prisma) {
-        await this.riskEngine.getLossTracker().loadToday(this.prisma, this.account.id);
-      }
       const info = await this.metaApi.getAccountInfo(metaId);
       this._accountBalance = info.balance;
       this._accountEquity = info.equity;
@@ -280,12 +277,6 @@ export class PipelineService {
     this.logger.info('Trade closed', {
       tradeId: trade.id, symbol: trade.symbol,
       closeReason: trade.closeReason, rr: trade.realizedRR,
-    });
-
-    this.riskEngine.getLossTracker().onTradeClosed({
-      id: trade.id,
-      closedAt: trade.closedAt,
-      closeReason: trade.closeReason as CloseReason,
     });
 
     // C-3 FIX: Do NOT accumulate PnL locally. The broker-sourced getDailyLossPct()

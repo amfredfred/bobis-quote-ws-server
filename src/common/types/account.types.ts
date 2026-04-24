@@ -70,17 +70,28 @@ export interface AccountRiskConfig {
    */
   maxCorrelatedExposure: number;
 
-  // Loss-guard circuit breaker (mirrors Python LossTracker)
-  maxConsecutiveLosses: number;   // Guard 1: pause after N losses in a row (0 = disabled, default 3)
-  pauseAfterStreakH: number;   // Guard 1: pause duration in hours (default 12)
-  maxDailyLosses: number;   // Guard 2: max losing trades per day (0 = disabled, default 3)
-  maxLossesPerWindow: number;   // Guard 3: max losses within rolling window (0 = disabled, default 2)
-  lossWindowHours: number;   // Guard 3: rolling window size in hours (default 4)
-  engineTimezone: string;   // IANA tz for Guard 2 day boundaries (e.g. 'Africa/Lagos', default 'UTC')
+  // Loss-guard circuit breaker — equity-%-based, mirrors Python LossTracker
+  // Pause until midnight when broker-reported daily loss % reaches maxDailyLossPercent.
+  // Day-boundary calculation uses engineTimezone.
+  engineTimezone: string;   // IANA tz (e.g. 'Africa/Lagos', default 'UTC')
+
   tp1PartialClose: number;
   moveSlToBE: boolean;
   spreadRiskMultiplier: number;
   maxEntrySlippagePips: number;
+
+  /**
+   * When false (default): SL/TP levels are held at the signal's analysis-derived
+   * prices regardless of fill slippage. The fill price is recorded for PnL tracking
+   * only — levels are never moved.
+   *
+   * When true: all levels shift by the fill-vs-signal price delta so that stop
+   * distance and R:R are preserved relative to the actual fill price.
+   *
+   * Mirrors Python ExecutionConfig.adjust_levels_on_slippage (default False).
+   */
+  adjustLevelsOnSlippage: boolean;
+
   magicNumber: number;
   slippage: number;
   comment: string;
@@ -109,20 +120,16 @@ export const DEFAULT_RISK_CONFIG: AccountRiskConfig = {
   maxLotSize: 100.0,
   minLotSize: 0.01,
   symbolFilter: [],
-  slRatioThreshold: 0.3,     // spread must be < 30% of SL size
-  noHedging: false,
+  slRatioThreshold: 0.3,        // spread must be < 30% of SL size
+  noHedging: true,              // matches Python default
   authorizedPairs: [],          // empty = NO pairs allowed
   maxCorrelatedExposure: 3,     // block when net group exposure reaches ±3
-  maxConsecutiveLosses: 3,       // Guard 1
-  pauseAfterStreakH: 12,      // Guard 1
-  maxDailyLosses: 3,       // Guard 2
-  maxLossesPerWindow: 2,       // Guard 3
-  lossWindowHours: 4,       // Guard 3
   engineTimezone: 'UTC',
   tp1PartialClose: 50,
   moveSlToBE: false,
   spreadRiskMultiplier: 1.0,
   maxEntrySlippagePips: 3.0,
+  adjustLevelsOnSlippage: false, // matches Python default (hold analysis prices)
   magicNumber: 20240101,
   slippage: 10,
   comment: 'bb-platform',

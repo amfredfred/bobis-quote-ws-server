@@ -34,7 +34,10 @@ export class ExecutionEngine {
     this.logger = createLogger(`exec.${accountId.slice(0, 8)}`);
   }
 
-  updateDailyLoss(pct: number): void { this._dailyLossPct = pct; }
+  updateDailyLoss(pct: number): void {
+    this._dailyLossPct = pct;
+    this.riskEngine.updateDailyLossPct(pct);   // forward to LossTracker
+  }
 
   async execute(signal: InboundSignal): Promise<Trade | null> {
     const pipelineStart = nowMs();
@@ -87,15 +90,48 @@ export class ExecutionEngine {
       const tp1Pct = this.config.tp1PartialClose / 100;
       const tp1Lots = normaliseLots(filled * tp1Pct, symbolInfo.lotStep, symbolInfo.minLot, symbolInfo.maxLot);
       const tp2Lots = normaliseLots(filled - tp1Lots, symbolInfo.lotStep, symbolInfo.minLot, symbolInfo.maxLot);
+
+      // ── 6a. Resolve final SL/TP levels — mirrors Python exactly ──────────
+      // Default (false): hold levels at signal analysis prices; fill recorded for PnL only.
+      // True: shift every level by fill delta to preserve stop distance and R:R relative to fill.
+      let adjSl: number, adjTp1: number, adjTp2: number;
+
+      if (Math.abs(fillSlippage) > 1e-8 && this.config.adjustLevelsOnSlippage) {
+        adjSl = plan.stopLoss + fillSlippage;
+        adjTp1 = plan.tp1 + fillSlippage;
+        adjTp2 = plan.tp2 + fillSlippage;
+        this.logger.info('Plan levels shifted to actual fill price (adjustLevelsOnSlippage=true)', {
+          symbol: signal.symbol,
+          signalEntry: plan.entryPrice, fillPrice: order.executedPrice,
+          fillSlippage: fillSlippage.toFixed(5),
+          originalSl: plan.stopLoss, adjustedSl: adjSl.toFixed(5),
+          originalTp1: plan.tp1, adjustedTp1: adjTp1.toFixed(5),
+          originalTp2: plan.tp2, adjustedTp2: adjTp2.toFixed(5),
+        });
+      } else {
+        // Hold levels at analysis-derived prices. Fill recorded for PnL tracking only.
+        adjSl = plan.stopLoss;
+        adjTp1 = plan.tp1;
+        adjTp2 = plan.tp2;
+        if (Math.abs(fillSlippage) > 1e-8) {
+          this.logger.info('Fill slippage recorded — levels held at analysis prices', {
+            symbol: signal.symbol,
+            signalEntry: plan.entryPrice, fillPrice: order.executedPrice,
+            fillSlippage: fillSlippage.toFixed(5),
+            sl: plan.stopLoss, tp1: plan.tp1, tp2: plan.tp2,
+          });
+        }
+      }
+
       const adjPlan: TradePlan = {
         ...plan,
         lotSize: filled,
         tp1LotSize: tp1Lots,
         tp2LotSize: tp2Lots,
         entryPrice: order.executedPrice,
-        tp1: plan.tp1 + fillSlippage,
-        tp2: plan.tp2 + fillSlippage,
-        stopLoss: plan.stopLoss + fillSlippage,
+        stopLoss: adjSl,
+        tp1: adjTp1,
+        tp2: adjTp2,
       };
 
       // ── 7. Build trade record ────────────────────────────────────────────

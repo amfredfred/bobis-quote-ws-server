@@ -40,16 +40,17 @@ export class RiskEngine {
 
   private _lossTrackerConfig(): LossTrackerConfig {
     return {
-      maxConsecutiveLosses: this.config.maxConsecutiveLosses ?? 3,
-      pauseAfterStreakH: this.config.pauseAfterStreakH ?? 12,
-      maxDailyLosses: this.config.maxDailyLosses ?? 3,
-      maxLossesPerWindow: this.config.maxLossesPerWindow ?? 2,
-      lossWindowHours: this.config.lossWindowHours ?? 4,
+      maxDailyLossPct: this.config.maxDailyLossPercent,
       engineTimezone: this.config.engineTimezone ?? 'UTC',
     };
   }
 
   getLossTracker(): LossTracker { return this.lossTracker; }
+
+  /** Forward broker-polled daily loss % to the LossTracker. Called by ExecutionEngine. */
+  updateDailyLossPct(pct: number): void {
+    this.lossTracker.updateDailyLossPct(pct);
+  }
 
   reserve(symbol: string): void {
     this.pending.set(symbol, (this.pending.get(symbol) ?? 0) + 1);
@@ -127,7 +128,6 @@ export class RiskEngine {
 
   updateConfig(patch: Partial<AccountRiskConfig>): void {
     this.config = { ...this.config, ...patch };
-    // Update loss tracker config when risk mode or limits change
-    this.lossTracker.updateConfig?.(this._lossTrackerConfig());
+    this.lossTracker.updateConfig(this._lossTrackerConfig());
   }
 }

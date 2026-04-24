@@ -1,126 +1,179 @@
-'use strict'
+'use strict';
 
-import { LossTracker, LossTrackerConfig } from '../../src/risk/loss.tracker';
+import { LossTracker, LossTrackerConfig } from './loss.tracker';
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
 const BASE_CFG: LossTrackerConfig = {
-  maxConsecutiveLosses: 3,
-  pauseAfterStreakH:    1,   // 1 hour for test speed
-  maxDailyLosses:       4,
-  maxLossesPerWindow:   2,
-  lossWindowHours:      2,
+  maxDailyLossPct: 5.0,
+  engineTimezone: 'UTC',
 };
 
 function makeTracker(cfg: Partial<LossTrackerConfig> = {}): LossTracker {
   return new LossTracker({ ...BASE_CFG, ...cfg }, 'test-account-id');
 }
 
-function nowMs(): number { return Date.now(); }
-
-function closedTrade(isLoss: boolean, offsetMs = 0) {
-  return {
-    id:          `trade-${Math.random()}`,
-    closedAt:    nowMs() - offsetMs,
-    closeReason: (isLoss ? 'SL_HIT' : 'TP2_HIT') as 'SL_HIT' | 'TP2_HIT',
-  };
+/** Reach into the private field to simulate midnight passing. */
+function expirePause(t: LossTracker): void {
+  (t as unknown as { _pausedUntil: number })._pausedUntil = Date.now() - 1;
 }
+
+// ── Tests ─────────────────────────────────────────────────────────────────────
 
 describe('LossTracker', () => {
 
-  describe('Guard 1 — consecutive streak', () => {
-    it('not paused below threshold', () => {
-      const t = makeTracker({ maxConsecutiveLosses: 3, maxDailyLosses: 0, maxLossesPerWindow: 0 });
-      t.onTradeClosed(closedTrade(true));
-      t.onTradeClosed(closedTrade(true));
+  // ── updateDailyLossPct / isPaused ─────────────────────────────────────────
+
+  describe('updateDailyLossPct / isPaused', () => {
+
+    it('is not paused when pct is below the limit', () => {
+      const t = makeTracker();
+      t.updateDailyLossPct(4.99);
       const [paused] = t.isPaused();
       expect(paused).toBe(false);
     });
 
-    it('pauses at threshold', () => {
-      const t = makeTracker({ maxConsecutiveLosses: 3, pauseAfterStreakH: 12 });
-      t.onTradeClosed(closedTrade(true));
-      t.onTradeClosed(closedTrade(true));
-      t.onTradeClosed(closedTrade(true));
+    it('is not paused at 0%', () => {
+      const t = makeTracker();
+      t.updateDailyLossPct(0);
+      expect(t.isPaused()[0]).toBe(false);
+    });
+
+    it('pauses when pct exactly equals the limit', () => {
+      const t = makeTracker({ maxDailyLossPct: 5.0 });
+      t.updateDailyLossPct(5.0);
+      expect(t.isPaused()[0]).toBe(true);
+    });
+
+    it('pauses when pct exceeds the limit', () => {
+      const t = makeTracker({ maxDailyLossPct: 5.0 });
+      t.updateDailyLossPct(5.1);
+      expect(t.isPaused()[0]).toBe(true);
+    });
+
+    it('isPaused reason includes current%, limit%, and "midnight reset"', () => {
+      const t = makeTracker({ maxDailyLossPct: 5.0 });
+      t.updateDailyLossPct(5.1);
       const [paused, reason] = t.isPaused();
       expect(paused).toBe(true);
-      expect(reason).toContain('Loss guard');
+      expect(reason).toContain('5.10%');
+      expect(reason).toContain('5.00%');
+      expect(reason).toContain('midnight reset');
     });
 
-    it('resets streak on a win', () => {
-      const t = makeTracker({ maxConsecutiveLosses: 3, pauseAfterStreakH: 12, maxDailyLosses: 0, maxLossesPerWindow: 0 });
-      t.onTradeClosed(closedTrade(true));
-      t.onTradeClosed(closedTrade(true));
-      t.onTradeClosed(closedTrade(false)); // win resets streak
-      t.onTradeClosed(closedTrade(true));
-      const [paused] = t.isPaused();
-      expect(paused).toBe(false);
+    it('stays paused on subsequent updates while the pause window is active', () => {
+      const t = makeTracker({ maxDailyLossPct: 5.0 });
+      t.updateDailyLossPct(5.1);
+      // pct drops back below limit — pause window must hold until midnight
+      t.updateDailyLossPct(1.0);
+      expect(t.isPaused()[0]).toBe(true);
     });
 
-    it('disabled when maxConsecutiveLosses = 0', () => {
-      const t = makeTracker({ maxConsecutiveLosses: 0, maxDailyLosses: 0, maxLossesPerWindow: 0 });
-      for (let i = 0; i < 10; i++) t.onTradeClosed(closedTrade(true));
-      const [paused] = t.isPaused();
-      expect(paused).toBe(false);
+    it('does not re-log / re-set _pausedUntil on repeat updates while paused', () => {
+      const t = makeTracker({ maxDailyLossPct: 5.0 });
+      t.updateDailyLossPct(5.1);
+      const firstPausedUntil = (t as any)._pausedUntil;
+      t.updateDailyLossPct(6.0);
+      // _pausedUntil should not advance — early-return path taken
+      expect((t as any)._pausedUntil).toBe(firstPausedUntil);
     });
   });
 
-  describe('Guard 2 — daily cap', () => {
-    it('pauses after maxDailyLosses', () => {
-      const t = makeTracker({ maxDailyLosses: 3, maxConsecutiveLosses: 0, maxLossesPerWindow: 0 });
-      t.onTradeClosed(closedTrade(true));
-      t.onTradeClosed(closedTrade(true));
-      t.onTradeClosed(closedTrade(true));
-      const [paused] = t.isPaused();
-      expect(paused).toBe(true);
+  // ── Midnight rollover ──────────────────────────────────────────────────────
+
+  describe('midnight rollover (pause expiry)', () => {
+
+    it('isPaused returns false after the pause window expires', () => {
+      const t = makeTracker();
+      t.updateDailyLossPct(5.1);
+      expirePause(t);
+      expect(t.isPaused()[0]).toBe(false);
     });
 
-    it('wins do not count toward daily cap', () => {
-      const t = makeTracker({ maxDailyLosses: 3, maxConsecutiveLosses: 0, maxLossesPerWindow: 0 });
-      t.onTradeClosed(closedTrade(false));
-      t.onTradeClosed(closedTrade(false));
-      t.onTradeClosed(closedTrade(true));
-      t.onTradeClosed(closedTrade(true));
-      const [paused] = t.isPaused();
-      expect(paused).toBe(false);
+    it('isPaused returns empty reason string after expiry', () => {
+      const t = makeTracker();
+      t.updateDailyLossPct(5.1);
+      expirePause(t);
+      const [, reason] = t.isPaused();
+      expect(reason).toBe('');
     });
 
-    it('disabled when maxDailyLosses = 0', () => {
-      const t = makeTracker({ maxDailyLosses: 0, maxConsecutiveLosses: 0, maxLossesPerWindow: 0 });
-      for (let i = 0; i < 10; i++) t.onTradeClosed(closedTrade(true));
-      const [paused] = t.isPaused();
-      expect(paused).toBe(false);
+    it('clears stale pause on next updateDailyLossPct below limit', () => {
+      const t = makeTracker();
+      t.updateDailyLossPct(5.1);
+      expirePause(t);
+      t.updateDailyLossPct(0);   // new day, broker reports 0
+      expect(t.isPaused()[0]).toBe(false);
+    });
+
+    it('re-triggers if new day loss again breaches limit', () => {
+      const t = makeTracker();
+      t.updateDailyLossPct(5.1);
+      expirePause(t);
+      t.updateDailyLossPct(5.0);  // same day or new day — hits limit again
+      expect(t.isPaused()[0]).toBe(true);
     });
   });
 
-  describe('Guard 3 — rolling window', () => {
-    it('pauses when N losses occur within window', () => {
-      const t = makeTracker({ maxLossesPerWindow: 2, lossWindowHours: 2, maxConsecutiveLosses: 0, maxDailyLosses: 0 });
-      // Two losses within 2h window
-      t.onTradeClosed(closedTrade(true, 60_000));    // 1 min ago
-      t.onTradeClosed(closedTrade(true, 30_000));    // 30s ago
-      const [paused] = t.isPaused();
-      expect(paused).toBe(true);
-    });
-
-    it('does not pause when losses are outside window', () => {
-      const t = makeTracker({ maxLossesPerWindow: 2, lossWindowHours: 1, maxConsecutiveLosses: 0, maxDailyLosses: 0 });
-      // Two losses but second is >1h after first
-      t.onTradeClosed(closedTrade(true, 3 * 3_600_000 + 1_000)); // 3h+ ago
-      t.onTradeClosed(closedTrade(true, 30_000));                  // 30s ago
-      const [paused] = t.isPaused();
-      expect(paused).toBe(false);
-    });
-  });
+  // ── stats() ───────────────────────────────────────────────────────────────
 
   describe('stats()', () => {
-    it('returns correct counts', () => {
-      const t = makeTracker();
-      t.onTradeClosed(closedTrade(true));
-      t.onTradeClosed(closedTrade(false));
-      t.onTradeClosed(closedTrade(true));
+
+    it('returns correct shape when not paused', () => {
+      const t = makeTracker({ maxDailyLossPct: 5.0 });
+      t.updateDailyLossPct(3.5);
       const s = t.stats();
-      expect(s.dailyLosses).toBe(2);
-      expect(s.consecutiveLosses).toBe(1); // last trade was a loss
+      expect(s.dailyLossPct).toBeCloseTo(3.5);
+      expect(s.paused).toBe(false);
+      expect(s.pausedUntilMs).toBeNull();
+      expect(s.guardConfig.maxDailyLossPercent).toBe(5.0);
+    });
+
+    it('returns correct shape when paused', () => {
+      const t = makeTracker({ maxDailyLossPct: 5.0 });
+      t.updateDailyLossPct(5.1);
+      const s = t.stats();
+      expect(s.paused).toBe(true);
+      expect(s.dailyLossPct).toBeCloseTo(5.1);
+      expect(s.pausedUntilMs).toBeGreaterThan(Date.now());
+      expect(s.guardConfig.maxDailyLossPercent).toBe(5.0);
+    });
+
+    it('pausedUntilMs is null after expiry', () => {
+      const t = makeTracker();
+      t.updateDailyLossPct(5.1);
+      expirePause(t);
+      expect(t.stats().pausedUntilMs).toBeNull();
     });
   });
 
+  // ── updateConfig() hot-reload ─────────────────────────────────────────────
+
+  describe('updateConfig() hot-reload', () => {
+
+    it('lowering the limit causes a pause on next updateDailyLossPct', () => {
+      const t = makeTracker({ maxDailyLossPct: 10.0 });
+      t.updateDailyLossPct(6.0);
+      expect(t.isPaused()[0]).toBe(false);
+
+      t.updateConfig({ maxDailyLossPct: 5.0 });
+      t.updateDailyLossPct(6.0);   // re-poll after config change
+      expect(t.isPaused()[0]).toBe(true);
+    });
+
+    it('raising the limit means a pct below the new limit no longer triggers', () => {
+      const t = makeTracker({ maxDailyLossPct: 5.0 });
+      // pct is below old limit — not paused
+      t.updateDailyLossPct(4.0);
+      t.updateConfig({ maxDailyLossPct: 10.0 });
+      t.updateDailyLossPct(4.0);
+      expect(t.isPaused()[0]).toBe(false);
+    });
+
+    it('updated limit is reflected in stats().guardConfig', () => {
+      const t = makeTracker({ maxDailyLossPct: 5.0 });
+      t.updateConfig({ maxDailyLossPct: 7.5 });
+      expect(t.stats().guardConfig.maxDailyLossPercent).toBe(7.5);
+    });
+  });
 });
