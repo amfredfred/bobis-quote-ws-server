@@ -93,6 +93,7 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
   private lastFailureTime = 0;
 
   private readonly wsUrl: string;
+  private readonly wsSecret: string;
 
   private _activeSymbols = new Set<string>();
   private _pendingQueries = new Map<string, PendingQuery>();
@@ -106,6 +107,7 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
     private readonly prisma: PrismaService,
   ) {
     this.wsUrl = this.config.getOrThrow<string>('SIGNAL_ENGINE_WS_URL');
+    this.wsSecret = this.config.getOrThrow<string>('SIGNAL_ENGINE_WS_SECRET_KEY');
   }
 
   async onModuleInit(): Promise<void> {
@@ -198,7 +200,7 @@ export class SignalGateway implements OnModuleInit, OnModuleDestroy {
     }
 
     logger.info('Connecting', { url: this.wsUrl, attempt: this.reconnectAttempts + 1 });
-    this.ws = new WebSocket(this.wsUrl);
+    this.ws = new WebSocket(this.wsUrl, { headers: { "sec-websocket-protocol": this.wsSecret } });
 
     this.ws.on('open', () => {
       logger.info('Connected');
