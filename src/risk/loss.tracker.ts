@@ -61,28 +61,32 @@ function _tzOffsetMs(utcDate: Date, tz: string): number {
 
 export interface LossTrackerConfig {
   maxDailyLossPct: number;
-  engineTimezone:  string;
+  engineTimezone: string;
 }
 
 export interface LossTrackerStats {
-  dailyLossPct:     number;
+  dailyLossPct: number;
   startOfDayEquity: number;
-  dailyBudget:      number;
-  paused:           boolean;
-  pausedUntilMs:    number | null;
+  dailyBudget: number;
+  paused: boolean;
+  pausedUntilMs: number | null;
   guardConfig: {
     maxDailyLossPercent: number;
   };
+  equityPeak: number;
+  equityDrawdownPct: number;
 }
 
 // ── LossTracker ───────────────────────────────────────────────────────────────
 
 export class LossTracker {
   private readonly logger;
-  private _currentPct        = 0;
-  private _startOfDayEquity  = 0;
+  private _currentPct = 0;
+  private _startOfDayEquity = 0;
   private _trackedDay: string | null = null;   // 'YYYY-MM-DD' in engineTimezone
-  private _pausedUntil       = 0;              // Unix-ms; 0 = not paused
+  private _pausedUntil = 0;              // Unix-ms; 0 = not paused
+  private _equityPeak = 0;
+  private _equityDrawdownPct = 0;
 
   constructor(
     private readonly cfg: LossTrackerConfig,
@@ -107,13 +111,13 @@ export class LossTracker {
   updateDailyLossPct(pct: number, startEquity: number): void {
     this._currentPct = pct;
 
-    const now   = nowMs();
+    const now = nowMs();
     const today = todayStr(this.cfg.engineTimezone);
 
     // Latch start-of-day equity once per calendar day.
     // startEquity from broker is 0 on data failure — ignore those.
     if (this._trackedDay !== today && startEquity > 0) {
-      this._trackedDay       = today;
+      this._trackedDay = today;
       this._startOfDayEquity = startEquity;
       this.logger.info(
         `📅 New trading day ${today} — start-of-day equity latched at ${startEquity.toFixed(2)}`,
@@ -130,7 +134,7 @@ export class LossTracker {
 
     // Trigger: daily loss limit reached.
     if (pct >= this.cfg.maxDailyLossPct) {
-      const end      = dayEndMs(this.cfg.engineTimezone);
+      const end = dayEndMs(this.cfg.engineTimezone);
       this._pausedUntil = end;
       const minsLeft = Math.floor((end - now) / 60_000);
       this.logger.warn(
@@ -138,6 +142,20 @@ export class LossTracker {
         ` — pausing trading for ${minsLeft} min (until midnight ${today})`,
       );
     }
+  }
+
+  updateEquity(currentEquity: number): void {
+    if (currentEquity <= 0) return;
+
+    if (this._equityPeak === 0) {
+      this._equityPeak = currentEquity;
+    }
+
+    if (currentEquity > this._equityPeak) {
+      this._equityPeak = currentEquity;
+    }
+
+    this._equityDrawdownPct = ((this._equityPeak - currentEquity) / this._equityPeak) * 100;
   }
 
   // ── Risk budget ─────────────────────────────────────────────────────────────
@@ -178,23 +196,29 @@ export class LossTracker {
     return [false, ''];
   }
 
+  isEquityDrawdownBreached(limitPct: number): boolean {
+    return this._equityDrawdownPct >= limitPct;
+  }
+
   // ── Stats ───────────────────────────────────────────────────────────────────
 
   stats(): LossTrackerStats {
-    const now         = nowMs();
-    const paused      = this._pausedUntil > 0 && now < this._pausedUntil;
+    const now = nowMs();
+    const paused = this._pausedUntil > 0 && now < this._pausedUntil;
     const dailyBudget = this._startOfDayEquity > 0
       ? this._startOfDayEquity * (this.cfg.maxDailyLossPct / 100)
       : 0;
     return {
-      dailyLossPct:     this._currentPct,
+      dailyLossPct: this._currentPct,
       startOfDayEquity: this._startOfDayEquity,
-      dailyBudget:      Math.round(dailyBudget * 100) / 100,
+      dailyBudget: Math.round(dailyBudget * 100) / 100,
       paused,
-      pausedUntilMs:    paused ? this._pausedUntil : null,
+      pausedUntilMs: paused ? this._pausedUntil : null,
       guardConfig: {
         maxDailyLossPercent: this.cfg.maxDailyLossPct,
       },
+      equityPeak: this._equityPeak,
+      equityDrawdownPct: this._equityDrawdownPct,
     };
   }
 

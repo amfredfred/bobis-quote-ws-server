@@ -31,7 +31,7 @@ export class PositionManager {
     private readonly onTp2Hit: (trade: Trade) => void,
     private readonly onSlHit: (trade: Trade) => void,
     private readonly onTradeClosed: (trade: Trade) => void,
-    private readonly onDailyLossUpdate: (pct: number, startEquity: number) => void,
+    private readonly onDailyLossUpdate: (pct: number, startEquity: number, currentEquity: number) => void,
     private readonly pollIntervalMs: number = 5_000,
   ) {
     this.logger = createLogger(`pos-mgr.${accountId.slice(0, 8)}`);
@@ -105,12 +105,19 @@ export class PositionManager {
     // Refresh daily loss + start-of-day equity. Positions already fetched above
     // are passed through to avoid a redundant broker RPC.
     try {
-      const { lossPct, startEquity } = await this.metaApi.getDailyPnlInfo(
-        this.metaApiAccountId,
-        this.config.magicNumber,
-        brokerPositions,
-      );
-      this.onDailyLossUpdate(lossPct, startEquity);
+      const [pnl, info] = await Promise.all([
+        this.metaApi.getDailyPnlInfo(
+          this.metaApiAccountId,
+          this.config.magicNumber,
+          brokerPositions,
+        ),
+        this.metaApi.getAccountInfo(this.metaApiAccountId),
+      ]);
+
+      const { lossPct, startEquity } = pnl;
+      const { equity } = info;
+
+      this.onDailyLossUpdate(lossPct, startEquity, equity);
       this.metrics.setGauge('daily_loss_pct', lossPct);
     } catch (err) {
       this.logger.warn('Failed to refresh daily loss', { error: String(err) });

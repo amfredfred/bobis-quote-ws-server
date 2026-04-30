@@ -83,7 +83,7 @@ export class PipelineService {
       (t) => this._onTp2Hit(t),
       (t) => this._onSlHit(t),
       (t) => this._onTradeClosed(t),
-      (pct, startEquity) => this._onDailyLossUpdate(pct, startEquity),
+      (pct, startEquity, currentEquity) => this._onEquityUpdate(pct, startEquity, currentEquity)
     );
   }
 
@@ -295,7 +295,7 @@ export class PipelineService {
     });
 
     // C-3 FIX: Do NOT accumulate PnL locally. The broker-sourced getDailyLossPct()
-    // polled every 5 s is the authoritative value and is applied via _onDailyLossUpdate().
+    // polled every 5 s is the authoritative value and is applied via _onEquityUpdate().
     // Local accumulation caused double-counting when the poll fired concurrently.
 
     // Only write to signals table for real (non-stub) trades with a valid signal ref.
@@ -326,21 +326,18 @@ export class PipelineService {
         tradeId: trade.id, error: String(err),
       }));
   }
-
-  private _onDailyLossUpdate(pct: number, startEquity: number): void {
+  
+  private _onEquityUpdate(pct: number, startEquity: number, equity: number): void {
     this._dailyLossPct = pct;
-    this.executionEngine.updateDailyLoss(pct, startEquity);
-    this.metrics.setGauge('daily_loss_pct', pct);
 
-    // Refresh balance/equity snapshot periodically via account info
-    // so the cached balance passed to getDailyLossPct stays accurate.
-    this.metaApi.getAccountInfo(this.account.metaApiAccountId!).then(info => {
-      this._accountBalance = info.balance;
-      this._accountEquity = info.equity;
-      this.positionManager.updateBalance(info.balance);
-      this.metrics.setGauge('balance', info.balance);
-      this.metrics.setGauge('equity', info.equity);
-    }).catch(() => { /* non-critical */ });
+    const lt = this.riskEngine.getLossTracker();
+
+    this.executionEngine.updateDailyLoss(pct, startEquity);
+
+    // NEW: equity drawdown tracking
+    lt.updateEquity(equity);
+
+    this.metrics.setGauge('daily_loss_pct', pct);
   }
 
   private _closeReasonToSignalStatus(reason?: string): SignalStatus {

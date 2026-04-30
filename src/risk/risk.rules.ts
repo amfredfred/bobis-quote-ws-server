@@ -56,6 +56,23 @@ function lossGuard(ctx: RuleContext): RuleResult {
   return ok;
 }
 
+function equityDrawdownGuard(ctx: RuleContext): RuleResult {
+  const lt = ctx.lossTracker;
+  if (!lt) return ok;
+
+  const limit = ctx.config.maxEquityDrawdownPct;
+  if (!limit) return ok;
+
+  if (lt.isEquityDrawdownBreached(limit)) {
+    return {
+      approved: false,
+      reason: `Equity drawdown limit breached`,
+    };
+  }
+
+  return ok;
+}
+
 function noHedging(ctx: RuleContext): RuleResult {
   if (!ctx.config.noHedging) return ok;
 
@@ -197,6 +214,7 @@ function spreadQuality(ctx: RuleContext): RuleResult {
 export const ALL_RULES: RiskRule[] = [
   // ── Memory-only ───────────────────────────────────────────────────────
   lossGuard,          // paused state check
+  equityDrawdownGuard,
   noHedging,          // open trades scan
   rewardExceedsRisk,  // absolute R:R floor
   symbolFilter,       // symbol whitelist

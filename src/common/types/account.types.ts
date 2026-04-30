@@ -22,6 +22,7 @@ export interface AccountRiskConfig {
    *   max_exposure = max_open_trades × risk_per_trade = daily_budget exactly.
    */
   maxLosingStreak: number;
+  maxEquityDrawdownPct: number;
 
   /** Which LTF timeframe signals this account accepts. Default: 'all' */
   tradeMode: TradeMode;
@@ -69,6 +70,7 @@ export interface Account {
 
 export const DEFAULT_RISK_CONFIG: AccountRiskConfig = {
   maxLosingStreak: 4,           // derives max 5 concurrent trades, ~20% of budget each
+  maxEquityDrawdownPct: 2.0,  // if drawdown exceeds this %, pause new trades until reset
   tradeMode: 'all',
   maxDailyLossPercent: 5.0,
   maxExposurePerSymbol: 2,
