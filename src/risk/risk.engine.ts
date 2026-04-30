@@ -40,10 +40,11 @@ export class RiskEngine {
 
   private _lossTrackerConfig(): LossTrackerConfig {
     return {
-      maxDailyLossPct:    this.config.maxDailyLossPercent,
-      engineTimezone:     this.config.engineTimezone ?? 'UTC',
-      rollingWindowSize:  this.config.rollingWindowSize,
+      maxDailyLossPct: this.config.maxDailyLossPercent,
+      engineTimezone: this.config.engineTimezone ?? 'UTC',
+      rollingWindowSize: this.config.rollingWindowSize,
       rollingDrawdownPct: this.config.rollingDrawdownPct,
+      maxEquityDrawdownPct: this.config.maxEquityDrawdownPct,
     };
   }
 

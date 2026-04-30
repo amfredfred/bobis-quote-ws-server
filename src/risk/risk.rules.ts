@@ -10,19 +10,19 @@ import type { LossTracker } from './loss.tracker';
 // ── Context ──────────────────────────────────────────────────────────────────
 
 export interface RuleContext {
-  signal:          InboundSignal;
-  openTrades:      Trade[];
-  config:          AccountRiskConfig;
-  dailyLossPct:    number;
-  effectiveOpen:   number;
+  signal: InboundSignal;
+  openTrades: Trade[];
+  config: AccountRiskConfig;
+  dailyLossPct: number;
+  effectiveOpen: number;
   effectiveSymbol: number;
-  symbolInfo?:     SymbolInfo;
-  lossTracker?:    LossTracker;
+  symbolInfo?: SymbolInfo;
+  lossTracker?: LossTracker;
 }
 
 export interface RuleResult {
   approved: boolean;
-  reason:   string;
+  reason: string;
 }
 
 export type RiskRule = (ctx: RuleContext) => RuleResult;
@@ -53,23 +53,6 @@ function lossGuard(ctx: RuleContext): RuleResult {
   if (!ctx.lossTracker) return ok;
   const [paused, reason] = ctx.lossTracker.isPaused();
   if (paused) return { approved: false, reason: `Loss guard: ${reason}` };
-  return ok;
-}
-
-function equityDrawdownGuard(ctx: RuleContext): RuleResult {
-  const lt = ctx.lossTracker;
-  if (!lt) return ok;
-
-  const limit = ctx.config.maxEquityDrawdownPct;
-  if (!limit) return ok;
-
-  if (lt.isEquityDrawdownBreached(limit)) {
-    return {
-      approved: false,
-      reason: `Equity drawdown limit breached`,
-    };
-  }
-
   return ok;
 }
 
@@ -130,8 +113,8 @@ function duplicateSignal(ctx: RuleContext): RuleResult {
 }
 
 function dailyLossLimit(ctx: RuleContext): RuleResult {
-  const budget           = ctx.config.maxDailyLossPercent;
-  const safetyThreshold  = budget * 0.85;
+  const budget = ctx.config.maxDailyLossPercent;
+  const safetyThreshold = budget * 0.85;
 
   // Layer 1 — hard stop at 95% of limit
   if (ctx.dailyLossPct >= safetyThreshold)
@@ -143,7 +126,7 @@ function dailyLossLimit(ctx: RuleContext): RuleResult {
   // Layer 2 — budget projection using streak formula (always runs — no RiskMode branch)
   //   per_trade_risk_pct = MAX_DAILY_LOSS_PERCENT / (maxLosingStreak + 1)
   const perTradeRiskPct = budget / (ctx.config.maxLosingStreak + 1);
-  const projected       = ctx.dailyLossPct + perTradeRiskPct;
+  const projected = ctx.dailyLossPct + perTradeRiskPct;
   if (projected > safetyThreshold)
     return {
       approved: false,
@@ -162,13 +145,13 @@ function minRR(ctx: RuleContext): RuleResult {
   const invalid = _validateSymbolInfo(ctx.symbolInfo);
   if (invalid) return invalid;
 
-  const si  = ctx.symbolInfo!;
+  const si = ctx.symbolInfo!;
   const pip = pipSize(si.point, si.digits);
   if (pip <= 0) return { approved: false, reason: 'Invalid pip size' };
 
   const fillPrice = _resolveFillPrice(si, ctx.signal.direction);
-  const slPips    = Math.abs(fillPrice - ctx.signal.stopLoss) / pip;
-  const tpPips    = Math.abs(fillPrice - ctx.signal.tp2) / pip;
+  const slPips = Math.abs(fillPrice - ctx.signal.stopLoss) / pip;
+  const tpPips = Math.abs(fillPrice - ctx.signal.tp2) / pip;
 
   if (slPips === 0) return { approved: false, reason: 'SL distance is zero' };
 
@@ -186,7 +169,7 @@ function spreadQuality(ctx: RuleContext): RuleResult {
   const invalid = _validateSymbolInfo(ctx.symbolInfo);
   if (invalid) return invalid;
 
-  const si  = ctx.symbolInfo!;
+  const si = ctx.symbolInfo!;
   const pip = pipSize(si.point, si.digits);
   if (pip <= 0) return { approved: false, reason: 'Invalid pip size' };
 
@@ -195,7 +178,7 @@ function spreadQuality(ctx: RuleContext): RuleResult {
 
   // Anchor SL distance to live fill price — not stale signal.entryPrice.
   const fillPrice = _resolveFillPrice(si, ctx.signal.direction);
-  const slPips    = Math.abs(fillPrice - ctx.signal.stopLoss) / pip;
+  const slPips = Math.abs(fillPrice - ctx.signal.stopLoss) / pip;
 
   if (slPips === 0) return { approved: false, reason: 'SL distance is zero' };
 
@@ -213,8 +196,7 @@ function spreadQuality(ctx: RuleContext): RuleResult {
 
 export const ALL_RULES: RiskRule[] = [
   // ── Memory-only ───────────────────────────────────────────────────────
-  lossGuard,          // paused state check
-  equityDrawdownGuard,
+  lossGuard,          // paused state check (daily loss + equity drawdown + rolling DD all latch here)
   noHedging,          // open trades scan
   rewardExceedsRisk,  // absolute R:R floor
   symbolFilter,       // symbol whitelist

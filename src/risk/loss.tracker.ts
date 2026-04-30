@@ -65,6 +65,9 @@ export interface LossTrackerConfig {
 
   rollingWindowSize?: number;
   rollingDrawdownPct?: number;
+
+  /** All-time-peak drawdown circuit-breaker (%). Undefined = disabled. */
+  maxEquityDrawdownPct?: number;
 }
 
 export interface LossTrackerStats {
@@ -88,6 +91,7 @@ export class LossTracker {
   private _startOfDayEquity = 0;
   private _trackedDay: string | null = null;   // 'YYYY-MM-DD' in engineTimezone
   private _pausedUntil = 0;              // Unix-ms; 0 = not paused
+  private _pauseReason = '';             // why we paused — used in isPaused() message
   private _equityPeak = 0;
   private _equityDrawdownPct = 0;
   private equityWindow: number[] = [];
@@ -123,6 +127,8 @@ export class LossTracker {
     if (this._trackedDay !== today && startEquity > 0) {
       this._trackedDay = today;
       this._startOfDayEquity = startEquity;
+      this._equityPeak = 0;        // ← reset so guard measures from today's session
+      this._equityDrawdownPct = 0; // ← reset
       this.logger.info(
         `📅 New trading day ${today} — start-of-day equity latched at ${startEquity.toFixed(2)}`,
       );
@@ -140,6 +146,7 @@ export class LossTracker {
     if (pct >= this.cfg.maxDailyLossPct) {
       const end = dayEndMs(this.cfg.engineTimezone);
       this._pausedUntil = end;
+      this._pauseReason = `daily loss limit (${pct.toFixed(2)}% >= ${this.cfg.maxDailyLossPct.toFixed(2)}%)`;
       const minsLeft = Math.floor((end - now) / 60_000);
       this.logger.warn(
         `🔴 Daily loss limit reached: ${pct.toFixed(2)}% >= ${this.cfg.maxDailyLossPct.toFixed(2)}%` +
@@ -151,14 +158,26 @@ export class LossTracker {
   updateEquity(equity: number): void {
     if (equity <= 0) return;
 
-    // ── 1. All-time-peak drawdown (powers equityDrawdownGuard) ───────────────
-    // Track the session high-water mark and compute current drawdown from it.
-    // This is separate from the rolling window — it never forgets a new peak.
+    // ── 1. All-time-peak drawdown circuit-breaker ────────────────────────────
     if (equity > this._equityPeak) {
       this._equityPeak = equity;
     }
     if (this._equityPeak > 0) {
       this._equityDrawdownPct = ((this._equityPeak - equity) / this._equityPeak) * 100;
+    }
+
+    const peakLimit = this.cfg.maxEquityDrawdownPct;
+    if (peakLimit && this._equityDrawdownPct >= peakLimit) {
+      const end = dayEndMs(this.cfg.engineTimezone);
+      const now = nowMs();
+      if (!this._pausedUntil || now >= this._pausedUntil) {
+        this._pausedUntil = end;
+        this._pauseReason = `equity drawdown (${this._equityDrawdownPct.toFixed(2)}% >= ${peakLimit}% from peak ${this._equityPeak.toFixed(2)})`;
+        this.logger.warn(
+          `🔴 Peak drawdown limit hit: ${this._equityDrawdownPct.toFixed(2)}% >= ${peakLimit}%` +
+          ` (peak=${this._equityPeak.toFixed(2)}, current=${equity.toFixed(2)}) → trading paused until midnight`,
+        );
+      }
     }
 
     // ── 2. Rolling-window drawdown circuit-breaker ───────────────────────────
@@ -183,9 +202,9 @@ export class LossTracker {
     if (rollingDD >= ddLimit) {
       const end = dayEndMs(this.cfg.engineTimezone);
       const now = nowMs();
-      // Don't re-trigger if already paused (e.g. daily loss already fired).
       if (!this._pausedUntil || now >= this._pausedUntil) {
         this._pausedUntil = end;
+        this._pauseReason = `rolling drawdown (${rollingDD.toFixed(2)}% >= ${ddLimit}% over last ${this.equityWindow.length} samples)`;
         this.logger.warn(
           `🔁 Rolling DD hit: ${rollingDD.toFixed(2)}% >= ${ddLimit}%` +
           ` (window=${windowSize}) → trading paused until midnight`,
@@ -223,17 +242,9 @@ export class LossTracker {
     const now = nowMs();
     if (this._pausedUntil && now < this._pausedUntil) {
       const mins = Math.floor((this._pausedUntil - now) / 60_000);
-      return [
-        true,
-        `Daily loss limit hit (${this._currentPct.toFixed(2)}% / ${this.cfg.maxDailyLossPct.toFixed(2)}%)` +
-        ` — ${mins} min until midnight reset`,
-      ];
+      return [true, `${this._pauseReason} — ${mins} min until midnight reset`];
     }
     return [false, ''];
-  }
-
-  isEquityDrawdownBreached(limitPct: number): boolean {
-    return this._equityDrawdownPct >= limitPct;
   }
 
   // ── Stats ───────────────────────────────────────────────────────────────────
@@ -274,5 +285,7 @@ export class LossTracker {
     }
     if (patch.rollingDrawdownPct !== undefined)
       (this.cfg as { rollingDrawdownPct?: number }).rollingDrawdownPct = patch.rollingDrawdownPct;
+    if (patch.maxEquityDrawdownPct !== undefined)
+      (this.cfg as { maxEquityDrawdownPct?: number }).maxEquityDrawdownPct = patch.maxEquityDrawdownPct;
   }
 }
