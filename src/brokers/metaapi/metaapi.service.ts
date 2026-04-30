@@ -262,46 +262,73 @@ export class MetaApiService implements OnModuleDestroy {
     };
   }
 
-  async getDailyLossPct(
+  async getDailyPnlInfo(
     metaApiAccountId: string,
     magic: number,
     positions?: BrokerPosition[],
-    accountBalance?: number,
-  ): Promise<number> {
-    // Accept balance from caller to avoid a second getAccountInfo RPC when
-    // the poll cycle already fetched it. Fall back to fetching if not provided.
-    const balance = accountBalance ?? (await this.getAccountInfo(metaApiAccountId)).balance;
-    if (balance === 0) return 0;
-
+  ): Promise<{ lossPct: number; startEquity: number }> {
+    /**
+     * Return (lossPct, startEquity) for today.
+     *
+     * lossPct      — today's loss as % of start-of-day equity.
+     * startEquity  — equity at session open, derived as current_equity − total_pnl.
+     *
+     * Why equity, not balance?
+     *   Equity captures both realised and unrealised losses instantly.
+     *   Balance only reflects closed trades — using it understates risk
+     *   when floating drawdown is large.
+     *
+     * Returns { lossPct: 0, startEquity: 0 } on data failure.
+     */
     const conn = this._conn(metaApiAccountId);
 
-    // ── Closed trades P&L for today (UTC) ────────────────────────────────
-    // history_deals covers realised P&L — this is what was missing before.
-    // Without this, a losing trade closed earlier today would not count
-    // against the daily loss limit.
-    let closedLoss = 0;
+    // ── Closed trades P&L for today ──────────────────────────────────────
+    let closedPnl = 0;
     try {
       const startOfDay = new Date();
       startOfDay.setUTCHours(0, 0, 0, 0);
       const deals = await conn.getHistoryOrdersByTimeRange(startOfDay, new Date()) as Array<{
         magic?: number; profit?: number; swap?: number; commission?: number; type?: string;
       }> ?? [];
-      closedLoss = deals
+      closedPnl = deals
         .filter(d => d.magic === magic && d.type !== 'DEAL_TYPE_BALANCE')
         .reduce((sum, d) => sum + (d.profit ?? 0) + (d.swap ?? 0) + (d.commission ?? 0), 0);
     } catch {
-      // history API unavailable — fall back to open P&L only
-      logger.warn('getDailyLossPct: history unavailable, using open P&L only', { metaApiAccountId });
+      logger.warn('getDailyPnlInfo: history unavailable, using open P&L only', { metaApiAccountId });
     }
 
     // ── Open floating P&L ────────────────────────────────────────────────
     const allPositions = positions ?? await this.getOpenPositions(metaApiAccountId);
-    const openLoss = allPositions
+    const openPnl = allPositions
       .filter(p => p.magic === magic)
       .reduce((sum, p) => sum + p.profit + p.swap + p.commission, 0);
 
-    const totalLoss = Math.min(0, closedLoss + openLoss);
-    return (Math.abs(totalLoss) / balance) * 100;
+    const totalPnl = closedPnl + openPnl;
+
+    // ── Account equity ────────────────────────────────────────────────────
+    let equity = 0;
+    try {
+      const info = await this.getAccountInfo(metaApiAccountId);
+      equity = info.equity;
+    } catch {
+      logger.warn('getDailyPnlInfo: could not fetch account equity', { metaApiAccountId });
+      return { lossPct: 0, startEquity: 0 };
+    }
+
+    if (equity <= 0) return { lossPct: 0, startEquity: 0 };
+
+    // startEquity = current_equity − total_pnl_today
+    const startEquity = equity - totalPnl;
+    if (startEquity <= 0) {
+      logger.warn('getDailyPnlInfo: derived startEquity <= 0', { equity, totalPnl });
+      return { lossPct: 0, startEquity: equity };
+    }
+
+    // No loss today
+    if (totalPnl >= 0) return { lossPct: 0, startEquity };
+
+    const lossPct = (Math.abs(totalPnl) / startEquity) * 100;
+    return { lossPct, startEquity };
   }
 
   // ── Symbol info ────────────────────────────────────────────────────────────

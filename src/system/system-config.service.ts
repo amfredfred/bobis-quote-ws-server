@@ -225,7 +225,7 @@ export const SEED_CONFIG: SystemConfig = {
     {
       mode: 'scalping',
       displayName: 'Scalping',
-      riskPercent: 0.25,
+      maxLosingStreak: 4,
       description:
         'High-frequency trading focused on 5m–1m entries. Expects frequent win/loss streaks due to rapid execution and noisy signals. Tight control required.',
       backtest: {
@@ -244,7 +244,7 @@ export const SEED_CONFIG: SystemConfig = {
     {
       mode: 'hybrid',
       displayName: 'Hybrid',
-      riskPercent: 0.75,
+      maxLosingStreak: 4,
       description:
         'Balanced approach combining selective 5-minute setups with moderate trade frequency. Moderate streak cycles with more stable performance periods.',
       backtest: {
@@ -263,7 +263,7 @@ export const SEED_CONFIG: SystemConfig = {
     {
       mode: 'all',
       displayName: 'All Signals',
-      riskPercent: 0.25,
+      maxLosingStreak: 4,
       description:
         'No signal filtering. Executes all strategies and timeframes with maximum exposure. Highest variance and longest streak sequences (both wins and losses expected).',
       backtest: {
@@ -283,28 +283,19 @@ export const SEED_CONFIG: SystemConfig = {
 
   riskPresets: {
     scalping: {
-      riskPercent: 0.25,
-      maxOpenTrades: 5,
+      maxLosingStreak: 4,
       maxDailyLossPercent: 3,
-      minRRRatio: 1,
-      maxConsecutiveLosses: 5,
-      pauseAfterStreakH: 5,
+      minRRRatio: 1
     },
     hybrid: {
-      riskPercent: 0.75,
-      maxOpenTrades: 5,
+      maxLosingStreak: 4,
       maxDailyLossPercent: 3,
       minRRRatio: 1,
-      maxConsecutiveLosses: 5,
-      pauseAfterStreakH: 10,
     },
     all: {
-      riskPercent: 0.25,
-      maxOpenTrades: 5,
+      maxLosingStreak: 4,
       maxDailyLossPercent: 3,
       minRRRatio: 1,
-      maxConsecutiveLosses: 5,
-      pauseAfterStreakH: 10,
     },
   },
 

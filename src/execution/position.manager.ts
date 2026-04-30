@@ -1,3 +1,5 @@
+'use strict'
+
 import { MetaApiService } from '../brokers/metaapi/metaapi.service';
 import { PositionStore } from './position.store';
 import { AccountRiskConfig } from '../common/types/account.types';
@@ -29,7 +31,7 @@ export class PositionManager {
     private readonly onTp2Hit: (trade: Trade) => void,
     private readonly onSlHit: (trade: Trade) => void,
     private readonly onTradeClosed: (trade: Trade) => void,
-    private readonly onDailyLossUpdate: (pct: number) => void,
+    private readonly onDailyLossUpdate: (pct: number, startEquity: number) => void,
     private readonly pollIntervalMs: number = 5_000,
   ) {
     this.logger = createLogger(`pos-mgr.${accountId.slice(0, 8)}`);
@@ -100,17 +102,16 @@ export class PositionManager {
       return;
     }
 
-    // Refresh daily loss. Pass the already-fetched positions AND the cached
-    // balance so getDailyLossPct makes zero extra RPC calls.
+    // Refresh daily loss + start-of-day equity. Positions already fetched above
+    // are passed through to avoid a redundant broker RPC.
     try {
-      const pct = await this.metaApi.getDailyLossPct(
+      const { lossPct, startEquity } = await this.metaApi.getDailyPnlInfo(
         this.metaApiAccountId,
         this.config.magicNumber,
         brokerPositions,
-        this._cachedBalance,
       );
-      this.onDailyLossUpdate(pct);
-      this.metrics.setGauge('daily_loss_pct', pct);
+      this.onDailyLossUpdate(lossPct, startEquity);
+      this.metrics.setGauge('daily_loss_pct', lossPct);
     } catch (err) {
       this.logger.warn('Failed to refresh daily loss', { error: String(err) });
     }
@@ -279,7 +280,7 @@ export class PositionManager {
       tp1: pos.takeProfit, tp2: pos.takeProfit,
       lotSize: pos.lots, tp1LotSize: 0, tp2LotSize: pos.lots,
       riskAmount: 0, riskPercent: 0, riskRewardRatio: 0,
-      riskMode: 'percentage', plannedAt: ts,
+      plannedAt: ts,
       // signal intentionally omitted — stub trades must not write to signals table
     };
     return {

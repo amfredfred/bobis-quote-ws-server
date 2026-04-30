@@ -1,9 +1,10 @@
+'use strict'
+
 import { InboundSignal } from './signal.types';
 
 export type OrderSide   = 'BUY' | 'SELL';
 export type TradeStatus = 'PLANNED' | 'OPEN' | 'PARTIALLY_CLOSED' | 'CLOSED' | 'CANCELLED' | 'ERROR';
 export type CloseReason = 'TP1_HIT' | 'TP2_HIT' | 'SL_HIT' | 'MANUAL' | 'INVALIDATED' | 'EXPIRED' | 'ERROR' | 'CLOSED_WHILE_DOWN';
-export type RiskMode    = 'percentage' | 'fixed';
 
 export interface TradePlan {
   signalId:        string;
@@ -16,10 +17,9 @@ export interface TradePlan {
   lotSize:         number;
   tp1LotSize:      number;
   tp2LotSize:      number;
-  riskAmount:      number;
-  riskPercent:     number;
+  riskAmount:      number;   // currency amount risked — from streak-based daily budget
+  riskPercent:     number;   // riskAmount / startOfDayEquity × 100 (informational)
   riskRewardRatio: number;
-  riskMode:        RiskMode;
   plannedAt:       number;
   signal?:         InboundSignal;
 }

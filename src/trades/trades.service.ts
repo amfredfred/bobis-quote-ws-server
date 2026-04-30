@@ -273,7 +273,6 @@ export class TradesService {
       riskAmount: Number(planRaw['riskAmount'] ?? 0),
       riskPercent: Number(planRaw['riskPercent'] ?? 0),
       riskRewardRatio: Number(planRaw['riskRewardRatio'] ?? 0),
-      riskMode: (planRaw['riskMode'] as 'percentage' | 'fixed') ?? 'percentage',
       plannedAt: Number(planRaw['plannedAt'] ?? 0),
     };
     return {

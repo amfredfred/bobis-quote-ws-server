@@ -1,3 +1,5 @@
+'use strict'
+
 import { InboundSignal } from './signal';
 
 export type OrderSide   = 'BUY' | 'SELL';
@@ -26,7 +28,6 @@ export interface TradePlan {
   riskAmount:      number;
   riskPercent:     number;
   riskRewardRatio: number;
-  riskMode:        string;
   plannedAt:       number;
   signal?:         InboundSignal;
 }

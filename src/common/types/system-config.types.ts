@@ -25,18 +25,15 @@ export interface SupportedPair {
 export interface TradeModeConfig {
   mode: 'scalping' | 'hybrid' | 'all';
   displayName: string;
-  riskPercent: number;
+  maxLosingStreak: number;
   description: string;
   backtest: BacktestStats;
 }
 
 export interface RiskPreset {
-  riskPercent: number;
-  maxOpenTrades: number;
+  maxLosingStreak: number;
   maxDailyLossPercent: number;
   minRRRatio: number;
-  maxConsecutiveLosses: number;
-  pauseAfterStreakH: number;
 }
 
 export interface FeatureFlags {

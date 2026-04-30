@@ -48,8 +48,8 @@ export class RiskEngine {
   getLossTracker(): LossTracker { return this.lossTracker; }
 
   /** Forward broker-polled daily loss % to the LossTracker. Called by ExecutionEngine. */
-  updateDailyLossPct(pct: number): void {
-    this.lossTracker.updateDailyLossPct(pct);
+  updateDailyLossPct(pct: number, startEquity: number): void {
+    this.lossTracker.updateDailyLossPct(pct, startEquity);
   }
 
   reserve(symbol: string): void {

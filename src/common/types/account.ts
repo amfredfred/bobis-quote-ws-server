@@ -1,17 +1,14 @@
-export type RiskMode = 'percentage' | 'fixed';
+'use strict'
 
 export interface AccountRiskConfig {
-  riskMode:             RiskMode;
-  riskPercent:          number;   // used when riskMode=percentage
-  riskFixedAmount:      number;   // used when riskMode=fixed  (e.g. $100)
-  maxOpenTrades:        number;
+  maxLosingStreak:      number;   // derives maxOpenTrades = maxLosingStreak + 1
   maxDailyLossPercent:  number;
   maxExposurePerSymbol: number;
   minRRRatio:           number;
   maxLotSize:           number;
   minLotSize:           number;
-  symbolFilter:         string[]; // empty = all symbols
-  tp1PartialClose:      number;   // percent, e.g. 50
+  symbolFilter:         string[];
+  tp1PartialClose:      number;
   moveSlToBE:           boolean;
   spreadRiskMultiplier: number;
   maxEntrySlippagePips: number;
@@ -32,13 +29,10 @@ export interface Account {
 }
 
 export const DEFAULT_RISK_CONFIG: AccountRiskConfig = {
-  riskMode:             'percentage',
-  riskPercent:          1.0,
-  riskFixedAmount:      100.0,
-  maxOpenTrades:        5,
-  maxDailyLossPercent:  200.0,
+  maxLosingStreak:      4,
+  maxDailyLossPercent:  5.0,
   maxExposurePerSymbol: 2,
-  minRRRatio:           1.5,
+  minRRRatio:           1.0,
   maxLotSize:           100.0,
   minLotSize:           0.01,
   symbolFilter:         [],

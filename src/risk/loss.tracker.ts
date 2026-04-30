@@ -1,31 +1,41 @@
 'use strict';
 
 /**
- * risk/loss.tracker.ts — daily loss % circuit-breaker.
+ * risk/loss.tracker.ts — daily loss circuit-breaker + risk budget provider.
  *
  * Port of Python risk/loss_tracker.py — exact behaviour parity.
  *
- * Single responsibility: when the broker-reported daily loss percentage
- * reaches maxDailyLossPct, pause all new trade execution until midnight
- * in engineTimezone.
+ * Two responsibilities:
+ *   1. Circuit-breaker: pause all new trade execution until midnight when
+ *      broker-reported daily loss % reaches maxDailyLossPct.
+ *   2. Risk budget: expose dailyRiskAmount(streak) — the per-trade risk
+ *      amount in account currency, derived from start-of-day equity.
  *
  * How it fits in the pipeline:
  *   1. PositionManager polls the broker on every tick and calls
- *      onDailyLossUpdate(pct) → ExecutionEngine.updateDailyLoss(pct).
- *   2. ExecutionEngine forwards the value to
- *      riskEngine.updateDailyLossPct(pct) → lossTracker.updateDailyLossPct(pct).
- *   3. RiskEngine runs lossGuard first in ALL_RULES, which calls
- *      lossTracker.isPaused() — if true the signal is rejected before any
- *      other check runs.
+ *      onDailyLossUpdate(pct, startEquity) → ExecutionEngine.updateDailyLoss(pct, startEquity).
+ *   2. ExecutionEngine forwards to riskEngine.updateDailyLossPct(pct, startEquity)
+ *      → lossTracker.updateDailyLossPct(pct, startEquity).
+ *   3. LossTracker latches startOfDayEquity once per calendar day.
+ *   4. TradePlanner calls lossTracker.dailyRiskAmount(maxLosingStreak) for lot sizing.
+ *   5. RiskEngine runs lossGuard first — calls isPaused() before any other rule.
  *
- * State: in-memory only. No DB hydration needed — dailyLossPct is fetched
- * live from the broker on every poll cycle, so state is automatically
- * correct after a restart.
+ * Budget coherence guarantee:
+ *   daily_budget   = startOfDayEquity × (maxDailyLossPct / 100)
+ *   risk_per_trade = daily_budget / (maxLosingStreak + 1)
+ *   max_exposure   = (maxLosingStreak + 1) × risk_per_trade = daily_budget ✓
  */
 
 import { createLogger } from '../common/logger/logger';
 
 function nowMs(): number { return Date.now(); }
+
+function todayStr(tz: string): string {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: tz,
+    year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(new Date());
+}
 
 function dayEndMs(tz: string): number {
   const now = new Date();
@@ -50,14 +60,16 @@ function _tzOffsetMs(utcDate: Date, tz: string): number {
 // ── Public types ──────────────────────────────────────────────────────────────
 
 export interface LossTrackerConfig {
-  maxDailyLossPct: number;   // = AccountRiskConfig.maxDailyLossPercent
-  engineTimezone: string;   // IANA tz, e.g. 'Africa/Lagos', 'UTC'
+  maxDailyLossPct: number;
+  engineTimezone:  string;
 }
 
 export interface LossTrackerStats {
-  dailyLossPct: number;
-  paused: boolean;
-  pausedUntilMs: number | null;
+  dailyLossPct:     number;
+  startOfDayEquity: number;
+  dailyBudget:      number;
+  paused:           boolean;
+  pausedUntilMs:    number | null;
   guardConfig: {
     maxDailyLossPercent: number;
   };
@@ -67,8 +79,10 @@ export interface LossTrackerStats {
 
 export class LossTracker {
   private readonly logger;
-  private _currentPct = 0;
-  private _pausedUntil = 0;   // Unix-ms; 0 = not paused
+  private _currentPct        = 0;
+  private _startOfDayEquity  = 0;
+  private _trackedDay: string | null = null;   // 'YYYY-MM-DD' in engineTimezone
+  private _pausedUntil       = 0;              // Unix-ms; 0 = not paused
 
   constructor(
     private readonly cfg: LossTrackerConfig,
@@ -79,10 +93,32 @@ export class LossTracker {
 
   // ── Main update ─────────────────────────────────────────────────────────────
 
-  updateDailyLossPct(pct: number): void {
+  /**
+   * Receive the latest daily loss % and start-of-day equity from the broker
+   * (via ExecutionEngine → RiskEngine).
+   *
+   * startOfDayEquity is latched on the first call of each calendar day
+   * (when > 0) and held fixed for the session. This ensures lot sizes are
+   * stable throughout the day regardless of intraday P&L movement.
+   *
+   * startOfDayEquity is derived by MetaApi service as:
+   *   startEquity = current_equity − total_pnl_today
+   */
+  updateDailyLossPct(pct: number, startEquity: number): void {
     this._currentPct = pct;
 
-    const now = nowMs();
+    const now   = nowMs();
+    const today = todayStr(this.cfg.engineTimezone);
+
+    // Latch start-of-day equity once per calendar day.
+    // startEquity from broker is 0 on data failure — ignore those.
+    if (this._trackedDay !== today && startEquity > 0) {
+      this._trackedDay       = today;
+      this._startOfDayEquity = startEquity;
+      this.logger.info(
+        `📅 New trading day ${today} — start-of-day equity latched at ${startEquity.toFixed(2)}`,
+      );
+    }
 
     // Already paused and still within the pause window — nothing to do.
     if (this._pausedUntil && now < this._pausedUntil) return;
@@ -94,18 +130,37 @@ export class LossTracker {
 
     // Trigger: daily loss limit reached.
     if (pct >= this.cfg.maxDailyLossPct) {
-      const end = dayEndMs(this.cfg.engineTimezone);
+      const end      = dayEndMs(this.cfg.engineTimezone);
       this._pausedUntil = end;
       const minsLeft = Math.floor((end - now) / 60_000);
-      const dateStr = new Intl.DateTimeFormat('en-CA', {
-        timeZone: this.cfg.engineTimezone,
-        year: 'numeric', month: '2-digit', day: '2-digit',
-      }).format(new Date());
       this.logger.warn(
         `🔴 Daily loss limit reached: ${pct.toFixed(2)}% >= ${this.cfg.maxDailyLossPct.toFixed(2)}%` +
-        ` — pausing trading for ${minsLeft} min (until midnight ${dateStr})`,
+        ` — pausing trading for ${minsLeft} min (until midnight ${today})`,
       );
     }
+  }
+
+  // ── Risk budget ─────────────────────────────────────────────────────────────
+
+  /**
+   * Return the per-trade risk amount in account currency for today.
+   *
+   *   daily_budget   = startOfDayEquity × (maxDailyLossPct / 100)
+   *   risk_per_trade = daily_budget / (maxLosingStreak + 1)
+   *
+   * Returns 0 if startOfDayEquity has not yet been latched
+   * (first poll cycle of the day has not completed).
+   * TradePlanner falls back to minLot when this returns 0.
+   */
+  dailyRiskAmount(maxLosingStreak: number): number {
+    if (this._startOfDayEquity <= 0) {
+      this.logger.warn(
+        'dailyRiskAmount: startOfDayEquity not yet latched — returning 0; lot sizing will use minLot fallback',
+      );
+      return 0;
+    }
+    const budget = this._startOfDayEquity * (this.cfg.maxDailyLossPct / 100);
+    return budget / (maxLosingStreak + 1);
   }
 
   // ── Guard query ─────────────────────────────────────────────────────────────
@@ -123,15 +178,20 @@ export class LossTracker {
     return [false, ''];
   }
 
-  // ── Stats for monitoring / logging ──────────────────────────────────────────
+  // ── Stats ───────────────────────────────────────────────────────────────────
 
   stats(): LossTrackerStats {
-    const now = nowMs();
-    const paused = this._pausedUntil > 0 && now < this._pausedUntil;
+    const now         = nowMs();
+    const paused      = this._pausedUntil > 0 && now < this._pausedUntil;
+    const dailyBudget = this._startOfDayEquity > 0
+      ? this._startOfDayEquity * (this.cfg.maxDailyLossPct / 100)
+      : 0;
     return {
-      dailyLossPct: this._currentPct,
+      dailyLossPct:     this._currentPct,
+      startOfDayEquity: this._startOfDayEquity,
+      dailyBudget:      Math.round(dailyBudget * 100) / 100,
       paused,
-      pausedUntilMs: paused ? this._pausedUntil : null,
+      pausedUntilMs:    paused ? this._pausedUntil : null,
       guardConfig: {
         maxDailyLossPercent: this.cfg.maxDailyLossPct,
       },
@@ -141,11 +201,9 @@ export class LossTracker {
   // ── Config hot-reload ───────────────────────────────────────────────────────
 
   updateConfig(patch: Partial<LossTrackerConfig>): void {
-    if (patch.maxDailyLossPct !== undefined) {
+    if (patch.maxDailyLossPct !== undefined)
       (this.cfg as { maxDailyLossPct: number }).maxDailyLossPct = patch.maxDailyLossPct;
-    }
-    if (patch.engineTimezone !== undefined) {
+    if (patch.engineTimezone !== undefined)
       (this.cfg as { engineTimezone: string }).engineTimezone = patch.engineTimezone;
-    }
   }
 }

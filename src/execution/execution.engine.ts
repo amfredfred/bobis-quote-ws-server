@@ -34,9 +34,9 @@ export class ExecutionEngine {
     this.logger = createLogger(`exec.${accountId.slice(0, 8)}`);
   }
 
-  updateDailyLoss(pct: number): void {
+  updateDailyLoss(pct: number, startEquity: number): void {
     this._dailyLossPct = pct;
-    this.riskEngine.updateDailyLossPct(pct);   // forward to LossTracker
+    this.riskEngine.updateDailyLossPct(pct, startEquity);   // forward to LossTracker
   }
 
   async execute(signal: InboundSignal): Promise<Trade | null> {
