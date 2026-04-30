@@ -40,8 +40,10 @@ export class RiskEngine {
 
   private _lossTrackerConfig(): LossTrackerConfig {
     return {
-      maxDailyLossPct: this.config.maxDailyLossPercent,
-      engineTimezone: this.config.engineTimezone ?? 'UTC',
+      maxDailyLossPct:    this.config.maxDailyLossPercent,
+      engineTimezone:     this.config.engineTimezone ?? 'UTC',
+      rollingWindowSize:  this.config.rollingWindowSize,
+      rollingDrawdownPct: this.config.rollingDrawdownPct,
     };
   }
 
@@ -128,6 +130,7 @@ export class RiskEngine {
 
   updateConfig(patch: Partial<AccountRiskConfig>): void {
     this.config = { ...this.config, ...patch };
+    // Rebuild the full LossTrackerConfig so rolling params are always in sync.
     this.lossTracker.updateConfig(this._lossTrackerConfig());
   }
 }

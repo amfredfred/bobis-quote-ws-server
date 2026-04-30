@@ -19,17 +19,17 @@ import { PrismaService } from '../prisma/prisma.service';
 import { SignalValidator } from '../signal/signal.validator';
 
 export interface PipelineSnapshot {
-  accountId:          string;
-  accountName:        string;
-  openTrades:         number;
-  maxOpenTrades:      number;      // derived: maxLosingStreak + 1
-  dailyLossPct:       number;
-  dailyLossUsd:       number;      // startOfDayEquity × lossPct / 100
-  dailyBudgetUsd:     number;      // from lossTracker.stats()
+  accountId: string;
+  accountName: string;
+  openTrades: number;
+  maxOpenTrades: number;      // derived: maxLosingStreak + 1
+  dailyLossPct: number;
+  dailyLossUsd: number;      // startOfDayEquity × lossPct / 100
+  dailyBudgetUsd: number;      // from lossTracker.stats()
   riskAmountPerTrade: number;      // lossTracker.dailyRiskAmount(streak)
-  balance:            number;
-  equity:             number;
-  lossGuardStats?:    import('../risk/loss.tracker').LossTrackerStats;
+  balance: number;
+  equity: number;
+  lossGuardStats?: import('../risk/loss.tracker').LossTrackerStats;
 }
 
 
@@ -162,26 +162,26 @@ export class PipelineService {
   getAllTrades(): Trade[] { return this.store.getAllTrades(); }
 
   getSnapshot(): PipelineSnapshot {
-    const cfg          = this.account.riskConfig!;
-    const lt           = this.riskEngine.getLossTracker();
-    const ltStats      = lt.stats();
+    const cfg = this.account.riskConfig!;
+    const lt = this.riskEngine.getLossTracker();
+    const ltStats = lt.stats();
     const maxOpenTrades = cfg.maxLosingStreak + 1;
-    const dailyLossUsd  = ltStats.startOfDayEquity > 0
+    const dailyLossUsd = ltStats.startOfDayEquity > 0
       ? Math.round(ltStats.startOfDayEquity * (this._dailyLossPct / 100) * 100) / 100
       : 0;
 
     return {
-      accountId:          this.account.id,
-      accountName:        this.account.name,
-      openTrades:         this.store.openCount(),
+      accountId: this.account.id,
+      accountName: this.account.name,
+      openTrades: this.store.openCount(),
       maxOpenTrades,
-      dailyLossPct:       this._dailyLossPct,
+      dailyLossPct: this._dailyLossPct,
       dailyLossUsd,
-      dailyBudgetUsd:     ltStats.dailyBudget,
+      dailyBudgetUsd: ltStats.dailyBudget,
       riskAmountPerTrade: lt.dailyRiskAmount(cfg.maxLosingStreak),
-      balance:            this._accountBalance,
-      equity:             this._accountEquity,
-      lossGuardStats:     ltStats,
+      balance: this._accountBalance,
+      equity: this._accountEquity,
+      lossGuardStats: ltStats,
     };
   }
 
@@ -326,18 +326,19 @@ export class PipelineService {
         tradeId: trade.id, error: String(err),
       }));
   }
-  
+
   private _onEquityUpdate(pct: number, startEquity: number, equity: number): void {
     this._dailyLossPct = pct;
 
     const lt = this.riskEngine.getLossTracker();
 
     this.executionEngine.updateDailyLoss(pct, startEquity);
-
-    // NEW: equity drawdown tracking
     lt.updateEquity(equity);
 
     this.metrics.setGauge('daily_loss_pct', pct);
+    // Note: equityWindow and equityPeak are intentionally in-memory only.
+    // The window refills in ~2 min at 5 s polling. Peak resets conservatively
+    // from current equity on restart — safe, not dangerous.
   }
 
   private _closeReasonToSignalStatus(reason?: string): SignalStatus {

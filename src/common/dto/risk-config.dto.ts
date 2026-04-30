@@ -79,4 +79,20 @@ export class RiskConfigDto {
 
   @IsOptional() @IsBoolean()
   adjustLevelsOnSlippage?: boolean;
+
+  /**
+   * Rolling-window drawdown circuit-breaker.
+   * Both fields must be provided together to enable the feature.
+   * rollingWindowSize: number of equity samples in the lookback window (min 3).
+   * rollingDrawdownPct: peak-to-trough % within the window that triggers a pause.
+   */
+  @IsOptional() @IsNumber() @Min(3) @Max(200)
+  rollingWindowSize?: number;
+
+  @IsOptional() @IsNumber() @Min(0) @Max(100)
+  rollingDrawdownPct?: number;
+
+  /** All-time-peak equity drawdown threshold (%). 0 = disabled. */
+  @IsOptional() @IsNumber() @Min(0) @Max(100)
+  maxEquityDrawdownPct?: number;
 }

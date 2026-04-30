@@ -62,6 +62,9 @@ function _tzOffsetMs(utcDate: Date, tz: string): number {
 export interface LossTrackerConfig {
   maxDailyLossPct: number;
   engineTimezone: string;
+
+  rollingWindowSize?: number;
+  rollingDrawdownPct?: number;
 }
 
 export interface LossTrackerStats {
@@ -87,6 +90,7 @@ export class LossTracker {
   private _pausedUntil = 0;              // Unix-ms; 0 = not paused
   private _equityPeak = 0;
   private _equityDrawdownPct = 0;
+  private equityWindow: number[] = [];
 
   constructor(
     private readonly cfg: LossTrackerConfig,
@@ -144,18 +148,50 @@ export class LossTracker {
     }
   }
 
-  updateEquity(currentEquity: number): void {
-    if (currentEquity <= 0) return;
+  updateEquity(equity: number): void {
+    if (equity <= 0) return;
 
-    if (this._equityPeak === 0) {
-      this._equityPeak = currentEquity;
+    // ── 1. All-time-peak drawdown (powers equityDrawdownGuard) ───────────────
+    // Track the session high-water mark and compute current drawdown from it.
+    // This is separate from the rolling window — it never forgets a new peak.
+    if (equity > this._equityPeak) {
+      this._equityPeak = equity;
+    }
+    if (this._equityPeak > 0) {
+      this._equityDrawdownPct = ((this._equityPeak - equity) / this._equityPeak) * 100;
     }
 
-    if (currentEquity > this._equityPeak) {
-      this._equityPeak = currentEquity;
+    // ── 2. Rolling-window drawdown circuit-breaker ───────────────────────────
+    // Only active when both rollingWindowSize and rollingDrawdownPct are configured.
+    const windowSize = this.cfg.rollingWindowSize;
+    const ddLimit = this.cfg.rollingDrawdownPct;
+
+    if (!windowSize || !ddLimit) return; // feature disabled
+
+    this.equityWindow.push(equity);
+    if (this.equityWindow.length > windowSize) {
+      this.equityWindow.shift();
     }
 
-    this._equityDrawdownPct = ((this._equityPeak - currentEquity) / this._equityPeak) * 100;
+    // Need at least 3 samples for a meaningful peak-to-trough reading.
+    if (this.equityWindow.length < 3) return;
+
+    const windowPeak = Math.max(...this.equityWindow);
+    const windowTrough = Math.min(...this.equityWindow);
+    const rollingDD = ((windowPeak - windowTrough) / windowPeak) * 100;
+
+    if (rollingDD >= ddLimit) {
+      const end = dayEndMs(this.cfg.engineTimezone);
+      const now = nowMs();
+      // Don't re-trigger if already paused (e.g. daily loss already fired).
+      if (!this._pausedUntil || now >= this._pausedUntil) {
+        this._pausedUntil = end;
+        this.logger.warn(
+          `🔁 Rolling DD hit: ${rollingDD.toFixed(2)}% >= ${ddLimit}%` +
+          ` (window=${windowSize}) → trading paused until midnight`,
+        );
+      }
+    }
   }
 
   // ── Risk budget ─────────────────────────────────────────────────────────────
@@ -229,5 +265,14 @@ export class LossTracker {
       (this.cfg as { maxDailyLossPct: number }).maxDailyLossPct = patch.maxDailyLossPct;
     if (patch.engineTimezone !== undefined)
       (this.cfg as { engineTimezone: string }).engineTimezone = patch.engineTimezone;
+    if (patch.rollingWindowSize !== undefined) {
+      (this.cfg as { rollingWindowSize?: number }).rollingWindowSize = patch.rollingWindowSize;
+      // Trim the live window immediately if the new size is smaller.
+      while (this.equityWindow.length > patch.rollingWindowSize) {
+        this.equityWindow.shift();
+      }
+    }
+    if (patch.rollingDrawdownPct !== undefined)
+      (this.cfg as { rollingDrawdownPct?: number }).rollingDrawdownPct = patch.rollingDrawdownPct;
   }
 }
