@@ -47,36 +47,37 @@ model Profile {
   tradingAnalytics          TradingAnalytics[]
   tradingStrategies         TradingStrategy[]
   signalSubscriptions       UserSignalSubscription[]
+  signalIntervals           String[]                    @default(["30min"]) @map("signal_intervals")
 
   @@map("profiles")
   @@schema("public")
 }
 
 model TradingAccount {
-  id                     String             @id @default(uuid()) @db.Uuid
-  userId                 String             @map("user_id") @db.Uuid
-  name                   String
-  accountNumber          String             @unique @map("account_number")
-  currency               String             @default("usd")
-  startBalance           Float              @map("start_balance")
-  currentBalance         Float?             @map("current_balance")
-  platform               BrokerPlatform?
-  metaApiAccountId       String?            @unique @map("meta_api_account_id")
-  autoTradeEnabled       Boolean            @default(false) @map("auto_trade_enabled")
-  riskConfig             Json?              @map("risk_config")
-  lastSyncAt             DateTime?          @map("last_sync_at") @db.Timestamptz(6)
-  lastError              String?            @map("last_error")
-  lastErrorAt            DateTime?          @map("last_error_at")
-  todayTradeCount        Int                @default(0) @map("today_trade_count")
-  todayPnl               Float              @default(0) @map("today_pnl")
-  lastStatsReset         DateTime?          @map("last_stats_reset") @db.Timestamptz(6)
-  isActive               Boolean            @default(true) @map("is_active")
-  createdAt              DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt              DateTime?          @updatedAt @map("updated_at") @db.Timestamptz(6)
-  journalTrades          JournalTrade[]
-  signals                Signal[]
-  trades                 Trade[]
-  profile                Profile            @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  id               String          @id @default(uuid()) @db.Uuid
+  userId           String          @map("user_id") @db.Uuid
+  name             String
+  accountNumber    String          @unique @map("account_number")
+  currency         String          @default("usd")
+  startBalance     Float           @map("start_balance")
+  currentBalance   Float?          @map("current_balance")
+  platform         BrokerPlatform?
+  metaApiAccountId String?         @unique @map("meta_api_account_id")
+  autoTradeEnabled Boolean         @default(false) @map("auto_trade_enabled")
+  riskConfig       Json?           @map("risk_config")
+  lastSyncAt       DateTime?       @map("last_sync_at") @db.Timestamptz(6)
+  lastError        String?         @map("last_error")
+  lastErrorAt      DateTime?       @map("last_error_at")
+  todayTradeCount  Int             @default(0) @map("today_trade_count")
+  todayPnl         Float           @default(0) @map("today_pnl")
+  lastStatsReset   DateTime?       @map("last_stats_reset") @db.Timestamptz(6)
+  isActive         Boolean         @default(true) @map("is_active")
+  createdAt        DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime?       @updatedAt @map("updated_at") @db.Timestamptz(6)
+  journalTrades    JournalTrade[]
+  signals          Signal[]
+  trades           Trade[]
+  profile          Profile         @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@unique([userId, name])
   @@index([userId])
@@ -342,6 +343,15 @@ model UserSignalSubscription {
   @@unique([userId, symbol])
   @@index([symbol])
   @@map("user_signal_subscriptions")
+  @@schema("public")
+}
+
+model UserSignalPreference {
+  userId    String   @id
+  intervals String[] @default([]) // empty = all
+  updatedAt DateTime @updatedAt
+
+  @@map("user_signal_preferences")
   @@schema("public")
 }
 

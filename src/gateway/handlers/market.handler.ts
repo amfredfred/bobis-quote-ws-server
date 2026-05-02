@@ -16,17 +16,10 @@ export class MarketHandler {
     userId: string,
     params: { symbol?: string; status?: string; limit?: number; offset?: number },
   ) {
-    // If caller requests a specific symbol, honour it directly.
-    // Otherwise, scope to the user's own subscribed symbols so they only see
-    // their feed — not the entire global SignalAlert table.
     const subs = await this.svc.getSubscriptions(userId);
-    const symbols: string[] = (subs as any)?.symbols ?? [];
-    if (!params.symbol) {
-      if (symbols.length > 0) {
-        return this.svc.getAlerts(userId, { ...params, symbols });
-      }
-    }
-    return this.svc.getAlerts(userId, { ...params, symbols });
+    const symbols: string[] = subs.symbols ?? [];
+    const intervals: string[] = subs.intervals ?? [];
+    return this.svc.getAlerts(userId, { ...params, symbols, intervals });
   }
 
   async getAlert(id: string) {
@@ -34,16 +27,13 @@ export class MarketHandler {
   }
 
   async dashboardStats(userId: string): Promise<ReturnType<typeof emptyDashboard>> {
-    const subs = (await this.svc.getSubscriptions(userId)).symbols;
-    const symbols: string[] = Array.isArray(subs) ? subs : [];
+    const subs = await this.svc.getSubscriptions(userId);
+    const symbols: string[] = subs.symbols ?? [];
+    const intervals: string[] = subs.intervals ?? [];
 
-    if (symbols.length === 0) {
-      //  No subscriptions, so return empty stats without hitting the database
-      return emptyDashboard();
-    }
+    if (symbols.length === 0) return emptyDashboard();
 
-    const dash = await this.svc.getDashboardStats(symbols);
-    return dash;
+    return this.svc.getDashboardStats(symbols, intervals);
   }
 
   async tradeIdeasList(
@@ -100,6 +90,10 @@ export class MarketHandler {
       for (const room of rooms) socket.leave(room);
     }
     return result;
+  }
+
+  setIntervals(userId: string, intervals: ('30min' | '1h')[]) {
+    return this.svc.setIntervals(userId, intervals);
   }
 
   getSubscriberIds(symbol: string) {

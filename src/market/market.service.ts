@@ -132,22 +132,27 @@ export class MarketService {
     });
   }
 
-  async getAlerts(userId: string, params: { symbol?: string; symbols?: string[]; status?: string; limit?: number; offset?: number }) {
+  async getAlerts(userId: string, params: { symbol?: string; symbols?: string[]; intervals?: string[]; status?: string; limit?: number; offset?: number }) {
 
     const subs = await this.getSubscriptions(userId);
     const symbols: string[] = (subs as any)?.symbols ?? [];
 
     if (!symbols.length) return { zones: [] }
 
+    // Interval filter: empty = all, otherwise restrict to user's chosen htf_interval values
+    const intervalFilter = params.intervals && params.intervals.length > 0
+      ? { htfInterval: { in: params.intervals } }
+      : {};
+
     const alerts = await this.prisma.signalAlert.findMany({
       where: {
-        // Explicit single-symbol filter takes precedence over the subscription-scoped list
         ...(params.symbol
           ? { symbol: params.symbol }
           : params.symbols && params.symbols.length > 0
             ? { symbol: { in: params.symbols } }
             : {}),
         ...(params.status ? { status: params.status as any } : {}),
+        ...intervalFilter,
       },
       orderBy: { createdAt: 'desc' },
       take: params.limit ?? 200,
@@ -236,8 +241,23 @@ export class MarketService {
   // ── Subscriptions ──────────────────────────────────────────────────────────
 
   async getSubscriptions(userId: string) {
-    const subs = await this.prisma.userSignalSubscription.findMany({ where: { userId } });
-    return { symbols: subs.map(s => s.symbol) };
+    const [subs, profile] = await Promise.all([
+      this.prisma.userSignalSubscription.findMany({ where: { userId } }),
+      this.prisma.profile.findUnique({ where: { userId }, select: { signalIntervals: true } }),
+    ]);
+    return {
+      symbols: subs.map(s => s.symbol),
+      intervals: (profile?.signalIntervals ?? []) as ('30min' | '1h')[],
+    };
+  }
+
+  async setIntervals(userId: string, intervals: ('30min' | '1h')[]) {
+    await this.prisma.profile.upsert({
+      where: { userId },
+      create: { userId, signalIntervals: intervals },
+      update: { signalIntervals: intervals },
+    });
+    return this.getSubscriptions(userId);
   }
 
   /** Returns all userIds subscribed to a given symbol — used for WS fan-out. */
@@ -270,9 +290,11 @@ export class MarketService {
 
   // ── Dashboard stats ────────────────────────────────────────────────────────
 
-  async getDashboardStats(symbols?: string[]) {
-    const where = { symbol: { in: symbols } };
-    console.log('GET DASHBOARD STATS', { symbols, where });
+  async getDashboardStats(symbols?: string[], intervals?: string[]) {
+    const intervalFilter = intervals && intervals.length > 0
+      ? { htfInterval: { in: intervals } }
+      : {};
+    const where = { symbol: { in: symbols }, ...intervalFilter };
     const [total, byStatus, closedAlerts, zoneStats] = await Promise.all([
       this.prisma.signalAlert.count({ where: where }),
       this.prisma.signalAlert.groupBy({ by: ['status'], _count: true, where: where }),

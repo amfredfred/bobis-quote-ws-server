@@ -74,8 +74,13 @@ export class SignalDispatcherService implements OnModuleInit, OnModuleDestroy {
         Promise.resolve()
             .then(() => this.marketService.upsertSignalAlert(signal))
             .then(async (_signal) => {
-                // 3. Find all users subscribed to this symbol who have signal alerts enabled
-                const subscribers = await this._getSubscribedUsers(symbol);
+                // 3. Find all users subscribed to this symbol, filtered by interval preference
+                const allSubscribers = await this._getSubscribedUsers(symbol);
+                const htf = signal.htfInterval;
+                if (!htf) return; // Shouldn't happen, but just in case — don't push if we don't know the HTF interval
+                const subscribers = allSubscribers.filter(({ intervals }) =>
+                    intervals.length === 0 || intervals.includes(htf),
+                );
 
                 if (!subscribers.length) return;
 
@@ -86,7 +91,7 @@ export class SignalDispatcherService implements OnModuleInit, OnModuleDestroy {
                 const { title, body } = this._buildNotificationCopy(signal, symbol, status);
 
                 await Promise.allSettled(
-                    subscribers.map((userId) =>
+                    subscribers.map(({ userId }) =>
                         this.notifications.send({
                             userId,
                             title,
@@ -124,9 +129,17 @@ export class SignalDispatcherService implements OnModuleInit, OnModuleDestroy {
             ).catch((err: Error) => this.logger.warn(`Zone status update failed: ${err.message}`));
         }
 
-        // 3. Push the correct WS event name for this status
-        this.gateway.pushToSymbol(symbol, STATUS_TO_WS_EVENT[status], signal);
-
+        // 3. Push the correct WS event name for this status — filtered by interval preference
+        const wsEvent = STATUS_TO_WS_EVENT[status];
+        const htf = signal.htfInterval;
+        if (!htf) return; // Shouldn't happen, but just in case — don't push if we don't know the HTF interval
+        const allSubscribers = await this._getSubscribedUsers(symbol);
+        const eligible = allSubscribers.filter(({ intervals }) =>
+            intervals.length === 0 || intervals.includes(htf),
+        );
+        eligible.forEach(({ userId }) =>
+            this.gateway.pushToUser(userId, wsEvent, signal),
+        );
 
     }
 
@@ -150,7 +163,7 @@ export class SignalDispatcherService implements OnModuleInit, OnModuleDestroy {
      *  - have a subscription for this symbol
      *  - have signalAlertsEnabled = true on their profile (or no profile yet — default on)
      */
-    private async _getSubscribedUsers(symbol: string): Promise<string[]> {
+    private async _getSubscribedUsers(symbol: string): Promise<{ userId: string; intervals: string[] }[]> {
         const subs = await this.prisma.userSignalSubscription.findMany({
             where: { symbol },
             select: { userId: true },
@@ -160,24 +173,24 @@ export class SignalDispatcherService implements OnModuleInit, OnModuleDestroy {
 
         const userIds = subs.map((s) => s.userId);
 
-        // Filter to users who haven't opted out of signal push alerts
+        // Filter to users who haven't opted out of signal push alerts, and fetch interval prefs
         const profiles = await this.prisma.profile.findMany({
             where: {
                 userId: { in: userIds },
-                signalAlertsEnabled: { not: false }, // null / true both pass
+                signalAlertsEnabled: { not: false },
             },
-            select: { userId: true },
+            select: { userId: true, signalIntervals: true },
         });
 
-        // Users with no profile row yet are treated as opted-in by default
-        const profiledIds = new Set(
-            await this.prisma.profile
-                .findMany({ where: { userId: { in: userIds } }, select: { userId: true } })
-                .then((rows) => rows.map((r) => r.userId)),
-        );
+        const profiledIds = new Set(profiles.map((p) => p.userId));
+        // const profileMap = new Map(profiles.map((p) => [p.userId, p.signalIntervals ?? []]));
 
-        const optedIn = profiles.map((p) => p.userId);
-        const noProfile = userIds.filter((id) => !profiledIds.has(id));
+        // Users with no profile row are treated as opted-in with no interval filter (receive all)
+        const noProfile = userIds
+            .filter((id) => !profiledIds.has(id))
+            .map((userId) => ({ userId, intervals: [] }));
+
+        const optedIn = profiles.map((p) => ({ userId: p.userId, intervals: p.signalIntervals ?? [] }));
 
         return [...optedIn, ...noProfile];
     }

@@ -61,6 +61,7 @@ export const ModelName = {
   SignalAlert: 'SignalAlert',
   SignalZone: 'SignalZone',
   UserSignalSubscription: 'UserSignalSubscription',
+  UserSignalPreference: 'UserSignalPreference',
   NotificationLog: 'NotificationLog',
   TradingAnalytics: 'TradingAnalytics',
   NewsArticle: 'NewsArticle',
@@ -117,7 +118,8 @@ export const ProfileScalarFieldEnum = {
   subscriptionTier: 'subscriptionTier',
   subscriptionStatus: 'subscriptionStatus',
   trialEndsAt: 'trialEndsAt',
-  trialStartedAt: 'trialStartedAt'
+  trialStartedAt: 'trialStartedAt',
+  signalIntervals: 'signalIntervals'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
@@ -374,6 +376,15 @@ export const UserSignalSubscriptionScalarFieldEnum = {
 } as const
 
 export type UserSignalSubscriptionScalarFieldEnum = (typeof UserSignalSubscriptionScalarFieldEnum)[keyof typeof UserSignalSubscriptionScalarFieldEnum]
+
+
+export const UserSignalPreferenceScalarFieldEnum = {
+  userId: 'userId',
+  intervals: 'intervals',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserSignalPreferenceScalarFieldEnum = (typeof UserSignalPreferenceScalarFieldEnum)[keyof typeof UserSignalPreferenceScalarFieldEnum]
 
 
 export const NotificationLogScalarFieldEnum = {

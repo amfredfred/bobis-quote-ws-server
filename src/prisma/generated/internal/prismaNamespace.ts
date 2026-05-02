@@ -394,6 +394,7 @@ export const ModelName = {
   SignalAlert: 'SignalAlert',
   SignalZone: 'SignalZone',
   UserSignalSubscription: 'UserSignalSubscription',
+  UserSignalPreference: 'UserSignalPreference',
   NotificationLog: 'NotificationLog',
   TradingAnalytics: 'TradingAnalytics',
   NewsArticle: 'NewsArticle',
@@ -421,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "profile" | "tradingAccount" | "signal" | "trade" | "journalTrade" | "journalChecklistItem" | "tradingStrategy" | "signalAlert" | "signalZone" | "userSignalSubscription" | "notificationLog" | "tradingAnalytics" | "newsArticle" | "socialSentimentAggregate" | "queueJob" | "metricsCounter" | "metricsGauge" | "referralLink" | "referral" | "referralReward" | "referral_link_clicks" | "referral_milestone_events"
+    modelProps: "profile" | "tradingAccount" | "signal" | "trade" | "journalTrade" | "journalChecklistItem" | "tradingStrategy" | "signalAlert" | "signalZone" | "userSignalSubscription" | "userSignalPreference" | "notificationLog" | "tradingAnalytics" | "newsArticle" | "socialSentimentAggregate" | "queueJob" | "metricsCounter" | "metricsGauge" | "referralLink" | "referral" | "referralReward" | "referral_link_clicks" | "referral_milestone_events"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1162,6 +1163,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserSignalSubscriptionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserSignalSubscriptionCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserSignalPreference: {
+      payload: Prisma.$UserSignalPreferencePayload<ExtArgs>
+      fields: Prisma.UserSignalPreferenceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserSignalPreferenceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserSignalPreferenceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>
+        }
+        findFirst: {
+          args: Prisma.UserSignalPreferenceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserSignalPreferenceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>
+        }
+        findMany: {
+          args: Prisma.UserSignalPreferenceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>[]
+        }
+        create: {
+          args: Prisma.UserSignalPreferenceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>
+        }
+        createMany: {
+          args: Prisma.UserSignalPreferenceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserSignalPreferenceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>[]
+        }
+        delete: {
+          args: Prisma.UserSignalPreferenceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>
+        }
+        update: {
+          args: Prisma.UserSignalPreferenceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>
+        }
+        deleteMany: {
+          args: Prisma.UserSignalPreferenceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserSignalPreferenceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserSignalPreferenceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>[]
+        }
+        upsert: {
+          args: Prisma.UserSignalPreferenceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>
+        }
+        aggregate: {
+          args: Prisma.UserSignalPreferenceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserSignalPreference>
+        }
+        groupBy: {
+          args: Prisma.UserSignalPreferenceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserSignalPreferenceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserSignalPreferenceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserSignalPreferenceCountAggregateOutputType> | number
         }
       }
     }
@@ -2118,7 +2193,8 @@ export const ProfileScalarFieldEnum = {
   subscriptionTier: 'subscriptionTier',
   subscriptionStatus: 'subscriptionStatus',
   trialEndsAt: 'trialEndsAt',
-  trialStartedAt: 'trialStartedAt'
+  trialStartedAt: 'trialStartedAt',
+  signalIntervals: 'signalIntervals'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
@@ -2375,6 +2451,15 @@ export const UserSignalSubscriptionScalarFieldEnum = {
 } as const
 
 export type UserSignalSubscriptionScalarFieldEnum = (typeof UserSignalSubscriptionScalarFieldEnum)[keyof typeof UserSignalSubscriptionScalarFieldEnum]
+
+
+export const UserSignalPreferenceScalarFieldEnum = {
+  userId: 'userId',
+  intervals: 'intervals',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserSignalPreferenceScalarFieldEnum = (typeof UserSignalPreferenceScalarFieldEnum)[keyof typeof UserSignalPreferenceScalarFieldEnum]
 
 
 export const NotificationLogScalarFieldEnum = {
@@ -3137,6 +3222,7 @@ export type GlobalOmitConfig = {
   signalAlert?: Prisma.SignalAlertOmit
   signalZone?: Prisma.SignalZoneOmit
   userSignalSubscription?: Prisma.UserSignalSubscriptionOmit
+  userSignalPreference?: Prisma.UserSignalPreferenceOmit
   notificationLog?: Prisma.NotificationLogOmit
   tradingAnalytics?: Prisma.TradingAnalyticsOmit
   newsArticle?: Prisma.NewsArticleOmit

@@ -119,6 +119,7 @@ export type ProfileCountAggregateOutputType = {
   subscriptionStatus: number
   trialEndsAt: number
   trialStartedAt: number
+  signalIntervals: number
   _all: number
 }
 
@@ -216,6 +217,7 @@ export type ProfileCountAggregateInputType = {
   subscriptionStatus?: true
   trialEndsAt?: true
   trialStartedAt?: true
+  signalIntervals?: true
   _all?: true
 }
 
@@ -332,6 +334,7 @@ export type ProfileGroupByOutputType = {
   subscriptionStatus: $Enums.SubscriptionStatus | null
   trialEndsAt: Date | null
   trialStartedAt: Date | null
+  signalIntervals: string[]
   _count: ProfileCountAggregateOutputType | null
   _avg: ProfileAvgAggregateOutputType | null
   _sum: ProfileSumAggregateOutputType | null
@@ -384,6 +387,7 @@ export type ProfileWhereInput = {
   subscriptionStatus?: Prisma.EnumSubscriptionStatusNullableFilter<"Profile"> | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   trialStartedAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
+  signalIntervals?: Prisma.StringNullableListFilter<"Profile">
   journalTrades?: Prisma.JournalTradeListRelationFilter
   notificationLogs?: Prisma.NotificationLogListRelationFilter
   referralLink?: Prisma.XOR<Prisma.ReferralLinkNullableScalarRelationFilter, Prisma.ReferralLinkWhereInput> | null
@@ -424,6 +428,7 @@ export type ProfileOrderByWithRelationInput = {
   subscriptionStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   trialEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   trialStartedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  signalIntervals?: Prisma.SortOrder
   journalTrades?: Prisma.JournalTradeOrderByRelationAggregateInput
   notificationLogs?: Prisma.NotificationLogOrderByRelationAggregateInput
   referralLink?: Prisma.ReferralLinkOrderByWithRelationInput
@@ -467,6 +472,7 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
   subscriptionStatus?: Prisma.EnumSubscriptionStatusNullableFilter<"Profile"> | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   trialStartedAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
+  signalIntervals?: Prisma.StringNullableListFilter<"Profile">
   journalTrades?: Prisma.JournalTradeListRelationFilter
   notificationLogs?: Prisma.NotificationLogListRelationFilter
   referralLink?: Prisma.XOR<Prisma.ReferralLinkNullableScalarRelationFilter, Prisma.ReferralLinkWhereInput> | null
@@ -507,6 +513,7 @@ export type ProfileOrderByWithAggregationInput = {
   subscriptionStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   trialEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   trialStartedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  signalIntervals?: Prisma.SortOrder
   _count?: Prisma.ProfileCountOrderByAggregateInput
   _avg?: Prisma.ProfileAvgOrderByAggregateInput
   _max?: Prisma.ProfileMaxOrderByAggregateInput
@@ -544,6 +551,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   subscriptionStatus?: Prisma.EnumSubscriptionStatusNullableWithAggregatesFilter<"Profile"> | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
   trialStartedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
+  signalIntervals?: Prisma.StringNullableListFilter<"Profile">
 }
 
 export type ProfileCreateInput = {
@@ -573,6 +581,7 @@ export type ProfileCreateInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -613,6 +622,7 @@ export type ProfileUncheckedCreateInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -653,6 +663,7 @@ export type ProfileUpdateInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -693,6 +704,7 @@ export type ProfileUncheckedUpdateInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -733,6 +745,7 @@ export type ProfileCreateManyInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
 }
 
 export type ProfileUpdateManyMutationInput = {
@@ -762,6 +775,7 @@ export type ProfileUpdateManyMutationInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
 }
 
 export type ProfileUncheckedUpdateManyInput = {
@@ -791,6 +805,15 @@ export type ProfileUncheckedUpdateManyInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
+}
+
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type ProfileCountOrderByAggregateInput = {
@@ -820,6 +843,7 @@ export type ProfileCountOrderByAggregateInput = {
   subscriptionStatus?: Prisma.SortOrder
   trialEndsAt?: Prisma.SortOrder
   trialStartedAt?: Prisma.SortOrder
+  signalIntervals?: Prisma.SortOrder
 }
 
 export type ProfileAvgOrderByAggregateInput = {
@@ -898,6 +922,10 @@ export type ProfileNullableScalarRelationFilter = {
   isNot?: Prisma.ProfileWhereInput | null
 }
 
+export type ProfileCreatesignalIntervalsInput = {
+  set: string[]
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -928,6 +956,11 @@ export type DateTimeFieldUpdateOperationsInput = {
 
 export type NullableEnumSubscriptionStatusFieldUpdateOperationsInput = {
   set?: $Enums.SubscriptionStatus | null
+}
+
+export type ProfileUpdatesignalIntervalsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type ProfileCreateNestedOneWithoutTradingAccountsInput = {
@@ -1115,6 +1148,7 @@ export type ProfileCreateWithoutTradingAccountsInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -1154,6 +1188,7 @@ export type ProfileUncheckedCreateWithoutTradingAccountsInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -1209,6 +1244,7 @@ export type ProfileUpdateWithoutTradingAccountsInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -1248,6 +1284,7 @@ export type ProfileUncheckedUpdateWithoutTradingAccountsInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -1287,6 +1324,7 @@ export type ProfileCreateWithoutJournalTradesInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
   referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
@@ -1326,6 +1364,7 @@ export type ProfileUncheckedCreateWithoutJournalTradesInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
@@ -1381,6 +1420,7 @@ export type ProfileUpdateWithoutJournalTradesInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
@@ -1420,6 +1460,7 @@ export type ProfileUncheckedUpdateWithoutJournalTradesInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
@@ -1459,6 +1500,7 @@ export type ProfileCreateWithoutTradingStrategiesInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -1498,6 +1540,7 @@ export type ProfileUncheckedCreateWithoutTradingStrategiesInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -1553,6 +1596,7 @@ export type ProfileUpdateWithoutTradingStrategiesInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -1592,6 +1636,7 @@ export type ProfileUncheckedUpdateWithoutTradingStrategiesInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -1631,6 +1676,7 @@ export type ProfileCreateWithoutSignalSubscriptionsInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -1670,6 +1716,7 @@ export type ProfileUncheckedCreateWithoutSignalSubscriptionsInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -1725,6 +1772,7 @@ export type ProfileUpdateWithoutSignalSubscriptionsInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -1764,6 +1812,7 @@ export type ProfileUncheckedUpdateWithoutSignalSubscriptionsInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -1803,6 +1852,7 @@ export type ProfileCreateWithoutNotificationLogsInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
   referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
@@ -1842,6 +1892,7 @@ export type ProfileUncheckedCreateWithoutNotificationLogsInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
@@ -1897,6 +1948,7 @@ export type ProfileUpdateWithoutNotificationLogsInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
@@ -1936,6 +1988,7 @@ export type ProfileUncheckedUpdateWithoutNotificationLogsInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
@@ -1975,6 +2028,7 @@ export type ProfileCreateWithoutTradingAnalyticsInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -2014,6 +2068,7 @@ export type ProfileUncheckedCreateWithoutTradingAnalyticsInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -2069,6 +2124,7 @@ export type ProfileUpdateWithoutTradingAnalyticsInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -2108,6 +2164,7 @@ export type ProfileUncheckedUpdateWithoutTradingAnalyticsInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -2147,6 +2204,7 @@ export type ProfileCreateWithoutReferralLinkInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
@@ -2186,6 +2244,7 @@ export type ProfileUncheckedCreateWithoutReferralLinkInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
@@ -2241,6 +2300,7 @@ export type ProfileUpdateWithoutReferralLinkInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
@@ -2280,6 +2340,7 @@ export type ProfileUncheckedUpdateWithoutReferralLinkInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
@@ -2319,6 +2380,7 @@ export type ProfileCreateWithoutReferralsReceivedInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -2358,6 +2420,7 @@ export type ProfileUncheckedCreateWithoutReferralsReceivedInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -2402,6 +2465,7 @@ export type ProfileCreateWithoutReferralsGivenInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -2441,6 +2505,7 @@ export type ProfileUncheckedCreateWithoutReferralsGivenInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -2496,6 +2561,7 @@ export type ProfileUpdateWithoutReferralsReceivedInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -2535,6 +2601,7 @@ export type ProfileUncheckedUpdateWithoutReferralsReceivedInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -2585,6 +2652,7 @@ export type ProfileUpdateWithoutReferralsGivenInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -2624,6 +2692,7 @@ export type ProfileUncheckedUpdateWithoutReferralsGivenInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -2663,6 +2732,7 @@ export type ProfileCreateWithoutReferralRewardsInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -2702,6 +2772,7 @@ export type ProfileUncheckedCreateWithoutReferralRewardsInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -2757,6 +2828,7 @@ export type ProfileUpdateWithoutReferralRewardsInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -2796,6 +2868,7 @@ export type ProfileUncheckedUpdateWithoutReferralRewardsInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -2835,6 +2908,7 @@ export type ProfileCreateWithoutReferral_milestone_eventsInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -2874,6 +2948,7 @@ export type ProfileUncheckedCreateWithoutReferral_milestone_eventsInput = {
   subscriptionStatus?: $Enums.SubscriptionStatus | null
   trialEndsAt?: Date | string | null
   trialStartedAt?: Date | string | null
+  signalIntervals?: Prisma.ProfileCreatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -2929,6 +3004,7 @@ export type ProfileUpdateWithoutReferral_milestone_eventsInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -2968,6 +3044,7 @@ export type ProfileUncheckedUpdateWithoutReferral_milestone_eventsInput = {
   subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  signalIntervals?: Prisma.ProfileUpdatesignalIntervalsInput | string[]
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -3119,6 +3196,7 @@ export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   subscriptionStatus?: boolean
   trialEndsAt?: boolean
   trialStartedAt?: boolean
+  signalIntervals?: boolean
   journalTrades?: boolean | Prisma.Profile$journalTradesArgs<ExtArgs>
   notificationLogs?: boolean | Prisma.Profile$notificationLogsArgs<ExtArgs>
   referralLink?: boolean | Prisma.Profile$referralLinkArgs<ExtArgs>
@@ -3160,6 +3238,7 @@ export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   subscriptionStatus?: boolean
   trialEndsAt?: boolean
   trialStartedAt?: boolean
+  signalIntervals?: boolean
 }, ExtArgs["result"]["profile"]>
 
 export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -3189,6 +3268,7 @@ export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   subscriptionStatus?: boolean
   trialEndsAt?: boolean
   trialStartedAt?: boolean
+  signalIntervals?: boolean
 }, ExtArgs["result"]["profile"]>
 
 export type ProfileSelectScalar = {
@@ -3218,9 +3298,10 @@ export type ProfileSelectScalar = {
   subscriptionStatus?: boolean
   trialEndsAt?: boolean
   trialStartedAt?: boolean
+  signalIntervals?: boolean
 }
 
-export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "username" | "displayName" | "avatarUrl" | "notificationPushToken" | "pushEnabled" | "strategyReminders" | "accountAlerts" | "sessionReminders" | "drawdownWarnings" | "profitTargetAlerts" | "signalAlertsEnabled" | "maxTradesWarnings" | "tradingDaysReminders" | "lastNotificationSentAt" | "notificationSentToday" | "lastNotificationReset" | "proExpiresAt" | "revenuecatAppUserId" | "timezone" | "createdAt" | "updatedAt" | "subscriptionTier" | "subscriptionStatus" | "trialEndsAt" | "trialStartedAt", ExtArgs["result"]["profile"]>
+export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "username" | "displayName" | "avatarUrl" | "notificationPushToken" | "pushEnabled" | "strategyReminders" | "accountAlerts" | "sessionReminders" | "drawdownWarnings" | "profitTargetAlerts" | "signalAlertsEnabled" | "maxTradesWarnings" | "tradingDaysReminders" | "lastNotificationSentAt" | "notificationSentToday" | "lastNotificationReset" | "proExpiresAt" | "revenuecatAppUserId" | "timezone" | "createdAt" | "updatedAt" | "subscriptionTier" | "subscriptionStatus" | "trialEndsAt" | "trialStartedAt" | "signalIntervals", ExtArgs["result"]["profile"]>
 export type ProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journalTrades?: boolean | Prisma.Profile$journalTradesArgs<ExtArgs>
   notificationLogs?: boolean | Prisma.Profile$notificationLogsArgs<ExtArgs>
@@ -3280,6 +3361,7 @@ export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     subscriptionStatus: $Enums.SubscriptionStatus | null
     trialEndsAt: Date | null
     trialStartedAt: Date | null
+    signalIntervals: string[]
   }, ExtArgs["result"]["profile"]>
   composites: {}
 }
@@ -3740,6 +3822,7 @@ export interface ProfileFieldRefs {
   readonly subscriptionStatus: Prisma.FieldRef<"Profile", 'SubscriptionStatus'>
   readonly trialEndsAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly trialStartedAt: Prisma.FieldRef<"Profile", 'DateTime'>
+  readonly signalIntervals: Prisma.FieldRef<"Profile", 'String[]'>
 }
     
 

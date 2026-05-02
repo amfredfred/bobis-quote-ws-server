@@ -99,6 +99,7 @@ interface Payloads {
   'subscriptions.get': Record<string, never>;
   'subscriptions.add': { symbols: string[] };
   'subscriptions.remove': { symbols: string[] };
+  'subscriptions.setIntervals': { intervals: ('30min' | '1h')[] };
   'notifications.list': { limit?: number };
   'notification.markOpened': { id: string };
   'notifications.markAllOpened': Record<string, never>;
@@ -403,6 +404,8 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'subscriptions.get': () => this.marketHandler.getSubscriptions(userId),
       'subscriptions.add': (p) => this.marketHandler.subscribe(userId, p.symbols, this.server),
       'subscriptions.remove': (p) => this.marketHandler.unsubscribe(userId, p.symbols, this.server),
+      'subscriptions.setIntervals': (p) => this.marketHandler.setIntervals(userId, p.intervals),
+
       // Notifications
       'notifications.list': (p) => this.notifHandler.list(userId, p.limit),
       'notification.markOpened': (p) => this.notifHandler.markOpened(p.id),

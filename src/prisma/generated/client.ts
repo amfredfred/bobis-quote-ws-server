@@ -90,6 +90,11 @@ export type SignalZone = Prisma.SignalZoneModel
  */
 export type UserSignalSubscription = Prisma.UserSignalSubscriptionModel
 /**
+ * Model UserSignalPreference
+ * 
+ */
+export type UserSignalPreference = Prisma.UserSignalPreferenceModel
+/**
  * Model NotificationLog
  * 
  */
