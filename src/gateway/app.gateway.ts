@@ -52,6 +52,7 @@ import {
 import { CreateStrategyDto, UpdateStrategyDto } from '../strategy/strategy.service';
 import { PerformanceHandler } from './handlers/performance.handler';
 import { ReferralHandler } from './handlers/referral.handler';
+import { SubscriptionHandler } from './handlers/subscription.handler';
 import { SkipThrottle } from '@nestjs/throttler';
 import { resolveError } from '../common/errors';
 
@@ -132,6 +133,9 @@ interface Payloads {
   'referral.reward.claim': { rewardId: string };
   'referral.setPayoutPreference': { preference: 'subscription' | 'credit' };
   'referral.setSlug': { slug: string };
+  // Trial
+  'trial.start': Record<string, never>;
+  'trial.status': Record<string, never>;
 }
 
 type Command = keyof Payloads;
@@ -238,6 +242,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     private readonly performanceHandler: PerformanceHandler,
     private readonly referralHandler: ReferralHandler,
     private readonly systemHandler: SystemHandler,
+    private readonly subscriptionHandler: SubscriptionHandler,
   ) { }
 
   afterInit(): void {
@@ -425,6 +430,9 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
       'referral.reward.claim': (p) => this.referralHandler.claimReward(userId, p.rewardId),
       'referral.setPayoutPreference': (p) => this.referralHandler.setPayoutPreference(userId, p.preference),
       'referral.setSlug': (p) => this.referralHandler.setCustomSlug(userId, p.slug),
+      // Trial
+      'trial.start':  () => this.subscriptionHandler.startTrial(userId),
+      'trial.status': () => this.subscriptionHandler.getTrialStatus(userId),
     };
   }
 

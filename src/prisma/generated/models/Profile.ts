@@ -59,6 +59,8 @@ export type ProfileMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   subscriptionTier: string | null
+  trialStartedAt: Date | null
+  trialEndsAt: Date | null
 }
 
 export type ProfileMaxAggregateOutputType = {
@@ -86,6 +88,8 @@ export type ProfileMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   subscriptionTier: string | null
+  trialStartedAt: Date | null
+  trialEndsAt: Date | null
 }
 
 export type ProfileCountAggregateOutputType = {
@@ -113,6 +117,8 @@ export type ProfileCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   subscriptionTier: number
+  trialStartedAt: number
+  trialEndsAt: number
   _all: number
 }
 
@@ -150,6 +156,8 @@ export type ProfileMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   subscriptionTier?: true
+  trialStartedAt?: true
+  trialEndsAt?: true
 }
 
 export type ProfileMaxAggregateInputType = {
@@ -177,6 +185,8 @@ export type ProfileMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   subscriptionTier?: true
+  trialStartedAt?: true
+  trialEndsAt?: true
 }
 
 export type ProfileCountAggregateInputType = {
@@ -204,6 +214,8 @@ export type ProfileCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   subscriptionTier?: true
+  trialStartedAt?: true
+  trialEndsAt?: true
   _all?: true
 }
 
@@ -318,6 +330,8 @@ export type ProfileGroupByOutputType = {
   createdAt: Date
   updatedAt: Date | null
   subscriptionTier: string | null
+  trialStartedAt: Date | null
+  trialEndsAt: Date | null
   _count: ProfileCountAggregateOutputType | null
   _avg: ProfileAvgAggregateOutputType | null
   _sum: ProfileSumAggregateOutputType | null
@@ -368,6 +382,8 @@ export type ProfileWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   subscriptionTier?: Prisma.StringNullableFilter<"Profile"> | string | null
+  trialStartedAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
+  trialEndsAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   journalTrades?: Prisma.JournalTradeListRelationFilter
   notificationLogs?: Prisma.NotificationLogListRelationFilter
   referralLink?: Prisma.XOR<Prisma.ReferralLinkNullableScalarRelationFilter, Prisma.ReferralLinkWhereInput> | null
@@ -406,6 +422,8 @@ export type ProfileOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   subscriptionTier?: Prisma.SortOrderInput | Prisma.SortOrder
+  trialStartedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   journalTrades?: Prisma.JournalTradeOrderByRelationAggregateInput
   notificationLogs?: Prisma.NotificationLogOrderByRelationAggregateInput
   referralLink?: Prisma.ReferralLinkOrderByWithRelationInput
@@ -447,6 +465,8 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   subscriptionTier?: Prisma.StringNullableFilter<"Profile"> | string | null
+  trialStartedAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
+  trialEndsAt?: Prisma.DateTimeNullableFilter<"Profile"> | Date | string | null
   journalTrades?: Prisma.JournalTradeListRelationFilter
   notificationLogs?: Prisma.NotificationLogListRelationFilter
   referralLink?: Prisma.XOR<Prisma.ReferralLinkNullableScalarRelationFilter, Prisma.ReferralLinkWhereInput> | null
@@ -485,6 +505,8 @@ export type ProfileOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   subscriptionTier?: Prisma.SortOrderInput | Prisma.SortOrder
+  trialStartedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ProfileCountOrderByAggregateInput
   _avg?: Prisma.ProfileAvgOrderByAggregateInput
   _max?: Prisma.ProfileMaxOrderByAggregateInput
@@ -520,6 +542,8 @@ export type ProfileScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
   subscriptionTier?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
+  trialStartedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
+  trialEndsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
 }
 
 export type ProfileCreateInput = {
@@ -547,6 +571,8 @@ export type ProfileCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -585,6 +611,8 @@ export type ProfileUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -623,6 +651,8 @@ export type ProfileUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -661,6 +691,8 @@ export type ProfileUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -699,6 +731,8 @@ export type ProfileCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
 }
 
 export type ProfileUpdateManyMutationInput = {
@@ -726,6 +760,8 @@ export type ProfileUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ProfileUncheckedUpdateManyInput = {
@@ -753,6 +789,8 @@ export type ProfileUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ProfileCountOrderByAggregateInput = {
@@ -780,6 +818,8 @@ export type ProfileCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   subscriptionTier?: Prisma.SortOrder
+  trialStartedAt?: Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrder
 }
 
 export type ProfileAvgOrderByAggregateInput = {
@@ -811,6 +851,8 @@ export type ProfileMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   subscriptionTier?: Prisma.SortOrder
+  trialStartedAt?: Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrder
 }
 
 export type ProfileMinOrderByAggregateInput = {
@@ -838,6 +880,8 @@ export type ProfileMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   subscriptionTier?: Prisma.SortOrder
+  trialStartedAt?: Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrder
 }
 
 export type ProfileSumOrderByAggregateInput = {
@@ -1069,6 +1113,8 @@ export type ProfileCreateWithoutTradingAccountsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -1106,6 +1152,8 @@ export type ProfileUncheckedCreateWithoutTradingAccountsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -1159,6 +1207,8 @@ export type ProfileUpdateWithoutTradingAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -1196,6 +1246,8 @@ export type ProfileUncheckedUpdateWithoutTradingAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -1233,6 +1285,8 @@ export type ProfileCreateWithoutJournalTradesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
   referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
@@ -1270,6 +1324,8 @@ export type ProfileUncheckedCreateWithoutJournalTradesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
@@ -1323,6 +1379,8 @@ export type ProfileUpdateWithoutJournalTradesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
@@ -1360,6 +1418,8 @@ export type ProfileUncheckedUpdateWithoutJournalTradesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
@@ -1397,6 +1457,8 @@ export type ProfileCreateWithoutTradingStrategiesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -1434,6 +1496,8 @@ export type ProfileUncheckedCreateWithoutTradingStrategiesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -1487,6 +1551,8 @@ export type ProfileUpdateWithoutTradingStrategiesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -1524,6 +1590,8 @@ export type ProfileUncheckedUpdateWithoutTradingStrategiesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -1561,6 +1629,8 @@ export type ProfileCreateWithoutSignalSubscriptionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -1598,6 +1668,8 @@ export type ProfileUncheckedCreateWithoutSignalSubscriptionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -1651,6 +1723,8 @@ export type ProfileUpdateWithoutSignalSubscriptionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -1688,6 +1762,8 @@ export type ProfileUncheckedUpdateWithoutSignalSubscriptionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -1725,6 +1801,8 @@ export type ProfileCreateWithoutNotificationLogsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
   referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
@@ -1762,6 +1840,8 @@ export type ProfileUncheckedCreateWithoutNotificationLogsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
@@ -1815,6 +1895,8 @@ export type ProfileUpdateWithoutNotificationLogsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
@@ -1852,6 +1934,8 @@ export type ProfileUncheckedUpdateWithoutNotificationLogsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
@@ -1889,6 +1973,8 @@ export type ProfileCreateWithoutTradingAnalyticsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -1926,6 +2012,8 @@ export type ProfileUncheckedCreateWithoutTradingAnalyticsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -1979,6 +2067,8 @@ export type ProfileUpdateWithoutTradingAnalyticsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -2016,6 +2106,8 @@ export type ProfileUncheckedUpdateWithoutTradingAnalyticsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -2053,6 +2145,8 @@ export type ProfileCreateWithoutReferralLinkInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referral_milestone_events?: Prisma.referral_milestone_eventsCreateNestedManyWithoutProfilesInput
@@ -2090,6 +2184,8 @@ export type ProfileUncheckedCreateWithoutReferralLinkInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedCreateNestedManyWithoutProfilesInput
@@ -2143,6 +2239,8 @@ export type ProfileUpdateWithoutReferralLinkInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUpdateManyWithoutProfilesNestedInput
@@ -2180,6 +2278,8 @@ export type ProfileUncheckedUpdateWithoutReferralLinkInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referral_milestone_events?: Prisma.referral_milestone_eventsUncheckedUpdateManyWithoutProfilesNestedInput
@@ -2217,6 +2317,8 @@ export type ProfileCreateWithoutReferralsReceivedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -2254,6 +2356,8 @@ export type ProfileUncheckedCreateWithoutReferralsReceivedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -2296,6 +2400,8 @@ export type ProfileCreateWithoutReferralsGivenInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -2333,6 +2439,8 @@ export type ProfileUncheckedCreateWithoutReferralsGivenInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -2386,6 +2494,8 @@ export type ProfileUpdateWithoutReferralsReceivedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -2423,6 +2533,8 @@ export type ProfileUncheckedUpdateWithoutReferralsReceivedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -2471,6 +2583,8 @@ export type ProfileUpdateWithoutReferralsGivenInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -2508,6 +2622,8 @@ export type ProfileUncheckedUpdateWithoutReferralsGivenInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -2545,6 +2661,8 @@ export type ProfileCreateWithoutReferralRewardsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -2582,6 +2700,8 @@ export type ProfileUncheckedCreateWithoutReferralRewardsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -2635,6 +2755,8 @@ export type ProfileUpdateWithoutReferralRewardsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -2672,6 +2794,8 @@ export type ProfileUncheckedUpdateWithoutReferralRewardsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -2709,6 +2833,8 @@ export type ProfileCreateWithoutReferral_milestone_eventsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkCreateNestedOneWithoutProfileInput
@@ -2746,6 +2872,8 @@ export type ProfileUncheckedCreateWithoutReferral_milestone_eventsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   subscriptionTier?: string | null
+  trialStartedAt?: Date | string | null
+  trialEndsAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutProfileInput
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutProfileInput
   referralLink?: Prisma.ReferralLinkUncheckedCreateNestedOneWithoutProfileInput
@@ -2799,6 +2927,8 @@ export type ProfileUpdateWithoutReferral_milestone_eventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUpdateOneWithoutProfileNestedInput
@@ -2836,6 +2966,8 @@ export type ProfileUncheckedUpdateWithoutReferral_milestone_eventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutProfileNestedInput
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutProfileNestedInput
   referralLink?: Prisma.ReferralLinkUncheckedUpdateOneWithoutProfileNestedInput
@@ -2985,6 +3117,8 @@ export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   createdAt?: boolean
   updatedAt?: boolean
   subscriptionTier?: boolean
+  trialStartedAt?: boolean
+  trialEndsAt?: boolean
   journalTrades?: boolean | Prisma.Profile$journalTradesArgs<ExtArgs>
   notificationLogs?: boolean | Prisma.Profile$notificationLogsArgs<ExtArgs>
   referralLink?: boolean | Prisma.Profile$referralLinkArgs<ExtArgs>
@@ -3024,6 +3158,8 @@ export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   createdAt?: boolean
   updatedAt?: boolean
   subscriptionTier?: boolean
+  trialStartedAt?: boolean
+  trialEndsAt?: boolean
 }, ExtArgs["result"]["profile"]>
 
 export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -3051,6 +3187,8 @@ export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   createdAt?: boolean
   updatedAt?: boolean
   subscriptionTier?: boolean
+  trialStartedAt?: boolean
+  trialEndsAt?: boolean
 }, ExtArgs["result"]["profile"]>
 
 export type ProfileSelectScalar = {
@@ -3078,9 +3216,11 @@ export type ProfileSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   subscriptionTier?: boolean
+  trialStartedAt?: boolean
+  trialEndsAt?: boolean
 }
 
-export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "username" | "displayName" | "avatarUrl" | "notificationPushToken" | "pushEnabled" | "strategyReminders" | "accountAlerts" | "sessionReminders" | "drawdownWarnings" | "profitTargetAlerts" | "signalAlertsEnabled" | "maxTradesWarnings" | "tradingDaysReminders" | "lastNotificationSentAt" | "notificationSentToday" | "lastNotificationReset" | "proExpiresAt" | "revenuecatAppUserId" | "subscriptionStatus" | "timezone" | "createdAt" | "updatedAt" | "subscriptionTier", ExtArgs["result"]["profile"]>
+export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "username" | "displayName" | "avatarUrl" | "notificationPushToken" | "pushEnabled" | "strategyReminders" | "accountAlerts" | "sessionReminders" | "drawdownWarnings" | "profitTargetAlerts" | "signalAlertsEnabled" | "maxTradesWarnings" | "tradingDaysReminders" | "lastNotificationSentAt" | "notificationSentToday" | "lastNotificationReset" | "proExpiresAt" | "revenuecatAppUserId" | "subscriptionStatus" | "timezone" | "createdAt" | "updatedAt" | "subscriptionTier" | "trialStartedAt" | "trialEndsAt", ExtArgs["result"]["profile"]>
 export type ProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journalTrades?: boolean | Prisma.Profile$journalTradesArgs<ExtArgs>
   notificationLogs?: boolean | Prisma.Profile$notificationLogsArgs<ExtArgs>
@@ -3138,6 +3278,8 @@ export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     createdAt: Date
     updatedAt: Date | null
     subscriptionTier: string | null
+    trialStartedAt: Date | null
+    trialEndsAt: Date | null
   }, ExtArgs["result"]["profile"]>
   composites: {}
 }
@@ -3596,6 +3738,8 @@ export interface ProfileFieldRefs {
   readonly createdAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly subscriptionTier: Prisma.FieldRef<"Profile", 'String'>
+  readonly trialStartedAt: Prisma.FieldRef<"Profile", 'DateTime'>
+  readonly trialEndsAt: Prisma.FieldRef<"Profile", 'DateTime'>
 }
     
 

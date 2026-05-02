@@ -33,6 +33,18 @@ export const TIER_LIMITS: Record<Tier, TierLimits> = {
 
 export const TIER_RANK: Record<Tier, number> = { free:0, basic:1, pro:2, elite:3 };
 
+/** Number of days a free trial lasts. Change here to affect the whole platform. */
+export const TRIAL_DURATION_DAYS = 7;
+
+/**
+ * Returns true if the given trialEndsAt date is in the future (trial still active).
+ * Safe to call with null/undefined — returns false.
+ */
+export function isTrialActive(trialEndsAt: Date | null | undefined): boolean {
+  if (!trialEndsAt) return false;
+  return trialEndsAt > new Date();
+}
+
 export function getTierFromEntitlement(entitlementId: string | null | undefined): Tier {
   if (!entitlementId) return 'free';
   const id = entitlementId.toLowerCase();

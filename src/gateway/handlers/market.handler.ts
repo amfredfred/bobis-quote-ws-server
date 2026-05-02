@@ -33,11 +33,17 @@ export class MarketHandler {
     return this.svc.getAlert(id);
   }
 
-  async dashboardStats(userId: string) {
-    // Aggregate only over the user's subscribed symbols
-    const subs = await this.svc.getSubscriptions(userId);
-    const symbols: string[] = (subs as any)?.symbols ?? [];
-    return this.svc.getDashboardStats(symbols.length > 0 ? symbols : undefined);
+  async dashboardStats(userId: string): Promise<ReturnType<typeof emptyDashboard>> {
+    const subs = (await this.svc.getSubscriptions(userId)).symbols;
+    const symbols: string[] = Array.isArray(subs) ? subs : [];
+
+    if (symbols.length === 0) {
+      //  No subscriptions, so return empty stats without hitting the database
+      return emptyDashboard();
+    }
+
+    const dash = await this.svc.getDashboardStats(symbols);
+    return dash;
   }
 
   async tradeIdeasList(
@@ -45,12 +51,12 @@ export class MarketHandler {
     params: { symbol?: string; status?: string; limit?: number; offset?: number },
   ) {
     // await this.tierGuard.checkCanAccessTradeIdeas(userId);
-    return this.listAlerts(userId, params);
+    return await this.listAlerts(userId, params);
   }
 
   async tradeIdeasDashboard(userId: string) {
     // await this.tierGuard.checkCanAccessTradeIdeas(userId);
-    return this.dashboardStats(userId);
+    return await this.dashboardStats(userId);
   }
 
   calendar(userId: string, year: number, month: number) {
@@ -103,4 +109,30 @@ export class MarketHandler {
   getZone(id: string) {
     return this.svc.getZone(id);
   }
+
+
+}
+
+function emptyDashboard() {
+  return {
+    total: 0,
+    closed: 0,
+    active: 0,
+    pending: 0,
+    wins: 0,
+    losses: 0,
+    breakeven: 0,
+    winRate: 0,
+    totalRR: 0,
+    avgRR: 0,
+    bySymbol: {},
+    dailyRR: {},
+    zones: {
+      total: 0,
+      watching: 0,
+      triggered: 0,
+      missed: 0,
+      conversionRate: 0,
+    },
+  };
 }

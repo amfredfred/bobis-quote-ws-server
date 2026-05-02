@@ -2116,7 +2116,9 @@ export const ProfileScalarFieldEnum = {
   timezone: 'timezone',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  subscriptionTier: 'subscriptionTier'
+  subscriptionTier: 'subscriptionTier',
+  trialStartedAt: 'trialStartedAt',
+  trialEndsAt: 'trialEndsAt'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]

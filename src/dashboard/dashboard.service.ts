@@ -13,10 +13,13 @@ export class DashboardService {
   constructor(private readonly prisma: PrismaService) { }
 
   async get(userId: string, accountId: string) {
+
+    const subs = { symbols: (await this.prisma.userSignalSubscription.findMany({ where: { userId } })).map(s => s.symbol) };
+
     const [accounts, trades, signals] = await Promise.all([
       this.prisma.tradingAccount.findMany({ where: { userId, id: accountId } }),
       this.prisma.journalTrade.findMany({ where: { userId, accountId }, orderBy: { tradeDate: 'desc' }, take: 500 }),
-      this.prisma.signalAlert.findMany({ orderBy: { createdAt: 'desc' }, take: 100 }),
+      this.prisma.signalAlert.findMany({ orderBy: { createdAt: 'desc' }, take: 100 , where:{symbol: { in: subs.symbols.length > 0 ? subs.symbols : undefined }}}),
     ]);
 
     const closedTrades = trades.filter(t => t.status === 'closed');
@@ -128,7 +131,7 @@ export class DashboardService {
     });
 
     let running = account.currentBalance ?? account.startBalance;
-    const tz     = await this._getUserTimezone(userId);
+    const tz = await this._getUserTimezone(userId);
     const points = trades.map(t => {
       running += t.pnl ?? 0;
       return { date: t.closedAt ? toLocalDateString(t.closedAt, tz) : '', equity: running };
@@ -143,7 +146,7 @@ export class DashboardService {
 
   private async _getUserTimezone(userId: string): Promise<string> {
     const profile = await this.prisma.profile.findUnique({
-      where:  { userId },
+      where: { userId },
       select: { timezone: true },
     });
     return profile?.timezone ?? 'UTC';
@@ -174,7 +177,7 @@ export class DashboardService {
     const { from, to } = monthBoundariesInTz(year, month, tz);
 
     const trades = await this.prisma.journalTrade.findMany({
-      where:  { userId, accountId, closedAt: { gte: from, lte: to } },
+      where: { userId, accountId, closedAt: { gte: from, lte: to } },
       select: { closedAt: true, pnl: true, result: true },
     });
 
@@ -186,7 +189,7 @@ export class DashboardService {
       byDay[day].totalPnl += t.pnl ?? 0;
       byDay[day].tradeCount++;
       if (t.result === 'profit') byDay[day].wins++;
-      if (t.result === 'loss')   byDay[day].losses++;
+      if (t.result === 'loss') byDay[day].losses++;
     }
 
     return byDay;

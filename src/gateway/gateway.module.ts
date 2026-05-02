@@ -35,6 +35,7 @@ import { ReferralModule } from '../referral/referral.module';
 import { ReferralHandler } from './handlers/referral.handler';
 import { SystemHandler } from './handlers/system.handler';
 import { SystemModule } from '@src/system/system.module';
+import { SubscriptionHandler } from './handlers/subscription.handler';
 
 const HANDLERS = [
   DashboardHandler,
@@ -47,7 +48,8 @@ const HANDLERS = [
   AnalyticsHandler,
   PerformanceHandler,
   ReferralHandler,
-  SystemHandler
+  SystemHandler,
+  SubscriptionHandler,
 ];
 
 @Module({

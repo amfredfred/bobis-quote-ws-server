@@ -275,4 +275,85 @@ export class SubscriptionHandler {
     if (r.includes('DAILY')  || r.includes('P1D')    || r === '$RC_DAILY')   return 'day';
     return 'month';
   }
+
+  // ── Free trial ─────────────────────────────────────────────────────────────
+
+  /**
+   * Activate a 7-day free Pro trial for the user.
+   *
+   * Rules:
+   *  - One trial per account lifetime (trialStartedAt must be null).
+   *  - Cannot start a trial if user already has an active paid subscription.
+   *  - Returns the new trialEndsAt date on success.
+   */
+  async startTrial(userId: string): Promise<{ trialEndsAt: Date; daysLeft: number }> {
+    const TRIAL_DAYS = 7;
+
+    const profile = await this.prisma.profile.findUnique({
+      where:  { userId },
+      select: { subscriptionTier: true, trialStartedAt: true, trialEndsAt: true },
+    });
+
+    if (!profile) throw new Error('Profile not found.');
+
+    // Block if user already has a paid subscription
+    if (profile.subscriptionTier != null) {
+      throw new Error('You already have an active subscription — no trial needed!');
+    }
+
+    // Block if trial was already used
+    if (profile.trialStartedAt != null) {
+      // If the trial is still running, tell them how much is left
+      if (profile.trialEndsAt && profile.trialEndsAt > new Date()) {
+        const ms       = profile.trialEndsAt.getTime() - Date.now();
+        const daysLeft = Math.ceil(ms / (1000 * 60 * 60 * 24));
+        return { trialEndsAt: profile.trialEndsAt, daysLeft };
+      }
+      throw new Error('Your free trial has already been used.');
+    }
+
+    const now         = new Date();
+    const trialEndsAt = new Date(now.getTime() + TRIAL_DAYS * 24 * 60 * 60 * 1000);
+
+    await this.prisma.profile.update({
+      where: { userId },
+      data:  { trialStartedAt: now, trialEndsAt },
+    });
+
+    this.logger.log(`Trial started: userId=${userId} endsAt=${trialEndsAt.toISOString()}`);
+
+    return { trialEndsAt, daysLeft: TRIAL_DAYS };
+  }
+
+  /**
+   * Return the user's current trial status.
+   */
+  async getTrialStatus(userId: string): Promise<{
+    eligible:       boolean;   // can still start a trial
+    isActive:       boolean;   // trial is running right now
+    trialEndsAt:    Date | null;
+    trialStartedAt: Date | null;
+    daysLeft:       number;    // 0 if not active
+  }> {
+    const profile = await this.prisma.profile.findUnique({
+      where:  { userId },
+      select: { subscriptionTier: true, trialStartedAt: true, trialEndsAt: true },
+    });
+
+    const hasPaid       = profile?.subscriptionTier != null;
+    const hasUsedTrial  = profile?.trialStartedAt != null;
+    const trialEndsAt   = profile?.trialEndsAt ?? null;
+    const isActive      = !!(trialEndsAt && trialEndsAt > new Date());
+    const daysLeft      = isActive
+      ? Math.ceil((trialEndsAt!.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+      : 0;
+
+    return {
+      eligible:       !hasPaid && !hasUsedTrial,
+      isActive,
+      trialEndsAt,
+      trialStartedAt: profile?.trialStartedAt ?? null,
+      daysLeft,
+    };
+  }
 }

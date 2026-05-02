@@ -271,17 +271,19 @@ export class MarketService {
   // ── Dashboard stats ────────────────────────────────────────────────────────
 
   async getDashboardStats(symbols?: string[]) {
-    const symbolFilter = symbols && symbols.length > 0 ? { symbol: { in: symbols } } : {};
+    const where = { symbol: { in: symbols } };
+    console.log('GET DASHBOARD STATS', { symbols, where });
     const [total, byStatus, closedAlerts, zoneStats] = await Promise.all([
-      this.prisma.signalAlert.count({ where: { ...symbolFilter } }),
-      this.prisma.signalAlert.groupBy({ by: ['status'], _count: true, where: { ...symbolFilter } }),
-      // Fetch all closed alerts to compute RR aggregates and per-symbol breakdowns
+      this.prisma.signalAlert.count({ where: where }),
+      this.prisma.signalAlert.groupBy({ by: ['status'], _count: true, where: where }),
       this.prisma.signalAlert.findMany({
-        where: { status: { in: ['TP2_HIT', 'SL_HIT', 'INVALIDATED', 'EXPIRED'] }, ...symbolFilter },
+        where: {
+          status: { in: ['TP2_HIT', 'SL_HIT', 'INVALIDATED', 'EXPIRED'] },
+          ...where,
+        },
         select: { symbol: true, outcome: true, realizedRr: true, triggeredAt: true },
       }),
-      // Zone counts by status
-      this.prisma.signalZone.groupBy({ by: ['status'], _count: true }),
+      this.prisma.signalZone.groupBy({ by: ['status'], _count: true, where: where }),
     ]);
 
     const statusMap = Object.fromEntries(byStatus.map(r => [r.status, r._count]));

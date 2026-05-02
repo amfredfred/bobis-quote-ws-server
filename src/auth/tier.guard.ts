@@ -2,7 +2,7 @@
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { TIER_LIMITS, getTierFromEntitlement, type Tier } from '../common/types/tiers';
+import { TIER_LIMITS, getTierFromEntitlement, isTrialActive, type Tier } from '../common/types/tiers';
 import { AppError } from '@src/common/errors';
 
 @Injectable()
@@ -15,10 +15,17 @@ export class TierGuard {
     try {
       const profile = await this.prisma.profile.findUnique({
         where: { userId },
-        select: { subscriptionTier: true },
+        select: { subscriptionTier: true, trialEndsAt: true },
       });
 
-      return getTierFromEntitlement(profile?.subscriptionTier ?? null);
+      // Paid subscription takes precedence over trial
+      const paidTier = getTierFromEntitlement(profile?.subscriptionTier ?? null);
+      if (paidTier !== 'free') return paidTier;
+
+      // Fall back to trial if it's still active
+      if (isTrialActive(profile?.trialEndsAt)) return 'pro';
+
+      return 'free';
     } catch (err) {
       throw new AppError('ACCOUNT_SYNC_FAILED', err);
     }
