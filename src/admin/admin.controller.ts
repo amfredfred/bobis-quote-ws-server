@@ -366,23 +366,6 @@ export class AdminController {
     return { logs, total };
   }
 
-  // ── News ───────────────────────────────────────────────────────────────────
-
-  @Get('news')
-  async getNews(
-    @Query('limit') limit = '50',
-    @Query('offset') offset = '0',
-  ) {
-    const [articles, total] = await Promise.all([
-      this.prisma.newsArticle.findMany({
-        take: parseInt(limit),
-        skip: parseInt(offset),
-        orderBy: { publishedAt: 'desc' },
-      }),
-      this.prisma.newsArticle.count(),
-    ]);
-    return { articles, total };
-  }
 
   // ── System stats ───────────────────────────────────────────────────────────
 

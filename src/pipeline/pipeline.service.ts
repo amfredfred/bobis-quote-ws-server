@@ -308,7 +308,7 @@ export class PipelineService {
         accountId: this.account.id,
         receivedAt: nowMs(),
         status: signalStatus,
-        outcome: trade.closeReason ?? 'UNKNOWN',
+        outcome: this._closeReasonToOutcome(trade.closeReason),
         tradeId: trade.id,
       }).catch(() => { });
     }
@@ -349,6 +349,20 @@ export class PipelineService {
       case 'EXPIRED': return 'EXPIRED';
       case 'BREAKEVEN': return 'TP1_HIT';
       default: return 'EXPIRED'; // MANUAL / CLOSED_WHILE_DOWN treated as loss
+    }
+  }
+
+  private _closeReasonToOutcome(reason?: string): string {
+    switch (reason) {
+      case 'TP2_HIT': return 'WIN_FULL';
+      case 'TP1_HIT': return 'BREAKEVEN';
+      case 'BREAKEVEN': return 'BREAKEVEN';
+      case 'SL_HIT': return 'LOSS';
+      case 'MANUAL': return 'LOSS';
+      case 'CLOSED_WHILE_DOWN': return 'LOSS';
+      case 'INVALIDATED': return 'INVALIDATED';
+      case 'EXPIRED': return 'EXPIRED';
+      default: return 'LOSS';
     }
   }
 }

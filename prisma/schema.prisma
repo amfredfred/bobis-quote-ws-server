@@ -346,15 +346,6 @@ model UserSignalSubscription {
   @@schema("public")
 }
 
-model UserSignalPreference {
-  userId    String   @id
-  intervals String[] @default([]) // empty = all
-  updatedAt DateTime @updatedAt
-
-  @@map("user_signal_preferences")
-  @@schema("public")
-}
-
 model NotificationLog {
   id               String           @id @default(uuid()) @db.Uuid
   userId           String           @map("user_id") @db.Uuid
@@ -404,47 +395,6 @@ model TradingAnalytics {
   @@unique([userId, tradingAccountId])
   @@index([userId])
   @@map("trading_analytics")
-  @@schema("public")
-}
-
-model NewsArticle {
-  id                  String   @id @default(cuid())
-  source              String
-  headline            String
-  summary             String?
-  url                 String?  @unique
-  publishedAt         DateTime @map("published_at")
-  isRelevant          Boolean  @default(true) @map("is_relevant")
-  category            String?
-  sentiment           String?
-  symbols             String[] @default([])
-  importance          String?
-  tradingImplications String?  @map("trading_implications")
-  affectedMarkets     String[] @default([]) @map("affected_markets")
-  createdAt           DateTime @default(now()) @map("created_at")
-  updatedAt           DateTime @updatedAt @map("updated_at")
-
-  @@index([publishedAt])
-  @@index([category])
-  @@index([sentiment])
-  @@map("news_articles")
-  @@schema("public")
-}
-
-model SocialSentimentAggregate {
-  id                Int      @id @default(autoincrement())
-  symbol            String
-  bullishScore      Int      @map("bullish_score")
-  bearishScore      Int      @map("bearish_score")
-  neutralScore      Int      @map("neutral_score")
-  dominantSentiment String   @map("dominant_sentiment")
-  postCount         Int      @default(0) @map("post_count")
-  topicCloud        String[] @map("topic_cloud")
-  summary           String   @default("")
-  sampledAt         DateTime @map("sampled_at")
-
-  @@unique([symbol, sampledAt])
-  @@map("social_sentiment_aggregates")
   @@schema("public")
 }
 

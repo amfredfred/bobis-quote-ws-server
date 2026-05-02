@@ -90,11 +90,6 @@ export type SignalZone = Prisma.SignalZoneModel
  */
 export type UserSignalSubscription = Prisma.UserSignalSubscriptionModel
 /**
- * Model UserSignalPreference
- * 
- */
-export type UserSignalPreference = Prisma.UserSignalPreferenceModel
-/**
  * Model NotificationLog
  * 
  */
@@ -104,16 +99,6 @@ export type NotificationLog = Prisma.NotificationLogModel
  * 
  */
 export type TradingAnalytics = Prisma.TradingAnalyticsModel
-/**
- * Model NewsArticle
- * 
- */
-export type NewsArticle = Prisma.NewsArticleModel
-/**
- * Model SocialSentimentAggregate
- * 
- */
-export type SocialSentimentAggregate = Prisma.SocialSentimentAggregateModel
 /**
  * Model QueueJob
  * 

@@ -394,11 +394,8 @@ export const ModelName = {
   SignalAlert: 'SignalAlert',
   SignalZone: 'SignalZone',
   UserSignalSubscription: 'UserSignalSubscription',
-  UserSignalPreference: 'UserSignalPreference',
   NotificationLog: 'NotificationLog',
   TradingAnalytics: 'TradingAnalytics',
-  NewsArticle: 'NewsArticle',
-  SocialSentimentAggregate: 'SocialSentimentAggregate',
   QueueJob: 'QueueJob',
   MetricsCounter: 'MetricsCounter',
   MetricsGauge: 'MetricsGauge',
@@ -422,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "profile" | "tradingAccount" | "signal" | "trade" | "journalTrade" | "journalChecklistItem" | "tradingStrategy" | "signalAlert" | "signalZone" | "userSignalSubscription" | "userSignalPreference" | "notificationLog" | "tradingAnalytics" | "newsArticle" | "socialSentimentAggregate" | "queueJob" | "metricsCounter" | "metricsGauge" | "referralLink" | "referral" | "referralReward" | "referral_link_clicks" | "referral_milestone_events"
+    modelProps: "profile" | "tradingAccount" | "signal" | "trade" | "journalTrade" | "journalChecklistItem" | "tradingStrategy" | "signalAlert" | "signalZone" | "userSignalSubscription" | "notificationLog" | "tradingAnalytics" | "queueJob" | "metricsCounter" | "metricsGauge" | "referralLink" | "referral" | "referralReward" | "referral_link_clicks" | "referral_milestone_events"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1166,80 +1163,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    UserSignalPreference: {
-      payload: Prisma.$UserSignalPreferencePayload<ExtArgs>
-      fields: Prisma.UserSignalPreferenceFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.UserSignalPreferenceFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.UserSignalPreferenceFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>
-        }
-        findFirst: {
-          args: Prisma.UserSignalPreferenceFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.UserSignalPreferenceFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>
-        }
-        findMany: {
-          args: Prisma.UserSignalPreferenceFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>[]
-        }
-        create: {
-          args: Prisma.UserSignalPreferenceCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>
-        }
-        createMany: {
-          args: Prisma.UserSignalPreferenceCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.UserSignalPreferenceCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>[]
-        }
-        delete: {
-          args: Prisma.UserSignalPreferenceDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>
-        }
-        update: {
-          args: Prisma.UserSignalPreferenceUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>
-        }
-        deleteMany: {
-          args: Prisma.UserSignalPreferenceDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.UserSignalPreferenceUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.UserSignalPreferenceUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>[]
-        }
-        upsert: {
-          args: Prisma.UserSignalPreferenceUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalPreferencePayload>
-        }
-        aggregate: {
-          args: Prisma.UserSignalPreferenceAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateUserSignalPreference>
-        }
-        groupBy: {
-          args: Prisma.UserSignalPreferenceGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.UserSignalPreferenceGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.UserSignalPreferenceCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.UserSignalPreferenceCountAggregateOutputType> | number
-        }
-      }
-    }
     NotificationLog: {
       payload: Prisma.$NotificationLogPayload<ExtArgs>
       fields: Prisma.NotificationLogFieldRefs
@@ -1385,154 +1308,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TradingAnalyticsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TradingAnalyticsCountAggregateOutputType> | number
-        }
-      }
-    }
-    NewsArticle: {
-      payload: Prisma.$NewsArticlePayload<ExtArgs>
-      fields: Prisma.NewsArticleFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.NewsArticleFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsArticlePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.NewsArticleFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsArticlePayload>
-        }
-        findFirst: {
-          args: Prisma.NewsArticleFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsArticlePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.NewsArticleFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsArticlePayload>
-        }
-        findMany: {
-          args: Prisma.NewsArticleFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsArticlePayload>[]
-        }
-        create: {
-          args: Prisma.NewsArticleCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsArticlePayload>
-        }
-        createMany: {
-          args: Prisma.NewsArticleCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.NewsArticleCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsArticlePayload>[]
-        }
-        delete: {
-          args: Prisma.NewsArticleDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsArticlePayload>
-        }
-        update: {
-          args: Prisma.NewsArticleUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsArticlePayload>
-        }
-        deleteMany: {
-          args: Prisma.NewsArticleDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.NewsArticleUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.NewsArticleUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsArticlePayload>[]
-        }
-        upsert: {
-          args: Prisma.NewsArticleUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsArticlePayload>
-        }
-        aggregate: {
-          args: Prisma.NewsArticleAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateNewsArticle>
-        }
-        groupBy: {
-          args: Prisma.NewsArticleGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.NewsArticleGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.NewsArticleCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.NewsArticleCountAggregateOutputType> | number
-        }
-      }
-    }
-    SocialSentimentAggregate: {
-      payload: Prisma.$SocialSentimentAggregatePayload<ExtArgs>
-      fields: Prisma.SocialSentimentAggregateFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.SocialSentimentAggregateFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialSentimentAggregatePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.SocialSentimentAggregateFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialSentimentAggregatePayload>
-        }
-        findFirst: {
-          args: Prisma.SocialSentimentAggregateFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialSentimentAggregatePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.SocialSentimentAggregateFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialSentimentAggregatePayload>
-        }
-        findMany: {
-          args: Prisma.SocialSentimentAggregateFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialSentimentAggregatePayload>[]
-        }
-        create: {
-          args: Prisma.SocialSentimentAggregateCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialSentimentAggregatePayload>
-        }
-        createMany: {
-          args: Prisma.SocialSentimentAggregateCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.SocialSentimentAggregateCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialSentimentAggregatePayload>[]
-        }
-        delete: {
-          args: Prisma.SocialSentimentAggregateDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialSentimentAggregatePayload>
-        }
-        update: {
-          args: Prisma.SocialSentimentAggregateUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialSentimentAggregatePayload>
-        }
-        deleteMany: {
-          args: Prisma.SocialSentimentAggregateDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.SocialSentimentAggregateUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.SocialSentimentAggregateUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialSentimentAggregatePayload>[]
-        }
-        upsert: {
-          args: Prisma.SocialSentimentAggregateUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialSentimentAggregatePayload>
-        }
-        aggregate: {
-          args: Prisma.SocialSentimentAggregateAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateSocialSentimentAggregate>
-        }
-        groupBy: {
-          args: Prisma.SocialSentimentAggregateGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.SocialSentimentAggregateGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.SocialSentimentAggregateCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.SocialSentimentAggregateCountAggregateOutputType> | number
         }
       }
     }
@@ -2453,15 +2228,6 @@ export const UserSignalSubscriptionScalarFieldEnum = {
 export type UserSignalSubscriptionScalarFieldEnum = (typeof UserSignalSubscriptionScalarFieldEnum)[keyof typeof UserSignalSubscriptionScalarFieldEnum]
 
 
-export const UserSignalPreferenceScalarFieldEnum = {
-  userId: 'userId',
-  intervals: 'intervals',
-  updatedAt: 'updatedAt'
-} as const
-
-export type UserSignalPreferenceScalarFieldEnum = (typeof UserSignalPreferenceScalarFieldEnum)[keyof typeof UserSignalPreferenceScalarFieldEnum]
-
-
 export const NotificationLogScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2505,43 +2271,6 @@ export const TradingAnalyticsScalarFieldEnum = {
 } as const
 
 export type TradingAnalyticsScalarFieldEnum = (typeof TradingAnalyticsScalarFieldEnum)[keyof typeof TradingAnalyticsScalarFieldEnum]
-
-
-export const NewsArticleScalarFieldEnum = {
-  id: 'id',
-  source: 'source',
-  headline: 'headline',
-  summary: 'summary',
-  url: 'url',
-  publishedAt: 'publishedAt',
-  isRelevant: 'isRelevant',
-  category: 'category',
-  sentiment: 'sentiment',
-  symbols: 'symbols',
-  importance: 'importance',
-  tradingImplications: 'tradingImplications',
-  affectedMarkets: 'affectedMarkets',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type NewsArticleScalarFieldEnum = (typeof NewsArticleScalarFieldEnum)[keyof typeof NewsArticleScalarFieldEnum]
-
-
-export const SocialSentimentAggregateScalarFieldEnum = {
-  id: 'id',
-  symbol: 'symbol',
-  bullishScore: 'bullishScore',
-  bearishScore: 'bearishScore',
-  neutralScore: 'neutralScore',
-  dominantSentiment: 'dominantSentiment',
-  postCount: 'postCount',
-  topicCloud: 'topicCloud',
-  summary: 'summary',
-  sampledAt: 'sampledAt'
-} as const
-
-export type SocialSentimentAggregateScalarFieldEnum = (typeof SocialSentimentAggregateScalarFieldEnum)[keyof typeof SocialSentimentAggregateScalarFieldEnum]
 
 
 export const QueueJobScalarFieldEnum = {
@@ -3222,11 +2951,8 @@ export type GlobalOmitConfig = {
   signalAlert?: Prisma.SignalAlertOmit
   signalZone?: Prisma.SignalZoneOmit
   userSignalSubscription?: Prisma.UserSignalSubscriptionOmit
-  userSignalPreference?: Prisma.UserSignalPreferenceOmit
   notificationLog?: Prisma.NotificationLogOmit
   tradingAnalytics?: Prisma.TradingAnalyticsOmit
-  newsArticle?: Prisma.NewsArticleOmit
-  socialSentimentAggregate?: Prisma.SocialSentimentAggregateOmit
   queueJob?: Prisma.QueueJobOmit
   metricsCounter?: Prisma.MetricsCounterOmit
   metricsGauge?: Prisma.MetricsGaugeOmit

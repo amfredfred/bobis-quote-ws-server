@@ -61,11 +61,8 @@ export const ModelName = {
   SignalAlert: 'SignalAlert',
   SignalZone: 'SignalZone',
   UserSignalSubscription: 'UserSignalSubscription',
-  UserSignalPreference: 'UserSignalPreference',
   NotificationLog: 'NotificationLog',
   TradingAnalytics: 'TradingAnalytics',
-  NewsArticle: 'NewsArticle',
-  SocialSentimentAggregate: 'SocialSentimentAggregate',
   QueueJob: 'QueueJob',
   MetricsCounter: 'MetricsCounter',
   MetricsGauge: 'MetricsGauge',
@@ -378,15 +375,6 @@ export const UserSignalSubscriptionScalarFieldEnum = {
 export type UserSignalSubscriptionScalarFieldEnum = (typeof UserSignalSubscriptionScalarFieldEnum)[keyof typeof UserSignalSubscriptionScalarFieldEnum]
 
 
-export const UserSignalPreferenceScalarFieldEnum = {
-  userId: 'userId',
-  intervals: 'intervals',
-  updatedAt: 'updatedAt'
-} as const
-
-export type UserSignalPreferenceScalarFieldEnum = (typeof UserSignalPreferenceScalarFieldEnum)[keyof typeof UserSignalPreferenceScalarFieldEnum]
-
-
 export const NotificationLogScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -430,43 +418,6 @@ export const TradingAnalyticsScalarFieldEnum = {
 } as const
 
 export type TradingAnalyticsScalarFieldEnum = (typeof TradingAnalyticsScalarFieldEnum)[keyof typeof TradingAnalyticsScalarFieldEnum]
-
-
-export const NewsArticleScalarFieldEnum = {
-  id: 'id',
-  source: 'source',
-  headline: 'headline',
-  summary: 'summary',
-  url: 'url',
-  publishedAt: 'publishedAt',
-  isRelevant: 'isRelevant',
-  category: 'category',
-  sentiment: 'sentiment',
-  symbols: 'symbols',
-  importance: 'importance',
-  tradingImplications: 'tradingImplications',
-  affectedMarkets: 'affectedMarkets',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type NewsArticleScalarFieldEnum = (typeof NewsArticleScalarFieldEnum)[keyof typeof NewsArticleScalarFieldEnum]
-
-
-export const SocialSentimentAggregateScalarFieldEnum = {
-  id: 'id',
-  symbol: 'symbol',
-  bullishScore: 'bullishScore',
-  bearishScore: 'bearishScore',
-  neutralScore: 'neutralScore',
-  dominantSentiment: 'dominantSentiment',
-  postCount: 'postCount',
-  topicCloud: 'topicCloud',
-  summary: 'summary',
-  sampledAt: 'sampledAt'
-} as const
-
-export type SocialSentimentAggregateScalarFieldEnum = (typeof SocialSentimentAggregateScalarFieldEnum)[keyof typeof SocialSentimentAggregateScalarFieldEnum]
 
 
 export const QueueJobScalarFieldEnum = {
