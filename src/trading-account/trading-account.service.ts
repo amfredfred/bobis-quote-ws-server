@@ -15,7 +15,6 @@ export interface TradingAccount {
   userId: string;
   name: string;
   accountNumber: string;
-  accountType: 'prop' | 'personal' | 'demo';
   currency: string;
   startBalance: number;
   currentBalance: number | null;
@@ -26,15 +25,6 @@ export interface TradingAccount {
   lastSyncAt: string | null;
   lastError: string | null;
   lastErrorAt: string | null;
-  maxDailyLoss: number | null;
-  maxTotalDrawdown: number | null;
-  minProfitTarget: number | null;
-  maxTradesPerDay: number | null;
-  tradingDaysLeft: number | null;
-  drawdownWarningPercent: number | null;
-  profitWarningPercent: number | null;
-  tradesWarningThreshold: number | null;
-  daysWarningThreshold: number | null;
   todayTradeCount: number;
   todayPnl: number;
   isActive: boolean;
@@ -45,7 +35,6 @@ export interface TradingAccount {
 export interface CreateTradingAccountDto {
   name: string;
   accountNumber: string;
-  accountType?: 'prop' | 'personal' | 'demo';
   currency?: string;
   startBalance: number;
   currentBalance?: number;
@@ -54,12 +43,6 @@ export interface CreateTradingAccountDto {
   metaApiAccountId?: string;
   autoTradeEnabled?: boolean;
   riskConfig?: Partial<AccountRiskConfig>;
-  // Challenge rules
-  maxDailyLoss?: number;
-  maxTotalDrawdown?: number;
-  minProfitTarget?: number;
-  maxTradesPerDay?: number;
-  tradingDaysLeft?: number;
 }
 
 export interface UpdateTradingAccountDto extends Partial<CreateTradingAccountDto> {
@@ -126,7 +109,6 @@ export class TradingAccountService {
         userId,
         name: dto.name,
         accountNumber: dto.accountNumber,
-        accountType: (dto.accountType ?? 'personal') as any,
         currency: dto.currency ?? 'usd',
         startBalance: dto.startBalance,
         currentBalance: dto.currentBalance ?? dto.startBalance,
@@ -134,11 +116,6 @@ export class TradingAccountService {
         metaApiAccountId: dto.metaApiAccountId ?? null,
         autoTradeEnabled: dto.autoTradeEnabled ?? false,
         riskConfig: toJson(riskConfig),
-        maxDailyLoss: dto.maxDailyLoss ?? null,
-        maxTotalDrawdown: dto.maxTotalDrawdown ?? null,
-        minProfitTarget: dto.minProfitTarget ?? null,
-        maxTradesPerDay: dto.maxTradesPerDay ?? null,
-        tradingDaysLeft: dto.tradingDaysLeft ?? null,
       },
     });
 
@@ -159,7 +136,6 @@ export class TradingAccountService {
       data.riskConfig = toJson({ ...(existing?.riskConfig as object ?? {}), ...dto.riskConfig });
     }
 
-    if (dto.accountType) data['accountType'] = dto.accountType;
     if (dto.platform) data['platform'] = dto.platform;
 
     const row = await this.prisma.tradingAccount.update({ where: { id }, data });
@@ -217,12 +193,6 @@ export class TradingAccountService {
     const drawdownAbs = Math.max(0, peak - currentBal);
     const drawdownPct = peak > 0 ? (drawdownAbs / peak) * 100 : 0;
 
-    // maxTotalDrawdown and maxDailyLoss are stored as % — convert to $ for breach check
-    const maxDDDollar = account.maxTotalDrawdown != null
-      ? startBalance * (account.maxTotalDrawdown / 100) : null;
-    const maxDailyDollar = account.maxDailyLoss != null
-      ? startBalance * (account.maxDailyLoss / 100) : null;
-
     return {
       accountId: id,
       accountName: account.name,
@@ -236,19 +206,8 @@ export class TradingAccountService {
       winRate: closed > 0 ? (wins / closed) * 100 : 0,
       totalTrades: closed,
       isActive: account.isActive,
-      tradingDaysLeft: account.tradingDaysLeft,
-      // Limits (as stored — % for drawdown, $ for profit target)
-      maxTotalDrawdownPct: account.maxTotalDrawdown,
-      maxDailyLossPct: account.maxDailyLoss,
-      minProfitTarget: account.minProfitTarget,
-      maxTradesPerDay: account.maxTradesPerDay,
-      // Breach flags — correct unit comparison
-      hasBreachedDrawdown: maxDDDollar != null ? drawdownAbs >= maxDDDollar : false,
-      hasReachedProfitTarget: account.minProfitTarget != null ? totalPnl >= account.minProfitTarget : false,
       todayPnl: account.todayPnl,
       todayTradeCount: account.todayTradeCount,
-      hasHitDailyLoss: maxDailyDollar != null ? Math.abs(account.todayPnl) >= maxDailyDollar : false,
-      hasHitMaxTrades: account.maxTradesPerDay != null ? account.todayTradeCount >= account.maxTradesPerDay : false,
     };
   }
 
@@ -260,7 +219,6 @@ export class TradingAccountService {
       userId: row.userId,
       name: row.name,
       accountNumber: row.accountNumber,
-      accountType: row.accountType,
       currency: row.currency,
       startBalance: row.startBalance,
       currentBalance: row.currentBalance ?? null,
@@ -271,15 +229,6 @@ export class TradingAccountService {
       lastSyncAt: row.lastSyncAt?.toISOString() ?? null,
       lastError: row.lastError ?? null,
       lastErrorAt: row.lastErrorAt?.toISOString() ?? null,
-      maxDailyLoss: row.maxDailyLoss ?? null,
-      maxTotalDrawdown: row.maxTotalDrawdown ?? null,
-      minProfitTarget: row.minProfitTarget ?? null,
-      maxTradesPerDay: row.maxTradesPerDay ?? null,
-      tradingDaysLeft: row.tradingDaysLeft ?? null,
-      drawdownWarningPercent: row.drawdownWarningPercent ?? null,
-      profitWarningPercent: row.profitWarningPercent ?? null,
-      tradesWarningThreshold: row.tradesWarningThreshold ?? null,
-      daysWarningThreshold: row.daysWarningThreshold ?? null,
       todayTradeCount: row.todayTradeCount,
       todayPnl: row.todayPnl,
       isActive: row.isActive,

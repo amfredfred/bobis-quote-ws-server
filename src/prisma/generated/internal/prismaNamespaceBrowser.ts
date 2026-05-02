@@ -111,13 +111,13 @@ export const ProfileScalarFieldEnum = {
   lastNotificationReset: 'lastNotificationReset',
   proExpiresAt: 'proExpiresAt',
   revenuecatAppUserId: 'revenuecatAppUserId',
-  subscriptionStatus: 'subscriptionStatus',
   timezone: 'timezone',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   subscriptionTier: 'subscriptionTier',
-  trialStartedAt: 'trialStartedAt',
-  trialEndsAt: 'trialEndsAt'
+  subscriptionStatus: 'subscriptionStatus',
+  trialEndsAt: 'trialEndsAt',
+  trialStartedAt: 'trialStartedAt'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
@@ -126,7 +126,6 @@ export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeo
 export const TradingAccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  accountType: 'accountType',
   name: 'name',
   accountNumber: 'accountNumber',
   currency: 'currency',
@@ -139,15 +138,6 @@ export const TradingAccountScalarFieldEnum = {
   lastSyncAt: 'lastSyncAt',
   lastError: 'lastError',
   lastErrorAt: 'lastErrorAt',
-  maxDailyLoss: 'maxDailyLoss',
-  maxTotalDrawdown: 'maxTotalDrawdown',
-  minProfitTarget: 'minProfitTarget',
-  maxTradesPerDay: 'maxTradesPerDay',
-  tradingDaysLeft: 'tradingDaysLeft',
-  drawdownWarningPercent: 'drawdownWarningPercent',
-  profitWarningPercent: 'profitWarningPercent',
-  tradesWarningThreshold: 'tradesWarningThreshold',
-  daysWarningThreshold: 'daysWarningThreshold',
   todayTradeCount: 'todayTradeCount',
   todayPnl: 'todayPnl',
   lastStatsReset: 'lastStatsReset',
@@ -249,16 +239,16 @@ export const JournalTradeScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   profileUserId: 'profileUserId',
-  signalId: 'signalId',
   closeReason: 'closeReason',
-  realizedRR: 'realizedRR',
   entryLots: 'entryLots',
+  realizedRR: 'realizedRR',
+  signalId: 'signalId',
+  slHit: 'slHit',
+  slHitAt: 'slHitAt',
   tp1Hit: 'tp1Hit',
   tp1HitAt: 'tp1HitAt',
   tp2Hit: 'tp2Hit',
-  tp2HitAt: 'tp2HitAt',
-  slHit: 'slHit',
-  slHitAt: 'slHitAt'
+  tp2HitAt: 'tp2HitAt'
 } as const
 
 export type JournalTradeScalarFieldEnum = (typeof JournalTradeScalarFieldEnum)[keyof typeof JournalTradeScalarFieldEnum]

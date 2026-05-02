@@ -82,15 +82,6 @@ export const CandlePattern = {
 export type CandlePattern = (typeof CandlePattern)[keyof typeof CandlePattern]
 
 
-export const JournalAccountType = {
-  prop: 'prop',
-  personal: 'personal',
-  demo: 'demo'
-} as const
-
-export type JournalAccountType = (typeof JournalAccountType)[keyof typeof JournalAccountType]
-
-
 export const BrokerPlatform = {
   MT5: 'MT5',
   MT4: 'MT4',

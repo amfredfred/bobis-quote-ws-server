@@ -29,13 +29,13 @@ model Profile {
   lastNotificationReset     DateTime?                   @map("last_notification_reset") @db.Timestamptz(6)
   proExpiresAt              DateTime?                   @map("pro_expires_at") @db.Timestamptz(6)
   revenuecatAppUserId       String?                     @map("revenuecat_app_user_id")
-  subscriptionStatus        SubscriptionStatus?         @map("subscription_status")
   timezone                  String                      @default("America/New_York")
   createdAt                 DateTime                    @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt                 DateTime?                   @updatedAt @map("updated_at") @db.Timestamptz(6)
   subscriptionTier          String?                     @map("subscription_tier")
-  trialStartedAt            DateTime?                   @map("trial_started_at")
+  subscriptionStatus        SubscriptionStatus?         @map("subscription_status")
   trialEndsAt               DateTime?                   @map("trial_end_at")
+  trialStartedAt            DateTime?                   @map("trial_started_at")
   journalTrades             JournalTrade[]
   notificationLogs          NotificationLog[]
   referralLink              ReferralLink?
@@ -55,7 +55,6 @@ model Profile {
 model TradingAccount {
   id                     String             @id @default(uuid()) @db.Uuid
   userId                 String             @map("user_id") @db.Uuid
-  accountType            JournalAccountType @default(personal) @map("account_type")
   name                   String
   accountNumber          String             @unique @map("account_number")
   currency               String             @default("usd")
@@ -68,15 +67,6 @@ model TradingAccount {
   lastSyncAt             DateTime?          @map("last_sync_at") @db.Timestamptz(6)
   lastError              String?            @map("last_error")
   lastErrorAt            DateTime?          @map("last_error_at")
-  maxDailyLoss           Float?             @map("max_daily_loss")
-  maxTotalDrawdown       Float?             @map("max_total_drawdown")
-  minProfitTarget        Float?             @map("min_profit_target")
-  maxTradesPerDay        Int?               @map("max_trades_per_day")
-  tradingDaysLeft        Int?               @map("trading_days_left")
-  drawdownWarningPercent Float?             @default(80) @map("drawdown_warning_percent")
-  profitWarningPercent   Float?             @default(90) @map("profit_warning_percent")
-  tradesWarningThreshold Int?               @default(1) @map("trades_warning_threshold")
-  daysWarningThreshold   Int?               @default(5) @map("days_warning_threshold")
   todayTradeCount        Int                @default(0) @map("today_trade_count")
   todayPnl               Float              @default(0) @map("today_pnl")
   lastStatsReset         DateTime?          @map("last_stats_reset") @db.Timestamptz(6)
@@ -167,60 +157,49 @@ model Trade {
 }
 
 model JournalTrade {
-  id              String              @id @default(uuid()) @db.Uuid
-  userId          String              @map("user_id") @db.Uuid
-  accountId       String              @map("account_id") @db.Uuid
-  // Nullable: auto-imported execution trades have no user-selected strategy
-  strategyId      String?             @map("strategy_id") @db.Uuid
+  id              String                 @id @default(uuid()) @db.Uuid
+  userId          String                 @map("user_id") @db.Uuid
+  accountId       String                 @map("account_id") @db.Uuid
+  strategyId      String?                @map("strategy_id") @db.Uuid
   symbol          String
   direction       TradeDirection
-  status          JournalTradeStatus  @default(pending)
+  status          JournalTradeStatus     @default(pending)
   result          JournalTradeResult?
-  entryPrice      Float               @map("entry_price")
-  exitPrice       Float?              @map("exit_price")
+  entryPrice      Float                  @map("entry_price")
+  exitPrice       Float?                 @map("exit_price")
   quantity        Float
-  ticketId        String?             @map("ticket_id")
+  ticketId        String?                @map("ticket_id")
   pnl             Float?
-  pnlPercent      Float?              @map("pnl_percent")
-  commission      Float               @default(0)
-  swap            Float               @default(0)
-  followedPlan    Boolean?            @map("followed_plan")
-  convictionLevel Conviction?         @map("conviction_level")
-  emotionBefore   Emotion?            @map("emotion_before")
-  emotionAfter    Emotion?            @map("emotion_after")
-  notesBefore     String?             @map("notes_before")
-  notesAfter      String?             @map("notes_after")
-  screenshotUrls  String[]            @map("screenshot_urls")
-  tradeDate       DateTime?           @map("trade_date")
-  closedAt        DateTime?           @map("closed_at")
-  source          String              @default("manual")
-  createdAt       DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt       DateTime?           @updatedAt @map("updated_at") @db.Timestamptz(6)
-  profileUserId   String?             @db.Uuid
-
-  // ── Execution engine context (populated for auto-trades, null for manual) ──
-  // Linked signal alert ID — enables the signal→trade linkage UI
-  signalId    String?      @map("signal_id") @db.Uuid
-  // Why the trade was closed
-  closeReason CloseReason? @map("close_reason")
-  // Realised R:R at close (2.0 = +2R, -1.0 = -1R)
-  realizedRR  Float?       @map("realized_rr")
-  // Entry lot size before TP1 partial close
-  entryLots   Float?       @map("entry_lots")
-  // TP1 lifecycle
-  tp1Hit      Boolean?     @map("tp1_hit")
-  tp1HitAt    DateTime?    @map("tp1_hit_at")
-  // TP2 lifecycle
-  tp2Hit      Boolean?     @map("tp2_hit")
-  tp2HitAt    DateTime?    @map("tp2_hit_at")
-  // SL lifecycle
-  slHit       Boolean?     @map("sl_hit")
-  slHitAt     DateTime?    @map("sl_hit_at")
-
-  checklistItems JournalChecklistItem[]
-  account        TradingAccount         @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  profile        Profile?               @relation(fields: [profileUserId], references: [userId])
-  strategy       TradingStrategy?       @relation(fields: [strategyId], references: [id], onDelete: Cascade)
+  pnlPercent      Float?                 @map("pnl_percent")
+  commission      Float                  @default(0)
+  swap            Float                  @default(0)
+  followedPlan    Boolean?               @map("followed_plan")
+  convictionLevel Conviction?            @map("conviction_level")
+  emotionBefore   Emotion?               @map("emotion_before")
+  emotionAfter    Emotion?               @map("emotion_after")
+  notesBefore     String?                @map("notes_before")
+  notesAfter      String?                @map("notes_after")
+  screenshotUrls  String[]               @map("screenshot_urls")
+  tradeDate       DateTime?              @map("trade_date")
+  closedAt        DateTime?              @map("closed_at")
+  source          String                 @default("manual")
+  createdAt       DateTime               @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime?              @updatedAt @map("updated_at") @db.Timestamptz(6)
+  profileUserId   String?                @db.Uuid
+  closeReason     CloseReason?           @map("close_reason")
+  entryLots       Float?                 @map("entry_lots")
+  realizedRR      Float?                 @map("realized_rr")
+  signalId        String?                @map("signal_id") @db.Uuid
+  slHit           Boolean?               @map("sl_hit")
+  slHitAt         DateTime?              @map("sl_hit_at")
+  tp1Hit          Boolean?               @map("tp1_hit")
+  tp1HitAt        DateTime?              @map("tp1_hit_at")
+  tp2Hit          Boolean?               @map("tp2_hit")
+  tp2HitAt        DateTime?              @map("tp2_hit_at")
+  checklistItems  JournalChecklistItem[]
+  account         TradingAccount         @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  profile         Profile?               @relation(fields: [profileUserId], references: [userId])
+  strategy        TradingStrategy?       @relation(fields: [strategyId], references: [id], onDelete: Cascade)
 
   @@index([signalId])
   @@index([source])
@@ -682,15 +661,6 @@ enum CandlePattern {
   HAMMER
 
   @@map("candle_pattern")
-  @@schema("public")
-}
-
-enum JournalAccountType {
-  prop
-  personal
-  demo
-
-  @@map("journal_account_type")
   @@schema("public")
 }
 

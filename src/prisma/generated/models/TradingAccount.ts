@@ -29,15 +29,6 @@ export type AggregateTradingAccount = {
 export type TradingAccountAvgAggregateOutputType = {
   startBalance: number | null
   currentBalance: number | null
-  maxDailyLoss: number | null
-  maxTotalDrawdown: number | null
-  minProfitTarget: number | null
-  maxTradesPerDay: number | null
-  tradingDaysLeft: number | null
-  drawdownWarningPercent: number | null
-  profitWarningPercent: number | null
-  tradesWarningThreshold: number | null
-  daysWarningThreshold: number | null
   todayTradeCount: number | null
   todayPnl: number | null
 }
@@ -45,15 +36,6 @@ export type TradingAccountAvgAggregateOutputType = {
 export type TradingAccountSumAggregateOutputType = {
   startBalance: number | null
   currentBalance: number | null
-  maxDailyLoss: number | null
-  maxTotalDrawdown: number | null
-  minProfitTarget: number | null
-  maxTradesPerDay: number | null
-  tradingDaysLeft: number | null
-  drawdownWarningPercent: number | null
-  profitWarningPercent: number | null
-  tradesWarningThreshold: number | null
-  daysWarningThreshold: number | null
   todayTradeCount: number | null
   todayPnl: number | null
 }
@@ -61,7 +43,6 @@ export type TradingAccountSumAggregateOutputType = {
 export type TradingAccountMinAggregateOutputType = {
   id: string | null
   userId: string | null
-  accountType: $Enums.JournalAccountType | null
   name: string | null
   accountNumber: string | null
   currency: string | null
@@ -73,15 +54,6 @@ export type TradingAccountMinAggregateOutputType = {
   lastSyncAt: Date | null
   lastError: string | null
   lastErrorAt: Date | null
-  maxDailyLoss: number | null
-  maxTotalDrawdown: number | null
-  minProfitTarget: number | null
-  maxTradesPerDay: number | null
-  tradingDaysLeft: number | null
-  drawdownWarningPercent: number | null
-  profitWarningPercent: number | null
-  tradesWarningThreshold: number | null
-  daysWarningThreshold: number | null
   todayTradeCount: number | null
   todayPnl: number | null
   lastStatsReset: Date | null
@@ -93,7 +65,6 @@ export type TradingAccountMinAggregateOutputType = {
 export type TradingAccountMaxAggregateOutputType = {
   id: string | null
   userId: string | null
-  accountType: $Enums.JournalAccountType | null
   name: string | null
   accountNumber: string | null
   currency: string | null
@@ -105,15 +76,6 @@ export type TradingAccountMaxAggregateOutputType = {
   lastSyncAt: Date | null
   lastError: string | null
   lastErrorAt: Date | null
-  maxDailyLoss: number | null
-  maxTotalDrawdown: number | null
-  minProfitTarget: number | null
-  maxTradesPerDay: number | null
-  tradingDaysLeft: number | null
-  drawdownWarningPercent: number | null
-  profitWarningPercent: number | null
-  tradesWarningThreshold: number | null
-  daysWarningThreshold: number | null
   todayTradeCount: number | null
   todayPnl: number | null
   lastStatsReset: Date | null
@@ -125,7 +87,6 @@ export type TradingAccountMaxAggregateOutputType = {
 export type TradingAccountCountAggregateOutputType = {
   id: number
   userId: number
-  accountType: number
   name: number
   accountNumber: number
   currency: number
@@ -138,15 +99,6 @@ export type TradingAccountCountAggregateOutputType = {
   lastSyncAt: number
   lastError: number
   lastErrorAt: number
-  maxDailyLoss: number
-  maxTotalDrawdown: number
-  minProfitTarget: number
-  maxTradesPerDay: number
-  tradingDaysLeft: number
-  drawdownWarningPercent: number
-  profitWarningPercent: number
-  tradesWarningThreshold: number
-  daysWarningThreshold: number
   todayTradeCount: number
   todayPnl: number
   lastStatsReset: number
@@ -160,15 +112,6 @@ export type TradingAccountCountAggregateOutputType = {
 export type TradingAccountAvgAggregateInputType = {
   startBalance?: true
   currentBalance?: true
-  maxDailyLoss?: true
-  maxTotalDrawdown?: true
-  minProfitTarget?: true
-  maxTradesPerDay?: true
-  tradingDaysLeft?: true
-  drawdownWarningPercent?: true
-  profitWarningPercent?: true
-  tradesWarningThreshold?: true
-  daysWarningThreshold?: true
   todayTradeCount?: true
   todayPnl?: true
 }
@@ -176,15 +119,6 @@ export type TradingAccountAvgAggregateInputType = {
 export type TradingAccountSumAggregateInputType = {
   startBalance?: true
   currentBalance?: true
-  maxDailyLoss?: true
-  maxTotalDrawdown?: true
-  minProfitTarget?: true
-  maxTradesPerDay?: true
-  tradingDaysLeft?: true
-  drawdownWarningPercent?: true
-  profitWarningPercent?: true
-  tradesWarningThreshold?: true
-  daysWarningThreshold?: true
   todayTradeCount?: true
   todayPnl?: true
 }
@@ -192,7 +126,6 @@ export type TradingAccountSumAggregateInputType = {
 export type TradingAccountMinAggregateInputType = {
   id?: true
   userId?: true
-  accountType?: true
   name?: true
   accountNumber?: true
   currency?: true
@@ -204,15 +137,6 @@ export type TradingAccountMinAggregateInputType = {
   lastSyncAt?: true
   lastError?: true
   lastErrorAt?: true
-  maxDailyLoss?: true
-  maxTotalDrawdown?: true
-  minProfitTarget?: true
-  maxTradesPerDay?: true
-  tradingDaysLeft?: true
-  drawdownWarningPercent?: true
-  profitWarningPercent?: true
-  tradesWarningThreshold?: true
-  daysWarningThreshold?: true
   todayTradeCount?: true
   todayPnl?: true
   lastStatsReset?: true
@@ -224,7 +148,6 @@ export type TradingAccountMinAggregateInputType = {
 export type TradingAccountMaxAggregateInputType = {
   id?: true
   userId?: true
-  accountType?: true
   name?: true
   accountNumber?: true
   currency?: true
@@ -236,15 +159,6 @@ export type TradingAccountMaxAggregateInputType = {
   lastSyncAt?: true
   lastError?: true
   lastErrorAt?: true
-  maxDailyLoss?: true
-  maxTotalDrawdown?: true
-  minProfitTarget?: true
-  maxTradesPerDay?: true
-  tradingDaysLeft?: true
-  drawdownWarningPercent?: true
-  profitWarningPercent?: true
-  tradesWarningThreshold?: true
-  daysWarningThreshold?: true
   todayTradeCount?: true
   todayPnl?: true
   lastStatsReset?: true
@@ -256,7 +170,6 @@ export type TradingAccountMaxAggregateInputType = {
 export type TradingAccountCountAggregateInputType = {
   id?: true
   userId?: true
-  accountType?: true
   name?: true
   accountNumber?: true
   currency?: true
@@ -269,15 +182,6 @@ export type TradingAccountCountAggregateInputType = {
   lastSyncAt?: true
   lastError?: true
   lastErrorAt?: true
-  maxDailyLoss?: true
-  maxTotalDrawdown?: true
-  minProfitTarget?: true
-  maxTradesPerDay?: true
-  tradingDaysLeft?: true
-  drawdownWarningPercent?: true
-  profitWarningPercent?: true
-  tradesWarningThreshold?: true
-  daysWarningThreshold?: true
   todayTradeCount?: true
   todayPnl?: true
   lastStatsReset?: true
@@ -376,7 +280,6 @@ export type TradingAccountGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 export type TradingAccountGroupByOutputType = {
   id: string
   userId: string
-  accountType: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency: string
@@ -389,15 +292,6 @@ export type TradingAccountGroupByOutputType = {
   lastSyncAt: Date | null
   lastError: string | null
   lastErrorAt: Date | null
-  maxDailyLoss: number | null
-  maxTotalDrawdown: number | null
-  minProfitTarget: number | null
-  maxTradesPerDay: number | null
-  tradingDaysLeft: number | null
-  drawdownWarningPercent: number | null
-  profitWarningPercent: number | null
-  tradesWarningThreshold: number | null
-  daysWarningThreshold: number | null
   todayTradeCount: number
   todayPnl: number
   lastStatsReset: Date | null
@@ -432,7 +326,6 @@ export type TradingAccountWhereInput = {
   NOT?: Prisma.TradingAccountWhereInput | Prisma.TradingAccountWhereInput[]
   id?: Prisma.UuidFilter<"TradingAccount"> | string
   userId?: Prisma.UuidFilter<"TradingAccount"> | string
-  accountType?: Prisma.EnumJournalAccountTypeFilter<"TradingAccount"> | $Enums.JournalAccountType
   name?: Prisma.StringFilter<"TradingAccount"> | string
   accountNumber?: Prisma.StringFilter<"TradingAccount"> | string
   currency?: Prisma.StringFilter<"TradingAccount"> | string
@@ -445,15 +338,6 @@ export type TradingAccountWhereInput = {
   lastSyncAt?: Prisma.DateTimeNullableFilter<"TradingAccount"> | Date | string | null
   lastError?: Prisma.StringNullableFilter<"TradingAccount"> | string | null
   lastErrorAt?: Prisma.DateTimeNullableFilter<"TradingAccount"> | Date | string | null
-  maxDailyLoss?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  maxTotalDrawdown?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  minProfitTarget?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  maxTradesPerDay?: Prisma.IntNullableFilter<"TradingAccount"> | number | null
-  tradingDaysLeft?: Prisma.IntNullableFilter<"TradingAccount"> | number | null
-  drawdownWarningPercent?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  profitWarningPercent?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  tradesWarningThreshold?: Prisma.IntNullableFilter<"TradingAccount"> | number | null
-  daysWarningThreshold?: Prisma.IntNullableFilter<"TradingAccount"> | number | null
   todayTradeCount?: Prisma.IntFilter<"TradingAccount"> | number
   todayPnl?: Prisma.FloatFilter<"TradingAccount"> | number
   lastStatsReset?: Prisma.DateTimeNullableFilter<"TradingAccount"> | Date | string | null
@@ -469,7 +353,6 @@ export type TradingAccountWhereInput = {
 export type TradingAccountOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  accountType?: Prisma.SortOrder
   name?: Prisma.SortOrder
   accountNumber?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -482,15 +365,6 @@ export type TradingAccountOrderByWithRelationInput = {
   lastSyncAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lastError?: Prisma.SortOrderInput | Prisma.SortOrder
   lastErrorAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  maxDailyLoss?: Prisma.SortOrderInput | Prisma.SortOrder
-  maxTotalDrawdown?: Prisma.SortOrderInput | Prisma.SortOrder
-  minProfitTarget?: Prisma.SortOrderInput | Prisma.SortOrder
-  maxTradesPerDay?: Prisma.SortOrderInput | Prisma.SortOrder
-  tradingDaysLeft?: Prisma.SortOrderInput | Prisma.SortOrder
-  drawdownWarningPercent?: Prisma.SortOrderInput | Prisma.SortOrder
-  profitWarningPercent?: Prisma.SortOrderInput | Prisma.SortOrder
-  tradesWarningThreshold?: Prisma.SortOrderInput | Prisma.SortOrder
-  daysWarningThreshold?: Prisma.SortOrderInput | Prisma.SortOrder
   todayTradeCount?: Prisma.SortOrder
   todayPnl?: Prisma.SortOrder
   lastStatsReset?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -512,7 +386,6 @@ export type TradingAccountWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.TradingAccountWhereInput[]
   NOT?: Prisma.TradingAccountWhereInput | Prisma.TradingAccountWhereInput[]
   userId?: Prisma.UuidFilter<"TradingAccount"> | string
-  accountType?: Prisma.EnumJournalAccountTypeFilter<"TradingAccount"> | $Enums.JournalAccountType
   name?: Prisma.StringFilter<"TradingAccount"> | string
   currency?: Prisma.StringFilter<"TradingAccount"> | string
   startBalance?: Prisma.FloatFilter<"TradingAccount"> | number
@@ -523,15 +396,6 @@ export type TradingAccountWhereUniqueInput = Prisma.AtLeast<{
   lastSyncAt?: Prisma.DateTimeNullableFilter<"TradingAccount"> | Date | string | null
   lastError?: Prisma.StringNullableFilter<"TradingAccount"> | string | null
   lastErrorAt?: Prisma.DateTimeNullableFilter<"TradingAccount"> | Date | string | null
-  maxDailyLoss?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  maxTotalDrawdown?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  minProfitTarget?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  maxTradesPerDay?: Prisma.IntNullableFilter<"TradingAccount"> | number | null
-  tradingDaysLeft?: Prisma.IntNullableFilter<"TradingAccount"> | number | null
-  drawdownWarningPercent?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  profitWarningPercent?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  tradesWarningThreshold?: Prisma.IntNullableFilter<"TradingAccount"> | number | null
-  daysWarningThreshold?: Prisma.IntNullableFilter<"TradingAccount"> | number | null
   todayTradeCount?: Prisma.IntFilter<"TradingAccount"> | number
   todayPnl?: Prisma.FloatFilter<"TradingAccount"> | number
   lastStatsReset?: Prisma.DateTimeNullableFilter<"TradingAccount"> | Date | string | null
@@ -547,7 +411,6 @@ export type TradingAccountWhereUniqueInput = Prisma.AtLeast<{
 export type TradingAccountOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  accountType?: Prisma.SortOrder
   name?: Prisma.SortOrder
   accountNumber?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -560,15 +423,6 @@ export type TradingAccountOrderByWithAggregationInput = {
   lastSyncAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lastError?: Prisma.SortOrderInput | Prisma.SortOrder
   lastErrorAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  maxDailyLoss?: Prisma.SortOrderInput | Prisma.SortOrder
-  maxTotalDrawdown?: Prisma.SortOrderInput | Prisma.SortOrder
-  minProfitTarget?: Prisma.SortOrderInput | Prisma.SortOrder
-  maxTradesPerDay?: Prisma.SortOrderInput | Prisma.SortOrder
-  tradingDaysLeft?: Prisma.SortOrderInput | Prisma.SortOrder
-  drawdownWarningPercent?: Prisma.SortOrderInput | Prisma.SortOrder
-  profitWarningPercent?: Prisma.SortOrderInput | Prisma.SortOrder
-  tradesWarningThreshold?: Prisma.SortOrderInput | Prisma.SortOrder
-  daysWarningThreshold?: Prisma.SortOrderInput | Prisma.SortOrder
   todayTradeCount?: Prisma.SortOrder
   todayPnl?: Prisma.SortOrder
   lastStatsReset?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -588,7 +442,6 @@ export type TradingAccountScalarWhereWithAggregatesInput = {
   NOT?: Prisma.TradingAccountScalarWhereWithAggregatesInput | Prisma.TradingAccountScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"TradingAccount"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"TradingAccount"> | string
-  accountType?: Prisma.EnumJournalAccountTypeWithAggregatesFilter<"TradingAccount"> | $Enums.JournalAccountType
   name?: Prisma.StringWithAggregatesFilter<"TradingAccount"> | string
   accountNumber?: Prisma.StringWithAggregatesFilter<"TradingAccount"> | string
   currency?: Prisma.StringWithAggregatesFilter<"TradingAccount"> | string
@@ -601,15 +454,6 @@ export type TradingAccountScalarWhereWithAggregatesInput = {
   lastSyncAt?: Prisma.DateTimeNullableWithAggregatesFilter<"TradingAccount"> | Date | string | null
   lastError?: Prisma.StringNullableWithAggregatesFilter<"TradingAccount"> | string | null
   lastErrorAt?: Prisma.DateTimeNullableWithAggregatesFilter<"TradingAccount"> | Date | string | null
-  maxDailyLoss?: Prisma.FloatNullableWithAggregatesFilter<"TradingAccount"> | number | null
-  maxTotalDrawdown?: Prisma.FloatNullableWithAggregatesFilter<"TradingAccount"> | number | null
-  minProfitTarget?: Prisma.FloatNullableWithAggregatesFilter<"TradingAccount"> | number | null
-  maxTradesPerDay?: Prisma.IntNullableWithAggregatesFilter<"TradingAccount"> | number | null
-  tradingDaysLeft?: Prisma.IntNullableWithAggregatesFilter<"TradingAccount"> | number | null
-  drawdownWarningPercent?: Prisma.FloatNullableWithAggregatesFilter<"TradingAccount"> | number | null
-  profitWarningPercent?: Prisma.FloatNullableWithAggregatesFilter<"TradingAccount"> | number | null
-  tradesWarningThreshold?: Prisma.IntNullableWithAggregatesFilter<"TradingAccount"> | number | null
-  daysWarningThreshold?: Prisma.IntNullableWithAggregatesFilter<"TradingAccount"> | number | null
   todayTradeCount?: Prisma.IntWithAggregatesFilter<"TradingAccount"> | number
   todayPnl?: Prisma.FloatWithAggregatesFilter<"TradingAccount"> | number
   lastStatsReset?: Prisma.DateTimeNullableWithAggregatesFilter<"TradingAccount"> | Date | string | null
@@ -620,7 +464,6 @@ export type TradingAccountScalarWhereWithAggregatesInput = {
 
 export type TradingAccountCreateInput = {
   id?: string
-  accountType?: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency?: string
@@ -633,15 +476,6 @@ export type TradingAccountCreateInput = {
   lastSyncAt?: Date | string | null
   lastError?: string | null
   lastErrorAt?: Date | string | null
-  maxDailyLoss?: number | null
-  maxTotalDrawdown?: number | null
-  minProfitTarget?: number | null
-  maxTradesPerDay?: number | null
-  tradingDaysLeft?: number | null
-  drawdownWarningPercent?: number | null
-  profitWarningPercent?: number | null
-  tradesWarningThreshold?: number | null
-  daysWarningThreshold?: number | null
   todayTradeCount?: number
   todayPnl?: number
   lastStatsReset?: Date | string | null
@@ -657,7 +491,6 @@ export type TradingAccountCreateInput = {
 export type TradingAccountUncheckedCreateInput = {
   id?: string
   userId: string
-  accountType?: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency?: string
@@ -670,15 +503,6 @@ export type TradingAccountUncheckedCreateInput = {
   lastSyncAt?: Date | string | null
   lastError?: string | null
   lastErrorAt?: Date | string | null
-  maxDailyLoss?: number | null
-  maxTotalDrawdown?: number | null
-  minProfitTarget?: number | null
-  maxTradesPerDay?: number | null
-  tradingDaysLeft?: number | null
-  drawdownWarningPercent?: number | null
-  profitWarningPercent?: number | null
-  tradesWarningThreshold?: number | null
-  daysWarningThreshold?: number | null
   todayTradeCount?: number
   todayPnl?: number
   lastStatsReset?: Date | string | null
@@ -692,7 +516,6 @@ export type TradingAccountUncheckedCreateInput = {
 
 export type TradingAccountUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -705,15 +528,6 @@ export type TradingAccountUpdateInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -729,7 +543,6 @@ export type TradingAccountUpdateInput = {
 export type TradingAccountUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -742,15 +555,6 @@ export type TradingAccountUncheckedUpdateInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -765,7 +569,6 @@ export type TradingAccountUncheckedUpdateInput = {
 export type TradingAccountCreateManyInput = {
   id?: string
   userId: string
-  accountType?: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency?: string
@@ -778,15 +581,6 @@ export type TradingAccountCreateManyInput = {
   lastSyncAt?: Date | string | null
   lastError?: string | null
   lastErrorAt?: Date | string | null
-  maxDailyLoss?: number | null
-  maxTotalDrawdown?: number | null
-  minProfitTarget?: number | null
-  maxTradesPerDay?: number | null
-  tradingDaysLeft?: number | null
-  drawdownWarningPercent?: number | null
-  profitWarningPercent?: number | null
-  tradesWarningThreshold?: number | null
-  daysWarningThreshold?: number | null
   todayTradeCount?: number
   todayPnl?: number
   lastStatsReset?: Date | string | null
@@ -797,7 +591,6 @@ export type TradingAccountCreateManyInput = {
 
 export type TradingAccountUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -810,15 +603,6 @@ export type TradingAccountUpdateManyMutationInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -830,7 +614,6 @@ export type TradingAccountUpdateManyMutationInput = {
 export type TradingAccountUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -843,15 +626,6 @@ export type TradingAccountUncheckedUpdateManyInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -878,7 +652,6 @@ export type TradingAccountUserIdNameCompoundUniqueInput = {
 export type TradingAccountCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  accountType?: Prisma.SortOrder
   name?: Prisma.SortOrder
   accountNumber?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -891,15 +664,6 @@ export type TradingAccountCountOrderByAggregateInput = {
   lastSyncAt?: Prisma.SortOrder
   lastError?: Prisma.SortOrder
   lastErrorAt?: Prisma.SortOrder
-  maxDailyLoss?: Prisma.SortOrder
-  maxTotalDrawdown?: Prisma.SortOrder
-  minProfitTarget?: Prisma.SortOrder
-  maxTradesPerDay?: Prisma.SortOrder
-  tradingDaysLeft?: Prisma.SortOrder
-  drawdownWarningPercent?: Prisma.SortOrder
-  profitWarningPercent?: Prisma.SortOrder
-  tradesWarningThreshold?: Prisma.SortOrder
-  daysWarningThreshold?: Prisma.SortOrder
   todayTradeCount?: Prisma.SortOrder
   todayPnl?: Prisma.SortOrder
   lastStatsReset?: Prisma.SortOrder
@@ -911,15 +675,6 @@ export type TradingAccountCountOrderByAggregateInput = {
 export type TradingAccountAvgOrderByAggregateInput = {
   startBalance?: Prisma.SortOrder
   currentBalance?: Prisma.SortOrder
-  maxDailyLoss?: Prisma.SortOrder
-  maxTotalDrawdown?: Prisma.SortOrder
-  minProfitTarget?: Prisma.SortOrder
-  maxTradesPerDay?: Prisma.SortOrder
-  tradingDaysLeft?: Prisma.SortOrder
-  drawdownWarningPercent?: Prisma.SortOrder
-  profitWarningPercent?: Prisma.SortOrder
-  tradesWarningThreshold?: Prisma.SortOrder
-  daysWarningThreshold?: Prisma.SortOrder
   todayTradeCount?: Prisma.SortOrder
   todayPnl?: Prisma.SortOrder
 }
@@ -927,7 +682,6 @@ export type TradingAccountAvgOrderByAggregateInput = {
 export type TradingAccountMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  accountType?: Prisma.SortOrder
   name?: Prisma.SortOrder
   accountNumber?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -939,15 +693,6 @@ export type TradingAccountMaxOrderByAggregateInput = {
   lastSyncAt?: Prisma.SortOrder
   lastError?: Prisma.SortOrder
   lastErrorAt?: Prisma.SortOrder
-  maxDailyLoss?: Prisma.SortOrder
-  maxTotalDrawdown?: Prisma.SortOrder
-  minProfitTarget?: Prisma.SortOrder
-  maxTradesPerDay?: Prisma.SortOrder
-  tradingDaysLeft?: Prisma.SortOrder
-  drawdownWarningPercent?: Prisma.SortOrder
-  profitWarningPercent?: Prisma.SortOrder
-  tradesWarningThreshold?: Prisma.SortOrder
-  daysWarningThreshold?: Prisma.SortOrder
   todayTradeCount?: Prisma.SortOrder
   todayPnl?: Prisma.SortOrder
   lastStatsReset?: Prisma.SortOrder
@@ -959,7 +704,6 @@ export type TradingAccountMaxOrderByAggregateInput = {
 export type TradingAccountMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  accountType?: Prisma.SortOrder
   name?: Prisma.SortOrder
   accountNumber?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -971,15 +715,6 @@ export type TradingAccountMinOrderByAggregateInput = {
   lastSyncAt?: Prisma.SortOrder
   lastError?: Prisma.SortOrder
   lastErrorAt?: Prisma.SortOrder
-  maxDailyLoss?: Prisma.SortOrder
-  maxTotalDrawdown?: Prisma.SortOrder
-  minProfitTarget?: Prisma.SortOrder
-  maxTradesPerDay?: Prisma.SortOrder
-  tradingDaysLeft?: Prisma.SortOrder
-  drawdownWarningPercent?: Prisma.SortOrder
-  profitWarningPercent?: Prisma.SortOrder
-  tradesWarningThreshold?: Prisma.SortOrder
-  daysWarningThreshold?: Prisma.SortOrder
   todayTradeCount?: Prisma.SortOrder
   todayPnl?: Prisma.SortOrder
   lastStatsReset?: Prisma.SortOrder
@@ -991,15 +726,6 @@ export type TradingAccountMinOrderByAggregateInput = {
 export type TradingAccountSumOrderByAggregateInput = {
   startBalance?: Prisma.SortOrder
   currentBalance?: Prisma.SortOrder
-  maxDailyLoss?: Prisma.SortOrder
-  maxTotalDrawdown?: Prisma.SortOrder
-  minProfitTarget?: Prisma.SortOrder
-  maxTradesPerDay?: Prisma.SortOrder
-  tradingDaysLeft?: Prisma.SortOrder
-  drawdownWarningPercent?: Prisma.SortOrder
-  profitWarningPercent?: Prisma.SortOrder
-  tradesWarningThreshold?: Prisma.SortOrder
-  daysWarningThreshold?: Prisma.SortOrder
   todayTradeCount?: Prisma.SortOrder
   todayPnl?: Prisma.SortOrder
 }
@@ -1051,10 +777,6 @@ export type TradingAccountUncheckedUpdateManyWithoutProfileNestedInput = {
   deleteMany?: Prisma.TradingAccountScalarWhereInput | Prisma.TradingAccountScalarWhereInput[]
 }
 
-export type EnumJournalAccountTypeFieldUpdateOperationsInput = {
-  set?: $Enums.JournalAccountType
-}
-
 export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -1073,14 +795,6 @@ export type NullableFloatFieldUpdateOperationsInput = {
 
 export type NullableEnumBrokerPlatformFieldUpdateOperationsInput = {
   set?: $Enums.BrokerPlatform | null
-}
-
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type TradingAccountCreateNestedOneWithoutSignalsInput = {
@@ -1127,7 +841,6 @@ export type TradingAccountUpdateOneRequiredWithoutJournalTradesNestedInput = {
 
 export type TradingAccountCreateWithoutProfileInput = {
   id?: string
-  accountType?: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency?: string
@@ -1140,15 +853,6 @@ export type TradingAccountCreateWithoutProfileInput = {
   lastSyncAt?: Date | string | null
   lastError?: string | null
   lastErrorAt?: Date | string | null
-  maxDailyLoss?: number | null
-  maxTotalDrawdown?: number | null
-  minProfitTarget?: number | null
-  maxTradesPerDay?: number | null
-  tradingDaysLeft?: number | null
-  drawdownWarningPercent?: number | null
-  profitWarningPercent?: number | null
-  tradesWarningThreshold?: number | null
-  daysWarningThreshold?: number | null
   todayTradeCount?: number
   todayPnl?: number
   lastStatsReset?: Date | string | null
@@ -1162,7 +866,6 @@ export type TradingAccountCreateWithoutProfileInput = {
 
 export type TradingAccountUncheckedCreateWithoutProfileInput = {
   id?: string
-  accountType?: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency?: string
@@ -1175,15 +878,6 @@ export type TradingAccountUncheckedCreateWithoutProfileInput = {
   lastSyncAt?: Date | string | null
   lastError?: string | null
   lastErrorAt?: Date | string | null
-  maxDailyLoss?: number | null
-  maxTotalDrawdown?: number | null
-  minProfitTarget?: number | null
-  maxTradesPerDay?: number | null
-  tradingDaysLeft?: number | null
-  drawdownWarningPercent?: number | null
-  profitWarningPercent?: number | null
-  tradesWarningThreshold?: number | null
-  daysWarningThreshold?: number | null
   todayTradeCount?: number
   todayPnl?: number
   lastStatsReset?: Date | string | null
@@ -1227,7 +921,6 @@ export type TradingAccountScalarWhereInput = {
   NOT?: Prisma.TradingAccountScalarWhereInput | Prisma.TradingAccountScalarWhereInput[]
   id?: Prisma.UuidFilter<"TradingAccount"> | string
   userId?: Prisma.UuidFilter<"TradingAccount"> | string
-  accountType?: Prisma.EnumJournalAccountTypeFilter<"TradingAccount"> | $Enums.JournalAccountType
   name?: Prisma.StringFilter<"TradingAccount"> | string
   accountNumber?: Prisma.StringFilter<"TradingAccount"> | string
   currency?: Prisma.StringFilter<"TradingAccount"> | string
@@ -1240,15 +933,6 @@ export type TradingAccountScalarWhereInput = {
   lastSyncAt?: Prisma.DateTimeNullableFilter<"TradingAccount"> | Date | string | null
   lastError?: Prisma.StringNullableFilter<"TradingAccount"> | string | null
   lastErrorAt?: Prisma.DateTimeNullableFilter<"TradingAccount"> | Date | string | null
-  maxDailyLoss?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  maxTotalDrawdown?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  minProfitTarget?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  maxTradesPerDay?: Prisma.IntNullableFilter<"TradingAccount"> | number | null
-  tradingDaysLeft?: Prisma.IntNullableFilter<"TradingAccount"> | number | null
-  drawdownWarningPercent?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  profitWarningPercent?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  tradesWarningThreshold?: Prisma.IntNullableFilter<"TradingAccount"> | number | null
-  daysWarningThreshold?: Prisma.IntNullableFilter<"TradingAccount"> | number | null
   todayTradeCount?: Prisma.IntFilter<"TradingAccount"> | number
   todayPnl?: Prisma.FloatFilter<"TradingAccount"> | number
   lastStatsReset?: Prisma.DateTimeNullableFilter<"TradingAccount"> | Date | string | null
@@ -1259,7 +943,6 @@ export type TradingAccountScalarWhereInput = {
 
 export type TradingAccountCreateWithoutSignalsInput = {
   id?: string
-  accountType?: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency?: string
@@ -1272,15 +955,6 @@ export type TradingAccountCreateWithoutSignalsInput = {
   lastSyncAt?: Date | string | null
   lastError?: string | null
   lastErrorAt?: Date | string | null
-  maxDailyLoss?: number | null
-  maxTotalDrawdown?: number | null
-  minProfitTarget?: number | null
-  maxTradesPerDay?: number | null
-  tradingDaysLeft?: number | null
-  drawdownWarningPercent?: number | null
-  profitWarningPercent?: number | null
-  tradesWarningThreshold?: number | null
-  daysWarningThreshold?: number | null
   todayTradeCount?: number
   todayPnl?: number
   lastStatsReset?: Date | string | null
@@ -1295,7 +969,6 @@ export type TradingAccountCreateWithoutSignalsInput = {
 export type TradingAccountUncheckedCreateWithoutSignalsInput = {
   id?: string
   userId: string
-  accountType?: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency?: string
@@ -1308,15 +981,6 @@ export type TradingAccountUncheckedCreateWithoutSignalsInput = {
   lastSyncAt?: Date | string | null
   lastError?: string | null
   lastErrorAt?: Date | string | null
-  maxDailyLoss?: number | null
-  maxTotalDrawdown?: number | null
-  minProfitTarget?: number | null
-  maxTradesPerDay?: number | null
-  tradingDaysLeft?: number | null
-  drawdownWarningPercent?: number | null
-  profitWarningPercent?: number | null
-  tradesWarningThreshold?: number | null
-  daysWarningThreshold?: number | null
   todayTradeCount?: number
   todayPnl?: number
   lastStatsReset?: Date | string | null
@@ -1345,7 +1009,6 @@ export type TradingAccountUpdateToOneWithWhereWithoutSignalsInput = {
 
 export type TradingAccountUpdateWithoutSignalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1358,15 +1021,6 @@ export type TradingAccountUpdateWithoutSignalsInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1381,7 +1035,6 @@ export type TradingAccountUpdateWithoutSignalsInput = {
 export type TradingAccountUncheckedUpdateWithoutSignalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1394,15 +1047,6 @@ export type TradingAccountUncheckedUpdateWithoutSignalsInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1415,7 +1059,6 @@ export type TradingAccountUncheckedUpdateWithoutSignalsInput = {
 
 export type TradingAccountCreateWithoutTradesInput = {
   id?: string
-  accountType?: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency?: string
@@ -1428,15 +1071,6 @@ export type TradingAccountCreateWithoutTradesInput = {
   lastSyncAt?: Date | string | null
   lastError?: string | null
   lastErrorAt?: Date | string | null
-  maxDailyLoss?: number | null
-  maxTotalDrawdown?: number | null
-  minProfitTarget?: number | null
-  maxTradesPerDay?: number | null
-  tradingDaysLeft?: number | null
-  drawdownWarningPercent?: number | null
-  profitWarningPercent?: number | null
-  tradesWarningThreshold?: number | null
-  daysWarningThreshold?: number | null
   todayTradeCount?: number
   todayPnl?: number
   lastStatsReset?: Date | string | null
@@ -1451,7 +1085,6 @@ export type TradingAccountCreateWithoutTradesInput = {
 export type TradingAccountUncheckedCreateWithoutTradesInput = {
   id?: string
   userId: string
-  accountType?: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency?: string
@@ -1464,15 +1097,6 @@ export type TradingAccountUncheckedCreateWithoutTradesInput = {
   lastSyncAt?: Date | string | null
   lastError?: string | null
   lastErrorAt?: Date | string | null
-  maxDailyLoss?: number | null
-  maxTotalDrawdown?: number | null
-  minProfitTarget?: number | null
-  maxTradesPerDay?: number | null
-  tradingDaysLeft?: number | null
-  drawdownWarningPercent?: number | null
-  profitWarningPercent?: number | null
-  tradesWarningThreshold?: number | null
-  daysWarningThreshold?: number | null
   todayTradeCount?: number
   todayPnl?: number
   lastStatsReset?: Date | string | null
@@ -1501,7 +1125,6 @@ export type TradingAccountUpdateToOneWithWhereWithoutTradesInput = {
 
 export type TradingAccountUpdateWithoutTradesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1514,15 +1137,6 @@ export type TradingAccountUpdateWithoutTradesInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1537,7 +1151,6 @@ export type TradingAccountUpdateWithoutTradesInput = {
 export type TradingAccountUncheckedUpdateWithoutTradesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1550,15 +1163,6 @@ export type TradingAccountUncheckedUpdateWithoutTradesInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1571,7 +1175,6 @@ export type TradingAccountUncheckedUpdateWithoutTradesInput = {
 
 export type TradingAccountCreateWithoutJournalTradesInput = {
   id?: string
-  accountType?: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency?: string
@@ -1584,15 +1187,6 @@ export type TradingAccountCreateWithoutJournalTradesInput = {
   lastSyncAt?: Date | string | null
   lastError?: string | null
   lastErrorAt?: Date | string | null
-  maxDailyLoss?: number | null
-  maxTotalDrawdown?: number | null
-  minProfitTarget?: number | null
-  maxTradesPerDay?: number | null
-  tradingDaysLeft?: number | null
-  drawdownWarningPercent?: number | null
-  profitWarningPercent?: number | null
-  tradesWarningThreshold?: number | null
-  daysWarningThreshold?: number | null
   todayTradeCount?: number
   todayPnl?: number
   lastStatsReset?: Date | string | null
@@ -1607,7 +1201,6 @@ export type TradingAccountCreateWithoutJournalTradesInput = {
 export type TradingAccountUncheckedCreateWithoutJournalTradesInput = {
   id?: string
   userId: string
-  accountType?: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency?: string
@@ -1620,15 +1213,6 @@ export type TradingAccountUncheckedCreateWithoutJournalTradesInput = {
   lastSyncAt?: Date | string | null
   lastError?: string | null
   lastErrorAt?: Date | string | null
-  maxDailyLoss?: number | null
-  maxTotalDrawdown?: number | null
-  minProfitTarget?: number | null
-  maxTradesPerDay?: number | null
-  tradingDaysLeft?: number | null
-  drawdownWarningPercent?: number | null
-  profitWarningPercent?: number | null
-  tradesWarningThreshold?: number | null
-  daysWarningThreshold?: number | null
   todayTradeCount?: number
   todayPnl?: number
   lastStatsReset?: Date | string | null
@@ -1657,7 +1241,6 @@ export type TradingAccountUpdateToOneWithWhereWithoutJournalTradesInput = {
 
 export type TradingAccountUpdateWithoutJournalTradesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1670,15 +1253,6 @@ export type TradingAccountUpdateWithoutJournalTradesInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1693,7 +1267,6 @@ export type TradingAccountUpdateWithoutJournalTradesInput = {
 export type TradingAccountUncheckedUpdateWithoutJournalTradesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1706,15 +1279,6 @@ export type TradingAccountUncheckedUpdateWithoutJournalTradesInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1727,7 +1291,6 @@ export type TradingAccountUncheckedUpdateWithoutJournalTradesInput = {
 
 export type TradingAccountCreateManyProfileInput = {
   id?: string
-  accountType?: $Enums.JournalAccountType
   name: string
   accountNumber: string
   currency?: string
@@ -1740,15 +1303,6 @@ export type TradingAccountCreateManyProfileInput = {
   lastSyncAt?: Date | string | null
   lastError?: string | null
   lastErrorAt?: Date | string | null
-  maxDailyLoss?: number | null
-  maxTotalDrawdown?: number | null
-  minProfitTarget?: number | null
-  maxTradesPerDay?: number | null
-  tradingDaysLeft?: number | null
-  drawdownWarningPercent?: number | null
-  profitWarningPercent?: number | null
-  tradesWarningThreshold?: number | null
-  daysWarningThreshold?: number | null
   todayTradeCount?: number
   todayPnl?: number
   lastStatsReset?: Date | string | null
@@ -1759,7 +1313,6 @@ export type TradingAccountCreateManyProfileInput = {
 
 export type TradingAccountUpdateWithoutProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1772,15 +1325,6 @@ export type TradingAccountUpdateWithoutProfileInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1794,7 +1338,6 @@ export type TradingAccountUpdateWithoutProfileInput = {
 
 export type TradingAccountUncheckedUpdateWithoutProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1807,15 +1350,6 @@ export type TradingAccountUncheckedUpdateWithoutProfileInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1829,7 +1363,6 @@ export type TradingAccountUncheckedUpdateWithoutProfileInput = {
 
 export type TradingAccountUncheckedUpdateManyWithoutProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumJournalAccountTypeFieldUpdateOperationsInput | $Enums.JournalAccountType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1842,15 +1375,6 @@ export type TradingAccountUncheckedUpdateManyWithoutProfileInput = {
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastErrorAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maxDailyLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTotalDrawdown?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  minProfitTarget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxTradesPerDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tradingDaysLeft?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  drawdownWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  profitWarningPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tradesWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  daysWarningThreshold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   todayTradeCount?: Prisma.IntFieldUpdateOperationsInput | number
   todayPnl?: Prisma.FloatFieldUpdateOperationsInput | number
   lastStatsReset?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1911,7 +1435,6 @@ export type TradingAccountCountOutputTypeCountTradesArgs<ExtArgs extends runtime
 export type TradingAccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  accountType?: boolean
   name?: boolean
   accountNumber?: boolean
   currency?: boolean
@@ -1924,15 +1447,6 @@ export type TradingAccountSelect<ExtArgs extends runtime.Types.Extensions.Intern
   lastSyncAt?: boolean
   lastError?: boolean
   lastErrorAt?: boolean
-  maxDailyLoss?: boolean
-  maxTotalDrawdown?: boolean
-  minProfitTarget?: boolean
-  maxTradesPerDay?: boolean
-  tradingDaysLeft?: boolean
-  drawdownWarningPercent?: boolean
-  profitWarningPercent?: boolean
-  tradesWarningThreshold?: boolean
-  daysWarningThreshold?: boolean
   todayTradeCount?: boolean
   todayPnl?: boolean
   lastStatsReset?: boolean
@@ -1949,7 +1463,6 @@ export type TradingAccountSelect<ExtArgs extends runtime.Types.Extensions.Intern
 export type TradingAccountSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  accountType?: boolean
   name?: boolean
   accountNumber?: boolean
   currency?: boolean
@@ -1962,15 +1475,6 @@ export type TradingAccountSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   lastSyncAt?: boolean
   lastError?: boolean
   lastErrorAt?: boolean
-  maxDailyLoss?: boolean
-  maxTotalDrawdown?: boolean
-  minProfitTarget?: boolean
-  maxTradesPerDay?: boolean
-  tradingDaysLeft?: boolean
-  drawdownWarningPercent?: boolean
-  profitWarningPercent?: boolean
-  tradesWarningThreshold?: boolean
-  daysWarningThreshold?: boolean
   todayTradeCount?: boolean
   todayPnl?: boolean
   lastStatsReset?: boolean
@@ -1983,7 +1487,6 @@ export type TradingAccountSelectCreateManyAndReturn<ExtArgs extends runtime.Type
 export type TradingAccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  accountType?: boolean
   name?: boolean
   accountNumber?: boolean
   currency?: boolean
@@ -1996,15 +1499,6 @@ export type TradingAccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   lastSyncAt?: boolean
   lastError?: boolean
   lastErrorAt?: boolean
-  maxDailyLoss?: boolean
-  maxTotalDrawdown?: boolean
-  minProfitTarget?: boolean
-  maxTradesPerDay?: boolean
-  tradingDaysLeft?: boolean
-  drawdownWarningPercent?: boolean
-  profitWarningPercent?: boolean
-  tradesWarningThreshold?: boolean
-  daysWarningThreshold?: boolean
   todayTradeCount?: boolean
   todayPnl?: boolean
   lastStatsReset?: boolean
@@ -2017,7 +1511,6 @@ export type TradingAccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
 export type TradingAccountSelectScalar = {
   id?: boolean
   userId?: boolean
-  accountType?: boolean
   name?: boolean
   accountNumber?: boolean
   currency?: boolean
@@ -2030,15 +1523,6 @@ export type TradingAccountSelectScalar = {
   lastSyncAt?: boolean
   lastError?: boolean
   lastErrorAt?: boolean
-  maxDailyLoss?: boolean
-  maxTotalDrawdown?: boolean
-  minProfitTarget?: boolean
-  maxTradesPerDay?: boolean
-  tradingDaysLeft?: boolean
-  drawdownWarningPercent?: boolean
-  profitWarningPercent?: boolean
-  tradesWarningThreshold?: boolean
-  daysWarningThreshold?: boolean
   todayTradeCount?: boolean
   todayPnl?: boolean
   lastStatsReset?: boolean
@@ -2047,7 +1531,7 @@ export type TradingAccountSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TradingAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "accountType" | "name" | "accountNumber" | "currency" | "startBalance" | "currentBalance" | "platform" | "metaApiAccountId" | "autoTradeEnabled" | "riskConfig" | "lastSyncAt" | "lastError" | "lastErrorAt" | "maxDailyLoss" | "maxTotalDrawdown" | "minProfitTarget" | "maxTradesPerDay" | "tradingDaysLeft" | "drawdownWarningPercent" | "profitWarningPercent" | "tradesWarningThreshold" | "daysWarningThreshold" | "todayTradeCount" | "todayPnl" | "lastStatsReset" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["tradingAccount"]>
+export type TradingAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "accountNumber" | "currency" | "startBalance" | "currentBalance" | "platform" | "metaApiAccountId" | "autoTradeEnabled" | "riskConfig" | "lastSyncAt" | "lastError" | "lastErrorAt" | "todayTradeCount" | "todayPnl" | "lastStatsReset" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["tradingAccount"]>
 export type TradingAccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journalTrades?: boolean | Prisma.TradingAccount$journalTradesArgs<ExtArgs>
   signals?: boolean | Prisma.TradingAccount$signalsArgs<ExtArgs>
@@ -2073,7 +1557,6 @@ export type $TradingAccountPayload<ExtArgs extends runtime.Types.Extensions.Inte
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
-    accountType: $Enums.JournalAccountType
     name: string
     accountNumber: string
     currency: string
@@ -2086,15 +1569,6 @@ export type $TradingAccountPayload<ExtArgs extends runtime.Types.Extensions.Inte
     lastSyncAt: Date | null
     lastError: string | null
     lastErrorAt: Date | null
-    maxDailyLoss: number | null
-    maxTotalDrawdown: number | null
-    minProfitTarget: number | null
-    maxTradesPerDay: number | null
-    tradingDaysLeft: number | null
-    drawdownWarningPercent: number | null
-    profitWarningPercent: number | null
-    tradesWarningThreshold: number | null
-    daysWarningThreshold: number | null
     todayTradeCount: number
     todayPnl: number
     lastStatsReset: Date | null
@@ -2530,7 +2004,6 @@ export interface Prisma__TradingAccountClient<T, Null = never, ExtArgs extends r
 export interface TradingAccountFieldRefs {
   readonly id: Prisma.FieldRef<"TradingAccount", 'String'>
   readonly userId: Prisma.FieldRef<"TradingAccount", 'String'>
-  readonly accountType: Prisma.FieldRef<"TradingAccount", 'JournalAccountType'>
   readonly name: Prisma.FieldRef<"TradingAccount", 'String'>
   readonly accountNumber: Prisma.FieldRef<"TradingAccount", 'String'>
   readonly currency: Prisma.FieldRef<"TradingAccount", 'String'>
@@ -2543,15 +2016,6 @@ export interface TradingAccountFieldRefs {
   readonly lastSyncAt: Prisma.FieldRef<"TradingAccount", 'DateTime'>
   readonly lastError: Prisma.FieldRef<"TradingAccount", 'String'>
   readonly lastErrorAt: Prisma.FieldRef<"TradingAccount", 'DateTime'>
-  readonly maxDailyLoss: Prisma.FieldRef<"TradingAccount", 'Float'>
-  readonly maxTotalDrawdown: Prisma.FieldRef<"TradingAccount", 'Float'>
-  readonly minProfitTarget: Prisma.FieldRef<"TradingAccount", 'Float'>
-  readonly maxTradesPerDay: Prisma.FieldRef<"TradingAccount", 'Int'>
-  readonly tradingDaysLeft: Prisma.FieldRef<"TradingAccount", 'Int'>
-  readonly drawdownWarningPercent: Prisma.FieldRef<"TradingAccount", 'Float'>
-  readonly profitWarningPercent: Prisma.FieldRef<"TradingAccount", 'Float'>
-  readonly tradesWarningThreshold: Prisma.FieldRef<"TradingAccount", 'Int'>
-  readonly daysWarningThreshold: Prisma.FieldRef<"TradingAccount", 'Int'>
   readonly todayTradeCount: Prisma.FieldRef<"TradingAccount", 'Int'>
   readonly todayPnl: Prisma.FieldRef<"TradingAccount", 'Float'>
   readonly lastStatsReset: Prisma.FieldRef<"TradingAccount", 'DateTime'>

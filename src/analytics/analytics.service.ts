@@ -4,7 +4,7 @@
  * analytics.service.ts
  *
  * Computes all 8 advanced analytics features from JournalTrade data:
- *   1. Risk of Ruin (prop firm guard)
+ *   1. Risk of Ruin (guard)
  *   2. Equity curve + drawdown tracking
  *   3. Rolling performance windows (last 10 / 20 / 50 / all)
  *   4. Strategy-level WR + expectancy
@@ -215,7 +215,7 @@ export class AnalyticsService {
     ]);
 
     const startBalance = account?.startBalance ?? 0;
-    const maxDrawdownLimit = account?.maxTotalDrawdown ?? startBalance * 0.1; // default 10%
+    const maxDrawdownLimit = startBalance * 0.1; // default 10% of start balance
     const winTrades = trades.filter(t => t.result === 'profit').map(t => t.pnl ?? 0);
     const lossTrades = trades.filter(t => t.result === 'loss').map(t => Math.abs(t.pnl ?? 0));
 
@@ -486,6 +486,7 @@ export class AnalyticsService {
     const expectedMaxLossStreak = total > 0 && wr < 1
       ? Math.ceil(Math.log(total) / Math.log(1 / (1 - wr)))
       : 0;
+    
     const expectedMaxWinStreak = total > 0 && wr > 0
       ? Math.ceil(Math.log(total) / Math.log(1 / wr))
       : 0;

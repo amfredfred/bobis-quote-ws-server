@@ -993,6 +993,14 @@ export type EnumTradeStatusFieldUpdateOperationsInput = {
   set?: $Enums.TradeStatus
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type NullableEnumCloseReasonFieldUpdateOperationsInput = {
   set?: $Enums.CloseReason | null
 }
