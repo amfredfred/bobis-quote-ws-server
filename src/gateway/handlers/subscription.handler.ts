@@ -33,19 +33,19 @@ const RC_V2 = 'https://api.revenuecat.com/v2';
 export class SubscriptionHandler {
   private readonly logger = new Logger(SubscriptionHandler.name);
 
-  private get apiKey()    { return process.env['REVENUECAT_API_KEY']    ?? ''; }
+  private get apiKey() { return process.env['REVENUECAT_API_KEY'] ?? ''; }
   private get projectId() { return process.env['REVENUECAT_PROJECT_ID'] ?? ''; }
-  private get appUrl()    { return (process.env['APP_URL'] ?? 'http://localhost:5173').replace(/\/$/, ''); }
+  private get appUrl() { return (process.env['APP_URL'] ?? 'http://localhost:5173').replace(/\/$/, ''); }
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   // ── Shared ─────────────────────────────────────────────────────────────────
 
   private get headers() {
     return {
       'Authorization': `Bearer ${this.apiKey}`,
-      'Content-Type':  'application/json',
-      'Accept':        'application/json',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
     };
   }
 
@@ -58,7 +58,7 @@ export class SubscriptionHandler {
   /** Resolve RC app_user_id — falls back to Supabase userId if not yet linked. */
   private async getRcUserId(userId: string): Promise<string> {
     const profile = await this.prisma.profile.findUnique({
-      where:  { userId },
+      where: { userId },
       select: { revenuecatAppUserId: true },
     });
     return profile?.revenuecatAppUserId ?? userId;
@@ -141,15 +141,15 @@ export class SubscriptionHandler {
           continue;
         }
 
-        const price       = rcBillingProduct.prices[0] ?? {};
+        const price = rcBillingProduct.prices[0] ?? {};
         const priceAmount = Number(price?.amount ?? 0);
         const priceString = price?.display_amount
           ?? (priceAmount
             ? new Intl.NumberFormat('en-US', { style: 'currency', currency: price?.currency ?? 'USD' })
-                .format(priceAmount)
+              .format(priceAmount)
             : '');
 
-        const duration   = rcBillingProduct?.subscription?.duration ?? '';
+        const duration = rcBillingProduct?.subscription?.duration ?? '';
         const periodUnit = this._normalisePeriod(pkg?.lookup_key ?? duration);
 
         const periodLabel: Record<string, string> = {
@@ -157,16 +157,16 @@ export class SubscriptionHandler {
         };
 
         plans.push({
-          id:          pkg.id,
-          lookupKey:   pkg.lookup_key,
-          name:        pkg.display_name ?? rcBillingProduct.display_name ?? periodLabel[periodUnit] ?? 'Plan',
+          id: pkg.id,
+          lookupKey: pkg.lookup_key,
+          name: pkg.display_name ?? rcBillingProduct.display_name ?? periodLabel[periodUnit] ?? 'Plan',
           description: rcBillingProduct.description ?? '',
           priceAmount,
           priceString,
-          currency:    (price?.currency ?? 'USD').toUpperCase(),
+          currency: (price?.currency ?? 'USD').toUpperCase(),
           periodUnit,
-          features:    rcBillingProduct.metadata?.features ?? offering.metadata?.features ?? [],
-          popular:     pkg.metadata?.popular === true || offering.metadata?.popular === true,
+          features: rcBillingProduct.metadata?.features ?? offering.metadata?.features ?? [],
+          popular: pkg.metadata?.popular === true || offering.metadata?.popular === true,
         });
       }
 
@@ -190,13 +190,13 @@ export class SubscriptionHandler {
     const rcUserId = await this.getRcUserId(userId);
 
     const res = await fetch(`${RC_V2}/projects/${this.projectId}/checkout_sessions`, {
-      method:  'POST',
+      method: 'POST',
       headers: this.headers,
       body: JSON.stringify({
         app_user_id: rcUserId,
-        package_id:  packageId,
+        package_id: packageId,
         success_url: `${this.appUrl}/subscribe?checkout=success`,
-        cancel_url:  `${this.appUrl}/subscribe`,
+        cancel_url: `${this.appUrl}/subscribe`,
       }),
     });
 
@@ -220,9 +220,9 @@ export class SubscriptionHandler {
    */
   async getPortalUrl(userId: string): Promise<{ url: string }> {
     this.assertConfigured();
-    const rcUserId   = await this.getRcUserId(userId);
+    const rcUserId = await this.getRcUserId(userId);
     const subscriber = await this.getSubscriberV1(rcUserId);
-    const url        = subscriber?.management_url as string | undefined;
+    const url = subscriber?.management_url as string | undefined;
 
     if (!url) {
       throw new Error('No billing portal available. You may not have an active subscription.');
@@ -238,7 +238,7 @@ export class SubscriptionHandler {
    */
   async cancelSubscription(userId: string): Promise<{ ok: boolean }> {
     this.assertConfigured();
-    const rcUserId   = await this.getRcUserId(userId);
+    const rcUserId = await this.getRcUserId(userId);
     const subscriber = await this.getSubscriberV1(rcUserId);
 
     const subs: Record<string, any> = subscriber?.subscriptions ?? {};
@@ -271,8 +271,8 @@ export class SubscriptionHandler {
     if (!raw) return 'month';
     const r = raw.toUpperCase();
     if (r.includes('ANNUAL') || r.includes('YEARLY') || r.includes('P1Y') || r === '$RC_ANNUAL') return 'year';
-    if (r.includes('WEEKLY') || r.includes('P1W')    || r === '$RC_WEEKLY')  return 'week';
-    if (r.includes('DAILY')  || r.includes('P1D')    || r === '$RC_DAILY')   return 'day';
+    if (r.includes('WEEKLY') || r.includes('P1W') || r === '$RC_WEEKLY') return 'week';
+    if (r.includes('DAILY') || r.includes('P1D') || r === '$RC_DAILY') return 'day';
     return 'month';
   }
 
@@ -290,7 +290,7 @@ export class SubscriptionHandler {
     const TRIAL_DAYS = 7;
 
     const profile = await this.prisma.profile.findUnique({
-      where:  { userId },
+      where: { userId },
       select: { subscriptionTier: true, trialStartedAt: true, trialEndsAt: true },
     });
 
@@ -305,19 +305,19 @@ export class SubscriptionHandler {
     if (profile.trialStartedAt != null) {
       // If the trial is still running, tell them how much is left
       if (profile.trialEndsAt && profile.trialEndsAt > new Date()) {
-        const ms       = profile.trialEndsAt.getTime() - Date.now();
+        const ms = profile.trialEndsAt.getTime() - Date.now();
         const daysLeft = Math.ceil(ms / (1000 * 60 * 60 * 24));
         return { trialEndsAt: profile.trialEndsAt, daysLeft };
       }
       throw new Error('Your free trial has already been used.');
     }
 
-    const now         = new Date();
+    const now = new Date();
     const trialEndsAt = new Date(now.getTime() + TRIAL_DAYS * 24 * 60 * 60 * 1000);
 
     await this.prisma.profile.update({
       where: { userId },
-      data:  { trialStartedAt: now, trialEndsAt },
+      data: { trialStartedAt: now, trialEndsAt, subscriptionStatus: "ACTIVE", subscriptionTier: "Pro" },
     });
 
     this.logger.log(`Trial started: userId=${userId} endsAt=${trialEndsAt.toISOString()}`);
@@ -329,27 +329,27 @@ export class SubscriptionHandler {
    * Return the user's current trial status.
    */
   async getTrialStatus(userId: string): Promise<{
-    eligible:       boolean;   // can still start a trial
-    isActive:       boolean;   // trial is running right now
-    trialEndsAt:    Date | null;
+    eligible: boolean;   // can still start a trial
+    isActive: boolean;   // trial is running right now
+    trialEndsAt: Date | null;
     trialStartedAt: Date | null;
-    daysLeft:       number;    // 0 if not active
+    daysLeft: number;    // 0 if not active
   }> {
     const profile = await this.prisma.profile.findUnique({
-      where:  { userId },
+      where: { userId },
       select: { subscriptionTier: true, trialStartedAt: true, trialEndsAt: true },
     });
 
-    const hasPaid       = profile?.subscriptionTier != null;
-    const hasUsedTrial  = profile?.trialStartedAt != null;
-    const trialEndsAt   = profile?.trialEndsAt ?? null;
-    const isActive      = !!(trialEndsAt && trialEndsAt > new Date());
-    const daysLeft      = isActive
+    const hasPaid = profile?.subscriptionTier != null;
+    const hasUsedTrial = profile?.trialStartedAt != null;
+    const trialEndsAt = profile?.trialEndsAt ?? null;
+    const isActive = !!(trialEndsAt && trialEndsAt > new Date());
+    const daysLeft = isActive
       ? Math.ceil((trialEndsAt!.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
       : 0;
 
     return {
-      eligible:       !hasPaid && !hasUsedTrial,
+      eligible: !hasPaid && !hasUsedTrial,
       isActive,
       trialEndsAt,
       trialStartedAt: profile?.trialStartedAt ?? null,
