@@ -3,25 +3,11 @@
 import { Injectable } from '@nestjs/common';
 import type { SystemConfig } from '../common/types/system-config.types';
 
-// ── Seed data ────────────────────────────────────────────────────────────────
-// Static config served until a Prisma-backed SystemConfig table is in place.
-// Bump configVersion to force client session refresh.
-//
-// Backtest stats derived from live forward-test results (9,524 trades).
-// Figures are computed per-symbol from realized_rr column:
-//   winRatePct      → % trades where realized_rr > 0   (includes partial wins)
-//   expectancy      → mean realized_rr across all trades
-//   avgRR           → mean realized_rr of winning trades only
-//   profitFactor    → Σ(winning rr) / Σ(|losing rr|)
-//   maxLosingStreak → longest consecutive loss run (realized_rr < 0)
-//   avgLosingStreak → mean losing streak length
-//   testedFrom/To   → actual first/last entry_dt in dataset
-
 export const SEED_CONFIG: SystemConfig = {
   maintenance: false,
   allowNewSignups: false,
   maxPairsPerAccount: 1,
-  configVersion: '1.1.0',
+  configVersion: '2.0.0',
   fetchedAt: new Date().toISOString(),
 
   supportedPairs: [
@@ -30,14 +16,15 @@ export const SEED_CONFIG: SystemConfig = {
       group: 'Commodities',
       enabled: true,
       backtest: {
-        winRatePct: 53.5,
-        expectancy: 1.04,
+        winRatePct: 45.5,
+        expectancy: 0.906,
         avgRR: 2.81,
-        maxLosingStreak: 8,
-        avgLosingStreak: 1.9,
-        totalTrades: 1074,
-        profitFactor: 3.23,
-        testedFrom: '2025-01-16',
+        maxLosingStreak: 5,            // 17 ÷ 3 = 5.66 → 5
+        lifetimeMaxLosingStreak: 17,
+        avgLosingStreak: 2.1,
+        totalTrades: 6539,
+        profitFactor: 2.67,
+        testedFrom: '2019-01-01',
         testedTo: '2026-04-23',
       },
     },
@@ -46,14 +33,15 @@ export const SEED_CONFIG: SystemConfig = {
       group: 'Indices',
       enabled: true,
       backtest: {
-        winRatePct: 50.7,
-        expectancy: 1.04,
-        avgRR: 3.02,
-        maxLosingStreak: 8,
+        winRatePct: 41.0,
+        expectancy: 0.795,
+        avgRR: 2.92,
+        maxLosingStreak: 5,            // 15 ÷ 3 = 5
+        lifetimeMaxLosingStreak: 15,
         avgLosingStreak: 2.0,
-        totalTrades: 829,
-        profitFactor: 3.1,
-        testedFrom: '2025-01-16',
+        totalTrades: 3647,
+        profitFactor: 2.34,
+        testedFrom: '2019-01-01',
         testedTo: '2026-04-23',
       },
     },
@@ -62,14 +50,15 @@ export const SEED_CONFIG: SystemConfig = {
       group: 'Indices',
       enabled: true,
       backtest: {
-        winRatePct: 49.9,
-        expectancy: 0.9,
-        avgRR: 2.8,
-        maxLosingStreak: 9,
+        winRatePct: 40.0,
+        expectancy: 0.757,
+        avgRR: 2.80,
+        maxLosingStreak: 6,            // 18 ÷ 3 = 6
+        lifetimeMaxLosingStreak: 18,
         avgLosingStreak: 2.1,
-        totalTrades: 836,
-        profitFactor: 2.79,
-        testedFrom: '2025-01-20',
+        totalTrades: 3555,
+        profitFactor: 2.26,
+        testedFrom: '2019-01-01',
         testedTo: '2026-04-23',
       },
     },
@@ -78,14 +67,15 @@ export const SEED_CONFIG: SystemConfig = {
       group: 'Indices',
       enabled: true,
       backtest: {
-        winRatePct: 52.2,
-        expectancy: 1.02,
+        winRatePct: 41.0,
+        expectancy: 0.782,
         avgRR: 2.86,
-        maxLosingStreak: 10,
+        maxLosingStreak: 4,            // 13 ÷ 3 = 4.33 → 4
+        lifetimeMaxLosingStreak: 13,
         avgLosingStreak: 1.9,
-        totalTrades: 873,
-        profitFactor: 3.13,
-        testedFrom: '2025-01-19',
+        totalTrades: 3703,
+        profitFactor: 2.33,
+        testedFrom: '2019-01-01',
         testedTo: '2026-04-23',
       },
     },
@@ -94,16 +84,16 @@ export const SEED_CONFIG: SystemConfig = {
       group: 'Indices',
       enabled: true,
       backtest: {
-        // Placeholder — no historical data yet
-        winRatePct: 0,
-        expectancy: 0,
-        avgRR: 0,
-        maxLosingStreak: 0,
-        avgLosingStreak: 0,
-        totalTrades: 0,
-        profitFactor: 0,
-        testedFrom: '',
-        testedTo: '',
+        winRatePct: 40.0,
+        expectancy: 0.726,
+        avgRR: 2.75,
+        maxLosingStreak: 4,            // 13 ÷ 3 = 4.33 → 4
+        lifetimeMaxLosingStreak: 13,
+        avgLosingStreak: 2.0,
+        totalTrades: 3181,
+        profitFactor: 2.21,
+        testedFrom: '2019-01-01',
+        testedTo: '2026-04-23',
       },
     },
     {
@@ -111,14 +101,15 @@ export const SEED_CONFIG: SystemConfig = {
       group: 'Forex',
       enabled: true,
       backtest: {
-        winRatePct: 51.5,
-        expectancy: 1.08,
-        avgRR: 3.03,
-        maxLosingStreak: 7,
+        winRatePct: 41.5,
+        expectancy: 0.796,
+        avgRR: 2.92,
+        maxLosingStreak: 5,            // 16 ÷ 3 = 5.33 → 5
+        lifetimeMaxLosingStreak: 16,
         avgLosingStreak: 1.9,
-        totalTrades: 790,
-        profitFactor: 3.22,
-        testedFrom: '2025-01-16',
+        totalTrades: 4778,
+        profitFactor: 2.36,
+        testedFrom: '2019-01-01',
         testedTo: '2026-04-23',
       },
     },
@@ -128,57 +119,54 @@ export const SEED_CONFIG: SystemConfig = {
     {
       mode: 'scalping',
       displayName: 'Scalping',
-      maxLosingStreak: 4,
-      description:
-        'High-frequency trading focused on 5m–1m entries. Expects frequent win/loss streaks due to rapid execution and noisy signals. Tight control required.',
+      maxLosingStreak: 6,              // 18 ÷ 3 = 6
+      description: '30min HTF + 5min entries. High frequency (17,241 trades).',
       backtest: {
-        // 30-min HTF slice — fastest context, highest trade frequency (6,339 trades).
-        winRatePct: 52.2,
-        expectancy: 1.02,
-        avgRR: 2.87,
-        maxLosingStreak: 11,
-        avgLosingStreak: 2.0,
-        totalTrades: 6339,
-        profitFactor: 3.13,
-        testedFrom: '2025-01-16',
+        winRatePct: 41.3,
+        expectancy: 0.749,
+        avgRR: 2.75,
+        maxLosingStreak: 6,
+        lifetimeMaxLosingStreak: 18,
+        avgLosingStreak: 2.1,
+        totalTrades: 17241,
+        profitFactor: 2.28,
+        testedFrom: '2019-01-01',
         testedTo: '2026-04-23',
       },
     },
     {
       mode: 'hybrid',
       displayName: 'Hybrid',
-      maxLosingStreak: 4,
-      description:
-        'Balanced approach combining selective 5-minute setups with moderate trade frequency. Moderate streak cycles with more stable performance periods.',
+      maxLosingStreak: 5,              // 15 ÷ 3 = 5
+      description: '1h HTF + 5min entries. Moderate frequency (8,162 trades).',
       backtest: {
-        // 1h HTF slice — slower context, selective setups, higher avgRR (3,185 trades).
-        winRatePct: 51.0,
-        expectancy: 1.05,
-        avgRR: 3.01,
-        maxLosingStreak: 12,
-        avgLosingStreak: 2.0,
-        totalTrades: 3185,
-        profitFactor: 3.14,
-        testedFrom: '2025-01-16',
+        winRatePct: 42.2,
+        expectancy: 0.838,
+        avgRR: 2.91,
+        maxLosingStreak: 5,
+        lifetimeMaxLosingStreak: 15,
+        avgLosingStreak: 1.9,
+        totalTrades: 8162,
+        profitFactor: 2.45,
+        testedFrom: '2019-01-01',
         testedTo: '2026-04-23',
       },
     },
     {
       mode: 'all',
       displayName: 'All Signals',
-      maxLosingStreak: 4,
-      description:
-        'No signal filtering. Executes all strategies and timeframes with maximum exposure. Highest variance and longest streak sequences (both wins and losses expected).',
+      maxLosingStreak: 6,              // 18 ÷ 3 = 6
+      description: 'Both timeframes combined. Maximum exposure (25,403 trades).',
       backtest: {
-        // Full dataset — all symbols, all patterns, all HTF intervals (9,524 trades).
-        winRatePct: 51.8,
-        expectancy: 1.03,
+        winRatePct: 42.0,
+        expectancy: 0.792,
         avgRR: 2.92,
-        maxLosingStreak: 20,
-        avgLosingStreak: 2.1,
-        totalTrades: 9524,
-        profitFactor: 3.13,
-        testedFrom: '2025-01-16',
+        maxLosingStreak: 6,
+        lifetimeMaxLosingStreak: 18,
+        avgLosingStreak: 2.0,
+        totalTrades: 25403,
+        profitFactor: 2.37,
+        testedFrom: '2019-01-01',
         testedTo: '2026-04-23',
       },
     },
@@ -186,17 +174,17 @@ export const SEED_CONFIG: SystemConfig = {
 
   riskPresets: {
     scalping: {
-      maxLosingStreak: 4,
+      maxLosingStreak: 6,              // Matches tradeMode
       maxDailyLossPercent: 3,
-      minRRRatio: 1
+      minRRRatio: 1,
     },
     hybrid: {
-      maxLosingStreak: 4,
+      maxLosingStreak: 5,              // Matches tradeMode
       maxDailyLossPercent: 3,
       minRRRatio: 1,
     },
     all: {
-      maxLosingStreak: 4,
+      maxLosingStreak: 6,              // Matches tradeMode
       maxDailyLossPercent: 3,
       minRRRatio: 1,
     },
@@ -213,8 +201,6 @@ export const SEED_CONFIG: SystemConfig = {
 
 @Injectable()
 export class SystemConfigService {
-  // TODO: Replace with Prisma-backed row once SystemConfig table is migrated.
-  // Single upserted row, editable via PATCH /admin/system-config.
   private config: SystemConfig = {
     ...SEED_CONFIG,
     fetchedAt: new Date().toISOString(),

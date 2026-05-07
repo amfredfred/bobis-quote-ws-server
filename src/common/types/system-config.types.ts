@@ -6,6 +6,7 @@ export interface BacktestStats {
   avgRR: number;
   maxLosingStreak: number;
   avgLosingStreak: number;
+  lifetimeMaxLosingStreak: number;
   totalTrades: number;
   profitFactor: number;
   sharpeRatio?: number;
