@@ -125,7 +125,7 @@ export class AccountHandler {
     const account = await this.svc.findOne(id, userId);
 
     // If the account has a MetaAPI deployment, migrate it to the right cloud tier
-    if (account.metaApiAccountId && account.platform) { 
+    if (account.metaApiAccountId && account.platform) {
 
       try {
 
@@ -133,8 +133,10 @@ export class AccountHandler {
           try {
             if (enabled) {
               await this.metaApi.upgradeToExec(account.metaApiAccountId);
+              await this.brokerSync.stopAccount(account.id);
             } else {
               await this.metaApi.downgradeToSync(account.metaApiAccountId);
+              await this.brokerSync.startAccount(account);
             }
           } catch (err: any) {
             throw new InternalServerErrorException(
