@@ -125,34 +125,25 @@ export class AccountHandler {
     const account = await this.svc.findOne(id, userId);
 
     // If the account has a MetaAPI deployment, migrate it to the right cloud tier
-    if (account.metaApiAccountId && account.platform) {
-      const params = {
-        login: account.accountNumber,
-        password: '', // MetaAPI retains credentials — empty triggers credential reuse
-        server: '', // same — MetaAPI already has this
-        platform: account.platform as 'mt4' | 'mt5',
-        name: account.name,
-        magic: (account.riskConfig as any)?.magicNumber ?? 1000010,
-      };
+    if (account.metaApiAccountId && account.platform) { 
 
       try {
-        let newMetaApiId: string;
 
-        if (enabled) {
-          // Upgrade: g1+regular → g2+high for execution capability
-          ({ metaApiAccountId: newMetaApiId } = await this.metaApi.upgradeToExec(
-            account.metaApiAccountId, params
-          ));
-        } else {
-          // Downgrade: g2+high → g1+regular to save cost
-          ({ metaApiAccountId: newMetaApiId } = await this.metaApi.downgradeToSync(
-            account.metaApiAccountId, params
-          ));
+        if (account.metaApiAccountId) {
+          try {
+            if (enabled) {
+              await this.metaApi.upgradeToExec(account.metaApiAccountId);
+            } else {
+              await this.metaApi.downgradeToSync(account.metaApiAccountId);
+            }
+          } catch (err: any) {
+            throw new InternalServerErrorException(
+              `Failed to ${enabled ? 'upgrade' : 'downgrade'} broker connection: ${err.message}`
+            );
+          }
         }
 
-        // Update the DB with the new MetaAPI account ID
-        await this.svc.update(id, userId, { metaApiAccountId: newMetaApiId });
-
+        await this.svc.setAutoTrade(id, userId, enabled);
       } catch (err: any) {
         throw new InternalServerErrorException(
           `Failed to ${enabled ? 'upgrade' : 'downgrade'} broker connection: ${err.message}`

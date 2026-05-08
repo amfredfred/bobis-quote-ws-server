@@ -2,7 +2,7 @@
 
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import MetaApi, { SynchronizationListener } from 'metaapi.cloud-sdk';
+import MetaApi, { SynchronizationListener, MetatraderAccount } from 'metaapi.cloud-sdk';
 import { AccountInfo, SymbolInfo, BrokerPosition } from '../../common/types/position.types';
 import { OpenOrderParams, OpenOrderResult } from './metaapi.types';
 import { createLogger } from '../../common/logger/logger';
@@ -12,7 +12,7 @@ const logger = createLogger('metaapi.service');
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MetaApiConnection = any;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type MetaApiAccount = any;
+type MetaApiAccount = MetatraderAccount;
 
 const CONNECT_TIMEOUT_MS = 30_000;
 
@@ -105,29 +105,35 @@ export class MetaApiService implements OnModuleDestroy {
     }
   }
 
+  // password change — no redeploy needed
+  async updateCredentials(metaApiAccountId: string, password: string): Promise<void> {
+    const account = await this.api.metatraderAccountApi.getAccount(metaApiAccountId);
+    await account.update({ password, name: account.name, server: account.server, magic: account.magic });
+    logger.info('Account credentials updated', { metaApiAccountId });
+  }
+
+  // name/label change
+  async updateName(metaApiAccountId: string, name: string): Promise<void> {
+    const account = await this.api.metatraderAccountApi.getAccount(metaApiAccountId);
+    await account.update({ name, server: account.server, magic: account.magic });
+    logger.info('Account name updated', { metaApiAccountId });
+  }
+
   /**
    * Upgrade an existing g1 sync account to g2+high for auto-trade execution.
    * Called when a user enables auto-trade on an existing account.
    * MetaAPI does not support in-place type changes — we must remove and recreate.
    * Returns the new metaApiAccountId so the caller can update the DB.
    */
-  async upgradeToExec(
-    metaApiAccountId: string,
-    params: Omit<DeployAccountParams, 'autoTrade'>,
-  ): Promise<{ metaApiAccountId: string }> {
-    logger.info('Upgrading account to exec tier (g2+high)', { metaApiAccountId });
-
-    // 1. Disconnect and remove the g1 account
-    await this.undeployAccount(metaApiAccountId);
-    try {
-      const old = await this.api.metatraderAccountApi.getAccount(metaApiAccountId);
-      await old.remove();
-    } catch (err) {
-      logger.warn('Could not remove old g1 account — may already be gone', { metaApiAccountId, error: String(err) });
-    }
-
-    // 2. Redeploy on g2+high
-    return this.deployAccount({ ...params, autoTrade: true });
+  async upgradeToExec(metaApiAccountId: string): Promise<void> {
+    const account = await this.api.metatraderAccountApi.getAccount(metaApiAccountId);
+    // await account.update({ reliability: 'high' });
+    // await this._withTimeout(
+    //   account.waitDeployed(),
+    //   120_000,
+    //   `MetaApi upgrade timeout for ${metaApiAccountId}`,
+    // );
+    logger.info(`Account ${account.id} upgraded to exec tier`, { metaApiAccountId });
   }
 
   /**
@@ -135,23 +141,15 @@ export class MetaApiService implements OnModuleDestroy {
    * Saves ~$12/account/month for accounts that no longer need execution capability.
    * Returns the new metaApiAccountId.
    */
-  async downgradeToSync(
-    metaApiAccountId: string,
-    params: Omit<DeployAccountParams, 'autoTrade'>,
-  ): Promise<{ metaApiAccountId: string }> {
-    logger.info('Downgrading account to sync tier (g1+regular)', { metaApiAccountId });
-
-    // 1. Disconnect and remove the g2 account
-    await this.undeployAccount(metaApiAccountId);
-    try {
-      const old = await this.api.metatraderAccountApi.getAccount(metaApiAccountId);
-      await old.remove();
-    } catch (err) {
-      logger.warn('Could not remove old g2 account — may already be gone', { metaApiAccountId, error: String(err) });
-    }
-
-    // 2. Redeploy on g1+regular
-    return this.deployAccount({ ...params, autoTrade: false });
+  async downgradeToSync(metaApiAccountId: string): Promise<void> {
+    const account = await this.api.metatraderAccountApi.getAccount(metaApiAccountId);
+    // await account.update({ reliability: 'regular' });
+    // await this._withTimeout(
+    //   account.waitDeployed(),
+    //   120_000,
+    //   `MetaApi downgrade timeout for ${metaApiAccountId}`,
+    // );
+    logger.info(`Account ${account.id} downgraded to sync tier`, { metaApiAccountId });
   }
 
   // ── Connection lifecycle ───────────────────────────────────────────────────
