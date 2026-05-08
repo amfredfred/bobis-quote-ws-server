@@ -3,7 +3,7 @@
 import { Injectable, NotFoundException, Inject, forwardRef } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { SignalGateway } from '../signal/signal.gateway';
-import { SignalAlertStatus, SignalOutcome } from '@src/prisma/generated/enums';
+import { SignalAlertStatus, SignalOutcome } from '../../prisma/prisma/generated/enums';
 import { InboundSignal } from '@src/common/types/signal.types';
 
 export interface UpsertSignalAlertDto {

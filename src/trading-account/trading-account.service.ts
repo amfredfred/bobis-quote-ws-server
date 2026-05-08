@@ -78,6 +78,15 @@ export class TradingAccountService {
     return this._map(row);
   }
 
+  /** Used by BrokerSyncService on startup — finds all broker-connected accounts without auto-trade. */
+  async findAllSync(): Promise<TradingAccount[]> {
+    const rows = await this.prisma.tradingAccount.findMany({
+      where: { metaApiAccountId: { not: null }, autoTradeEnabled: false, isActive: true },
+      orderBy: { createdAt: 'asc' },
+    });
+    return rows.map(r => this._map(r));
+  }
+
   /** Used by PipelineManager on startup — finds all accounts with auto-trade enabled */
   async findAllAutoTrade(): Promise<TradingAccount[]> {
     const rows = await this.prisma.tradingAccount.findMany({
@@ -112,7 +121,7 @@ export class TradingAccountService {
         currency: dto.currency ?? 'usd',
         startBalance: dto.startBalance,
         currentBalance: dto.currentBalance ?? dto.startBalance,
-        platform: dto.platform as any ?? null,
+        platform: dto.platform,
         metaApiAccountId: dto.metaApiAccountId ?? null,
         autoTradeEnabled: dto.autoTradeEnabled ?? false,
         riskConfig: toJson(riskConfig),

@@ -570,6 +570,8 @@ export type JournalTradeOrderByWithRelationInput = {
 
 export type JournalTradeWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  ticketId?: string
+  ticketId_accountId?: Prisma.JournalTradeTicketIdAccountIdCompoundUniqueInput
   AND?: Prisma.JournalTradeWhereInput | Prisma.JournalTradeWhereInput[]
   OR?: Prisma.JournalTradeWhereInput[]
   NOT?: Prisma.JournalTradeWhereInput | Prisma.JournalTradeWhereInput[]
@@ -583,7 +585,6 @@ export type JournalTradeWhereUniqueInput = Prisma.AtLeast<{
   entryPrice?: Prisma.FloatFilter<"JournalTrade"> | number
   exitPrice?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   quantity?: Prisma.FloatFilter<"JournalTrade"> | number
-  ticketId?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
   pnl?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   pnlPercent?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   commission?: Prisma.FloatFilter<"JournalTrade"> | number
@@ -615,7 +616,7 @@ export type JournalTradeWhereUniqueInput = Prisma.AtLeast<{
   account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
   profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
   strategy?: Prisma.XOR<Prisma.TradingStrategyNullableScalarRelationFilter, Prisma.TradingStrategyWhereInput> | null
-}, "id">
+}, "id" | "ticketId" | "ticketId_accountId">
 
 export type JournalTradeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -1012,6 +1013,11 @@ export type JournalTradeListRelationFilter = {
 
 export type JournalTradeOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type JournalTradeTicketIdAccountIdCompoundUniqueInput = {
+  ticketId: string
+  accountId: string
 }
 
 export type JournalTradeCountOrderByAggregateInput = {

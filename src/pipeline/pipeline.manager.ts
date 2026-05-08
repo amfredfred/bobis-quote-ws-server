@@ -83,6 +83,7 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
         this.tradesSvc,
         this.metrics,
         this.bus,
+        this.accountSvc,
         this.prisma,
       );
       await pipeline.start();

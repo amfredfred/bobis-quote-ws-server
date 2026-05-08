@@ -29,7 +29,7 @@ export class ExecutionEngine {
     private readonly accountId: string,
     private readonly metrics: AccountMetrics,
     private readonly bus: EventBus,
-    private readonly onTradeOpened: (trade: Trade) => void,
+    private readonly onTradeOpened: (trade: Trade) => Promise<void>,
   ) {
     this.logger = createLogger(`exec.${accountId.slice(0, 8)}`);
   }
@@ -148,9 +148,13 @@ export class ExecutionEngine {
         entryPrice: order.executedPrice,
         entryLots: filled,
         currentLots: filled,
-        stopLoss: plan.stopLoss,
-        tp1: plan.tp1,
-        tp2: plan.tp2,
+        // Use adjusted levels so PositionManager poll detects TP/SL at the
+        // correct prices. plan.* already has the same values when
+        // adjustLevelsOnSlippage=false (adj* == plan.*), so no behaviour change
+        // in the default case.
+        stopLoss: adjSl,
+        tp1: adjTp1,
+        tp2: adjTp2,
         tp1Hit: false,
         tp2Hit: false,
         slHit: false,
@@ -179,7 +183,7 @@ export class ExecutionEngine {
       });
 
       this.bus.emit(EventNames.TRADE_OPENED, trade);
-      this.onTradeOpened(trade);
+      await this.onTradeOpened(trade);  // must complete before TP/SL updates can arrive
       return trade;
 
     } catch (err) {

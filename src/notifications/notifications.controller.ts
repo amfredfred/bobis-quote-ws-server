@@ -3,13 +3,13 @@
 import { Controller, Post, Req, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
 import { JwtGuard, type AuthRequest } from '../auth/jwt-auth.guard';
 import { NotificationsService } from './notifications.service';
-import { NotificationType } from 'src/prisma/generated/enums';
+import { NotificationType } from '../../prisma/prisma/generated/enums';
 
 @Controller('notifications')
 @UseGuards(JwtGuard)
 export class NotificationsController {
 
-  constructor(private readonly svc: NotificationsService) {}
+  constructor(private readonly svc: NotificationsService) { }
 
   /**
    * POST /notifications/test
@@ -22,11 +22,11 @@ export class NotificationsController {
   @HttpCode(HttpStatus.OK)
   async sendTest(@Req() req: AuthRequest) {
     const sent = await this.svc.send({
-      userId:           req.user.id,
-      title:            '🔔 Test Notification',
-      body:             'Push notifications are working correctly.',
+      userId: req.user.id,
+      title: '🔔 Test Notification',
+      body: 'Push notifications are working correctly.',
       notificationType: NotificationType.SYSTEM_UPDATE,
-      data:             { type: 'test' },
+      data: { type: 'test' },
     });
 
     if (!sent) {

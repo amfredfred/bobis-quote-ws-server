@@ -8,7 +8,7 @@ import { BosDirection, InboundSignal } from '../common/types/signal.types';
 import { MarketService } from '../market/market.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { createLogger } from '../common/logger/logger';
-import { SignalOutcome } from '@src/prisma/generated/enums';
+import { SignalOutcome } from '@prisma-generated/enums';
 
 const logger = createLogger('signal.gateway');
 

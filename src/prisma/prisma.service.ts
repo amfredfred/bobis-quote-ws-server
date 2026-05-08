@@ -1,7 +1,7 @@
 'use strict';
 
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-import { PrismaClient } from './generated/client';
+import { PrismaClient } from '../../prisma/prisma/generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { createLogger } from '../common/logger/logger';
 

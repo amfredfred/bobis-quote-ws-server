@@ -58,7 +58,7 @@ export class PositionManager {
   async hydrateFromBroker(savedTrades: Trade[]): Promise<void> {
     let brokerPositions: BrokerPosition[];
     try {
-      brokerPositions = await this.metaApi.getOpenPositions(this.metaApiAccountId);
+      brokerPositions = await this.metaApi.getOpenPositions(this.metaApiAccountId, this.config.magicNumber);
     } catch (err) {
       this.logger.warn('Hydrate failed — first poll will populate', { error: String(err) });
       return;
@@ -96,7 +96,7 @@ export class PositionManager {
     // Fetch positions once and reuse for both daily loss and lifecycle.
     let brokerPositions: BrokerPosition[];
     try {
-      brokerPositions = await this.metaApi.getOpenPositions(this.metaApiAccountId);
+      brokerPositions = await this.metaApi.getOpenPositions(this.metaApiAccountId, this.config.magicNumber);
     } catch (err) {
       this.logger.warn('Failed to fetch positions', { error: String(err) });
       return;
@@ -141,7 +141,10 @@ export class PositionManager {
       if (trade.entryTicket == null) continue;
 
       if (!brokerByTicket.has(trade.entryTicket)) {
-        if (trade.id.startsWith('STUB_')) {
+        if (trade.id.startsWith('STUB_') && !trade.tp2Hit) {
+          // Tolerate transient broker gaps for stubs that haven't reached TP2 yet.
+          // Once tp2Hit=true the position should be closing imminently; skip the
+          // miss-tolerance window so _handlePositionGone fires without delay.
           const misses = (this.stubMisses.get(trade.id) ?? 0) + 1;
           this.stubMisses.set(trade.id, misses);
           if (misses < STUB_MISS_LIMIT) continue;
@@ -163,11 +166,6 @@ export class PositionManager {
       }
 
       if (trade.tp1Hit && !trade.tp2Hit && (isBuy ? cur >= trade.tp2 : cur <= trade.tp2)) {
-        // H-2 FIX: use pos.currentPrice (the broker's live price) — same source
-        // as TP detection — which is already the most accurate value available
-        // in a polling model. The real close price will differ by at most one
-        // poll interval worth of movement; for precise history, query the broker
-        // deals API after close if analytics accuracy is critical.
         this._handleTp2(trade, pos.currentPrice);
       }
     }
@@ -221,41 +219,41 @@ export class PositionManager {
   }
 
   private _handleTp2(trade: Trade, price: number): void {
-    this.logger.info('TP2 hit', { tradeId: trade.id, symbol: trade.symbol, price });
+    this.logger.info('TP2 hit — awaiting broker TP close', { tradeId: trade.id, symbol: trade.symbol, price });
 
-    // NOTE: We do NOT send a close order here. When the trade was opened,
-    // plan.tp2 was set as the broker takeProfit level, so the broker's own
-    // TP order closes the position. Our role is to detect that it happened
-    // (position gone from broker + price reached tp2) and update our records.
-    // If takeProfit is ever changed to tp1 or 0 at the broker, this must be revisited.
-
-    const realizedRR = trade.entryPrice != null && trade.stopLoss !== trade.entryPrice
-      ? Math.abs(price - trade.entryPrice) / Math.abs(trade.entryPrice - trade.stopLoss)
-      : 0;
-
-    const updated = this.store.update(trade.id, {
-      tp2Hit: true,
-      tp2HitAt: nowMs(),
-      status: 'CLOSED',
-      closeReason: 'TP2_HIT',
-      closePrice: price,
-      closedAt: nowMs(),
-      realizedRR,
-    });
+    // Record the TP2 detection only. We do NOT send a close order — the broker's
+    // own TP level (set when the order was opened) will close the position cleanly
+    // at the exact TP2 price. Our job here is to:
+    //   1. Set tp2Hit=true so this handler is not re-entered on the next poll.
+    //   2. Emit TRADE_TP2_HIT so subscribers can react immediately (e.g. UI update).
+    //
+    // The trade intentionally stays in the store as PARTIALLY_CLOSED.
+    // _handlePositionGone will fire on the next poll once the broker confirms the
+    // position is gone, and it will complete the CLOSED lifecycle (closeReason,
+    // closePrice, realizedRR, TRADE_CLOSED event).
+    const updated = this.store.update(trade.id, { tp2Hit: true, tp2HitAt: nowMs() });
     if (updated) {
-      this.store.remove(trade.id);
       this.metrics.increment('trades.tp2_hit');
-      this.metrics.setGauge('trades.open_count', this.store.openCount());
       this.bus.emit(EventNames.TRADE_TP2_HIT, updated);
-      this.bus.emit(EventNames.TRADE_CLOSED, updated);
       this.onTp2Hit(updated);
-      this.onTradeClosed(updated);
     }
   }
 
-  private _handlePositionGone(trade: Trade): void {
+  private _handlePositionGone(trade: Trade, lastKnownPrice?: number): void {
     const isStub: boolean = trade.id.startsWith('STUB_');
-    const closeReason: CloseReason = isStub ? 'CLOSED_WHILE_DOWN' : 'SL_HIT';
+
+    // If tp2Hit was already set by _handleTp2, the broker's own TP order has now
+    // confirmed the close. Treat it as a successful TP2, not a loss.
+    const closeReason: CloseReason = trade.tp2Hit
+      ? 'TP2_HIT'
+      : isStub
+        ? 'CLOSED_WHILE_DOWN'
+        : 'SL_HIT';
+
+    const price = lastKnownPrice ?? trade.tp2;
+    const realizedRR = trade.tp2Hit && trade.entryPrice != null && trade.stopLoss !== trade.entryPrice
+      ? Math.abs(price - trade.entryPrice) / Math.abs(trade.entryPrice - trade.stopLoss)
+      : undefined;
 
     this.logger.info('Position gone', { tradeId: trade.id, ticket: trade.entryTicket, closeReason });
 
@@ -263,8 +261,10 @@ export class PositionManager {
       status: 'CLOSED',
       closeReason,
       closedAt: nowMs(),
-      slHit: !isStub,
-      slHitAt: !isStub ? nowMs() : undefined,
+      closePrice: trade.tp2Hit ? price : undefined,
+      realizedRR: trade.tp2Hit ? realizedRR : undefined,
+      slHit: closeReason === 'SL_HIT',
+      slHitAt: closeReason === 'SL_HIT' ? nowMs() : undefined,
     });
     if (updated) {
       this.store.remove(trade.id);

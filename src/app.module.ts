@@ -26,6 +26,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { GatewayModule } from './gateway/gateway.module';
 import { ReferralModule } from './referral/referral.module';
 import { SystemModule } from './system/system.module';
+import { BrokerSyncModule } from './sync/broker-sync.module';
 
 
 @Module({
@@ -46,6 +47,7 @@ import { SystemModule } from './system/system.module';
     TradesModule,
     TradingAccountModule,
     PipelineModule,
+    BrokerSyncModule,
     AdminModule,
     // Journal & app features
     ProfileModule,

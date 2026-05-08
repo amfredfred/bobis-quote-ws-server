@@ -20,7 +20,7 @@ import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { MarketService } from '../market/market.service';
 import { InboundSignal } from '../common/types/signal.types';
-import { NotificationType } from '../prisma/generated/enums';
+import { NotificationType } from '@prisma-generated/enums';
 
 // Map signal status → the WS event name pushed to clients
 const STATUS_TO_WS_EVENT: Record<string, string> = {

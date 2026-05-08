@@ -10,6 +10,7 @@ import { PipelineManager } from '../../pipeline/pipeline.manager';
 import { ProGuard } from '../../auth/pro.guard';
 import { TierGuard } from '../../auth/tier.guard';
 import { MetaApiService } from '../../brokers/metaapi/metaapi.service';
+import { BrokerSyncService } from '@src/sync/broker-sync.service';
 
 @Injectable()
 export class AccountHandler {
@@ -19,6 +20,7 @@ export class AccountHandler {
     private readonly proGuard: ProGuard,
     private readonly tierGuard: TierGuard,
     private readonly metaApi: MetaApiService,
+    private readonly brokerSync: BrokerSyncService,
   ) { }
 
   list(userId: string, includeInactive: boolean) {
@@ -31,7 +33,13 @@ export class AccountHandler {
 
   async create(userId: string, dto: CreateTradingAccountDto) {
     await this.tierGuard.checkCanAddAccount(userId);
-    return this.svc.create(userId, dto);
+    const account = await this.svc.create(userId, dto);
+
+    if (account.metaApiAccountId && !account.autoTradeEnabled) {
+      await this.brokerSync.startAccount(account);
+    }
+
+    return account;
   }
 
   update(userId: string, id: string, dto: Omit<UpdateTradingAccountDto, 'id'>) {
@@ -83,31 +91,31 @@ export class AccountHandler {
     const trades = pipeline.getOpenTrades();
 
     return trades.map((trade) => ({
-      tradeId:       trade.id,
-      accountId:     trade.accountId,
-      signalId:      trade.signalId ?? null,
-      symbol:        trade.symbol,
-      direction:     trade.side === 'BUY' ? 'LONG' : 'SHORT',
-      state:         trade.status === 'PARTIALLY_CLOSED' ? 'PARTIALLY_CLOSED'
-                   : trade.status === 'CLOSED'           ? 'CLOSED'
-                   : 'OPEN',
-      entryPrice:    trade.entryPrice ?? 0,
-      stopLoss:      trade.stopLoss,
-      tp1:           trade.tp1,
-      tp2:           trade.tp2,
-      currentLots:   trade.currentLots,
-      entryLots:     trade.entryLots,
-      tp1Hit:        trade.tp1Hit,
-      tp1HitAt:      trade.tp1HitAt ?? null,
-      tp2Hit:        trade.tp2Hit,
-      tp2HitAt:      trade.tp2HitAt ?? null,
-      slHit:         trade.slHit,
-      slHitAt:       trade.slHitAt ?? null,
-      closeReason:   trade.closeReason ?? null,
-      realizedRR:    trade.realizedRR ?? null,
+      tradeId: trade.id,
+      accountId: trade.accountId,
+      signalId: trade.signalId ?? null,
+      symbol: trade.symbol,
+      direction: trade.side === 'BUY' ? 'LONG' : 'SHORT',
+      state: trade.status === 'PARTIALLY_CLOSED' ? 'PARTIALLY_CLOSED'
+        : trade.status === 'CLOSED' ? 'CLOSED'
+          : 'OPEN',
+      entryPrice: trade.entryPrice ?? 0,
+      stopLoss: trade.stopLoss,
+      tp1: trade.tp1,
+      tp2: trade.tp2,
+      currentLots: trade.currentLots,
+      entryLots: trade.entryLots,
+      tp1Hit: trade.tp1Hit,
+      tp1HitAt: trade.tp1HitAt ?? null,
+      tp2Hit: trade.tp2Hit,
+      tp2HitAt: trade.tp2HitAt ?? null,
+      slHit: trade.slHit,
+      slHitAt: trade.slHitAt ?? null,
+      closeReason: trade.closeReason ?? null,
+      realizedRR: trade.realizedRR ?? null,
       unrealizedPnl: null, // live P&L not tracked in PositionStore; added by PositionManager in a future pass
-      openedAt:      trade.openedAt ?? trade.createdAt,
-      closedAt:      trade.closedAt ?? null,
+      openedAt: trade.openedAt ?? trade.createdAt,
+      closedAt: trade.closedAt ?? null,
     }));
   }
 

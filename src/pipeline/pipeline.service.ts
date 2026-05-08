@@ -1,6 +1,6 @@
 'use strict'
 
-import { TradingAccount } from '../trading-account/trading-account.service';
+import { TradingAccount, TradingAccountService } from '../trading-account/trading-account.service';
 import { InboundSignal, SignalStatus } from '../common/types/signal.types';
 import { Trade } from '../common/types/trade.types';
 import { RiskEngine } from '../risk/risk.engine';
@@ -56,6 +56,7 @@ export class PipelineService {
     private readonly tradesSvc: TradesService,
     metricsSvc: MetricsService,
     private readonly bus: EventBus,
+    private readonly accountSvc: TradingAccountService,
     private readonly prisma?: PrismaService,
   ) {
     this.ownerUserId = account.userId;
@@ -101,6 +102,12 @@ export class PipelineService {
       this.metrics.setGauge('balance', info.balance);
       this.metrics.setGauge('equity', info.equity);
       this.metrics.setGauge('margin', info.margin);
+
+      await this.accountSvc.update(this.account.id, this.account.userId, {
+        currentBalance: info.balance,
+        lastSyncAt: new Date().toISOString(),
+      });
+
     } catch (err) {
       this.logger.warn('Could not fetch initial account info', { error: String(err) });
     }
@@ -185,10 +192,36 @@ export class PipelineService {
     };
   }
 
+  // ── Helpers ────────────────────────────────────────────────────────────────
+
+  /**
+   * FIX (Bug 1): Centralised stub check used by every lifecycle callback.
+   * Stub trades are hydrated from the broker on restart when no DB record exists.
+   * Their IDs are synthetic strings, not UUIDs, so all Prisma operations will
+   * fail with "invalid input syntax for type uuid". Skip all DB writes for them.
+   */
+  private _isStubTrade(trade: Trade): boolean {
+    return trade.id.startsWith('STUB_') || trade.plan.signalId === 'unknown';
+  }
+
   // ── Trade lifecycle callbacks ──────────────────────────────────────────────
 
-  private _onTradeOpened(trade: Trade): void {
-    // Signal upsert: fire-and-forget is acceptable; signal record is non-critical
+  /**
+   * FIX (Bug 2): _persistWithRetry is now awaited before returning so that
+   * any subsequent TP/SL update callbacks are guaranteed to find the row in DB.
+   * Without this, a fast TP1 (e.g. <60 s after open) races the INSERT and the
+   * UPDATE arrives first, causing a "record not found" error on every attempt.
+   *
+   * Signal and journal upserts remain fire-and-forget — they are non-critical
+   * and must not block the create.
+   */
+  private async _onTradeOpened(trade: Trade): Promise<void> {
+    if (this._isStubTrade(trade)) {
+      this.logger.debug('Skipping DB writes for stub trade on open', { tradeId: trade.id });
+      return;
+    }
+
+    // Fire-and-forget: non-critical, must not block trade persistence
     this.tradesSvc.upsertSignal({
       signal: trade.plan.signal!,
       accountId: this.account.id,
@@ -197,45 +230,51 @@ export class PipelineService {
       tradeId: trade.id,
     }).catch(() => { });
 
-    // Journal sync: create the JournalTrade row so it appears in the Trades page
-    // immediately on entry with source='auto_trade' and all execution context.
     this.tradesSvc.upsertJournalFromExecution(trade, this.ownerUserId)
       .catch(err => this.logger.error('Journal upsert failed on open', {
         tradeId: trade.id, error: String(err),
       }));
 
-    // Trade persistence: retry with exponential back-off so a transient DB
-    // failure does not result in a permanently missing trade record.
-    this._persistWithRetry(trade);
+    // Awaited so downstream TP/SL updates always find the row
+    await this._persistWithRetry(trade);
   }
 
   /**
+   * FIX (Bug 2): Returns Promise<void> so the caller can await it.
    * Retry tradesSvc.create() up to maxAttempts times with exponential back-off.
    * On exhaustion, an error is logged but the in-memory position continues to
    * be managed correctly — the trade will be recovered as a STUB on next restart.
    */
-  private _persistWithRetry(trade: Trade, attempt = 1, maxAttempts = 4): void {
-    this.tradesSvc.create(trade).catch(err => {
+  private async _persistWithRetry(trade: Trade, attempt = 1, maxAttempts = 4): Promise<void> {
+    try {
+      await this.tradesSvc.create(trade);
+    } catch (err) {
       this.logger.error('Failed to persist trade open', {
         tradeId: trade.id, attempt, error: String(err),
       });
       if (attempt < maxAttempts) {
         const delayMs = Math.min(500 * Math.pow(2, attempt - 1), 8_000);
-        setTimeout(() => this._persistWithRetry(trade, attempt + 1, maxAttempts), delayMs);
-      } else {
-        this.logger.error('Giving up persisting trade after max retries — will become STUB on restart', {
-          tradeId: trade.id,
-        });
-        this.metrics.increment('trades.persist_failed');
+        await new Promise(res => setTimeout(res, delayMs));
+        return this._persistWithRetry(trade, attempt + 1, maxAttempts);
       }
-    });
+      this.logger.error('Giving up persisting trade after max retries — will become STUB on restart', {
+        tradeId: trade.id,
+      });
+      this.metrics.increment('trades.persist_failed');
+    }
   }
 
   private _onTp1Hit(trade: Trade): void {
+    if (this._isStubTrade(trade)) {
+      this.logger.debug('Skipping DB writes for stub trade on TP1', { tradeId: trade.id });
+      return;
+    }
+
     this._updateWithRetry('TP1', trade.id, {
       status: trade.status, tp1Hit: true, tp1HitAt: trade.tp1HitAt,
       currentLots: trade.currentLots, stopLoss: trade.stopLoss,
     });
+
     // Journal sync: reflect tp1Hit and updated stopLoss (now breakeven) immediately
     this.tradesSvc.upsertJournalFromExecution(trade, this.ownerUserId)
       .catch(err => this.logger.error('Journal upsert failed on TP1', {
@@ -244,12 +283,22 @@ export class PipelineService {
   }
 
   private _onTp2Hit(trade: Trade): void {
+    if (this._isStubTrade(trade)) {
+      this.logger.debug('Skipping DB writes for stub trade on TP2', { tradeId: trade.id });
+      return;
+    }
+
     this._updateWithRetry('TP2', trade.id, {
       tp2Hit: true, tp2HitAt: trade.tp2HitAt,
     });
   }
 
   private _onSlHit(trade: Trade): void {
+    if (this._isStubTrade(trade)) {
+      this.logger.debug('Skipping DB writes for stub trade on SL', { tradeId: trade.id });
+      return;
+    }
+
     this._updateWithRetry('SL', trade.id, {
       slHit: true, slHitAt: trade.slHitAt,
     });
@@ -257,7 +306,7 @@ export class PipelineService {
 
   /**
    * Retry tradesSvc.update() up to maxAttempts times with exponential back-off.
-   * TP1/TP2/SL events are broker-executed facts — a transient DB failure must
+   * TP1/TP2/SL/CLOSE events are broker-executed facts — a transient DB failure must
    * not silently drop the record. On exhaustion the trade state is inconsistent
    * with the broker; log prominently so ops can reconcile.
    */
@@ -299,8 +348,7 @@ export class PipelineService {
     // Local accumulation caused double-counting when the poll fired concurrently.
 
     // Only write to signals table for real (non-stub) trades with a valid signal ref.
-    const isStub = trade.id.startsWith('STUB_') || trade.plan.signalId === 'unknown';
-    if (!isStub && trade.plan.signal) {
+    if (!this._isStubTrade(trade) && trade.plan.signal) {
       // M-4 FIX: Map signal status from actual close reason, not always TP2_HIT
       const signalStatus = this._closeReasonToSignalStatus(trade.closeReason);
       this.tradesSvc.upsertSignal({
@@ -313,11 +361,21 @@ export class PipelineService {
       }).catch(() => { });
     }
 
-    this.tradesSvc.update(trade.id, {
-      status: trade.status, closeReason: trade.closeReason,
-      closePrice: trade.closePrice, closedAt: trade.closedAt,
-      realizedPnl: trade.realizedPnl, realizedRR: trade.realizedRR,
-    }).catch(err => this.logger.error('Failed to persist close', { tradeId: trade.id, error: String(err) }));
+    if (this._isStubTrade(trade)) {
+      this.logger.debug('Skipping DB writes for stub trade on close', { tradeId: trade.id });
+      return;
+    }
+
+    // FIX (Bug 3): Route through _updateWithRetry — close is the most critical
+    // event to persist and must not be silently dropped on a transient DB failure.
+    this._updateWithRetry('CLOSE', trade.id, {
+      status: trade.status,
+      closeReason: trade.closeReason,
+      closePrice: trade.closePrice,
+      closedAt: trade.closedAt,
+      realizedPnl: trade.realizedPnl,
+      realizedRR: trade.realizedRR,
+    });
 
     // Journal sync: update the JournalTrade row with close context so the
     // Trades page shows closeReason, realizedRR, and lifecycle timestamps.

@@ -11,8 +11,8 @@ import { PipelineManager } from '../pipeline/pipeline.manager';
 import { MetricsService } from '../core/metrics/metrics.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotificationsService } from '../notifications/notifications.service';
-import { NotificationType } from '../prisma/generated/enums';
-import { MetricsCounter } from 'src/prisma/generated/client';
+import { NotificationType } from '@prisma-generated/enums';
+import { MetricsCounter } from '@prisma-generated/client';
 
 @Controller('admin')
 @UseGuards(JwtGuard, AdminGuard)

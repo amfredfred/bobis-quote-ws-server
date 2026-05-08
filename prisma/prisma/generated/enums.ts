@@ -82,18 +82,6 @@ export const CandlePattern = {
 export type CandlePattern = (typeof CandlePattern)[keyof typeof CandlePattern]
 
 
-export const BrokerPlatform = {
-  MT5: 'MT5',
-  MT4: 'MT4',
-  MATCH_TRADER: 'MATCH_TRADER',
-  CTRADER: 'CTRADER',
-  TRADING_VIEW: 'TRADING_VIEW',
-  CUSTOM: 'CUSTOM'
-} as const
-
-export type BrokerPlatform = (typeof BrokerPlatform)[keyof typeof BrokerPlatform]
-
-
 export const TradeDirection = {
   long: 'long',
   short: 'short'

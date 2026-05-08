@@ -1,9 +1,9 @@
 'use strict'
 
-import { SignalOutcome } from "@src/prisma/generated/enums";
+import { SignalOutcome } from "@prisma-generated/enums";
 
 export type SignalDirection = 'LONG' | 'SHORT';
-export type SignalStatus =  'PENDING' | 'TRIGGERED' | 'TP1_HIT' | 'TP2_HIT' | 'SL_HIT' | 'INVALIDATED' | 'EXPIRED';
+export type SignalStatus = 'PENDING' | 'TRIGGERED' | 'TP1_HIT' | 'TP2_HIT' | 'SL_HIT' | 'INVALIDATED' | 'EXPIRED';
 
 export type BosDirection = 'BULLISH' | 'BEARISH';
 export type CandlePattern = 'SHOOTING_STAR' | 'HAMMER';

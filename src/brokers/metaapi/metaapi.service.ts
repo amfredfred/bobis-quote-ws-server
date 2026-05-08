@@ -2,7 +2,7 @@
 
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import MetaApi from 'metaapi.cloud-sdk';
+import MetaApi, { SynchronizationListener } from 'metaapi.cloud-sdk';
 import { AccountInfo, SymbolInfo, BrokerPosition } from '../../common/types/position.types';
 import { OpenOrderParams, OpenOrderResult } from './metaapi.types';
 import { createLogger } from '../../common/logger/logger';
@@ -42,9 +42,15 @@ export class MetaApiService implements OnModuleDestroy {
   private readonly connections = new Map<string, MetaApiConnection>();
   private readonly symbolCache = new Map<string, string>();   // engineSymbol:accountId → brokerSymbol
 
+
+  private readonly streamingConnections = new Map<string, MetaApiConnection>();
+
   constructor(private readonly config: ConfigService) {
     const token = this.config.getOrThrow<string>('METAAPI_TOKEN');
-    this.api = new MetaApi(token);
+    this.api = new MetaApi(token, {
+      domain: 'agiliumtrade.agiliumtrade.ai',           // global / default
+      region: 'london'                     // preferred way in newer SDK versions
+    });
   }
 
   // ── Account provisioning ───────────────────────────────────────────────────
@@ -72,7 +78,6 @@ export class MetaApiService implements OnModuleDestroy {
       region: params.region ?? 'vint-hill',
       baseCurrency: params.baseCurrency ?? 'USD',
       reliability: cloud.reliability,
-      quoteStreamingIntervalInSeconds: 2.5,
     });
 
     // Wait for MetaApi to provision the cloud terminal (can take up to 60s)
@@ -206,14 +211,26 @@ export class MetaApiService implements OnModuleDestroy {
       if (exact) {
         brokerSymbol = exact;
       } else {
-        // 2. StartsWith — pick shortest candidate (e.g. EURUSDm not EURUSDm.cx)
-        const candidates = symbols.filter(s => s.toUpperCase().startsWith(base));
-        if (candidates.length) {
-          brokerSymbol = candidates.sort((a, b) => a.length - b.length)[0];
+        // 2. StartsWith or EndsWith — mirrors Python: both in same priority tier,
+        //    shortest wins (e.g. mEURUSD / .EURUSD / EURUSDm all resolve correctly)
+        const flexCandidates = symbols.filter(s => {
+          const u = s.toUpperCase();
+          return u.startsWith(base) || u.endsWith(base);
+        });
+        if (flexCandidates.length) {
+          brokerSymbol = flexCandidates.sort((a, b) => a.length - b.length)[0];
+          if (flexCandidates.length > 1) {
+            logger.warn('Ambiguous symbol — auto-resolved to shortest', {
+              engineSymbol, brokerSymbol, candidates: flexCandidates,
+            });
+          }
         } else {
-          // 3. Contains fallback
-          const contains = symbols.find(s => s.toUpperCase().includes(base));
-          if (contains) brokerSymbol = contains;
+          // 3. Contains fallback — still pick shortest, not first
+          const containsCandidates = symbols.filter(s => s.toUpperCase().includes(base));
+          if (containsCandidates.length) {
+            brokerSymbol = containsCandidates.sort((a, b) => a.length - b.length)[0];
+            logger.warn('Symbol resolved via contains fallback', { engineSymbol, brokerSymbol });
+          }
         }
       }
 
@@ -283,24 +300,30 @@ export class MetaApiService implements OnModuleDestroy {
     const conn = this._conn(metaApiAccountId);
 
     // ── Closed trades P&L for today ──────────────────────────────────────
+    // Use getDealsByTimeRange (execution records) not getHistoryOrdersByTimeRange
+    // (order records). Filter on DEAL_ENTRY_OUT to count only closing legs —
+    // mirrors Python: d.entry == DEAL_ENTRY_OUT. Without this gate both the
+    // opening and closing deal are summed, double-counting commission on every trade.
     let closedPnl = 0;
     try {
       const startOfDay = new Date();
       startOfDay.setUTCHours(0, 0, 0, 0);
-      const deals = await conn.getHistoryOrdersByTimeRange(startOfDay, new Date()) as Array<{
-        magic?: number; profit?: number; swap?: number; commission?: number; type?: string;
-      }> ?? [];
-      closedPnl = deals
-        .filter(d => d.magic === magic && d.type !== 'DEAL_TYPE_BALANCE')
+      const dealsResult = await conn.getDealsByTimeRange(startOfDay, new Date()) as {
+        deals: Array<{
+          magic?: number; profit?: number; swap?: number; commission?: number; entryType?: string;
+        }>
+      } ?? { deals: [] };
+      closedPnl = dealsResult.deals
+        .filter(d => d.magic === magic && d.entryType === 'DEAL_ENTRY_OUT')
         .reduce((sum, d) => sum + (d.profit ?? 0) + (d.swap ?? 0) + (d.commission ?? 0), 0);
-    } catch {
-      logger.warn('getDailyPnlInfo: history unavailable, using open P&L only', { metaApiAccountId });
+    } catch (error) {
+      logger.warn('getDailyPnlInfo: history unavailable, using open P&L only', { metaApiAccountId, error });
     }
 
     // ── Open floating P&L ────────────────────────────────────────────────
-    const allPositions = positions ?? await this.getOpenPositions(metaApiAccountId);
+    // getOpenPositions is now magic-filtered at source so no secondary filter needed.
+    const allPositions = positions ?? await this.getOpenPositions(metaApiAccountId, magic);
     const openPnl = allPositions
-      .filter(p => p.magic === magic)
       .reduce((sum, p) => sum + p.profit + p.swap + p.commission, 0);
 
     const totalPnl = closedPnl + openPnl;
@@ -385,7 +408,7 @@ export class MetaApiService implements OnModuleDestroy {
 
     if (positionId) {
       try {
-        const positions = await this.getOpenPositions(metaApiAccountId);
+        const positions = await this.getOpenPositions(metaApiAccountId, params.magic);
         const filled = positions.find(p => String(p.ticket) === positionId);
         if (filled) {
           return {
@@ -404,7 +427,7 @@ export class MetaApiService implements OnModuleDestroy {
     // Fallback: heuristic scan (last resort — single-account low-frequency case)
     logger.warn('openOrder: falling back to heuristic fill match', { symbol, side: params.side });
     try {
-      const positions = await this.getOpenPositions(metaApiAccountId);
+      const positions = await this.getOpenPositions(metaApiAccountId, params.magic);
       const candidates = positions.filter(
         p => p.magic === params.magic &&
           p.symbol === symbol &&
@@ -449,14 +472,14 @@ export class MetaApiService implements OnModuleDestroy {
     await this._conn(metaApiAccountId).modifyPosition(positionId, sl, tp);
   }
 
-  async getOpenPositions(metaApiAccountId: string): Promise<BrokerPosition[]> {
+  async getOpenPositions(metaApiAccountId: string, magic?: number): Promise<BrokerPosition[]> {
     const positions = await this._conn(metaApiAccountId).getPositions() as Array<{
       id: string; symbol: string; type: string; volume: number;
       openPrice: number; currentPrice: number; stopLoss?: number;
       takeProfit?: number; swap?: number; commission?: number;
       profit?: number; time: string; comment?: string; magic?: number;
     }> ?? [];
-    return positions.map(p => ({
+    const mapped: BrokerPosition[] = positions.map(p => ({
       ticket: parseInt(p.id, 10),
       symbol: p.symbol,
       side: p.type === 'POSITION_TYPE_BUY' ? 'BUY' : 'SELL',
@@ -472,6 +495,79 @@ export class MetaApiService implements OnModuleDestroy {
       comment: p.comment ?? '',
       magic: p.magic ?? 0,
     }));
+    // Mirror Python: filter by magic at source so callers never see positions
+    // belonging to other EAs or manual trades on the same broker account.
+    return magic != null ? mapped.filter(p => p.magic === magic) : mapped;
+  }
+
+  /**
+   * Fetch the closing deal for a specific position ticket from broker history.
+   * Used by BrokerSyncService to resolve close price and realised P&L when a
+   * synced position disappears from the broker.
+   *
+   * Mirrors Python: Mt5Positions.get_deal_price_for_ticket (7-day window,
+   * DEAL_ENTRY_OUT gate, match on positionId == ticket).
+   */
+  async getPositionCloseInfo(
+    metaApiAccountId: string,
+    ticket: number,
+  ): Promise<{ closePrice: number; pnl: number; swap: number; commission: number; closedAt: number } | null> {
+    try {
+      const to = new Date();
+      const from = new Date(to.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days back
+
+      const result = await this._conn(metaApiAccountId).getDealsByTimeRange(from, to) as {
+        deals: Array<{
+          positionId?: string; entryType?: string;
+          price?: number; profit?: number; swap?: number; commission?: number; time?: string;
+        }>
+      } ?? { deals: [] };
+
+      const deal = result.deals.find(
+        d => d.positionId === String(ticket) && d.entryType === 'DEAL_ENTRY_OUT',
+      );
+
+      if (!deal) return null;
+
+      return {
+        closePrice: deal.price ?? 0,
+        pnl: deal.profit ?? 0,
+        swap: deal.swap ?? 0,
+        commission: deal.commission ?? 0,
+        closedAt: deal.time ? new Date(deal.time).getTime() : Date.now(),
+      };
+    } catch (err) {
+      logger.warn('getPositionCloseInfo failed', { metaApiAccountId, ticket, error: String(err) });
+      return null;
+    }
+  }
+
+
+  async connectStreamingAccount(
+    metaApiAccountId: string,
+    listener: SynchronizationListener,
+  ): Promise<void> {
+    if (this.streamingConnections.has(metaApiAccountId)) return;
+
+    const account = await this.api.metatraderAccountApi.getAccount(metaApiAccountId);
+    const connection = account.getStreamingConnection();
+    connection.addSynchronizationListener(listener);
+
+    await this._withTimeout(
+      Promise.all([account.waitConnected(), connection.connect().then(() => connection.waitSynchronized())]),
+      CONNECT_TIMEOUT_MS,
+      `MetaApi streaming connect timeout for ${metaApiAccountId}`,
+    );
+
+    this.streamingConnections.set(metaApiAccountId, connection);
+    logger.info('Streaming account connected', { metaApiAccountId });
+  }
+
+  async disconnectStreamingAccount(metaApiAccountId: string): Promise<void> {
+    const conn = this.streamingConnections.get(metaApiAccountId);
+    if (!conn) return;
+    try { await conn.close(); } catch { /* ignore */ }
+    this.streamingConnections.delete(metaApiAccountId);
   }
 
   // ── Private ────────────────────────────────────────────────────────────────

@@ -48,7 +48,7 @@ export type TradingAccountMinAggregateOutputType = {
   currency: string | null
   startBalance: number | null
   currentBalance: number | null
-  platform: $Enums.BrokerPlatform | null
+  platform: string | null
   metaApiAccountId: string | null
   autoTradeEnabled: boolean | null
   lastSyncAt: Date | null
@@ -70,7 +70,7 @@ export type TradingAccountMaxAggregateOutputType = {
   currency: string | null
   startBalance: number | null
   currentBalance: number | null
-  platform: $Enums.BrokerPlatform | null
+  platform: string | null
   metaApiAccountId: string | null
   autoTradeEnabled: boolean | null
   lastSyncAt: Date | null
@@ -285,7 +285,7 @@ export type TradingAccountGroupByOutputType = {
   currency: string
   startBalance: number
   currentBalance: number | null
-  platform: $Enums.BrokerPlatform | null
+  platform: string | null
   metaApiAccountId: string | null
   autoTradeEnabled: boolean
   riskConfig: runtime.JsonValue | null
@@ -331,7 +331,7 @@ export type TradingAccountWhereInput = {
   currency?: Prisma.StringFilter<"TradingAccount"> | string
   startBalance?: Prisma.FloatFilter<"TradingAccount"> | number
   currentBalance?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  platform?: Prisma.EnumBrokerPlatformNullableFilter<"TradingAccount"> | $Enums.BrokerPlatform | null
+  platform?: Prisma.StringNullableFilter<"TradingAccount"> | string | null
   metaApiAccountId?: Prisma.StringNullableFilter<"TradingAccount"> | string | null
   autoTradeEnabled?: Prisma.BoolFilter<"TradingAccount"> | boolean
   riskConfig?: Prisma.JsonNullableFilter<"TradingAccount">
@@ -390,7 +390,7 @@ export type TradingAccountWhereUniqueInput = Prisma.AtLeast<{
   currency?: Prisma.StringFilter<"TradingAccount"> | string
   startBalance?: Prisma.FloatFilter<"TradingAccount"> | number
   currentBalance?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  platform?: Prisma.EnumBrokerPlatformNullableFilter<"TradingAccount"> | $Enums.BrokerPlatform | null
+  platform?: Prisma.StringNullableFilter<"TradingAccount"> | string | null
   autoTradeEnabled?: Prisma.BoolFilter<"TradingAccount"> | boolean
   riskConfig?: Prisma.JsonNullableFilter<"TradingAccount">
   lastSyncAt?: Prisma.DateTimeNullableFilter<"TradingAccount"> | Date | string | null
@@ -447,7 +447,7 @@ export type TradingAccountScalarWhereWithAggregatesInput = {
   currency?: Prisma.StringWithAggregatesFilter<"TradingAccount"> | string
   startBalance?: Prisma.FloatWithAggregatesFilter<"TradingAccount"> | number
   currentBalance?: Prisma.FloatNullableWithAggregatesFilter<"TradingAccount"> | number | null
-  platform?: Prisma.EnumBrokerPlatformNullableWithAggregatesFilter<"TradingAccount"> | $Enums.BrokerPlatform | null
+  platform?: Prisma.StringNullableWithAggregatesFilter<"TradingAccount"> | string | null
   metaApiAccountId?: Prisma.StringNullableWithAggregatesFilter<"TradingAccount"> | string | null
   autoTradeEnabled?: Prisma.BoolWithAggregatesFilter<"TradingAccount"> | boolean
   riskConfig?: Prisma.JsonNullableWithAggregatesFilter<"TradingAccount">
@@ -469,7 +469,7 @@ export type TradingAccountCreateInput = {
   currency?: string
   startBalance: number
   currentBalance?: number | null
-  platform?: $Enums.BrokerPlatform | null
+  platform?: string | null
   metaApiAccountId?: string | null
   autoTradeEnabled?: boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -496,7 +496,7 @@ export type TradingAccountUncheckedCreateInput = {
   currency?: string
   startBalance: number
   currentBalance?: number | null
-  platform?: $Enums.BrokerPlatform | null
+  platform?: string | null
   metaApiAccountId?: string | null
   autoTradeEnabled?: boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -521,7 +521,7 @@ export type TradingAccountUpdateInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -548,7 +548,7 @@ export type TradingAccountUncheckedUpdateInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -574,7 +574,7 @@ export type TradingAccountCreateManyInput = {
   currency?: string
   startBalance: number
   currentBalance?: number | null
-  platform?: $Enums.BrokerPlatform | null
+  platform?: string | null
   metaApiAccountId?: string | null
   autoTradeEnabled?: boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -596,7 +596,7 @@ export type TradingAccountUpdateManyMutationInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -619,7 +619,7 @@ export type TradingAccountUncheckedUpdateManyInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -793,10 +793,6 @@ export type NullableFloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type NullableEnumBrokerPlatformFieldUpdateOperationsInput = {
-  set?: $Enums.BrokerPlatform | null
-}
-
 export type TradingAccountCreateNestedOneWithoutSignalsInput = {
   create?: Prisma.XOR<Prisma.TradingAccountCreateWithoutSignalsInput, Prisma.TradingAccountUncheckedCreateWithoutSignalsInput>
   connectOrCreate?: Prisma.TradingAccountCreateOrConnectWithoutSignalsInput
@@ -846,7 +842,7 @@ export type TradingAccountCreateWithoutProfileInput = {
   currency?: string
   startBalance: number
   currentBalance?: number | null
-  platform?: $Enums.BrokerPlatform | null
+  platform?: string | null
   metaApiAccountId?: string | null
   autoTradeEnabled?: boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -871,7 +867,7 @@ export type TradingAccountUncheckedCreateWithoutProfileInput = {
   currency?: string
   startBalance: number
   currentBalance?: number | null
-  platform?: $Enums.BrokerPlatform | null
+  platform?: string | null
   metaApiAccountId?: string | null
   autoTradeEnabled?: boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -926,7 +922,7 @@ export type TradingAccountScalarWhereInput = {
   currency?: Prisma.StringFilter<"TradingAccount"> | string
   startBalance?: Prisma.FloatFilter<"TradingAccount"> | number
   currentBalance?: Prisma.FloatNullableFilter<"TradingAccount"> | number | null
-  platform?: Prisma.EnumBrokerPlatformNullableFilter<"TradingAccount"> | $Enums.BrokerPlatform | null
+  platform?: Prisma.StringNullableFilter<"TradingAccount"> | string | null
   metaApiAccountId?: Prisma.StringNullableFilter<"TradingAccount"> | string | null
   autoTradeEnabled?: Prisma.BoolFilter<"TradingAccount"> | boolean
   riskConfig?: Prisma.JsonNullableFilter<"TradingAccount">
@@ -948,7 +944,7 @@ export type TradingAccountCreateWithoutSignalsInput = {
   currency?: string
   startBalance: number
   currentBalance?: number | null
-  platform?: $Enums.BrokerPlatform | null
+  platform?: string | null
   metaApiAccountId?: string | null
   autoTradeEnabled?: boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -974,7 +970,7 @@ export type TradingAccountUncheckedCreateWithoutSignalsInput = {
   currency?: string
   startBalance: number
   currentBalance?: number | null
-  platform?: $Enums.BrokerPlatform | null
+  platform?: string | null
   metaApiAccountId?: string | null
   autoTradeEnabled?: boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1014,7 +1010,7 @@ export type TradingAccountUpdateWithoutSignalsInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1040,7 +1036,7 @@ export type TradingAccountUncheckedUpdateWithoutSignalsInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1064,7 +1060,7 @@ export type TradingAccountCreateWithoutTradesInput = {
   currency?: string
   startBalance: number
   currentBalance?: number | null
-  platform?: $Enums.BrokerPlatform | null
+  platform?: string | null
   metaApiAccountId?: string | null
   autoTradeEnabled?: boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1090,7 +1086,7 @@ export type TradingAccountUncheckedCreateWithoutTradesInput = {
   currency?: string
   startBalance: number
   currentBalance?: number | null
-  platform?: $Enums.BrokerPlatform | null
+  platform?: string | null
   metaApiAccountId?: string | null
   autoTradeEnabled?: boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1130,7 +1126,7 @@ export type TradingAccountUpdateWithoutTradesInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1156,7 +1152,7 @@ export type TradingAccountUncheckedUpdateWithoutTradesInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1180,7 +1176,7 @@ export type TradingAccountCreateWithoutJournalTradesInput = {
   currency?: string
   startBalance: number
   currentBalance?: number | null
-  platform?: $Enums.BrokerPlatform | null
+  platform?: string | null
   metaApiAccountId?: string | null
   autoTradeEnabled?: boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1206,7 +1202,7 @@ export type TradingAccountUncheckedCreateWithoutJournalTradesInput = {
   currency?: string
   startBalance: number
   currentBalance?: number | null
-  platform?: $Enums.BrokerPlatform | null
+  platform?: string | null
   metaApiAccountId?: string | null
   autoTradeEnabled?: boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1246,7 +1242,7 @@ export type TradingAccountUpdateWithoutJournalTradesInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1272,7 +1268,7 @@ export type TradingAccountUncheckedUpdateWithoutJournalTradesInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1296,7 +1292,7 @@ export type TradingAccountCreateManyProfileInput = {
   currency?: string
   startBalance: number
   currentBalance?: number | null
-  platform?: $Enums.BrokerPlatform | null
+  platform?: string | null
   metaApiAccountId?: string | null
   autoTradeEnabled?: boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1318,7 +1314,7 @@ export type TradingAccountUpdateWithoutProfileInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1343,7 +1339,7 @@ export type TradingAccountUncheckedUpdateWithoutProfileInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1368,7 +1364,7 @@ export type TradingAccountUncheckedUpdateManyWithoutProfileInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   startBalance?: Prisma.FloatFieldUpdateOperationsInput | number
   currentBalance?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  platform?: Prisma.NullableEnumBrokerPlatformFieldUpdateOperationsInput | $Enums.BrokerPlatform | null
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaApiAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoTradeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   riskConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1562,7 +1558,7 @@ export type $TradingAccountPayload<ExtArgs extends runtime.Types.Extensions.Inte
     currency: string
     startBalance: number
     currentBalance: number | null
-    platform: $Enums.BrokerPlatform | null
+    platform: string | null
     metaApiAccountId: string | null
     autoTradeEnabled: boolean
     riskConfig: runtime.JsonValue | null
@@ -2009,7 +2005,7 @@ export interface TradingAccountFieldRefs {
   readonly currency: Prisma.FieldRef<"TradingAccount", 'String'>
   readonly startBalance: Prisma.FieldRef<"TradingAccount", 'Float'>
   readonly currentBalance: Prisma.FieldRef<"TradingAccount", 'Float'>
-  readonly platform: Prisma.FieldRef<"TradingAccount", 'BrokerPlatform'>
+  readonly platform: Prisma.FieldRef<"TradingAccount", 'String'>
   readonly metaApiAccountId: Prisma.FieldRef<"TradingAccount", 'String'>
   readonly autoTradeEnabled: Prisma.FieldRef<"TradingAccount", 'Boolean'>
   readonly riskConfig: Prisma.FieldRef<"TradingAccount", 'Json'>

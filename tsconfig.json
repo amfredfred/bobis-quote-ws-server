@@ -22,7 +22,10 @@
     "noFallthroughCasesInSwitch": false,
 
      "baseUrl": ".",
-    "paths": { "@src/*": ["src/*"] }
+    "paths": { 
+      "@src/*": ["src/*"],
+      "@prisma-generated/*": ["prisma/prisma/generated/*"]
+     }
   },
 
   "include": ["src/**/*", "tsconfig.paths.json"],

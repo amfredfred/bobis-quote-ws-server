@@ -36,6 +36,7 @@ import { ReferralHandler } from './handlers/referral.handler';
 import { SystemHandler } from './handlers/system.handler';
 import { SystemModule } from '@src/system/system.module';
 import { SubscriptionHandler } from './handlers/subscription.handler';
+import { BrokerSyncModule } from '@src/sync/broker-sync.module';
 
 const HANDLERS = [
   DashboardHandler,
@@ -56,6 +57,7 @@ const HANDLERS = [
   imports: [
     AuthModule,
     ProfileModule,
+    BrokerSyncModule,
     TradingAccountModule,
     JournalModule,
     StrategyModule,
@@ -69,7 +71,7 @@ const HANDLERS = [
     PerformanceModule,
     ReferralModule,
     forwardRef(() => PipelineModule),
-    SystemModule
+    SystemModule,
   ],
   providers: [AppGateway, SignalDispatcherService, TradeDispatcherService, ...HANDLERS],
   exports:   [AppGateway],

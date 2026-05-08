@@ -2540,20 +2540,6 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
- * Reference to a field of type 'BrokerPlatform'
- */
-export type EnumBrokerPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BrokerPlatform'>
-    
-
-
-/**
- * Reference to a field of type 'BrokerPlatform[]'
- */
-export type ListEnumBrokerPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BrokerPlatform[]'>
-    
-
-
-/**
  * Reference to a field of type 'Json'
  */
 export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>

@@ -10,7 +10,7 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { TradingStyle } from 'src/prisma/generated/enums';
+import { TradingStyle } from '../../prisma/prisma/generated/enums';
 
 export interface CreateStrategyDto {
   name: string;

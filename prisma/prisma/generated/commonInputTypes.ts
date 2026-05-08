@@ -241,13 +241,6 @@ export type FloatNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedFloatNullableFilter<$PrismaModel> | number | null
 }
 
-export type EnumBrokerPlatformNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.BrokerPlatform | Prisma.EnumBrokerPlatformFieldRefInput<$PrismaModel> | null
-  in?: $Enums.BrokerPlatform[] | Prisma.ListEnumBrokerPlatformFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.BrokerPlatform[] | Prisma.ListEnumBrokerPlatformFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumBrokerPlatformNullableFilter<$PrismaModel> | $Enums.BrokerPlatform | null
-}
-
 export type JsonNullableFilter<$PrismaModel = never> =
 | Prisma.PatchUndefined<
     Prisma.Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -302,16 +295,6 @@ export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedFloatNullableFilter<$PrismaModel>
   _min?: Prisma.NestedFloatNullableFilter<$PrismaModel>
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>
-}
-
-export type EnumBrokerPlatformNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.BrokerPlatform | Prisma.EnumBrokerPlatformFieldRefInput<$PrismaModel> | null
-  in?: $Enums.BrokerPlatform[] | Prisma.ListEnumBrokerPlatformFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.BrokerPlatform[] | Prisma.ListEnumBrokerPlatformFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumBrokerPlatformNullableWithAggregatesFilter<$PrismaModel> | $Enums.BrokerPlatform | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumBrokerPlatformNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumBrokerPlatformNullableFilter<$PrismaModel>
 }
 
 export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
@@ -1100,13 +1083,6 @@ export type NestedFloatNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedFloatNullableFilter<$PrismaModel> | number | null
 }
 
-export type NestedEnumBrokerPlatformNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.BrokerPlatform | Prisma.EnumBrokerPlatformFieldRefInput<$PrismaModel> | null
-  in?: $Enums.BrokerPlatform[] | Prisma.ListEnumBrokerPlatformFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.BrokerPlatform[] | Prisma.ListEnumBrokerPlatformFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumBrokerPlatformNullableFilter<$PrismaModel> | $Enums.BrokerPlatform | null
-}
-
 export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
   equals?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
@@ -1137,16 +1113,6 @@ export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedFloatNullableFilter<$PrismaModel>
   _min?: Prisma.NestedFloatNullableFilter<$PrismaModel>
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>
-}
-
-export type NestedEnumBrokerPlatformNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.BrokerPlatform | Prisma.EnumBrokerPlatformFieldRefInput<$PrismaModel> | null
-  in?: $Enums.BrokerPlatform[] | Prisma.ListEnumBrokerPlatformFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.BrokerPlatform[] | Prisma.ListEnumBrokerPlatformFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumBrokerPlatformNullableWithAggregatesFilter<$PrismaModel> | $Enums.BrokerPlatform | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumBrokerPlatformNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumBrokerPlatformNullableFilter<$PrismaModel>
 }
 
 export type NestedJsonNullableFilter<$PrismaModel = never> =

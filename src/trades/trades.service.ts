@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Trade, TradePlan, TradeStatus, OrderSide } from '../common/types/trade.types';
 import { InboundSignal, SignalStatus } from '../common/types/signal.types';
 import { createLogger } from '../common/logger/logger';
-import { CandlePattern, CloseReason } from 'src/prisma/generated/enums';
+import { CandlePattern, CloseReason } from '@prisma-generated/enums';
 
 const logger = createLogger('trades.service');
 
@@ -157,7 +157,7 @@ export class TradesService {
 
     try {
       await this.prisma.journalTrade.upsert({
-        where: { ticketId: ticketKey } as any,
+        where: { ticketId_accountId: { ticketId: ticketKey, accountId: trade.accountId } },
         create: {
           userId,
           accountId: trade.accountId,
