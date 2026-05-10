@@ -26,11 +26,11 @@ process.on('unhandledRejection', (reason: unknown) => {
 process.on('uncaughtException', (err: Error) => {
   logger.error('Uncaught exception', err.stack);
   // Give the logger time to flush before exiting on a real crash
-  setTimeout(() => process.exit(1), 500);
+  setTimeout(() => process.exit(1), 1000);
 });
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { logger: ['error'] });
 
 
   app.useWebSocketAdapter(new IoAdapter(app));
@@ -54,8 +54,8 @@ async function bootstrap() {
 
   const port = process.env['PORT'] ?? 3000;
   await app.listen(port);
-  logger.log(`BB Platform running on port ${port}`);
-  logger.log(`WS endpoint: ws://localhost:${port}/ws`);
+  console.info(`BB Platform running on port ${port}`);
+  console.info(`WS endpoint: ws://localhost:${port}/ws`);
 }
 
 bootstrap().then().catch(console.error);
