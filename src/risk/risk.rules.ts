@@ -81,9 +81,9 @@ function rewardExceedsRisk(ctx: RuleContext): RuleResult {
   return ok;
 }
 
-function symbolFilter(ctx: RuleContext): RuleResult {
-  if (ctx.config.symbolFilter.length > 0 && !ctx.config.symbolFilter.includes(ctx.signal.symbol))
-    return { approved: false, reason: `Symbol ${ctx.signal.symbol} not in filter` };
+function authorizedPairs(ctx: RuleContext): RuleResult {
+  if (ctx.config.authorizedPairs.length > 0 && !ctx.config.authorizedPairs.includes(ctx.signal.symbol))
+    return { approved: false, reason: `Symbol ${ctx.signal.symbol} not in Authorized Pairs ` };
   return ok;
 }
 
@@ -199,7 +199,7 @@ export const ALL_RULES: RiskRule[] = [
   lossGuard,          // paused state check (daily loss + equity drawdown + rolling DD all latch here)
   noHedging,          // open trades scan
   rewardExceedsRisk,  // absolute R:R floor
-  symbolFilter,       // symbol whitelist
+  authorizedPairs,       // symbol whitelist
   maxOpenTrades,      // derives limit from maxLosingStreak + 1
   maxSymbolExposure,  // per-symbol counter
   duplicateSignal,    // open trades scan

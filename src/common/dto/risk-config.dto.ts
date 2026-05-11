@@ -27,9 +27,6 @@ export class RiskConfigDto {
   @IsOptional() @IsNumber() @Min(0.01)
   minLotSize?: number;
 
-  @IsOptional() @IsArray() @IsString({ each: true })
-  symbolFilter?: string[];
-
   @IsOptional()
   @IsArray()
   @ArrayMaxSize(1, { message: 'One account supports exactly one trading pair.' })

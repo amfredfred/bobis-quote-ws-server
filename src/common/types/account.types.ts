@@ -47,7 +47,6 @@ export interface AccountRiskConfig {
   minRRRatio: number;
   maxLotSize: number;
   minLotSize: number;
-  symbolFilter: string[];
 
   // Spread quality gate
   slRatioThreshold: number;
@@ -94,7 +93,6 @@ export const DEFAULT_RISK_CONFIG: AccountRiskConfig = {
   minRRRatio: 1.0,
   maxLotSize: 100.0,
   minLotSize: 0.01,
-  symbolFilter: [],
   slRatioThreshold: 0.34,
   noHedging: true,
   authorizedPairs: [],

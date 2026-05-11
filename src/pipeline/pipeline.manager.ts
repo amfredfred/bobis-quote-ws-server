@@ -279,6 +279,7 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
             accountId,
             userId,
             error: String(err),
+            stack: err instanceof Error ? err.stack : undefined,
           }),
         );
       }
