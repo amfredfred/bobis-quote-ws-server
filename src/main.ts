@@ -30,7 +30,7 @@ process.on('uncaughtException', (err: Error) => {
 });
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { logger: ['error'] });
+  const app = await NestFactory.create(AppModule, { logger: ['debug'] });
 
 
   app.useWebSocketAdapter(new IoAdapter(app));

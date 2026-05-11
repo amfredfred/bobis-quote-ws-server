@@ -34,6 +34,9 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
   // ── DEGRADED ACCOUNTS (STARTUP FAILURES) ──────────────────────────────────
   private readonly degraded = new Map<string, DegradedPipeline>();
 
+  // ── INITIALIZATION GUARD (DETECT DUPLICATE INSTANCES) ─────────────────────
+  private initialized = false;
+
   private readonly bus = new EventBus();
   private readonly correlationGuard = new CorrelationGuard();
 
@@ -47,10 +50,29 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
   ) { }
 
   async onModuleInit(): Promise<void> {
+    if (this.initialized) {
+      logger.error('PipelineManager.onModuleInit called multiple times! Instance is duplicated or module is being re-initialized.');
+      return;
+    }
+    this.initialized = true;
+
     this.signalBus.onSignal((signal) => this._fanOut(signal));
 
     const accounts = await this.accountSvc.findAllAutoTrade();
-    logger.info('Starting pipelines', { count: accounts.length });
+    logger.info('Starting pipelines', {
+      count: accounts.length,
+      accountIds: accounts.map(a => a.id),
+    });
+
+    // Detect duplicates (same account ID returned multiple times)
+    const uniqueIds = new Set(accounts.map(a => a.id));
+    if (uniqueIds.size < accounts.length) {
+      logger.warn('Duplicate account IDs detected in findAllAutoTrade', {
+        total: accounts.length,
+        unique: uniqueIds.size,
+        duplicates: accounts.filter((a, i) => accounts.findIndex(x => x.id === a.id) !== i).map(a => a.id),
+      });
+    }
 
     await Promise.allSettled(accounts.map((a) => this.startPipeline(a)));
 

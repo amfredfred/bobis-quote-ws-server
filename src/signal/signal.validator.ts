@@ -56,7 +56,7 @@ export class SignalValidator {
         if (htf.rangeHigh <= htf.rangeLow)
             errors.push('htfRange: rangeHigh must be > rangeLow');
         if (!htf.bosDirection || (htf.bosDirection !== 'BULLISH' && htf.bosDirection !== 'BEARISH'))
-            errors.push(`htfRange: unknown bosDirection: ${htf.bosDirection}`);
+            errors.push(`htfRange: unknown bosDirection: ${htf?.bosDirection}`);
 
         // ── LTF range ─────────────────────────────────────────────────────────
         const ltf = signal.ltfRange;

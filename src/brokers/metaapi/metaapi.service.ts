@@ -359,10 +359,27 @@ export class MetaApiService implements OnModuleDestroy {
     // symbol is expected to already be broker-normalised (slash stripped, suffix applied)
     const raw = symbol.replace('/', '');
     const spec = await conn.getSymbolSpecification(raw) as {
-      digits?: number; tickSize?: number; tickValue?: number;
-      contractSize?: number; minVolume?: number; maxVolume?: number;
-      volumeStep?: number; spread?: number;
+      digits?: number;
+      tickSize?: number;
+      tickValue?: number;
+      contractSize?: number;
+      minVolume?: number;
+      maxVolume?: number;
+      volumeStep?: number;
+      spread?: number;
     };
+
+    // Validate spec has critical fields — these cannot be sensibly defaulted
+    if (!spec) {
+      throw new Error(`Unable to retrieve symbol specification for ${symbol} — connection returned null`);
+    }
+    if (spec.tickSize === undefined || spec.tickSize === 0) {
+      throw new Error(`Invalid symbol specification for ${symbol}: tickSize is missing or zero (spec: ${JSON.stringify(spec)})`);
+    }
+    if (spec.volumeStep === undefined || spec.volumeStep === 0) {
+      throw new Error(`Invalid symbol specification for ${symbol}: volumeStep (lotStep) is missing or zero (spec: ${JSON.stringify(spec)})`);
+    }
+
     const price = await conn.getSymbolPrice(raw) as { ask?: number; bid?: number } | null;
     const digits = spec.digits ?? 5;
     const ask = price?.ask ?? 0;
@@ -374,12 +391,12 @@ export class MetaApiService implements OnModuleDestroy {
       symbol,
       digits,
       point: Math.pow(10, -digits),
-      tickSize: spec.tickSize ?? 0.00001,
+      tickSize: spec.tickSize,
       tickValue: spec.tickValue ?? 1,
       contractSize: spec.contractSize ?? 100_000,
       minLot: spec.minVolume ?? 0.01,
       maxLot: spec.maxVolume ?? 100,
-      lotStep: spec.volumeStep ?? 0.01,
+      lotStep: spec.volumeStep,
       spread: spec.spread ?? 0,
       ask,
       bid,

@@ -51,6 +51,14 @@ export class ExecutionEngine {
         this.metaApi.getSymbolInfo(this.metaApiAccountId, brokerSymbol),
       ]);
 
+      // Validate symbolInfo before use — required for lot calculations and risk eval
+      if (!symbolInfo || !symbolInfo.lotStep || !symbolInfo.tickSize) {
+        throw new Error(
+          `Invalid symbolInfo for ${brokerSymbol}: missing critical fields (lotStep, tickSize). ` +
+          `Symbol may be invalid or broker may not support this instrument.`
+        );
+      }
+
       // ── 2. Risk eval BEFORE reserving ────────────────────────────────────
       // Reserve only after approval so the slot does not count against itself
       // during evaluation (matches Python: reserve inside lock, after decision).
@@ -88,6 +96,12 @@ export class ExecutionEngine {
       const filled = order.filledLots ?? plan.lotSize;
       const fillSlippage = order.executedPrice - plan.entryPrice;
       const tp1Pct = this.config.tp1PartialClose / 100;
+      // symbolInfo already validated above, but defensive check for safety
+      if (!symbolInfo?.lotStep || !symbolInfo?.minLot || !symbolInfo?.maxLot) {
+        throw new Error(
+          `Cannot recalc lot split: symbolInfo is missing required fields for ${brokerSymbol}`
+        );
+      }
       const tp1Lots = normaliseLots(filled * tp1Pct, symbolInfo.lotStep, symbolInfo.minLot, symbolInfo.maxLot);
       const tp2Lots = normaliseLots(filled - tp1Lots, symbolInfo.lotStep, symbolInfo.minLot, symbolInfo.maxLot);
 
