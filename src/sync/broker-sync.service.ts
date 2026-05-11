@@ -22,6 +22,7 @@ class AccountSyncListener extends SynchronizationListener {
     override async onDealsSynchronized(_instanceIndex: string, _synchronizationId: string): Promise<void> {
         this.synced = true;
         logger.info('BrokerSync: initial sync complete — live mode', { accountId: this.account.id });
+        return Promise.resolve()
     }
 
     override async onAccountInformationUpdated(
@@ -96,11 +97,13 @@ class AccountSyncListener extends SynchronizationListener {
         if (existing) return;
 
         const timer = setTimeout(async () => {
-            this.pendingRemovals.delete(positionId);
             await this._closePosition(positionId, null);
+            this.pendingRemovals.delete(positionId);
         }, 3_000);
 
         this.pendingRemovals.set(positionId, timer);
+
+        return Promise.resolve();
     }
 
     override async onDealAdded(

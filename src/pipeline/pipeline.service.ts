@@ -6,7 +6,7 @@ import { Trade } from '../common/types/trade.types';
 import { RiskEngine } from '../risk/risk.engine';
 import { TradePlanner } from '../execution/trade.planner';
 import { ExecutionEngine } from '../execution/execution.engine';
-import { PositionManager } from '../execution/position.manager';
+import { AccountSynchronizationListener } from '../execution/account.sync-listener';
 import { PositionStore } from '../execution/position.store';
 import { MetaApiService } from '../brokers/metaapi/metaapi.service';
 import { TradesService } from '../trades/trades.service';
@@ -22,16 +22,15 @@ export interface PipelineSnapshot {
   accountId: string;
   accountName: string;
   openTrades: number;
-  maxOpenTrades: number;      // derived: maxLosingStreak + 1
+  maxOpenTrades: number;
   dailyLossPct: number;
-  dailyLossUsd: number;      // startOfDayEquity × lossPct / 100
-  dailyBudgetUsd: number;      // from lossTracker.stats()
-  riskAmountPerTrade: number;      // lossTracker.dailyRiskAmount(streak)
+  dailyLossUsd: number;
+  dailyBudgetUsd: number;
+  riskAmountPerTrade: number;
   balance: number;
   equity: number;
   lossGuardStats?: import('../risk/loss.tracker').LossTrackerStats;
 }
-
 
 export class PipelineService {
   private readonly logger;
@@ -41,11 +40,9 @@ export class PipelineService {
   private readonly tradePlanner: TradePlanner;
   private readonly signalValidator: SignalValidator;
   private readonly executionEngine: ExecutionEngine;
-  private readonly positionManager: PositionManager;
-  private readonly ownerUserId: string = "unknown";
+  private readonly syncListener: AccountSynchronizationListener;
+  private readonly ownerUserId: string = 'unknown';
 
-  // Authoritative daily loss comes exclusively from the broker via getDailyLossPct().
-  // We do NOT accumulate locally to avoid double-counting during the polling gap.
   private _dailyLossPct = 0;
   private _accountBalance = 0;
   private _accountEquity = 0;
@@ -63,7 +60,7 @@ export class PipelineService {
     this.logger = createLogger(`pipeline.${account.id.slice(0, 8)}`);
     this.metrics = metricsSvc.forAccount(account.id);
     const cfg = account.riskConfig!;
-    const metaId = account.metaApiAccountId!; // guaranteed non-null — only autoTrade accounts start pipelines
+    const metaId = account.metaApiAccountId!;
 
     this.store = new PositionStore();
     this.signalValidator = new SignalValidator();
@@ -77,14 +74,14 @@ export class PipelineService {
       (t) => this._onTradeOpened(t),
     );
 
-    this.positionManager = new PositionManager(
+    this.syncListener = new AccountSynchronizationListener(
       this.store, metaApi, metaId, cfg, account.id,
       this.metrics, bus,
       (t) => this._onTp1Hit(t),
       (t) => this._onTp2Hit(t),
       (t) => this._onSlHit(t),
       (t) => this._onTradeClosed(t),
-      (pct, startEquity, currentEquity) => this._onEquityUpdate(pct, startEquity, currentEquity)
+      (pct, startEquity, currentEquity) => this._onEquityUpdate(pct, startEquity, currentEquity),
     );
   }
 
@@ -92,13 +89,15 @@ export class PipelineService {
 
   async start(): Promise<void> {
     const metaId = this.account.metaApiAccountId!;
+
+    // RPC connection: required for write operations (openOrder, closePartial, modifyPosition).
+    // Streaming connection below handles all reads and position lifecycle events.
     await this.metaApi.connectAccount(metaId);
 
     try {
       const info = await this.metaApi.getAccountInfo(metaId);
       this._accountBalance = info.balance;
       this._accountEquity = info.equity;
-      this.positionManager.updateBalance(info.balance);
       this.metrics.setGauge('balance', info.balance);
       this.metrics.setGauge('equity', info.equity);
       this.metrics.setGauge('margin', info.margin);
@@ -107,14 +106,17 @@ export class PipelineService {
         currentBalance: info.balance,
         lastSyncAt: new Date().toISOString(),
       });
-
     } catch (err) {
       this.logger.warn('Could not fetch initial account info', { error: String(err) });
     }
 
+    // Hydrate store from DB + broker via RPC before streaming connects.
+    // After streaming syncs (onSynchronized), any gap will be reconciled automatically.
     const savedTrades = await this.tradesSvc.findOpenByAccount(this.account.id);
-    await this.positionManager.hydrateFromBroker(savedTrades);
+    await this.syncListener.hydrateFromBroker(savedTrades);
 
+    // Prime daily loss from deal history so the listener starts with a correct baseline.
+    // After this, onDealAdded + onAccountInformationUpdated take over — no more polling.
     try {
       const { lossPct, startEquity } = await this.metaApi.getDailyPnlInfo(
         metaId,
@@ -127,17 +129,22 @@ export class PipelineService {
       this.logger.warn('Could not prime daily loss', { error: String(err) });
     }
 
-    this.positionManager.start();
+    // Connect streaming — MetaAPI pushes all position/deal/account events from here on.
+    await this.metaApi.connectStreamingAccount(metaId, this.syncListener);
+
     this.metrics.increment('pipeline.starts');
     this.logger.info('Pipeline started', { name: this.account.name });
   }
 
   async stop(): Promise<void> {
-    this.positionManager.stop();
-    await this.metaApi.disconnectAccount(this.account.metaApiAccountId!);
+    const metaId = this.account.metaApiAccountId!;
+    await this.metaApi.disconnectStreamingAccount(metaId);
+    await this.metaApi.disconnectAccount(metaId);
     this.metrics.increment('pipeline.stops');
     this.logger.info('Pipeline stopped', { name: this.account.name });
   }
+
+  // ── Signal handling ────────────────────────────────────────────────────────
 
   async handleSignal(signal: InboundSignal): Promise<void> {
     this.metrics.increment('signals.received');
@@ -158,6 +165,7 @@ export class PipelineService {
     this._dailyLossPct = 0;
     const startEquity = this.riskEngine.getLossTracker().stats().startOfDayEquity;
     this.executionEngine.updateDailyLoss(0, startEquity);
+    this.syncListener.resetDailyPnl();
     this.metrics.setGauge('daily_loss_pct', 0);
     this.metrics.increment('system.daily_reset');
     this.logger.info('Daily loss counter reset');
@@ -194,34 +202,18 @@ export class PipelineService {
 
   // ── Helpers ────────────────────────────────────────────────────────────────
 
-  /**
-   * FIX (Bug 1): Centralised stub check used by every lifecycle callback.
-   * Stub trades are hydrated from the broker on restart when no DB record exists.
-   * Their IDs are synthetic strings, not UUIDs, so all Prisma operations will
-   * fail with "invalid input syntax for type uuid". Skip all DB writes for them.
-   */
   private _isStubTrade(trade: Trade): boolean {
     return trade.id.startsWith('STUB_') || trade.plan.signalId === 'unknown';
   }
 
   // ── Trade lifecycle callbacks ──────────────────────────────────────────────
 
-  /**
-   * FIX (Bug 2): _persistWithRetry is now awaited before returning so that
-   * any subsequent TP/SL update callbacks are guaranteed to find the row in DB.
-   * Without this, a fast TP1 (e.g. <60 s after open) races the INSERT and the
-   * UPDATE arrives first, causing a "record not found" error on every attempt.
-   *
-   * Signal and journal upserts remain fire-and-forget — they are non-critical
-   * and must not block the create.
-   */
   private async _onTradeOpened(trade: Trade): Promise<void> {
     if (this._isStubTrade(trade)) {
       this.logger.debug('Skipping DB writes for stub trade on open', { tradeId: trade.id });
       return;
     }
 
-    // Fire-and-forget: non-critical, must not block trade persistence
     this.tradesSvc.upsertSignal({
       signal: trade.plan.signal!,
       accountId: this.account.id,
@@ -235,16 +227,9 @@ export class PipelineService {
         tradeId: trade.id, error: String(err),
       }));
 
-    // Awaited so downstream TP/SL updates always find the row
     await this._persistWithRetry(trade);
   }
 
-  /**
-   * FIX (Bug 2): Returns Promise<void> so the caller can await it.
-   * Retry tradesSvc.create() up to maxAttempts times with exponential back-off.
-   * On exhaustion, an error is logged but the in-memory position continues to
-   * be managed correctly — the trade will be recovered as a STUB on next restart.
-   */
   private async _persistWithRetry(trade: Trade, attempt = 1, maxAttempts = 4): Promise<void> {
     try {
       await this.tradesSvc.create(trade);
@@ -275,7 +260,6 @@ export class PipelineService {
       currentLots: trade.currentLots, stopLoss: trade.stopLoss,
     });
 
-    // Journal sync: reflect tp1Hit and updated stopLoss (now breakeven) immediately
     this.tradesSvc.upsertJournalFromExecution(trade, this.ownerUserId)
       .catch(err => this.logger.error('Journal upsert failed on TP1', {
         tradeId: trade.id, error: String(err),
@@ -287,10 +271,7 @@ export class PipelineService {
       this.logger.debug('Skipping DB writes for stub trade on TP2', { tradeId: trade.id });
       return;
     }
-
-    this._updateWithRetry('TP2', trade.id, {
-      tp2Hit: true, tp2HitAt: trade.tp2HitAt,
-    });
+    this._updateWithRetry('TP2', trade.id, { tp2Hit: true, tp2HitAt: trade.tp2HitAt });
   }
 
   private _onSlHit(trade: Trade): void {
@@ -298,18 +279,9 @@ export class PipelineService {
       this.logger.debug('Skipping DB writes for stub trade on SL', { tradeId: trade.id });
       return;
     }
-
-    this._updateWithRetry('SL', trade.id, {
-      slHit: true, slHitAt: trade.slHitAt,
-    });
+    this._updateWithRetry('SL', trade.id, { slHit: true, slHitAt: trade.slHitAt });
   }
 
-  /**
-   * Retry tradesSvc.update() up to maxAttempts times with exponential back-off.
-   * TP1/TP2/SL/CLOSE events are broker-executed facts — a transient DB failure must
-   * not silently drop the record. On exhaustion the trade state is inconsistent
-   * with the broker; log prominently so ops can reconcile.
-   */
   private _updateWithRetry(
     label: string,
     tradeId: string,
@@ -318,20 +290,12 @@ export class PipelineService {
     maxAttempts = 4,
   ): void {
     this.tradesSvc.update(tradeId, patch).catch(err => {
-      this.logger.error(`Failed to persist ${label}`, {
-        tradeId, attempt, error: String(err),
-      });
+      this.logger.error(`Failed to persist ${label}`, { tradeId, attempt, error: String(err) });
       if (attempt < maxAttempts) {
         const delayMs = Math.min(500 * Math.pow(2, attempt - 1), 8_000);
-        setTimeout(
-          () => this._updateWithRetry(label, tradeId, patch, attempt + 1, maxAttempts),
-          delayMs,
-        );
+        setTimeout(() => this._updateWithRetry(label, tradeId, patch, attempt + 1, maxAttempts), delayMs);
       } else {
-        this.logger.error(
-          `Giving up persisting ${label} after max retries — DB inconsistent with broker`,
-          { tradeId },
-        );
+        this.logger.error(`Giving up persisting ${label} after max retries — DB inconsistent with broker`, { tradeId });
         this.metrics.increment(`trades.${label.toLowerCase()}_persist_failed`);
       }
     });
@@ -343,13 +307,7 @@ export class PipelineService {
       closeReason: trade.closeReason, rr: trade.realizedRR,
     });
 
-    // C-3 FIX: Do NOT accumulate PnL locally. The broker-sourced getDailyLossPct()
-    // polled every 5 s is the authoritative value and is applied via _onEquityUpdate().
-    // Local accumulation caused double-counting when the poll fired concurrently.
-
-    // Only write to signals table for real (non-stub) trades with a valid signal ref.
     if (!this._isStubTrade(trade) && trade.plan.signal) {
-      // M-4 FIX: Map signal status from actual close reason, not always TP2_HIT
       const signalStatus = this._closeReasonToSignalStatus(trade.closeReason);
       this.tradesSvc.upsertSignal({
         signal: trade.plan.signal,
@@ -366,8 +324,6 @@ export class PipelineService {
       return;
     }
 
-    // FIX (Bug 3): Route through _updateWithRetry — close is the most critical
-    // event to persist and must not be silently dropped on a transient DB failure.
     this._updateWithRetry('CLOSE', trade.id, {
       status: trade.status,
       closeReason: trade.closeReason,
@@ -377,8 +333,6 @@ export class PipelineService {
       realizedRR: trade.realizedRR,
     });
 
-    // Journal sync: update the JournalTrade row with close context so the
-    // Trades page shows closeReason, realizedRR, and lifecycle timestamps.
     this.tradesSvc.upsertJournalFromExecution(trade, this.ownerUserId)
       .catch(err => this.logger.error('Journal upsert failed on close', {
         tradeId: trade.id, error: String(err),
@@ -387,16 +341,10 @@ export class PipelineService {
 
   private _onEquityUpdate(pct: number, startEquity: number, equity: number): void {
     this._dailyLossPct = pct;
-
-    const lt = this.riskEngine.getLossTracker();
-
+    this._accountEquity = equity;
     this.executionEngine.updateDailyLoss(pct, startEquity);
-    lt.updateEquity(equity);
-
+    this.riskEngine.getLossTracker().updateEquity(equity);
     this.metrics.setGauge('daily_loss_pct', pct);
-    // Note: equityWindow and equityPeak are intentionally in-memory only.
-    // The window refills in ~2 min at 5 s polling. Peak resets conservatively
-    // from current equity on restart — safe, not dangerous.
   }
 
   private _closeReasonToSignalStatus(reason?: string): SignalStatus {
@@ -406,7 +354,7 @@ export class PipelineService {
       case 'INVALIDATED': return 'INVALIDATED';
       case 'EXPIRED': return 'EXPIRED';
       case 'BREAKEVEN': return 'TP1_HIT';
-      default: return 'EXPIRED'; // MANUAL / CLOSED_WHILE_DOWN treated as loss
+      default: return 'EXPIRED';
     }
   }
 
