@@ -129,3 +129,10 @@ function codeToHttpStatus(code: keyof typeof ErrorCode): number {
             return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 }
+
+export function serializeError(err: unknown) {
+    if (err instanceof Error) {
+        return { error: err.message, stack: err.stack };
+    }
+    return { error: String(err) };
+}

@@ -13,6 +13,7 @@ import { TRADE_MODE_LTF_MAP } from '../common/types/account.types';
 import { createLogger } from '../common/logger/logger';
 import { PrismaService } from '../prisma/prisma.service';
 import { CorrelationGuard } from '../risk/correlation.guard';
+import { serializeError } from '@src/common/errors/error.resolver';
 
 const logger = createLogger('pipeline.manager');
 
@@ -278,8 +279,7 @@ export class PipelineManager implements OnModuleInit, OnModuleDestroy {
           logger.error('Pipeline signal error', {
             accountId,
             userId,
-            error: String(err),
-            stack: err instanceof Error ? err.stack : undefined,
+            ...serializeError(err)
           }),
         );
       }
