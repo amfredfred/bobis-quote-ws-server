@@ -30,7 +30,6 @@ export type JournalChecklistItemMinAggregateOutputType = {
   checklistText: string | null
   answeredYes: boolean | null
   note: string | null
-  isAiGenerated: boolean | null
 }
 
 export type JournalChecklistItemMaxAggregateOutputType = {
@@ -39,7 +38,6 @@ export type JournalChecklistItemMaxAggregateOutputType = {
   checklistText: string | null
   answeredYes: boolean | null
   note: string | null
-  isAiGenerated: boolean | null
 }
 
 export type JournalChecklistItemCountAggregateOutputType = {
@@ -48,7 +46,6 @@ export type JournalChecklistItemCountAggregateOutputType = {
   checklistText: number
   answeredYes: number
   note: number
-  isAiGenerated: number
   _all: number
 }
 
@@ -59,7 +56,6 @@ export type JournalChecklistItemMinAggregateInputType = {
   checklistText?: true
   answeredYes?: true
   note?: true
-  isAiGenerated?: true
 }
 
 export type JournalChecklistItemMaxAggregateInputType = {
@@ -68,7 +64,6 @@ export type JournalChecklistItemMaxAggregateInputType = {
   checklistText?: true
   answeredYes?: true
   note?: true
-  isAiGenerated?: true
 }
 
 export type JournalChecklistItemCountAggregateInputType = {
@@ -77,7 +72,6 @@ export type JournalChecklistItemCountAggregateInputType = {
   checklistText?: true
   answeredYes?: true
   note?: true
-  isAiGenerated?: true
   _all?: true
 }
 
@@ -159,7 +153,6 @@ export type JournalChecklistItemGroupByOutputType = {
   checklistText: string
   answeredYes: boolean
   note: string | null
-  isAiGenerated: boolean
   _count: JournalChecklistItemCountAggregateOutputType | null
   _min: JournalChecklistItemMinAggregateOutputType | null
   _max: JournalChecklistItemMaxAggregateOutputType | null
@@ -189,7 +182,6 @@ export type JournalChecklistItemWhereInput = {
   checklistText?: Prisma.StringFilter<"JournalChecklistItem"> | string
   answeredYes?: Prisma.BoolFilter<"JournalChecklistItem"> | boolean
   note?: Prisma.StringNullableFilter<"JournalChecklistItem"> | string | null
-  isAiGenerated?: Prisma.BoolFilter<"JournalChecklistItem"> | boolean
   trade?: Prisma.XOR<Prisma.JournalTradeScalarRelationFilter, Prisma.JournalTradeWhereInput>
 }
 
@@ -199,7 +191,6 @@ export type JournalChecklistItemOrderByWithRelationInput = {
   checklistText?: Prisma.SortOrder
   answeredYes?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
-  isAiGenerated?: Prisma.SortOrder
   trade?: Prisma.JournalTradeOrderByWithRelationInput
 }
 
@@ -213,7 +204,6 @@ export type JournalChecklistItemWhereUniqueInput = Prisma.AtLeast<{
   checklistText?: Prisma.StringFilter<"JournalChecklistItem"> | string
   answeredYes?: Prisma.BoolFilter<"JournalChecklistItem"> | boolean
   note?: Prisma.StringNullableFilter<"JournalChecklistItem"> | string | null
-  isAiGenerated?: Prisma.BoolFilter<"JournalChecklistItem"> | boolean
   trade?: Prisma.XOR<Prisma.JournalTradeScalarRelationFilter, Prisma.JournalTradeWhereInput>
 }, "id" | "tradeId_checklistText">
 
@@ -223,7 +213,6 @@ export type JournalChecklistItemOrderByWithAggregationInput = {
   checklistText?: Prisma.SortOrder
   answeredYes?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
-  isAiGenerated?: Prisma.SortOrder
   _count?: Prisma.JournalChecklistItemCountOrderByAggregateInput
   _max?: Prisma.JournalChecklistItemMaxOrderByAggregateInput
   _min?: Prisma.JournalChecklistItemMinOrderByAggregateInput
@@ -238,7 +227,6 @@ export type JournalChecklistItemScalarWhereWithAggregatesInput = {
   checklistText?: Prisma.StringWithAggregatesFilter<"JournalChecklistItem"> | string
   answeredYes?: Prisma.BoolWithAggregatesFilter<"JournalChecklistItem"> | boolean
   note?: Prisma.StringNullableWithAggregatesFilter<"JournalChecklistItem"> | string | null
-  isAiGenerated?: Prisma.BoolWithAggregatesFilter<"JournalChecklistItem"> | boolean
 }
 
 export type JournalChecklistItemCreateInput = {
@@ -246,7 +234,6 @@ export type JournalChecklistItemCreateInput = {
   checklistText: string
   answeredYes: boolean
   note?: string | null
-  isAiGenerated?: boolean
   trade: Prisma.JournalTradeCreateNestedOneWithoutChecklistItemsInput
 }
 
@@ -256,7 +243,6 @@ export type JournalChecklistItemUncheckedCreateInput = {
   checklistText: string
   answeredYes: boolean
   note?: string | null
-  isAiGenerated?: boolean
 }
 
 export type JournalChecklistItemUpdateInput = {
@@ -264,7 +250,6 @@ export type JournalChecklistItemUpdateInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   answeredYes?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   trade?: Prisma.JournalTradeUpdateOneRequiredWithoutChecklistItemsNestedInput
 }
 
@@ -274,7 +259,6 @@ export type JournalChecklistItemUncheckedUpdateInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   answeredYes?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type JournalChecklistItemCreateManyInput = {
@@ -283,7 +267,6 @@ export type JournalChecklistItemCreateManyInput = {
   checklistText: string
   answeredYes: boolean
   note?: string | null
-  isAiGenerated?: boolean
 }
 
 export type JournalChecklistItemUpdateManyMutationInput = {
@@ -291,7 +274,6 @@ export type JournalChecklistItemUpdateManyMutationInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   answeredYes?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type JournalChecklistItemUncheckedUpdateManyInput = {
@@ -300,7 +282,6 @@ export type JournalChecklistItemUncheckedUpdateManyInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   answeredYes?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type JournalChecklistItemListRelationFilter = {
@@ -324,7 +305,6 @@ export type JournalChecklistItemCountOrderByAggregateInput = {
   checklistText?: Prisma.SortOrder
   answeredYes?: Prisma.SortOrder
   note?: Prisma.SortOrder
-  isAiGenerated?: Prisma.SortOrder
 }
 
 export type JournalChecklistItemMaxOrderByAggregateInput = {
@@ -333,7 +313,6 @@ export type JournalChecklistItemMaxOrderByAggregateInput = {
   checklistText?: Prisma.SortOrder
   answeredYes?: Prisma.SortOrder
   note?: Prisma.SortOrder
-  isAiGenerated?: Prisma.SortOrder
 }
 
 export type JournalChecklistItemMinOrderByAggregateInput = {
@@ -342,7 +321,6 @@ export type JournalChecklistItemMinOrderByAggregateInput = {
   checklistText?: Prisma.SortOrder
   answeredYes?: Prisma.SortOrder
   note?: Prisma.SortOrder
-  isAiGenerated?: Prisma.SortOrder
 }
 
 export type JournalChecklistItemCreateNestedManyWithoutTradeInput = {
@@ -392,7 +370,6 @@ export type JournalChecklistItemCreateWithoutTradeInput = {
   checklistText: string
   answeredYes: boolean
   note?: string | null
-  isAiGenerated?: boolean
 }
 
 export type JournalChecklistItemUncheckedCreateWithoutTradeInput = {
@@ -400,7 +377,6 @@ export type JournalChecklistItemUncheckedCreateWithoutTradeInput = {
   checklistText: string
   answeredYes: boolean
   note?: string | null
-  isAiGenerated?: boolean
 }
 
 export type JournalChecklistItemCreateOrConnectWithoutTradeInput = {
@@ -438,7 +414,6 @@ export type JournalChecklistItemScalarWhereInput = {
   checklistText?: Prisma.StringFilter<"JournalChecklistItem"> | string
   answeredYes?: Prisma.BoolFilter<"JournalChecklistItem"> | boolean
   note?: Prisma.StringNullableFilter<"JournalChecklistItem"> | string | null
-  isAiGenerated?: Prisma.BoolFilter<"JournalChecklistItem"> | boolean
 }
 
 export type JournalChecklistItemCreateManyTradeInput = {
@@ -446,7 +421,6 @@ export type JournalChecklistItemCreateManyTradeInput = {
   checklistText: string
   answeredYes: boolean
   note?: string | null
-  isAiGenerated?: boolean
 }
 
 export type JournalChecklistItemUpdateWithoutTradeInput = {
@@ -454,7 +428,6 @@ export type JournalChecklistItemUpdateWithoutTradeInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   answeredYes?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type JournalChecklistItemUncheckedUpdateWithoutTradeInput = {
@@ -462,7 +435,6 @@ export type JournalChecklistItemUncheckedUpdateWithoutTradeInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   answeredYes?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type JournalChecklistItemUncheckedUpdateManyWithoutTradeInput = {
@@ -470,7 +442,6 @@ export type JournalChecklistItemUncheckedUpdateManyWithoutTradeInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   answeredYes?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -481,7 +452,6 @@ export type JournalChecklistItemSelect<ExtArgs extends runtime.Types.Extensions.
   checklistText?: boolean
   answeredYes?: boolean
   note?: boolean
-  isAiGenerated?: boolean
   trade?: boolean | Prisma.JournalTradeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalChecklistItem"]>
 
@@ -491,7 +461,6 @@ export type JournalChecklistItemSelectCreateManyAndReturn<ExtArgs extends runtim
   checklistText?: boolean
   answeredYes?: boolean
   note?: boolean
-  isAiGenerated?: boolean
   trade?: boolean | Prisma.JournalTradeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalChecklistItem"]>
 
@@ -501,7 +470,6 @@ export type JournalChecklistItemSelectUpdateManyAndReturn<ExtArgs extends runtim
   checklistText?: boolean
   answeredYes?: boolean
   note?: boolean
-  isAiGenerated?: boolean
   trade?: boolean | Prisma.JournalTradeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalChecklistItem"]>
 
@@ -511,10 +479,9 @@ export type JournalChecklistItemSelectScalar = {
   checklistText?: boolean
   answeredYes?: boolean
   note?: boolean
-  isAiGenerated?: boolean
 }
 
-export type JournalChecklistItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tradeId" | "checklistText" | "answeredYes" | "note" | "isAiGenerated", ExtArgs["result"]["journalChecklistItem"]>
+export type JournalChecklistItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tradeId" | "checklistText" | "answeredYes" | "note", ExtArgs["result"]["journalChecklistItem"]>
 export type JournalChecklistItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   trade?: boolean | Prisma.JournalTradeDefaultArgs<ExtArgs>
 }
@@ -536,7 +503,6 @@ export type $JournalChecklistItemPayload<ExtArgs extends runtime.Types.Extension
     checklistText: string
     answeredYes: boolean
     note: string | null
-    isAiGenerated: boolean
   }, ExtArgs["result"]["journalChecklistItem"]>
   composites: {}
 }
@@ -966,7 +932,6 @@ export interface JournalChecklistItemFieldRefs {
   readonly checklistText: Prisma.FieldRef<"JournalChecklistItem", 'String'>
   readonly answeredYes: Prisma.FieldRef<"JournalChecklistItem", 'Boolean'>
   readonly note: Prisma.FieldRef<"JournalChecklistItem", 'String'>
-  readonly isAiGenerated: Prisma.FieldRef<"JournalChecklistItem", 'Boolean'>
 }
     
 

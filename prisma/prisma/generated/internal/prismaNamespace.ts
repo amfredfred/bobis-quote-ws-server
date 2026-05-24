@@ -390,7 +390,6 @@ export const ModelName = {
   JournalChecklistItem: 'JournalChecklistItem',
   TradingStrategy: 'TradingStrategy',
   NotificationLog: 'NotificationLog',
-  TradingAnalytics: 'TradingAnalytics',
   QueueJob: 'QueueJob',
   MetricsCounter: 'MetricsCounter',
   MetricsGauge: 'MetricsGauge'
@@ -409,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "profile" | "tradingAccount" | "journalTrade" | "journalChecklistItem" | "tradingStrategy" | "notificationLog" | "tradingAnalytics" | "queueJob" | "metricsCounter" | "metricsGauge"
+    modelProps: "profile" | "tradingAccount" | "journalTrade" | "journalChecklistItem" | "tradingStrategy" | "notificationLog" | "queueJob" | "metricsCounter" | "metricsGauge"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -857,80 +856,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    TradingAnalytics: {
-      payload: Prisma.$TradingAnalyticsPayload<ExtArgs>
-      fields: Prisma.TradingAnalyticsFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.TradingAnalyticsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAnalyticsPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.TradingAnalyticsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAnalyticsPayload>
-        }
-        findFirst: {
-          args: Prisma.TradingAnalyticsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAnalyticsPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.TradingAnalyticsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAnalyticsPayload>
-        }
-        findMany: {
-          args: Prisma.TradingAnalyticsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAnalyticsPayload>[]
-        }
-        create: {
-          args: Prisma.TradingAnalyticsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAnalyticsPayload>
-        }
-        createMany: {
-          args: Prisma.TradingAnalyticsCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.TradingAnalyticsCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAnalyticsPayload>[]
-        }
-        delete: {
-          args: Prisma.TradingAnalyticsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAnalyticsPayload>
-        }
-        update: {
-          args: Prisma.TradingAnalyticsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAnalyticsPayload>
-        }
-        deleteMany: {
-          args: Prisma.TradingAnalyticsDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.TradingAnalyticsUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.TradingAnalyticsUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAnalyticsPayload>[]
-        }
-        upsert: {
-          args: Prisma.TradingAnalyticsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAnalyticsPayload>
-        }
-        aggregate: {
-          args: Prisma.TradingAnalyticsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTradingAnalytics>
-        }
-        groupBy: {
-          args: Prisma.TradingAnalyticsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TradingAnalyticsGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.TradingAnalyticsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TradingAnalyticsCountAggregateOutputType> | number
-        }
-      }
-    }
     QueueJob: {
       payload: Prisma.$QueueJobPayload<ExtArgs>
       fields: Prisma.QueueJobFieldRefs
@@ -1301,8 +1226,7 @@ export const JournalChecklistItemScalarFieldEnum = {
   tradeId: 'tradeId',
   checklistText: 'checklistText',
   answeredYes: 'answeredYes',
-  note: 'note',
-  isAiGenerated: 'isAiGenerated'
+  note: 'note'
 } as const
 
 export type JournalChecklistItemScalarFieldEnum = (typeof JournalChecklistItemScalarFieldEnum)[keyof typeof JournalChecklistItemScalarFieldEnum]
@@ -1319,12 +1243,8 @@ export const TradingStrategyScalarFieldEnum = {
   sessionReminderMins: 'sessionReminderMins',
   isDefault: 'isDefault',
   isArchived: 'isArchived',
-  aiRephrasedDesc: 'aiRephrasedDesc',
-  aiNotes: 'aiNotes',
-  aiParameters: 'aiParameters',
-  aiReminderPhrases: 'aiReminderPhrases',
-  aiRiskGuidelines: 'aiRiskGuidelines',
-  aiChecklistItems: 'aiChecklistItems',
+  riskGuidelines: 'riskGuidelines',
+  checklistItems: 'checklistItems',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1348,32 +1268,6 @@ export const NotificationLogScalarFieldEnum = {
 } as const
 
 export type NotificationLogScalarFieldEnum = (typeof NotificationLogScalarFieldEnum)[keyof typeof NotificationLogScalarFieldEnum]
-
-
-export const TradingAnalyticsScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  tradingAccountId: 'tradingAccountId',
-  performanceSummary: 'performanceSummary',
-  strengths: 'strengths',
-  weaknesses: 'weaknesses',
-  tips: 'tips',
-  psychologicalInsights: 'psychologicalInsights',
-  nextSteps: 'nextSteps',
-  overallRiskLevel: 'overallRiskLevel',
-  keyRisks: 'keyRisks',
-  suggestedAdjustments: 'suggestedAdjustments',
-  winRate: 'winRate',
-  totalTrades: 'totalTrades',
-  profitLoss: 'profitLoss',
-  aiModelVersion: 'aiModelVersion',
-  dataRangeStart: 'dataRangeStart',
-  dataRangeEnd: 'dataRangeEnd',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TradingAnalyticsScalarFieldEnum = (typeof TradingAnalyticsScalarFieldEnum)[keyof typeof TradingAnalyticsScalarFieldEnum]
 
 
 export const QueueJobScalarFieldEnum = {
@@ -1667,20 +1561,6 @@ export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
- * Reference to a field of type 'RiskLevel'
- */
-export type EnumRiskLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RiskLevel'>
-    
-
-
-/**
- * Reference to a field of type 'RiskLevel[]'
- */
-export type ListEnumRiskLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RiskLevel[]'>
-    
-
-
-/**
  * Reference to a field of type 'BigInt'
  */
 export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
@@ -1794,7 +1674,6 @@ export type GlobalOmitConfig = {
   journalChecklistItem?: Prisma.JournalChecklistItemOmit
   tradingStrategy?: Prisma.TradingStrategyOmit
   notificationLog?: Prisma.NotificationLogOmit
-  tradingAnalytics?: Prisma.TradingAnalyticsOmit
   queueJob?: Prisma.QueueJobOmit
   metricsCounter?: Prisma.MetricsCounterOmit
   metricsGauge?: Prisma.MetricsGaugeOmit

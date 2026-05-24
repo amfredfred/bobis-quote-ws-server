@@ -90,15 +90,6 @@ export const TradingStyle = {
 export type TradingStyle = (typeof TradingStyle)[keyof typeof TradingStyle]
 
 
-export const RiskLevel = {
-  low: 'low',
-  medium: 'medium',
-  high: 'high'
-} as const
-
-export type RiskLevel = (typeof RiskLevel)[keyof typeof RiskLevel]
-
-
 export const NotificationType = {
   STRATEGY_REMINDER: 'STRATEGY_REMINDER',
   SESSION_START: 'SESSION_START',

@@ -70,11 +70,6 @@ export type TradingStrategy = Prisma.TradingStrategyModel
  */
 export type NotificationLog = Prisma.NotificationLogModel
 /**
- * Model TradingAnalytics
- * 
- */
-export type TradingAnalytics = Prisma.TradingAnalyticsModel
-/**
  * Model QueueJob
  * 
  */

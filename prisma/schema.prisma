@@ -38,7 +38,6 @@ model Profile {
   journalTrades          JournalTrade[]
   notificationLogs       NotificationLog[]
   tradingAccounts        TradingAccount[]
-  tradingAnalytics       TradingAnalytics[]
   tradingStrategies      TradingStrategy[]
 
   @@map("profiles")
@@ -137,7 +136,6 @@ model JournalChecklistItem {
   checklistText String       @map("checklist_text")
   answeredYes   Boolean      @map("answered_yes")
   note          String?
-  isAiGenerated Boolean      @default(false) @map("is_ai_generated")
   trade         JournalTrade @relation(fields: [tradeId], references: [id], onDelete: Cascade)
 
   @@unique([tradeId, checklistText])
@@ -156,12 +154,8 @@ model TradingStrategy {
   sessionReminderMins Int?           @default(5) @map("session_reminder_mins")
   isDefault           Boolean        @default(false) @map("is_default")
   isArchived          Boolean        @default(false) @map("is_archived")
-  aiRephrasedDesc     String?        @map("ai_rephrased_desc")
-  aiNotes             String?        @map("ai_notes")
-  aiParameters        Json?          @map("ai_parameters")
-  aiReminderPhrases   Json?          @map("ai_reminder_phrases")
-  aiRiskGuidelines    Json?          @map("ai_risk_guidelines")
-  aiChecklistItems    Json?          @map("ai_checklist_items")
+  riskGuidelines      Json?          @map("ai_risk_guidelines")
+  checklistItems      Json?          @map("ai_checklist_items")
   createdAt           DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt           DateTime?      @updatedAt @map("updated_at") @db.Timestamptz(6)
   journalTrades       JournalTrade[]
@@ -189,35 +183,6 @@ model NotificationLog {
   @@index([userId, sentAt])
   @@index([notificationType, sentAt])
   @@map("notification_logs")
-  @@schema("public")
-}
-
-model TradingAnalytics {
-  id                    String    @id @default(uuid()) @db.Uuid
-  userId                String    @map("user_id") @db.Uuid
-  tradingAccountId      String?   @map("trading_account_id") @db.Uuid
-  performanceSummary    String    @map("performance_summary")
-  strengths             String[]
-  weaknesses            String[]
-  tips                  String[]
-  psychologicalInsights String[]  @map("psychological_insights")
-  nextSteps             String[]  @map("next_steps")
-  overallRiskLevel      RiskLevel @map("overall_risk_level")
-  keyRisks              String[]  @map("key_risks")
-  suggestedAdjustments  String[]  @map("suggested_adjustments")
-  winRate               Float?    @map("win_rate")
-  totalTrades           Int?      @map("total_trades")
-  profitLoss            Float?    @map("profit_loss")
-  aiModelVersion        String    @map("ai_model_version")
-  dataRangeStart        DateTime? @map("data_range_start")
-  dataRangeEnd          DateTime? @map("data_range_end")
-  createdAt             DateTime  @default(now()) @map("created_at")
-  updatedAt             DateTime  @updatedAt @map("updated_at")
-  profile               Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
-
-  @@unique([userId, tradingAccountId])
-  @@index([userId])
-  @@map("trading_analytics")
   @@schema("public")
 }
 
@@ -340,15 +305,6 @@ enum TradingStyle {
   other
 
   @@map("trading_style")
-  @@schema("public")
-}
-
-enum RiskLevel {
-  low
-  medium
-  high
-
-  @@map("risk_level")
   @@schema("public")
 }
 

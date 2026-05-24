@@ -57,7 +57,6 @@ export const ModelName = {
   JournalChecklistItem: 'JournalChecklistItem',
   TradingStrategy: 'TradingStrategy',
   NotificationLog: 'NotificationLog',
-  TradingAnalytics: 'TradingAnalytics',
   QueueJob: 'QueueJob',
   MetricsCounter: 'MetricsCounter',
   MetricsGauge: 'MetricsGauge'
@@ -188,8 +187,7 @@ export const JournalChecklistItemScalarFieldEnum = {
   tradeId: 'tradeId',
   checklistText: 'checklistText',
   answeredYes: 'answeredYes',
-  note: 'note',
-  isAiGenerated: 'isAiGenerated'
+  note: 'note'
 } as const
 
 export type JournalChecklistItemScalarFieldEnum = (typeof JournalChecklistItemScalarFieldEnum)[keyof typeof JournalChecklistItemScalarFieldEnum]
@@ -206,12 +204,8 @@ export const TradingStrategyScalarFieldEnum = {
   sessionReminderMins: 'sessionReminderMins',
   isDefault: 'isDefault',
   isArchived: 'isArchived',
-  aiRephrasedDesc: 'aiRephrasedDesc',
-  aiNotes: 'aiNotes',
-  aiParameters: 'aiParameters',
-  aiReminderPhrases: 'aiReminderPhrases',
-  aiRiskGuidelines: 'aiRiskGuidelines',
-  aiChecklistItems: 'aiChecklistItems',
+  riskGuidelines: 'riskGuidelines',
+  checklistItems: 'checklistItems',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -235,32 +229,6 @@ export const NotificationLogScalarFieldEnum = {
 } as const
 
 export type NotificationLogScalarFieldEnum = (typeof NotificationLogScalarFieldEnum)[keyof typeof NotificationLogScalarFieldEnum]
-
-
-export const TradingAnalyticsScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  tradingAccountId: 'tradingAccountId',
-  performanceSummary: 'performanceSummary',
-  strengths: 'strengths',
-  weaknesses: 'weaknesses',
-  tips: 'tips',
-  psychologicalInsights: 'psychologicalInsights',
-  nextSteps: 'nextSteps',
-  overallRiskLevel: 'overallRiskLevel',
-  keyRisks: 'keyRisks',
-  suggestedAdjustments: 'suggestedAdjustments',
-  winRate: 'winRate',
-  totalTrades: 'totalTrades',
-  profitLoss: 'profitLoss',
-  aiModelVersion: 'aiModelVersion',
-  dataRangeStart: 'dataRangeStart',
-  dataRangeEnd: 'dataRangeEnd',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TradingAnalyticsScalarFieldEnum = (typeof TradingAnalyticsScalarFieldEnum)[keyof typeof TradingAnalyticsScalarFieldEnum]
 
 
 export const QueueJobScalarFieldEnum = {

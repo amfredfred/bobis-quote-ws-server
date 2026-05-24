@@ -1,9 +1,9 @@
 'use strict';
 
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AppError } from '@src/common/errors';
-import { getTierFromEntitlement, isTrialActive, type Tier } from '../common/types/tiers';
+import { getTierFromEntitlement, isTrialActive, TIER_LIMITS, type Tier } from '../common/types/tiers';
 
 @Injectable()
 export class TierGuard {
@@ -25,7 +25,25 @@ export class TierGuard {
     }
   }
 
-  async checkCanAddAccount(_userId: string): Promise<void> {
-    return;
+  async checkCanAddAccount(userId: string): Promise<void> {
+    const tier = await this.getUserTier(userId);
+    const limit = TIER_LIMITS[tier].maxAccounts;
+
+    const count = await this.prisma.tradingAccount.count({
+      where: { userId, isActive: true },
+    });
+
+    if (count >= limit) {
+      throw new ForbiddenException(
+        `Your ${tier} plan allows up to ${limit} account${limit === 1 ? '' : 's'}. Upgrade to add more.`,
+      );
+    }
+  }
+
+  async checkCanAccessAdvancedAnalytics(userId: string): Promise<void> {
+    const tier = await this.getUserTier(userId);
+    if (!TIER_LIMITS[tier].advancedAnalytics) {
+      throw new ForbiddenException('Advanced analytics require a Pro or Elite subscription.');
+    }
   }
 }

@@ -6,7 +6,6 @@ import {
   TradingAccountService,
   UpdateTradingAccountDto,
 } from '../../trading-account/trading-account.service';
-
 @Injectable()
 export class AccountHandler {
   constructor(private readonly svc: TradingAccountService) {}

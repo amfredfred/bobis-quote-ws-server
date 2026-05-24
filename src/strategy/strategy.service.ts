@@ -24,19 +24,17 @@ export interface CreateStrategyDto {
 
 export interface UpdateStrategyDto extends Partial<CreateStrategyDto> {
   isArchived?: boolean;
-  aiRephrasedDesc?: string;
-  aiNotes?: string;
-  aiParameters?: Record<string, string>;
-  aiReminderPhrases?: Record<string, string>;
-  aiRiskGuidelines?: Record<string, string>;
-  aiChecklistItems?: Record<string, string>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  riskGuidelines?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  checklistItems?: any;
 }
 
 @Injectable()
 export class StrategyService {
   private readonly logger = new Logger(StrategyService.name);
 
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(userId: string) {
     try {
@@ -120,12 +118,8 @@ export class StrategyService {
           ...(dto.sessionReminderMins !== undefined && { sessionReminderMins: dto.sessionReminderMins }),
           ...(dto.isDefault !== undefined && { isDefault: dto.isDefault }),
           ...(dto.isArchived !== undefined && { isArchived: dto.isArchived }),
-          ...(dto.aiRephrasedDesc !== undefined && { aiRephrasedDesc: dto.aiRephrasedDesc }),
-          ...(dto.aiNotes !== undefined && { aiNotes: dto.aiNotes }),
-          ...(dto.aiParameters !== undefined && { aiParameters: dto.aiParameters }),
-          ...(dto.aiReminderPhrases !== undefined && { aiReminderPhrases: dto.aiReminderPhrases }),
-          ...(dto.aiRiskGuidelines !== undefined && { aiRiskGuidelines: dto.aiRiskGuidelines }),
-          ...(dto.aiChecklistItems !== undefined && { aiChecklistItems: dto.aiChecklistItems }),
+          ...(dto.riskGuidelines !== undefined && { riskGuidelines: dto.riskGuidelines }),
+          ...(dto.checklistItems !== undefined && { checklistItems: dto.checklistItems }),
         },
       });
     } catch (err: any) {
@@ -171,4 +165,5 @@ export class StrategyService {
       throw new InternalServerErrorException('Could not load your default strategy. Please try again.');
     }
   }
+
 }

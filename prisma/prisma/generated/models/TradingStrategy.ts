@@ -45,8 +45,6 @@ export type TradingStrategyMinAggregateOutputType = {
   sessionReminderMins: number | null
   isDefault: boolean | null
   isArchived: boolean | null
-  aiRephrasedDesc: string | null
-  aiNotes: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,8 +60,6 @@ export type TradingStrategyMaxAggregateOutputType = {
   sessionReminderMins: number | null
   isDefault: boolean | null
   isArchived: boolean | null
-  aiRephrasedDesc: string | null
-  aiNotes: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -79,12 +75,8 @@ export type TradingStrategyCountAggregateOutputType = {
   sessionReminderMins: number
   isDefault: number
   isArchived: number
-  aiRephrasedDesc: number
-  aiNotes: number
-  aiParameters: number
-  aiReminderPhrases: number
-  aiRiskGuidelines: number
-  aiChecklistItems: number
+  riskGuidelines: number
+  checklistItems: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -110,8 +102,6 @@ export type TradingStrategyMinAggregateInputType = {
   sessionReminderMins?: true
   isDefault?: true
   isArchived?: true
-  aiRephrasedDesc?: true
-  aiNotes?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -127,8 +117,6 @@ export type TradingStrategyMaxAggregateInputType = {
   sessionReminderMins?: true
   isDefault?: true
   isArchived?: true
-  aiRephrasedDesc?: true
-  aiNotes?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -144,12 +132,8 @@ export type TradingStrategyCountAggregateInputType = {
   sessionReminderMins?: true
   isDefault?: true
   isArchived?: true
-  aiRephrasedDesc?: true
-  aiNotes?: true
-  aiParameters?: true
-  aiReminderPhrases?: true
-  aiRiskGuidelines?: true
-  aiChecklistItems?: true
+  riskGuidelines?: true
+  checklistItems?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -252,12 +236,8 @@ export type TradingStrategyGroupByOutputType = {
   sessionReminderMins: number | null
   isDefault: boolean
   isArchived: boolean
-  aiRephrasedDesc: string | null
-  aiNotes: string | null
-  aiParameters: runtime.JsonValue | null
-  aiReminderPhrases: runtime.JsonValue | null
-  aiRiskGuidelines: runtime.JsonValue | null
-  aiChecklistItems: runtime.JsonValue | null
+  riskGuidelines: runtime.JsonValue | null
+  checklistItems: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date | null
   _count: TradingStrategyCountAggregateOutputType | null
@@ -296,12 +276,8 @@ export type TradingStrategyWhereInput = {
   sessionReminderMins?: Prisma.IntNullableFilter<"TradingStrategy"> | number | null
   isDefault?: Prisma.BoolFilter<"TradingStrategy"> | boolean
   isArchived?: Prisma.BoolFilter<"TradingStrategy"> | boolean
-  aiRephrasedDesc?: Prisma.StringNullableFilter<"TradingStrategy"> | string | null
-  aiNotes?: Prisma.StringNullableFilter<"TradingStrategy"> | string | null
-  aiParameters?: Prisma.JsonNullableFilter<"TradingStrategy">
-  aiReminderPhrases?: Prisma.JsonNullableFilter<"TradingStrategy">
-  aiRiskGuidelines?: Prisma.JsonNullableFilter<"TradingStrategy">
-  aiChecklistItems?: Prisma.JsonNullableFilter<"TradingStrategy">
+  riskGuidelines?: Prisma.JsonNullableFilter<"TradingStrategy">
+  checklistItems?: Prisma.JsonNullableFilter<"TradingStrategy">
   createdAt?: Prisma.DateTimeFilter<"TradingStrategy"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"TradingStrategy"> | Date | string | null
   journalTrades?: Prisma.JournalTradeListRelationFilter
@@ -319,12 +295,8 @@ export type TradingStrategyOrderByWithRelationInput = {
   sessionReminderMins?: Prisma.SortOrderInput | Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   isArchived?: Prisma.SortOrder
-  aiRephrasedDesc?: Prisma.SortOrderInput | Prisma.SortOrder
-  aiNotes?: Prisma.SortOrderInput | Prisma.SortOrder
-  aiParameters?: Prisma.SortOrderInput | Prisma.SortOrder
-  aiReminderPhrases?: Prisma.SortOrderInput | Prisma.SortOrder
-  aiRiskGuidelines?: Prisma.SortOrderInput | Prisma.SortOrder
-  aiChecklistItems?: Prisma.SortOrderInput | Prisma.SortOrder
+  riskGuidelines?: Prisma.SortOrderInput | Prisma.SortOrder
+  checklistItems?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   journalTrades?: Prisma.JournalTradeOrderByRelationAggregateInput
@@ -345,12 +317,8 @@ export type TradingStrategyWhereUniqueInput = Prisma.AtLeast<{
   sessionReminderMins?: Prisma.IntNullableFilter<"TradingStrategy"> | number | null
   isDefault?: Prisma.BoolFilter<"TradingStrategy"> | boolean
   isArchived?: Prisma.BoolFilter<"TradingStrategy"> | boolean
-  aiRephrasedDesc?: Prisma.StringNullableFilter<"TradingStrategy"> | string | null
-  aiNotes?: Prisma.StringNullableFilter<"TradingStrategy"> | string | null
-  aiParameters?: Prisma.JsonNullableFilter<"TradingStrategy">
-  aiReminderPhrases?: Prisma.JsonNullableFilter<"TradingStrategy">
-  aiRiskGuidelines?: Prisma.JsonNullableFilter<"TradingStrategy">
-  aiChecklistItems?: Prisma.JsonNullableFilter<"TradingStrategy">
+  riskGuidelines?: Prisma.JsonNullableFilter<"TradingStrategy">
+  checklistItems?: Prisma.JsonNullableFilter<"TradingStrategy">
   createdAt?: Prisma.DateTimeFilter<"TradingStrategy"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"TradingStrategy"> | Date | string | null
   journalTrades?: Prisma.JournalTradeListRelationFilter
@@ -368,12 +336,8 @@ export type TradingStrategyOrderByWithAggregationInput = {
   sessionReminderMins?: Prisma.SortOrderInput | Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   isArchived?: Prisma.SortOrder
-  aiRephrasedDesc?: Prisma.SortOrderInput | Prisma.SortOrder
-  aiNotes?: Prisma.SortOrderInput | Prisma.SortOrder
-  aiParameters?: Prisma.SortOrderInput | Prisma.SortOrder
-  aiReminderPhrases?: Prisma.SortOrderInput | Prisma.SortOrder
-  aiRiskGuidelines?: Prisma.SortOrderInput | Prisma.SortOrder
-  aiChecklistItems?: Prisma.SortOrderInput | Prisma.SortOrder
+  riskGuidelines?: Prisma.SortOrderInput | Prisma.SortOrder
+  checklistItems?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TradingStrategyCountOrderByAggregateInput
@@ -397,12 +361,8 @@ export type TradingStrategyScalarWhereWithAggregatesInput = {
   sessionReminderMins?: Prisma.IntNullableWithAggregatesFilter<"TradingStrategy"> | number | null
   isDefault?: Prisma.BoolWithAggregatesFilter<"TradingStrategy"> | boolean
   isArchived?: Prisma.BoolWithAggregatesFilter<"TradingStrategy"> | boolean
-  aiRephrasedDesc?: Prisma.StringNullableWithAggregatesFilter<"TradingStrategy"> | string | null
-  aiNotes?: Prisma.StringNullableWithAggregatesFilter<"TradingStrategy"> | string | null
-  aiParameters?: Prisma.JsonNullableWithAggregatesFilter<"TradingStrategy">
-  aiReminderPhrases?: Prisma.JsonNullableWithAggregatesFilter<"TradingStrategy">
-  aiRiskGuidelines?: Prisma.JsonNullableWithAggregatesFilter<"TradingStrategy">
-  aiChecklistItems?: Prisma.JsonNullableWithAggregatesFilter<"TradingStrategy">
+  riskGuidelines?: Prisma.JsonNullableWithAggregatesFilter<"TradingStrategy">
+  checklistItems?: Prisma.JsonNullableWithAggregatesFilter<"TradingStrategy">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TradingStrategy"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"TradingStrategy"> | Date | string | null
 }
@@ -417,12 +377,8 @@ export type TradingStrategyCreateInput = {
   sessionReminderMins?: number | null
   isDefault?: boolean
   isArchived?: boolean
-  aiRephrasedDesc?: string | null
-  aiNotes?: string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutStrategyInput
@@ -440,12 +396,8 @@ export type TradingStrategyUncheckedCreateInput = {
   sessionReminderMins?: number | null
   isDefault?: boolean
   isArchived?: boolean
-  aiRephrasedDesc?: string | null
-  aiNotes?: string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutStrategyInput
@@ -461,12 +413,8 @@ export type TradingStrategyUpdateInput = {
   sessionReminderMins?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aiRephrasedDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutStrategyNestedInput
@@ -484,12 +432,8 @@ export type TradingStrategyUncheckedUpdateInput = {
   sessionReminderMins?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aiRephrasedDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutStrategyNestedInput
@@ -506,12 +450,8 @@ export type TradingStrategyCreateManyInput = {
   sessionReminderMins?: number | null
   isDefault?: boolean
   isArchived?: boolean
-  aiRephrasedDesc?: string | null
-  aiNotes?: string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string | null
 }
@@ -526,12 +466,8 @@ export type TradingStrategyUpdateManyMutationInput = {
   sessionReminderMins?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aiRephrasedDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -547,12 +483,8 @@ export type TradingStrategyUncheckedUpdateManyInput = {
   sessionReminderMins?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aiRephrasedDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -583,12 +515,8 @@ export type TradingStrategyCountOrderByAggregateInput = {
   sessionReminderMins?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   isArchived?: Prisma.SortOrder
-  aiRephrasedDesc?: Prisma.SortOrder
-  aiNotes?: Prisma.SortOrder
-  aiParameters?: Prisma.SortOrder
-  aiReminderPhrases?: Prisma.SortOrder
-  aiRiskGuidelines?: Prisma.SortOrder
-  aiChecklistItems?: Prisma.SortOrder
+  riskGuidelines?: Prisma.SortOrder
+  checklistItems?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -608,8 +536,6 @@ export type TradingStrategyMaxOrderByAggregateInput = {
   sessionReminderMins?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   isArchived?: Prisma.SortOrder
-  aiRephrasedDesc?: Prisma.SortOrder
-  aiNotes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -625,8 +551,6 @@ export type TradingStrategyMinOrderByAggregateInput = {
   sessionReminderMins?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   isArchived?: Prisma.SortOrder
-  aiRephrasedDesc?: Prisma.SortOrder
-  aiNotes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -715,12 +639,8 @@ export type TradingStrategyCreateWithoutProfileInput = {
   sessionReminderMins?: number | null
   isDefault?: boolean
   isArchived?: boolean
-  aiRephrasedDesc?: string | null
-  aiNotes?: string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeCreateNestedManyWithoutStrategyInput
@@ -736,12 +656,8 @@ export type TradingStrategyUncheckedCreateWithoutProfileInput = {
   sessionReminderMins?: number | null
   isDefault?: boolean
   isArchived?: boolean
-  aiRephrasedDesc?: string | null
-  aiNotes?: string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedCreateNestedManyWithoutStrategyInput
@@ -787,12 +703,8 @@ export type TradingStrategyScalarWhereInput = {
   sessionReminderMins?: Prisma.IntNullableFilter<"TradingStrategy"> | number | null
   isDefault?: Prisma.BoolFilter<"TradingStrategy"> | boolean
   isArchived?: Prisma.BoolFilter<"TradingStrategy"> | boolean
-  aiRephrasedDesc?: Prisma.StringNullableFilter<"TradingStrategy"> | string | null
-  aiNotes?: Prisma.StringNullableFilter<"TradingStrategy"> | string | null
-  aiParameters?: Prisma.JsonNullableFilter<"TradingStrategy">
-  aiReminderPhrases?: Prisma.JsonNullableFilter<"TradingStrategy">
-  aiRiskGuidelines?: Prisma.JsonNullableFilter<"TradingStrategy">
-  aiChecklistItems?: Prisma.JsonNullableFilter<"TradingStrategy">
+  riskGuidelines?: Prisma.JsonNullableFilter<"TradingStrategy">
+  checklistItems?: Prisma.JsonNullableFilter<"TradingStrategy">
   createdAt?: Prisma.DateTimeFilter<"TradingStrategy"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"TradingStrategy"> | Date | string | null
 }
@@ -807,12 +719,8 @@ export type TradingStrategyCreateWithoutJournalTradesInput = {
   sessionReminderMins?: number | null
   isDefault?: boolean
   isArchived?: boolean
-  aiRephrasedDesc?: string | null
-  aiNotes?: string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string | null
   profile: Prisma.ProfileCreateNestedOneWithoutTradingStrategiesInput
@@ -829,12 +737,8 @@ export type TradingStrategyUncheckedCreateWithoutJournalTradesInput = {
   sessionReminderMins?: number | null
   isDefault?: boolean
   isArchived?: boolean
-  aiRephrasedDesc?: string | null
-  aiNotes?: string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string | null
 }
@@ -865,12 +769,8 @@ export type TradingStrategyUpdateWithoutJournalTradesInput = {
   sessionReminderMins?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aiRephrasedDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profile?: Prisma.ProfileUpdateOneRequiredWithoutTradingStrategiesNestedInput
@@ -887,12 +787,8 @@ export type TradingStrategyUncheckedUpdateWithoutJournalTradesInput = {
   sessionReminderMins?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aiRephrasedDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -907,12 +803,8 @@ export type TradingStrategyCreateManyProfileInput = {
   sessionReminderMins?: number | null
   isDefault?: boolean
   isArchived?: boolean
-  aiRephrasedDesc?: string | null
-  aiNotes?: string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string | null
 }
@@ -927,12 +819,8 @@ export type TradingStrategyUpdateWithoutProfileInput = {
   sessionReminderMins?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aiRephrasedDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUpdateManyWithoutStrategyNestedInput
@@ -948,12 +836,8 @@ export type TradingStrategyUncheckedUpdateWithoutProfileInput = {
   sessionReminderMins?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aiRephrasedDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journalTrades?: Prisma.JournalTradeUncheckedUpdateManyWithoutStrategyNestedInput
@@ -969,12 +853,8 @@ export type TradingStrategyUncheckedUpdateManyWithoutProfileInput = {
   sessionReminderMins?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aiRephrasedDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aiParameters?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiReminderPhrases?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiRiskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  aiChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  riskGuidelines?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  checklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -1021,12 +901,8 @@ export type TradingStrategySelect<ExtArgs extends runtime.Types.Extensions.Inter
   sessionReminderMins?: boolean
   isDefault?: boolean
   isArchived?: boolean
-  aiRephrasedDesc?: boolean
-  aiNotes?: boolean
-  aiParameters?: boolean
-  aiReminderPhrases?: boolean
-  aiRiskGuidelines?: boolean
-  aiChecklistItems?: boolean
+  riskGuidelines?: boolean
+  checklistItems?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   journalTrades?: boolean | Prisma.TradingStrategy$journalTradesArgs<ExtArgs>
@@ -1045,12 +921,8 @@ export type TradingStrategySelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   sessionReminderMins?: boolean
   isDefault?: boolean
   isArchived?: boolean
-  aiRephrasedDesc?: boolean
-  aiNotes?: boolean
-  aiParameters?: boolean
-  aiReminderPhrases?: boolean
-  aiRiskGuidelines?: boolean
-  aiChecklistItems?: boolean
+  riskGuidelines?: boolean
+  checklistItems?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
@@ -1067,12 +939,8 @@ export type TradingStrategySelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   sessionReminderMins?: boolean
   isDefault?: boolean
   isArchived?: boolean
-  aiRephrasedDesc?: boolean
-  aiNotes?: boolean
-  aiParameters?: boolean
-  aiReminderPhrases?: boolean
-  aiRiskGuidelines?: boolean
-  aiChecklistItems?: boolean
+  riskGuidelines?: boolean
+  checklistItems?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
@@ -1089,17 +957,13 @@ export type TradingStrategySelectScalar = {
   sessionReminderMins?: boolean
   isDefault?: boolean
   isArchived?: boolean
-  aiRephrasedDesc?: boolean
-  aiNotes?: boolean
-  aiParameters?: boolean
-  aiReminderPhrases?: boolean
-  aiRiskGuidelines?: boolean
-  aiChecklistItems?: boolean
+  riskGuidelines?: boolean
+  checklistItems?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TradingStrategyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "description" | "tradingStyle" | "tradingHoursStart" | "tradingHoursEnd" | "sessionReminderMins" | "isDefault" | "isArchived" | "aiRephrasedDesc" | "aiNotes" | "aiParameters" | "aiReminderPhrases" | "aiRiskGuidelines" | "aiChecklistItems" | "createdAt" | "updatedAt", ExtArgs["result"]["tradingStrategy"]>
+export type TradingStrategyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "description" | "tradingStyle" | "tradingHoursStart" | "tradingHoursEnd" | "sessionReminderMins" | "isDefault" | "isArchived" | "riskGuidelines" | "checklistItems" | "createdAt" | "updatedAt", ExtArgs["result"]["tradingStrategy"]>
 export type TradingStrategyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journalTrades?: boolean | Prisma.TradingStrategy$journalTradesArgs<ExtArgs>
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
@@ -1129,12 +993,8 @@ export type $TradingStrategyPayload<ExtArgs extends runtime.Types.Extensions.Int
     sessionReminderMins: number | null
     isDefault: boolean
     isArchived: boolean
-    aiRephrasedDesc: string | null
-    aiNotes: string | null
-    aiParameters: runtime.JsonValue | null
-    aiReminderPhrases: runtime.JsonValue | null
-    aiRiskGuidelines: runtime.JsonValue | null
-    aiChecklistItems: runtime.JsonValue | null
+    riskGuidelines: runtime.JsonValue | null
+    checklistItems: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date | null
   }, ExtArgs["result"]["tradingStrategy"]>
@@ -1572,12 +1432,8 @@ export interface TradingStrategyFieldRefs {
   readonly sessionReminderMins: Prisma.FieldRef<"TradingStrategy", 'Int'>
   readonly isDefault: Prisma.FieldRef<"TradingStrategy", 'Boolean'>
   readonly isArchived: Prisma.FieldRef<"TradingStrategy", 'Boolean'>
-  readonly aiRephrasedDesc: Prisma.FieldRef<"TradingStrategy", 'String'>
-  readonly aiNotes: Prisma.FieldRef<"TradingStrategy", 'String'>
-  readonly aiParameters: Prisma.FieldRef<"TradingStrategy", 'Json'>
-  readonly aiReminderPhrases: Prisma.FieldRef<"TradingStrategy", 'Json'>
-  readonly aiRiskGuidelines: Prisma.FieldRef<"TradingStrategy", 'Json'>
-  readonly aiChecklistItems: Prisma.FieldRef<"TradingStrategy", 'Json'>
+  readonly riskGuidelines: Prisma.FieldRef<"TradingStrategy", 'Json'>
+  readonly checklistItems: Prisma.FieldRef<"TradingStrategy", 'Json'>
   readonly createdAt: Prisma.FieldRef<"TradingStrategy", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TradingStrategy", 'DateTime'>
 }
