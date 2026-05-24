@@ -12,19 +12,7 @@ export interface SendPushDto {
   data?: Record<string, string>;
   notificationType: NotificationType;
   accountId?: string;
-  signalAlertId?: string;
 }
-
-// ── Per-type notification config ───────────────────────────────────────────────
-//
-// priority:   'high'   = wakes screen, bypasses silent mode
-//             'normal' = standard delivery
-//             'default'    = informational, batched by OS
-//
-// dailyLimit: Infinity = never rate-limited (safety-critical)
-//
-// prefFlag:   which Profile boolean field controls this type.
-//             null = always send if pushEnabled (can't be turned off)
 
 interface NotificationConfig {
   priority: 'high' | 'normal' | 'default';
@@ -32,7 +20,6 @@ interface NotificationConfig {
   prefFlag: keyof ProfilePrefs | null;
 }
 
-// The subset of Profile fields we need — fetched in one query
 interface ProfilePrefs {
   notificationPushToken: string | null;
   pushEnabled: boolean;
@@ -41,60 +28,35 @@ interface ProfilePrefs {
   sessionReminders: boolean;
   drawdownWarnings: boolean;
   profitTargetAlerts: boolean;
-  signalAlertsEnabled: boolean;
   maxTradesWarnings: boolean;
   tradingDaysReminders: boolean;
-  lastNotificationReset: Date | null;
-  notificationSentToday: number;
 }
 
 const TYPE_CONFIG: Record<NotificationType, NotificationConfig> = {
-  // ── Safety-critical — never throttle, always send ─────────────────────────
   DRAWDOWN_CRITICAL: { priority: 'high', dailyLimit: Infinity, prefFlag: 'drawdownWarnings' },
   MAX_TRADES_REACHED: { priority: 'high', dailyLimit: Infinity, prefFlag: 'maxTradesWarnings' },
   TRADING_DAYS_CRITICAL: { priority: 'high', dailyLimit: Infinity, prefFlag: 'tradingDaysReminders' },
-
-  // ── Trade execution — high priority, generous limit ───────────────────────
-  SIGNAL_TRIGGERED: { priority: 'high', dailyLimit: 50, prefFlag: 'signalAlertsEnabled' },
-  SIGNAL_TP1_HIT: { priority: 'high', dailyLimit: 50, prefFlag: 'signalAlertsEnabled' },
-  SIGNAL_TP2_HIT: { priority: 'high', dailyLimit: 50, prefFlag: 'signalAlertsEnabled' },
-  SIGNAL_SL_HIT: { priority: 'high', dailyLimit: 50, prefFlag: 'signalAlertsEnabled' },
-  SIGNAL_PENDING: { priority: 'normal', dailyLimit: 30, prefFlag: 'signalAlertsEnabled' },
-  SIGNAL_INVALIDATED: { priority: 'normal', dailyLimit: 30, prefFlag: 'signalAlertsEnabled' },
-  SIGNAL_EXPIRED: { priority: 'normal', dailyLimit: 30, prefFlag: 'signalAlertsEnabled' },
-  TRADE_EXECUTED: { priority: 'high', dailyLimit: 50, prefFlag: 'accountAlerts' },
-  POSITION_OPENED: { priority: 'high', dailyLimit: 50, prefFlag: 'accountAlerts' },
-  POSITION_CLOSED: { priority: 'high', dailyLimit: 50, prefFlag: 'accountAlerts' },
-
-  // ── Warnings ──────────────────────────────────────────────────────────────
   DRAWDOWN_WARNING: { priority: 'high', dailyLimit: 5, prefFlag: 'drawdownWarnings' },
   PROFIT_TARGET_NEAR: { priority: 'high', dailyLimit: 5, prefFlag: 'profitTargetAlerts' },
   PROFIT_TARGET_REACHED: { priority: 'high', dailyLimit: 3, prefFlag: 'profitTargetAlerts' },
   MAX_TRADES_WARNING: { priority: 'high', dailyLimit: 3, prefFlag: 'maxTradesWarnings' },
   TRADING_DAYS_LOW: { priority: 'high', dailyLimit: 3, prefFlag: 'tradingDaysReminders' },
-
-  // ── Market / news ─────────────────────────────────────────────────────────
-  NEWS_ALERT: { priority: 'normal', dailyLimit: 10, prefFlag: 'accountAlerts' },
-  SOCIAL_SENTIMENT_SPIKE: { priority: 'normal', dailyLimit: 5, prefFlag: 'accountAlerts' },
-
-  // ── Reminders / informational ─────────────────────────────────────────────
   SESSION_START: { priority: 'normal', dailyLimit: 3, prefFlag: 'sessionReminders' },
   STRATEGY_REMINDER: { priority: 'default', dailyLimit: 3, prefFlag: 'strategyReminders' },
   ACCOUNT_GENERAL: { priority: 'default', dailyLimit: 5, prefFlag: 'accountAlerts' },
   SYSTEM_UPDATE: { priority: 'default', dailyLimit: 2, prefFlag: null },
+  JOURNAL_REVIEW_DUE: { priority: 'normal', dailyLimit: 5, prefFlag: 'strategyReminders' },
 };
-
-// ── Service ───────────────────────────────────────────────────────────────────
 
 @Injectable()
 export class NotificationsService implements OnModuleInit {
   private readonly logger = new Logger(NotificationsService.name);
   private readonly expo = new Expo();
 
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   onModuleInit() {
-    this.logger.log('NotificationsService ready (expo-server-sdk)');
+    this.logger.log('NotificationsService ready');
   }
 
   async send(dto: SendPushDto): Promise<boolean> {
@@ -108,60 +70,30 @@ export class NotificationsService implements OnModuleInit {
         sessionReminders: true,
         drawdownWarnings: true,
         profitTargetAlerts: true,
-        signalAlertsEnabled: true,
         maxTradesWarnings: true,
         tradingDaysReminders: true,
-        lastNotificationReset: true,
-        notificationSentToday: true,
       },
     });
 
     if (!profile?.notificationPushToken || !profile.pushEnabled) return false;
+    const config = TYPE_CONFIG[dto.notificationType] ?? TYPE_CONFIG.SYSTEM_UPDATE;
+    if (config.prefFlag !== null && !profile[config.prefFlag]) return false;
+    if (!Expo.isExpoPushToken(profile.notificationPushToken)) return false;
 
-    const token = profile.notificationPushToken;
-    const config = TYPE_CONFIG[dto.notificationType];
-
-    // ── Preference check ───────────────────────────────────────────────────────
-    if (config.prefFlag !== null && !profile[config.prefFlag]) {
-      this.logger.debug(
-        `Notification suppressed for user ${dto.userId}: ${dto.notificationType} (${config.prefFlag}=false)`
-      );
-      return false;
-    }
-
-    if (!Expo.isExpoPushToken(token)) {
-      this.logger.warn(`Invalid Expo push token for user ${dto.userId}`);
-      return false;
-    }
-
-    // ── Rate limit — per type per day ─────────────────────────────────────────
     if (config.dailyLimit !== Infinity) {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-
       const sentTodayOfType = await this.prisma.notificationLog.count({
-        where: {
-          userId: dto.userId,
-          notificationType: dto.notificationType as any,
-          sentAt: { gte: today },
-        },
+        where: { userId: dto.userId, notificationType: dto.notificationType as any, sentAt: { gte: today } },
       });
-
-      if (sentTodayOfType >= config.dailyLimit) {
-        this.logger.debug(
-          `Rate limit for user ${dto.userId} type ${dto.notificationType} (${sentTodayOfType}/${config.dailyLimit})`
-        );
-        return false;
-      }
+      if (sentTodayOfType >= config.dailyLimit) return false;
     }
 
-    // ── Log to DB ──────────────────────────────────────────────────────────────
     const log = await this.prisma.notificationLog.create({
       data: {
         userId: dto.userId,
         notificationType: dto.notificationType as any,
         accountId: dto.accountId ?? null,
-        signalAlertId: dto.signalAlertId ?? null,
         title: dto.title,
         body: dto.body,
         data: dto.data,
@@ -170,81 +102,43 @@ export class NotificationsService implements OnModuleInit {
       select: { id: true },
     });
 
-    // ── Update last sent timestamp ─────────────────────────────────────────────
     await this.prisma.profile.update({
       where: { userId: dto.userId },
       data: { lastNotificationSentAt: new Date() },
     });
 
-    // ── Send via Expo ──────────────────────────────────────────────────────────
     try {
       const message: ExpoPushMessage = {
-        to: token,
+        to: profile.notificationPushToken,
         title: dto.title,
         body: dto.body,
-        // Merge notificationId so the app can call markOpened when the user taps
         data: { ...dto.data, notificationId: log.id },
         sound: 'default',
         priority: config.priority,
         badge: 1,
       };
-
-      const chunks = this.expo.chunkPushNotifications([message]);
       const tickets: ExpoPushTicket[] = [];
-
-      for (const chunk of chunks) {
-        const chunkTickets = await this.expo.sendPushNotificationsAsync(chunk);
-        tickets.push(...chunkTickets);
+      for (const chunk of this.expo.chunkPushNotifications([message])) {
+        tickets.push(...await this.expo.sendPushNotificationsAsync(chunk));
       }
-
-      for (const ticket of tickets) {
-        if (ticket.status === 'error') {
-          this.logger.error(`Expo push error for user ${dto.userId}: ${ticket.message}`);
-
-          if (ticket.details?.error === 'DeviceNotRegistered') {
-            await this.prisma.profile.update({
-              where: { userId: dto.userId },
-              data: { notificationPushToken: null },
-            });
-            this.logger.warn(`Cleared stale push token for user ${dto.userId}`);
-          }
-
-          return false;
-        }
-      }
-
-      // All tickets OK — mark as delivered
-      await this.prisma.notificationLog.update({
-        where: { id: log.id },
-        data: { delivered: true },
-      });
-
+      if (tickets.some(ticket => ticket.status === 'error')) return false;
+      await this.prisma.notificationLog.update({ where: { id: log.id }, data: { delivered: true } });
       return true;
-    } catch (e) {
-      this.logger.error(`Expo push failed for user ${dto.userId}`, e);
+    } catch (error) {
+      this.logger.error(`Expo push failed for user ${dto.userId}`, error);
       return false;
     }
   }
 
-  async getForUser(userId: string, limit = 50) {
-    return this.prisma.notificationLog.findMany({
-      where: { userId },
-      orderBy: { sentAt: 'desc' },
-      take: limit,
-    });
+  getForUser(userId: string, limit = 50) {
+    return this.prisma.notificationLog.findMany({ where: { userId }, orderBy: { sentAt: 'desc' }, take: limit });
   }
 
-  async markOpened(id: string) {
-    return this.prisma.notificationLog.update({
-      where: { id },
-      data: { opened: true, openedAt: new Date() },
-    });
+  markOpened(id: string) {
+    return this.prisma.notificationLog.update({ where: { id }, data: { opened: true, openedAt: new Date() } });
   }
 
-  async markAllOpened(userId: string) {
-    return this.prisma.notificationLog.updateMany({
-      where: { userId, opened: false },
-      data: { opened: true, openedAt: new Date() },
-    });
+  markAllOpened(userId: string) {
+    return this.prisma.notificationLog.updateMany({ where: { userId, opened: false }, data: { opened: true, openedAt: new Date() } });
   }
 }

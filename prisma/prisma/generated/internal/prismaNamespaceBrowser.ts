@@ -53,24 +53,14 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Profile: 'Profile',
   TradingAccount: 'TradingAccount',
-  Signal: 'Signal',
-  Trade: 'Trade',
   JournalTrade: 'JournalTrade',
   JournalChecklistItem: 'JournalChecklistItem',
   TradingStrategy: 'TradingStrategy',
-  SignalAlert: 'SignalAlert',
-  SignalZone: 'SignalZone',
-  UserSignalSubscription: 'UserSignalSubscription',
   NotificationLog: 'NotificationLog',
   TradingAnalytics: 'TradingAnalytics',
   QueueJob: 'QueueJob',
   MetricsCounter: 'MetricsCounter',
-  MetricsGauge: 'MetricsGauge',
-  ReferralLink: 'ReferralLink',
-  Referral: 'Referral',
-  ReferralReward: 'ReferralReward',
-  referral_link_clicks: 'referral_link_clicks',
-  referral_milestone_events: 'referral_milestone_events'
+  MetricsGauge: 'MetricsGauge'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -101,7 +91,6 @@ export const ProfileScalarFieldEnum = {
   sessionReminders: 'sessionReminders',
   drawdownWarnings: 'drawdownWarnings',
   profitTargetAlerts: 'profitTargetAlerts',
-  signalAlertsEnabled: 'signalAlertsEnabled',
   maxTradesWarnings: 'maxTradesWarnings',
   tradingDaysReminders: 'tradingDaysReminders',
   lastNotificationSentAt: 'lastNotificationSentAt',
@@ -110,13 +99,12 @@ export const ProfileScalarFieldEnum = {
   proExpiresAt: 'proExpiresAt',
   revenuecatAppUserId: 'revenuecatAppUserId',
   timezone: 'timezone',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   subscriptionTier: 'subscriptionTier',
   subscriptionStatus: 'subscriptionStatus',
   trialEndsAt: 'trialEndsAt',
   trialStartedAt: 'trialStartedAt',
-  signalIntervals: 'signalIntervals'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
@@ -131,81 +119,14 @@ export const TradingAccountScalarFieldEnum = {
   startBalance: 'startBalance',
   currentBalance: 'currentBalance',
   platform: 'platform',
-  metaApiAccountId: 'metaApiAccountId',
-  autoTradeEnabled: 'autoTradeEnabled',
-  riskConfig: 'riskConfig',
-  lastSyncAt: 'lastSyncAt',
-  lastError: 'lastError',
-  lastErrorAt: 'lastErrorAt',
   todayTradeCount: 'todayTradeCount',
   todayPnl: 'todayPnl',
-  lastStatsReset: 'lastStatsReset',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type TradingAccountScalarFieldEnum = (typeof TradingAccountScalarFieldEnum)[keyof typeof TradingAccountScalarFieldEnum]
-
-
-export const SignalScalarFieldEnum = {
-  id: 'id',
-  accountId: 'accountId',
-  symbol: 'symbol',
-  direction: 'direction',
-  status: 'status',
-  entryPrice: 'entryPrice',
-  stopLoss: 'stopLoss',
-  tp1: 'tp1',
-  tp2: 'tp2',
-  riskReward: 'riskReward',
-  riskPips: 'riskPips',
-  pattern: 'pattern',
-  wickRatio: 'wickRatio',
-  rawJson: 'rawJson',
-  receivedAt: 'receivedAt',
-  triggeredAt: 'triggeredAt',
-  outcome: 'outcome',
-  tradeId: 'tradeId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type SignalScalarFieldEnum = (typeof SignalScalarFieldEnum)[keyof typeof SignalScalarFieldEnum]
-
-
-export const TradeScalarFieldEnum = {
-  id: 'id',
-  accountId: 'accountId',
-  signalId: 'signalId',
-  symbol: 'symbol',
-  side: 'side',
-  status: 'status',
-  plan: 'plan',
-  entryTicket: 'entryTicket',
-  entryPrice: 'entryPrice',
-  entryLots: 'entryLots',
-  currentLots: 'currentLots',
-  stopLoss: 'stopLoss',
-  tp1: 'tp1',
-  tp2: 'tp2',
-  tp1Hit: 'tp1Hit',
-  tp1HitAt: 'tp1HitAt',
-  tp2Hit: 'tp2Hit',
-  tp2HitAt: 'tp2HitAt',
-  slHit: 'slHit',
-  slHitAt: 'slHitAt',
-  openedAt: 'openedAt',
-  closedAt: 'closedAt',
-  closeReason: 'closeReason',
-  closePrice: 'closePrice',
-  realizedPnl: 'realizedPnl',
-  realizedRR: 'realizedRR',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TradeScalarFieldEnum = (typeof TradeScalarFieldEnum)[keyof typeof TradeScalarFieldEnum]
 
 
 export const JournalTradeScalarFieldEnum = {
@@ -219,35 +140,33 @@ export const JournalTradeScalarFieldEnum = {
   result: 'result',
   entryPrice: 'entryPrice',
   exitPrice: 'exitPrice',
+  stopLoss: 'stopLoss',
+  takeProfit: 'takeProfit',
+  riskReward: 'riskReward',
   quantity: 'quantity',
-  ticketId: 'ticketId',
+  positionSize: 'positionSize',
   pnl: 'pnl',
   pnlPercent: 'pnlPercent',
   commission: 'commission',
   swap: 'swap',
+  fees: 'fees',
   followedPlan: 'followedPlan',
   convictionLevel: 'convictionLevel',
   emotionBefore: 'emotionBefore',
   emotionAfter: 'emotionAfter',
   notesBefore: 'notesBefore',
   notesAfter: 'notesAfter',
+  setupNotes: 'setupNotes',
+  mistakeNotes: 'mistakeNotes',
+  reviewStatus: 'reviewStatus',
+  tags: 'tags',
+  mistakes: 'mistakes',
   screenshotUrls: 'screenshotUrls',
   tradeDate: 'tradeDate',
+  openedAt: 'openedAt',
   closedAt: 'closedAt',
-  source: 'source',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  profileUserId: 'profileUserId',
-  closeReason: 'closeReason',
-  entryLots: 'entryLots',
-  realizedRR: 'realizedRR',
-  signalId: 'signalId',
-  slHit: 'slHit',
-  slHitAt: 'slHitAt',
-  tp1Hit: 'tp1Hit',
-  tp1HitAt: 'tp1HitAt',
-  tp2Hit: 'tp2Hit',
-  tp2HitAt: 'tp2HitAt'
+  updatedAt: 'updatedAt'
 } as const
 
 export type JournalTradeScalarFieldEnum = (typeof JournalTradeScalarFieldEnum)[keyof typeof JournalTradeScalarFieldEnum]
@@ -289,92 +208,6 @@ export const TradingStrategyScalarFieldEnum = {
 export type TradingStrategyScalarFieldEnum = (typeof TradingStrategyScalarFieldEnum)[keyof typeof TradingStrategyScalarFieldEnum]
 
 
-export const SignalAlertScalarFieldEnum = {
-  id: 'id',
-  engineId: 'engineId',
-  symbol: 'symbol',
-  direction: 'direction',
-  status: 'status',
-  outcome: 'outcome',
-  entryPrice: 'entryPrice',
-  stopLoss: 'stopLoss',
-  tp1: 'tp1',
-  tp2: 'tp2',
-  riskRewardRatio: 'riskRewardRatio',
-  riskPips: 'riskPips',
-  htfRangeHigh: 'htfRangeHigh',
-  htfRangeLow: 'htfRangeLow',
-  htfBosDirection: 'htfBosDirection',
-  htfTimestamp: 'htfTimestamp',
-  htfBrokenAt: 'htfBrokenAt',
-  ltfRangeHigh: 'ltfRangeHigh',
-  ltfRangeLow: 'ltfRangeLow',
-  ltfTimestamp: 'ltfTimestamp',
-  ltfSlLevel: 'ltfSlLevel',
-  rejectionOpen: 'rejectionOpen',
-  rejectionHigh: 'rejectionHigh',
-  rejectionLow: 'rejectionLow',
-  rejectionClose: 'rejectionClose',
-  rejectionTimestamp: 'rejectionTimestamp',
-  rejectionWickRatio: 'rejectionWickRatio',
-  rejectionPattern: 'rejectionPattern',
-  rejectionWickTip: 'rejectionWickTip',
-  rawPayload: 'rawPayload',
-  realizedRr: 'realizedRr',
-  closePrice: 'closePrice',
-  chartPath: 'chartPath',
-  chartData: 'chartData',
-  triggeredAt: 'triggeredAt',
-  tp1HitAt: 'tp1HitAt',
-  closedAt: 'closedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  zoneId: 'zoneId',
-  htfInterval: 'htfInterval',
-  ltfInterval: 'ltfInterval'
-} as const
-
-export type SignalAlertScalarFieldEnum = (typeof SignalAlertScalarFieldEnum)[keyof typeof SignalAlertScalarFieldEnum]
-
-
-export const SignalZoneScalarFieldEnum = {
-  id: 'id',
-  engineKey: 'engineKey',
-  symbol: 'symbol',
-  direction: 'direction',
-  status: 'status',
-  htfRangeHigh: 'htfRangeHigh',
-  htfRangeLow: 'htfRangeLow',
-  htfBosDirection: 'htfBosDirection',
-  ltfRangeHigh: 'ltfRangeHigh',
-  ltfRangeLow: 'ltfRangeLow',
-  ltfSlLevel: 'ltfSlLevel',
-  rawPayload: 'rawPayload',
-  pendingAt: 'pendingAt',
-  triggeredAt: 'triggeredAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  signalId: 'signalId',
-  htfInterval: 'htfInterval',
-  htfTimestamp: 'htfTimestamp',
-  htfTpLevel: 'htfTpLevel',
-  ltfInterval: 'ltfInterval',
-  ltfTimestamp: 'ltfTimestamp'
-} as const
-
-export type SignalZoneScalarFieldEnum = (typeof SignalZoneScalarFieldEnum)[keyof typeof SignalZoneScalarFieldEnum]
-
-
-export const UserSignalSubscriptionScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  symbol: 'symbol',
-  createdAt: 'createdAt'
-} as const
-
-export type UserSignalSubscriptionScalarFieldEnum = (typeof UserSignalSubscriptionScalarFieldEnum)[keyof typeof UserSignalSubscriptionScalarFieldEnum]
-
-
 export const NotificationLogScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -387,8 +220,7 @@ export const NotificationLogScalarFieldEnum = {
   sentAt: 'sentAt',
   delivered: 'delivered',
   opened: 'opened',
-  openedAt: 'openedAt',
-  signalAlertId: 'signalAlertId'
+  openedAt: 'openedAt'
 } as const
 
 export type NotificationLogScalarFieldEnum = (typeof NotificationLogScalarFieldEnum)[keyof typeof NotificationLogScalarFieldEnum]
@@ -460,101 +292,6 @@ export const MetricsGaugeScalarFieldEnum = {
 export type MetricsGaugeScalarFieldEnum = (typeof MetricsGaugeScalarFieldEnum)[keyof typeof MetricsGaugeScalarFieldEnum]
 
 
-export const ReferralLinkScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  referralCode: 'referralCode',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  influencer_tier: 'influencer_tier',
-  total_clicks: 'total_clicks',
-  unique_clicks: 'unique_clicks',
-  payout_preference: 'payout_preference',
-  custom_slug: 'custom_slug'
-} as const
-
-export type ReferralLinkScalarFieldEnum = (typeof ReferralLinkScalarFieldEnum)[keyof typeof ReferralLinkScalarFieldEnum]
-
-
-export const ReferralScalarFieldEnum = {
-  id: 'id',
-  referrerId: 'referrerId',
-  refereeId: 'refereeId',
-  referralCode: 'referralCode',
-  status: 'status',
-  signedUpAt: 'signedUpAt',
-  subscribedAt: 'subscribedAt',
-  referrerReward: 'referrerReward',
-  refereeReward: 'refereeReward',
-  referrerRewardAmount: 'referrerRewardAmount',
-  refereeRewardAmount: 'refereeRewardAmount',
-  referrerRewardClaimed: 'referrerRewardClaimed',
-  referrerRewardClaimedAt: 'referrerRewardClaimedAt',
-  refereeRewardClaimed: 'refereeRewardClaimed',
-  refereeRewardClaimedAt: 'refereeRewardClaimedAt',
-  utmSource: 'utmSource',
-  utmMedium: 'utmMedium',
-  ipAddress: 'ipAddress',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  refereeSubscriptionPrice: 'refereeSubscriptionPrice',
-  refereeTierAtSubscription: 'refereeTierAtSubscription',
-  referee_bonus_days: 'referee_bonus_days',
-  referee_bonus_applied: 'referee_bonus_applied'
-} as const
-
-export type ReferralScalarFieldEnum = (typeof ReferralScalarFieldEnum)[keyof typeof ReferralScalarFieldEnum]
-
-
-export const ReferralRewardScalarFieldEnum = {
-  id: 'id',
-  referralId: 'referralId',
-  userId: 'userId',
-  rewardType: 'rewardType',
-  amount: 'amount',
-  expiresAt: 'expiresAt',
-  usedAt: 'usedAt',
-  usedWithSubscription: 'usedWithSubscription',
-  createdAt: 'createdAt',
-  appliedToUserId: 'appliedToUserId',
-  claimedAt: 'claimedAt',
-  monthsAwarded: 'monthsAwarded',
-  newExpiryDate: 'newExpiryDate',
-  status: 'status',
-  tierAwarded: 'tierAwarded',
-  tierValue: 'tierValue',
-  reward_subtype: 'reward_subtype',
-  credit_amount: 'credit_amount'
-} as const
-
-export type ReferralRewardScalarFieldEnum = (typeof ReferralRewardScalarFieldEnum)[keyof typeof ReferralRewardScalarFieldEnum]
-
-
-export const Referral_link_clicksScalarFieldEnum = {
-  id: 'id',
-  referral_code: 'referral_code',
-  ip_hash: 'ip_hash',
-  ua_hash: 'ua_hash',
-  country_code: 'country_code',
-  is_unique: 'is_unique',
-  clicked_at: 'clicked_at'
-} as const
-
-export type Referral_link_clicksScalarFieldEnum = (typeof Referral_link_clicksScalarFieldEnum)[keyof typeof Referral_link_clicksScalarFieldEnum]
-
-
-export const Referral_milestone_eventsScalarFieldEnum = {
-  id: 'id',
-  user_id: 'user_id',
-  from_tier: 'from_tier',
-  to_tier: 'to_tier',
-  confirmed_count: 'confirmed_count',
-  achieved_at: 'achieved_at'
-} as const
-
-export type Referral_milestone_eventsScalarFieldEnum = (typeof Referral_milestone_eventsScalarFieldEnum)[keyof typeof Referral_milestone_eventsScalarFieldEnum]
-
-
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -569,13 +306,6 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

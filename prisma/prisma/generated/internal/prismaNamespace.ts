@@ -386,24 +386,14 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Profile: 'Profile',
   TradingAccount: 'TradingAccount',
-  Signal: 'Signal',
-  Trade: 'Trade',
   JournalTrade: 'JournalTrade',
   JournalChecklistItem: 'JournalChecklistItem',
   TradingStrategy: 'TradingStrategy',
-  SignalAlert: 'SignalAlert',
-  SignalZone: 'SignalZone',
-  UserSignalSubscription: 'UserSignalSubscription',
   NotificationLog: 'NotificationLog',
   TradingAnalytics: 'TradingAnalytics',
   QueueJob: 'QueueJob',
   MetricsCounter: 'MetricsCounter',
-  MetricsGauge: 'MetricsGauge',
-  ReferralLink: 'ReferralLink',
-  Referral: 'Referral',
-  ReferralReward: 'ReferralReward',
-  referral_link_clicks: 'referral_link_clicks',
-  referral_milestone_events: 'referral_milestone_events'
+  MetricsGauge: 'MetricsGauge'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -419,7 +409,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "profile" | "tradingAccount" | "signal" | "trade" | "journalTrade" | "journalChecklistItem" | "tradingStrategy" | "signalAlert" | "signalZone" | "userSignalSubscription" | "notificationLog" | "tradingAnalytics" | "queueJob" | "metricsCounter" | "metricsGauge" | "referralLink" | "referral" | "referralReward" | "referral_link_clicks" | "referral_milestone_events"
+    modelProps: "profile" | "tradingAccount" | "journalTrade" | "journalChecklistItem" | "tradingStrategy" | "notificationLog" | "tradingAnalytics" | "queueJob" | "metricsCounter" | "metricsGauge"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -568,154 +558,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TradingAccountCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TradingAccountCountAggregateOutputType> | number
-        }
-      }
-    }
-    Signal: {
-      payload: Prisma.$SignalPayload<ExtArgs>
-      fields: Prisma.SignalFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.SignalFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.SignalFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalPayload>
-        }
-        findFirst: {
-          args: Prisma.SignalFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.SignalFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalPayload>
-        }
-        findMany: {
-          args: Prisma.SignalFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalPayload>[]
-        }
-        create: {
-          args: Prisma.SignalCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalPayload>
-        }
-        createMany: {
-          args: Prisma.SignalCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.SignalCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalPayload>[]
-        }
-        delete: {
-          args: Prisma.SignalDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalPayload>
-        }
-        update: {
-          args: Prisma.SignalUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalPayload>
-        }
-        deleteMany: {
-          args: Prisma.SignalDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.SignalUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.SignalUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalPayload>[]
-        }
-        upsert: {
-          args: Prisma.SignalUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalPayload>
-        }
-        aggregate: {
-          args: Prisma.SignalAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateSignal>
-        }
-        groupBy: {
-          args: Prisma.SignalGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.SignalGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.SignalCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.SignalCountAggregateOutputType> | number
-        }
-      }
-    }
-    Trade: {
-      payload: Prisma.$TradePayload<ExtArgs>
-      fields: Prisma.TradeFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.TradeFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.TradeFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>
-        }
-        findFirst: {
-          args: Prisma.TradeFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.TradeFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>
-        }
-        findMany: {
-          args: Prisma.TradeFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>[]
-        }
-        create: {
-          args: Prisma.TradeCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>
-        }
-        createMany: {
-          args: Prisma.TradeCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.TradeCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>[]
-        }
-        delete: {
-          args: Prisma.TradeDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>
-        }
-        update: {
-          args: Prisma.TradeUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>
-        }
-        deleteMany: {
-          args: Prisma.TradeDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.TradeUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.TradeUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>[]
-        }
-        upsert: {
-          args: Prisma.TradeUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradePayload>
-        }
-        aggregate: {
-          args: Prisma.TradeAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTrade>
-        }
-        groupBy: {
-          args: Prisma.TradeGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TradeGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.TradeCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TradeCountAggregateOutputType> | number
         }
       }
     }
@@ -938,228 +780,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TradingStrategyCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TradingStrategyCountAggregateOutputType> | number
-        }
-      }
-    }
-    SignalAlert: {
-      payload: Prisma.$SignalAlertPayload<ExtArgs>
-      fields: Prisma.SignalAlertFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.SignalAlertFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalAlertPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.SignalAlertFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalAlertPayload>
-        }
-        findFirst: {
-          args: Prisma.SignalAlertFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalAlertPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.SignalAlertFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalAlertPayload>
-        }
-        findMany: {
-          args: Prisma.SignalAlertFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalAlertPayload>[]
-        }
-        create: {
-          args: Prisma.SignalAlertCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalAlertPayload>
-        }
-        createMany: {
-          args: Prisma.SignalAlertCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.SignalAlertCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalAlertPayload>[]
-        }
-        delete: {
-          args: Prisma.SignalAlertDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalAlertPayload>
-        }
-        update: {
-          args: Prisma.SignalAlertUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalAlertPayload>
-        }
-        deleteMany: {
-          args: Prisma.SignalAlertDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.SignalAlertUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.SignalAlertUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalAlertPayload>[]
-        }
-        upsert: {
-          args: Prisma.SignalAlertUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalAlertPayload>
-        }
-        aggregate: {
-          args: Prisma.SignalAlertAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateSignalAlert>
-        }
-        groupBy: {
-          args: Prisma.SignalAlertGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.SignalAlertGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.SignalAlertCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.SignalAlertCountAggregateOutputType> | number
-        }
-      }
-    }
-    SignalZone: {
-      payload: Prisma.$SignalZonePayload<ExtArgs>
-      fields: Prisma.SignalZoneFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.SignalZoneFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalZonePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.SignalZoneFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalZonePayload>
-        }
-        findFirst: {
-          args: Prisma.SignalZoneFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalZonePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.SignalZoneFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalZonePayload>
-        }
-        findMany: {
-          args: Prisma.SignalZoneFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalZonePayload>[]
-        }
-        create: {
-          args: Prisma.SignalZoneCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalZonePayload>
-        }
-        createMany: {
-          args: Prisma.SignalZoneCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.SignalZoneCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalZonePayload>[]
-        }
-        delete: {
-          args: Prisma.SignalZoneDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalZonePayload>
-        }
-        update: {
-          args: Prisma.SignalZoneUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalZonePayload>
-        }
-        deleteMany: {
-          args: Prisma.SignalZoneDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.SignalZoneUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.SignalZoneUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalZonePayload>[]
-        }
-        upsert: {
-          args: Prisma.SignalZoneUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignalZonePayload>
-        }
-        aggregate: {
-          args: Prisma.SignalZoneAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateSignalZone>
-        }
-        groupBy: {
-          args: Prisma.SignalZoneGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.SignalZoneGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.SignalZoneCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.SignalZoneCountAggregateOutputType> | number
-        }
-      }
-    }
-    UserSignalSubscription: {
-      payload: Prisma.$UserSignalSubscriptionPayload<ExtArgs>
-      fields: Prisma.UserSignalSubscriptionFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.UserSignalSubscriptionFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalSubscriptionPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.UserSignalSubscriptionFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalSubscriptionPayload>
-        }
-        findFirst: {
-          args: Prisma.UserSignalSubscriptionFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalSubscriptionPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.UserSignalSubscriptionFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalSubscriptionPayload>
-        }
-        findMany: {
-          args: Prisma.UserSignalSubscriptionFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalSubscriptionPayload>[]
-        }
-        create: {
-          args: Prisma.UserSignalSubscriptionCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalSubscriptionPayload>
-        }
-        createMany: {
-          args: Prisma.UserSignalSubscriptionCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.UserSignalSubscriptionCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalSubscriptionPayload>[]
-        }
-        delete: {
-          args: Prisma.UserSignalSubscriptionDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalSubscriptionPayload>
-        }
-        update: {
-          args: Prisma.UserSignalSubscriptionUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalSubscriptionPayload>
-        }
-        deleteMany: {
-          args: Prisma.UserSignalSubscriptionDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.UserSignalSubscriptionUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.UserSignalSubscriptionUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalSubscriptionPayload>[]
-        }
-        upsert: {
-          args: Prisma.UserSignalSubscriptionUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSignalSubscriptionPayload>
-        }
-        aggregate: {
-          args: Prisma.UserSignalSubscriptionAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateUserSignalSubscription>
-        }
-        groupBy: {
-          args: Prisma.UserSignalSubscriptionGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.UserSignalSubscriptionGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.UserSignalSubscriptionCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.UserSignalSubscriptionCountAggregateOutputType> | number
         }
       }
     }
@@ -1533,376 +1153,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    ReferralLink: {
-      payload: Prisma.$ReferralLinkPayload<ExtArgs>
-      fields: Prisma.ReferralLinkFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ReferralLinkFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralLinkPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ReferralLinkFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralLinkPayload>
-        }
-        findFirst: {
-          args: Prisma.ReferralLinkFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralLinkPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ReferralLinkFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralLinkPayload>
-        }
-        findMany: {
-          args: Prisma.ReferralLinkFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralLinkPayload>[]
-        }
-        create: {
-          args: Prisma.ReferralLinkCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralLinkPayload>
-        }
-        createMany: {
-          args: Prisma.ReferralLinkCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ReferralLinkCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralLinkPayload>[]
-        }
-        delete: {
-          args: Prisma.ReferralLinkDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralLinkPayload>
-        }
-        update: {
-          args: Prisma.ReferralLinkUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralLinkPayload>
-        }
-        deleteMany: {
-          args: Prisma.ReferralLinkDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ReferralLinkUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ReferralLinkUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralLinkPayload>[]
-        }
-        upsert: {
-          args: Prisma.ReferralLinkUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralLinkPayload>
-        }
-        aggregate: {
-          args: Prisma.ReferralLinkAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateReferralLink>
-        }
-        groupBy: {
-          args: Prisma.ReferralLinkGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ReferralLinkGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ReferralLinkCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ReferralLinkCountAggregateOutputType> | number
-        }
-      }
-    }
-    Referral: {
-      payload: Prisma.$ReferralPayload<ExtArgs>
-      fields: Prisma.ReferralFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ReferralFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ReferralFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralPayload>
-        }
-        findFirst: {
-          args: Prisma.ReferralFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ReferralFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralPayload>
-        }
-        findMany: {
-          args: Prisma.ReferralFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralPayload>[]
-        }
-        create: {
-          args: Prisma.ReferralCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralPayload>
-        }
-        createMany: {
-          args: Prisma.ReferralCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ReferralCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralPayload>[]
-        }
-        delete: {
-          args: Prisma.ReferralDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralPayload>
-        }
-        update: {
-          args: Prisma.ReferralUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralPayload>
-        }
-        deleteMany: {
-          args: Prisma.ReferralDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ReferralUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ReferralUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralPayload>[]
-        }
-        upsert: {
-          args: Prisma.ReferralUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralPayload>
-        }
-        aggregate: {
-          args: Prisma.ReferralAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateReferral>
-        }
-        groupBy: {
-          args: Prisma.ReferralGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ReferralGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ReferralCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ReferralCountAggregateOutputType> | number
-        }
-      }
-    }
-    ReferralReward: {
-      payload: Prisma.$ReferralRewardPayload<ExtArgs>
-      fields: Prisma.ReferralRewardFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ReferralRewardFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralRewardPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ReferralRewardFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralRewardPayload>
-        }
-        findFirst: {
-          args: Prisma.ReferralRewardFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralRewardPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ReferralRewardFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralRewardPayload>
-        }
-        findMany: {
-          args: Prisma.ReferralRewardFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralRewardPayload>[]
-        }
-        create: {
-          args: Prisma.ReferralRewardCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralRewardPayload>
-        }
-        createMany: {
-          args: Prisma.ReferralRewardCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ReferralRewardCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralRewardPayload>[]
-        }
-        delete: {
-          args: Prisma.ReferralRewardDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralRewardPayload>
-        }
-        update: {
-          args: Prisma.ReferralRewardUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralRewardPayload>
-        }
-        deleteMany: {
-          args: Prisma.ReferralRewardDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ReferralRewardUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ReferralRewardUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralRewardPayload>[]
-        }
-        upsert: {
-          args: Prisma.ReferralRewardUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralRewardPayload>
-        }
-        aggregate: {
-          args: Prisma.ReferralRewardAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateReferralReward>
-        }
-        groupBy: {
-          args: Prisma.ReferralRewardGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ReferralRewardGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ReferralRewardCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ReferralRewardCountAggregateOutputType> | number
-        }
-      }
-    }
-    referral_link_clicks: {
-      payload: Prisma.$referral_link_clicksPayload<ExtArgs>
-      fields: Prisma.referral_link_clicksFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.referral_link_clicksFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.referral_link_clicksFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>
-        }
-        findFirst: {
-          args: Prisma.referral_link_clicksFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.referral_link_clicksFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>
-        }
-        findMany: {
-          args: Prisma.referral_link_clicksFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>[]
-        }
-        create: {
-          args: Prisma.referral_link_clicksCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>
-        }
-        createMany: {
-          args: Prisma.referral_link_clicksCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.referral_link_clicksCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>[]
-        }
-        delete: {
-          args: Prisma.referral_link_clicksDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>
-        }
-        update: {
-          args: Prisma.referral_link_clicksUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>
-        }
-        deleteMany: {
-          args: Prisma.referral_link_clicksDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.referral_link_clicksUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.referral_link_clicksUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>[]
-        }
-        upsert: {
-          args: Prisma.referral_link_clicksUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_link_clicksPayload>
-        }
-        aggregate: {
-          args: Prisma.Referral_link_clicksAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateReferral_link_clicks>
-        }
-        groupBy: {
-          args: Prisma.referral_link_clicksGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Referral_link_clicksGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.referral_link_clicksCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Referral_link_clicksCountAggregateOutputType> | number
-        }
-      }
-    }
-    referral_milestone_events: {
-      payload: Prisma.$referral_milestone_eventsPayload<ExtArgs>
-      fields: Prisma.referral_milestone_eventsFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.referral_milestone_eventsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.referral_milestone_eventsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>
-        }
-        findFirst: {
-          args: Prisma.referral_milestone_eventsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.referral_milestone_eventsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>
-        }
-        findMany: {
-          args: Prisma.referral_milestone_eventsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>[]
-        }
-        create: {
-          args: Prisma.referral_milestone_eventsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>
-        }
-        createMany: {
-          args: Prisma.referral_milestone_eventsCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.referral_milestone_eventsCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>[]
-        }
-        delete: {
-          args: Prisma.referral_milestone_eventsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>
-        }
-        update: {
-          args: Prisma.referral_milestone_eventsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>
-        }
-        deleteMany: {
-          args: Prisma.referral_milestone_eventsDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.referral_milestone_eventsUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.referral_milestone_eventsUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>[]
-        }
-        upsert: {
-          args: Prisma.referral_milestone_eventsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$referral_milestone_eventsPayload>
-        }
-        aggregate: {
-          args: Prisma.Referral_milestone_eventsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateReferral_milestone_events>
-        }
-        groupBy: {
-          args: Prisma.referral_milestone_eventsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Referral_milestone_eventsGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.referral_milestone_eventsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Referral_milestone_eventsCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -1954,7 +1204,6 @@ export const ProfileScalarFieldEnum = {
   sessionReminders: 'sessionReminders',
   drawdownWarnings: 'drawdownWarnings',
   profitTargetAlerts: 'profitTargetAlerts',
-  signalAlertsEnabled: 'signalAlertsEnabled',
   maxTradesWarnings: 'maxTradesWarnings',
   tradingDaysReminders: 'tradingDaysReminders',
   lastNotificationSentAt: 'lastNotificationSentAt',
@@ -1963,13 +1212,12 @@ export const ProfileScalarFieldEnum = {
   proExpiresAt: 'proExpiresAt',
   revenuecatAppUserId: 'revenuecatAppUserId',
   timezone: 'timezone',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   subscriptionTier: 'subscriptionTier',
   subscriptionStatus: 'subscriptionStatus',
   trialEndsAt: 'trialEndsAt',
   trialStartedAt: 'trialStartedAt',
-  signalIntervals: 'signalIntervals'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
@@ -1984,81 +1232,14 @@ export const TradingAccountScalarFieldEnum = {
   startBalance: 'startBalance',
   currentBalance: 'currentBalance',
   platform: 'platform',
-  metaApiAccountId: 'metaApiAccountId',
-  autoTradeEnabled: 'autoTradeEnabled',
-  riskConfig: 'riskConfig',
-  lastSyncAt: 'lastSyncAt',
-  lastError: 'lastError',
-  lastErrorAt: 'lastErrorAt',
   todayTradeCount: 'todayTradeCount',
   todayPnl: 'todayPnl',
-  lastStatsReset: 'lastStatsReset',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type TradingAccountScalarFieldEnum = (typeof TradingAccountScalarFieldEnum)[keyof typeof TradingAccountScalarFieldEnum]
-
-
-export const SignalScalarFieldEnum = {
-  id: 'id',
-  accountId: 'accountId',
-  symbol: 'symbol',
-  direction: 'direction',
-  status: 'status',
-  entryPrice: 'entryPrice',
-  stopLoss: 'stopLoss',
-  tp1: 'tp1',
-  tp2: 'tp2',
-  riskReward: 'riskReward',
-  riskPips: 'riskPips',
-  pattern: 'pattern',
-  wickRatio: 'wickRatio',
-  rawJson: 'rawJson',
-  receivedAt: 'receivedAt',
-  triggeredAt: 'triggeredAt',
-  outcome: 'outcome',
-  tradeId: 'tradeId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type SignalScalarFieldEnum = (typeof SignalScalarFieldEnum)[keyof typeof SignalScalarFieldEnum]
-
-
-export const TradeScalarFieldEnum = {
-  id: 'id',
-  accountId: 'accountId',
-  signalId: 'signalId',
-  symbol: 'symbol',
-  side: 'side',
-  status: 'status',
-  plan: 'plan',
-  entryTicket: 'entryTicket',
-  entryPrice: 'entryPrice',
-  entryLots: 'entryLots',
-  currentLots: 'currentLots',
-  stopLoss: 'stopLoss',
-  tp1: 'tp1',
-  tp2: 'tp2',
-  tp1Hit: 'tp1Hit',
-  tp1HitAt: 'tp1HitAt',
-  tp2Hit: 'tp2Hit',
-  tp2HitAt: 'tp2HitAt',
-  slHit: 'slHit',
-  slHitAt: 'slHitAt',
-  openedAt: 'openedAt',
-  closedAt: 'closedAt',
-  closeReason: 'closeReason',
-  closePrice: 'closePrice',
-  realizedPnl: 'realizedPnl',
-  realizedRR: 'realizedRR',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TradeScalarFieldEnum = (typeof TradeScalarFieldEnum)[keyof typeof TradeScalarFieldEnum]
 
 
 export const JournalTradeScalarFieldEnum = {
@@ -2072,35 +1253,33 @@ export const JournalTradeScalarFieldEnum = {
   result: 'result',
   entryPrice: 'entryPrice',
   exitPrice: 'exitPrice',
+  stopLoss: 'stopLoss',
+  takeProfit: 'takeProfit',
+  riskReward: 'riskReward',
   quantity: 'quantity',
-  ticketId: 'ticketId',
+  positionSize: 'positionSize',
   pnl: 'pnl',
   pnlPercent: 'pnlPercent',
   commission: 'commission',
   swap: 'swap',
+  fees: 'fees',
   followedPlan: 'followedPlan',
   convictionLevel: 'convictionLevel',
   emotionBefore: 'emotionBefore',
   emotionAfter: 'emotionAfter',
   notesBefore: 'notesBefore',
   notesAfter: 'notesAfter',
+  setupNotes: 'setupNotes',
+  mistakeNotes: 'mistakeNotes',
+  reviewStatus: 'reviewStatus',
+  tags: 'tags',
+  mistakes: 'mistakes',
   screenshotUrls: 'screenshotUrls',
   tradeDate: 'tradeDate',
+  openedAt: 'openedAt',
   closedAt: 'closedAt',
-  source: 'source',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  profileUserId: 'profileUserId',
-  closeReason: 'closeReason',
-  entryLots: 'entryLots',
-  realizedRR: 'realizedRR',
-  signalId: 'signalId',
-  slHit: 'slHit',
-  slHitAt: 'slHitAt',
-  tp1Hit: 'tp1Hit',
-  tp1HitAt: 'tp1HitAt',
-  tp2Hit: 'tp2Hit',
-  tp2HitAt: 'tp2HitAt'
+  updatedAt: 'updatedAt'
 } as const
 
 export type JournalTradeScalarFieldEnum = (typeof JournalTradeScalarFieldEnum)[keyof typeof JournalTradeScalarFieldEnum]
@@ -2142,92 +1321,6 @@ export const TradingStrategyScalarFieldEnum = {
 export type TradingStrategyScalarFieldEnum = (typeof TradingStrategyScalarFieldEnum)[keyof typeof TradingStrategyScalarFieldEnum]
 
 
-export const SignalAlertScalarFieldEnum = {
-  id: 'id',
-  engineId: 'engineId',
-  symbol: 'symbol',
-  direction: 'direction',
-  status: 'status',
-  outcome: 'outcome',
-  entryPrice: 'entryPrice',
-  stopLoss: 'stopLoss',
-  tp1: 'tp1',
-  tp2: 'tp2',
-  riskRewardRatio: 'riskRewardRatio',
-  riskPips: 'riskPips',
-  htfRangeHigh: 'htfRangeHigh',
-  htfRangeLow: 'htfRangeLow',
-  htfBosDirection: 'htfBosDirection',
-  htfTimestamp: 'htfTimestamp',
-  htfBrokenAt: 'htfBrokenAt',
-  ltfRangeHigh: 'ltfRangeHigh',
-  ltfRangeLow: 'ltfRangeLow',
-  ltfTimestamp: 'ltfTimestamp',
-  ltfSlLevel: 'ltfSlLevel',
-  rejectionOpen: 'rejectionOpen',
-  rejectionHigh: 'rejectionHigh',
-  rejectionLow: 'rejectionLow',
-  rejectionClose: 'rejectionClose',
-  rejectionTimestamp: 'rejectionTimestamp',
-  rejectionWickRatio: 'rejectionWickRatio',
-  rejectionPattern: 'rejectionPattern',
-  rejectionWickTip: 'rejectionWickTip',
-  rawPayload: 'rawPayload',
-  realizedRr: 'realizedRr',
-  closePrice: 'closePrice',
-  chartPath: 'chartPath',
-  chartData: 'chartData',
-  triggeredAt: 'triggeredAt',
-  tp1HitAt: 'tp1HitAt',
-  closedAt: 'closedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  zoneId: 'zoneId',
-  htfInterval: 'htfInterval',
-  ltfInterval: 'ltfInterval'
-} as const
-
-export type SignalAlertScalarFieldEnum = (typeof SignalAlertScalarFieldEnum)[keyof typeof SignalAlertScalarFieldEnum]
-
-
-export const SignalZoneScalarFieldEnum = {
-  id: 'id',
-  engineKey: 'engineKey',
-  symbol: 'symbol',
-  direction: 'direction',
-  status: 'status',
-  htfRangeHigh: 'htfRangeHigh',
-  htfRangeLow: 'htfRangeLow',
-  htfBosDirection: 'htfBosDirection',
-  ltfRangeHigh: 'ltfRangeHigh',
-  ltfRangeLow: 'ltfRangeLow',
-  ltfSlLevel: 'ltfSlLevel',
-  rawPayload: 'rawPayload',
-  pendingAt: 'pendingAt',
-  triggeredAt: 'triggeredAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  signalId: 'signalId',
-  htfInterval: 'htfInterval',
-  htfTimestamp: 'htfTimestamp',
-  htfTpLevel: 'htfTpLevel',
-  ltfInterval: 'ltfInterval',
-  ltfTimestamp: 'ltfTimestamp'
-} as const
-
-export type SignalZoneScalarFieldEnum = (typeof SignalZoneScalarFieldEnum)[keyof typeof SignalZoneScalarFieldEnum]
-
-
-export const UserSignalSubscriptionScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  symbol: 'symbol',
-  createdAt: 'createdAt'
-} as const
-
-export type UserSignalSubscriptionScalarFieldEnum = (typeof UserSignalSubscriptionScalarFieldEnum)[keyof typeof UserSignalSubscriptionScalarFieldEnum]
-
-
 export const NotificationLogScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2240,8 +1333,7 @@ export const NotificationLogScalarFieldEnum = {
   sentAt: 'sentAt',
   delivered: 'delivered',
   opened: 'opened',
-  openedAt: 'openedAt',
-  signalAlertId: 'signalAlertId'
+  openedAt: 'openedAt'
 } as const
 
 export type NotificationLogScalarFieldEnum = (typeof NotificationLogScalarFieldEnum)[keyof typeof NotificationLogScalarFieldEnum]
@@ -2313,101 +1405,6 @@ export const MetricsGaugeScalarFieldEnum = {
 export type MetricsGaugeScalarFieldEnum = (typeof MetricsGaugeScalarFieldEnum)[keyof typeof MetricsGaugeScalarFieldEnum]
 
 
-export const ReferralLinkScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  referralCode: 'referralCode',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  influencer_tier: 'influencer_tier',
-  total_clicks: 'total_clicks',
-  unique_clicks: 'unique_clicks',
-  payout_preference: 'payout_preference',
-  custom_slug: 'custom_slug'
-} as const
-
-export type ReferralLinkScalarFieldEnum = (typeof ReferralLinkScalarFieldEnum)[keyof typeof ReferralLinkScalarFieldEnum]
-
-
-export const ReferralScalarFieldEnum = {
-  id: 'id',
-  referrerId: 'referrerId',
-  refereeId: 'refereeId',
-  referralCode: 'referralCode',
-  status: 'status',
-  signedUpAt: 'signedUpAt',
-  subscribedAt: 'subscribedAt',
-  referrerReward: 'referrerReward',
-  refereeReward: 'refereeReward',
-  referrerRewardAmount: 'referrerRewardAmount',
-  refereeRewardAmount: 'refereeRewardAmount',
-  referrerRewardClaimed: 'referrerRewardClaimed',
-  referrerRewardClaimedAt: 'referrerRewardClaimedAt',
-  refereeRewardClaimed: 'refereeRewardClaimed',
-  refereeRewardClaimedAt: 'refereeRewardClaimedAt',
-  utmSource: 'utmSource',
-  utmMedium: 'utmMedium',
-  ipAddress: 'ipAddress',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  refereeSubscriptionPrice: 'refereeSubscriptionPrice',
-  refereeTierAtSubscription: 'refereeTierAtSubscription',
-  referee_bonus_days: 'referee_bonus_days',
-  referee_bonus_applied: 'referee_bonus_applied'
-} as const
-
-export type ReferralScalarFieldEnum = (typeof ReferralScalarFieldEnum)[keyof typeof ReferralScalarFieldEnum]
-
-
-export const ReferralRewardScalarFieldEnum = {
-  id: 'id',
-  referralId: 'referralId',
-  userId: 'userId',
-  rewardType: 'rewardType',
-  amount: 'amount',
-  expiresAt: 'expiresAt',
-  usedAt: 'usedAt',
-  usedWithSubscription: 'usedWithSubscription',
-  createdAt: 'createdAt',
-  appliedToUserId: 'appliedToUserId',
-  claimedAt: 'claimedAt',
-  monthsAwarded: 'monthsAwarded',
-  newExpiryDate: 'newExpiryDate',
-  status: 'status',
-  tierAwarded: 'tierAwarded',
-  tierValue: 'tierValue',
-  reward_subtype: 'reward_subtype',
-  credit_amount: 'credit_amount'
-} as const
-
-export type ReferralRewardScalarFieldEnum = (typeof ReferralRewardScalarFieldEnum)[keyof typeof ReferralRewardScalarFieldEnum]
-
-
-export const Referral_link_clicksScalarFieldEnum = {
-  id: 'id',
-  referral_code: 'referral_code',
-  ip_hash: 'ip_hash',
-  ua_hash: 'ua_hash',
-  country_code: 'country_code',
-  is_unique: 'is_unique',
-  clicked_at: 'clicked_at'
-} as const
-
-export type Referral_link_clicksScalarFieldEnum = (typeof Referral_link_clicksScalarFieldEnum)[keyof typeof Referral_link_clicksScalarFieldEnum]
-
-
-export const Referral_milestone_eventsScalarFieldEnum = {
-  id: 'id',
-  user_id: 'user_id',
-  from_tier: 'from_tier',
-  to_tier: 'to_tier',
-  confirmed_count: 'confirmed_count',
-  achieved_at: 'achieved_at'
-} as const
-
-export type Referral_milestone_eventsScalarFieldEnum = (typeof Referral_milestone_eventsScalarFieldEnum)[keyof typeof Referral_milestone_eventsScalarFieldEnum]
-
-
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2422,13 +1419,6 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -2540,118 +1530,6 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-/**
- * Reference to a field of type 'SignalDirection'
- */
-export type EnumSignalDirectionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SignalDirection'>
-    
-
-
-/**
- * Reference to a field of type 'SignalDirection[]'
- */
-export type ListEnumSignalDirectionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SignalDirection[]'>
-    
-
-
-/**
- * Reference to a field of type 'SignalStatus'
- */
-export type EnumSignalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SignalStatus'>
-    
-
-
-/**
- * Reference to a field of type 'SignalStatus[]'
- */
-export type ListEnumSignalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SignalStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'CandlePattern'
- */
-export type EnumCandlePatternFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandlePattern'>
-    
-
-
-/**
- * Reference to a field of type 'CandlePattern[]'
- */
-export type ListEnumCandlePatternFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandlePattern[]'>
-    
-
-
-/**
- * Reference to a field of type 'BigInt'
- */
-export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
-    
-
-
-/**
- * Reference to a field of type 'BigInt[]'
- */
-export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
-    
-
-
-/**
- * Reference to a field of type 'OrderSide'
- */
-export type EnumOrderSideFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderSide'>
-    
-
-
-/**
- * Reference to a field of type 'OrderSide[]'
- */
-export type ListEnumOrderSideFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderSide[]'>
-    
-
-
-/**
- * Reference to a field of type 'TradeStatus'
- */
-export type EnumTradeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TradeStatus'>
-    
-
-
-/**
- * Reference to a field of type 'TradeStatus[]'
- */
-export type ListEnumTradeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TradeStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'CloseReason'
- */
-export type EnumCloseReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CloseReason'>
-    
-
-
-/**
- * Reference to a field of type 'CloseReason[]'
- */
-export type ListEnumCloseReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CloseReason[]'>
-    
-
-
-/**
  * Reference to a field of type 'TradeDirection'
  */
 export type EnumTradeDirectionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TradeDirection'>
@@ -2722,6 +1600,20 @@ export type ListEnumEmotionFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
 
 
 /**
+ * Reference to a field of type 'ReviewStatus'
+ */
+export type EnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ReviewStatus[]'
+ */
+export type ListEnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'TradingStyle'
  */
 export type EnumTradingStyleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TradingStyle'>
@@ -2736,44 +1628,16 @@ export type ListEnumTradingStyleFieldRefInput<$PrismaModel> = FieldRefInputType<
 
 
 /**
- * Reference to a field of type 'SignalAlertStatus'
+ * Reference to a field of type 'Json'
  */
-export type EnumSignalAlertStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SignalAlertStatus'>
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
 /**
- * Reference to a field of type 'SignalAlertStatus[]'
+ * Reference to a field of type 'QueryMode'
  */
-export type ListEnumSignalAlertStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SignalAlertStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'SignalOutcome'
- */
-export type EnumSignalOutcomeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SignalOutcome'>
-    
-
-
-/**
- * Reference to a field of type 'SignalOutcome[]'
- */
-export type ListEnumSignalOutcomeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SignalOutcome[]'>
-    
-
-
-/**
- * Reference to a field of type 'SignalZoneStatus'
- */
-export type EnumSignalZoneStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SignalZoneStatus'>
-    
-
-
-/**
- * Reference to a field of type 'SignalZoneStatus[]'
- */
-export type ListEnumSignalZoneStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SignalZoneStatus[]'>
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -2806,30 +1670,16 @@ export type ListEnumRiskLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
 
 
 /**
- * Reference to a field of type 'ReferralStatus'
+ * Reference to a field of type 'BigInt'
  */
-export type EnumReferralStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferralStatus'>
+export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
     
 
 
 /**
- * Reference to a field of type 'ReferralStatus[]'
+ * Reference to a field of type 'BigInt[]'
  */
-export type ListEnumReferralStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferralStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'Decimal'
- */
-export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
-    
-
-
-/**
- * Reference to a field of type 'Decimal[]'
- */
-export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 /**
@@ -2929,24 +1779,14 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   profile?: Prisma.ProfileOmit
   tradingAccount?: Prisma.TradingAccountOmit
-  signal?: Prisma.SignalOmit
-  trade?: Prisma.TradeOmit
   journalTrade?: Prisma.JournalTradeOmit
   journalChecklistItem?: Prisma.JournalChecklistItemOmit
   tradingStrategy?: Prisma.TradingStrategyOmit
-  signalAlert?: Prisma.SignalAlertOmit
-  signalZone?: Prisma.SignalZoneOmit
-  userSignalSubscription?: Prisma.UserSignalSubscriptionOmit
   notificationLog?: Prisma.NotificationLogOmit
   tradingAnalytics?: Prisma.TradingAnalyticsOmit
   queueJob?: Prisma.QueueJobOmit
   metricsCounter?: Prisma.MetricsCounterOmit
   metricsGauge?: Prisma.MetricsGaugeOmit
-  referralLink?: Prisma.ReferralLinkOmit
-  referral?: Prisma.ReferralOmit
-  referralReward?: Prisma.ReferralRewardOmit
-  referral_link_clicks?: Prisma.referral_link_clicksOmit
-  referral_milestone_events?: Prisma.referral_milestone_eventsOmit
 }
 
 /* Types for Logging */

@@ -4,7 +4,7 @@ import { ErrorCode, ErrorMessage } from './error.codes';
  * Throw AppError anywhere in the app to surface a safe, user-facing message.
  *
  * @example
- *   throw new AppError('BROKER_CONNECTION_FAILED', err);
+ *   throw new AppError('OPERATION_FAILED', err);
  *   throw new AppError('NOT_FOUND');
  */
 export class AppError extends Error {

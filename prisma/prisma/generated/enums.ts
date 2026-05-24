@@ -19,69 +19,6 @@ export const SubscriptionStatus = {
 export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
 
 
-export const OrderSide = {
-  BUY: 'BUY',
-  SELL: 'SELL'
-} as const
-
-export type OrderSide = (typeof OrderSide)[keyof typeof OrderSide]
-
-
-export const TradeStatus = {
-  PLANNED: 'PLANNED',
-  OPEN: 'OPEN',
-  PARTIALLY_CLOSED: 'PARTIALLY_CLOSED',
-  CLOSED: 'CLOSED',
-  CANCELLED: 'CANCELLED',
-  ERROR: 'ERROR'
-} as const
-
-export type TradeStatus = (typeof TradeStatus)[keyof typeof TradeStatus]
-
-
-export const CloseReason = {
-  TP1_HIT: 'TP1_HIT',
-  TP2_HIT: 'TP2_HIT',
-  SL_HIT: 'SL_HIT',
-  MANUAL: 'MANUAL',
-  INVALIDATED: 'INVALIDATED',
-  EXPIRED: 'EXPIRED',
-  ERROR: 'ERROR',
-  CLOSED_WHILE_DOWN: 'CLOSED_WHILE_DOWN'
-} as const
-
-export type CloseReason = (typeof CloseReason)[keyof typeof CloseReason]
-
-
-export const SignalDirection = {
-  LONG: 'LONG',
-  SHORT: 'SHORT'
-} as const
-
-export type SignalDirection = (typeof SignalDirection)[keyof typeof SignalDirection]
-
-
-export const SignalStatus = {
-  PENDING: 'PENDING',
-  TRIGGERED: 'TRIGGERED',
-  TP1_HIT: 'TP1_HIT',
-  TP2_HIT: 'TP2_HIT',
-  SL_HIT: 'SL_HIT',
-  INVALIDATED: 'INVALIDATED',
-  EXPIRED: 'EXPIRED'
-} as const
-
-export type SignalStatus = (typeof SignalStatus)[keyof typeof SignalStatus]
-
-
-export const CandlePattern = {
-  SHOOTING_STAR: 'SHOOTING_STAR',
-  HAMMER: 'HAMMER'
-} as const
-
-export type CandlePattern = (typeof CandlePattern)[keyof typeof CandlePattern]
-
-
 export const TradeDirection = {
   long: 'long',
   short: 'short'
@@ -131,6 +68,15 @@ export const Emotion = {
 export type Emotion = (typeof Emotion)[keyof typeof Emotion]
 
 
+export const ReviewStatus = {
+  unreviewed: 'unreviewed',
+  reviewed: 'reviewed',
+  needs_review: 'needs_review'
+} as const
+
+export type ReviewStatus = (typeof ReviewStatus)[keyof typeof ReviewStatus]
+
+
 export const TradingStyle = {
   ict: 'ict',
   smc: 'smc',
@@ -153,39 +99,6 @@ export const RiskLevel = {
 export type RiskLevel = (typeof RiskLevel)[keyof typeof RiskLevel]
 
 
-export const SignalAlertStatus = {
-  PENDING: 'PENDING',
-  TRIGGERED: 'TRIGGERED',
-  TP1_HIT: 'TP1_HIT',
-  TP2_HIT: 'TP2_HIT',
-  SL_HIT: 'SL_HIT',
-  INVALIDATED: 'INVALIDATED',
-  EXPIRED: 'EXPIRED'
-} as const
-
-export type SignalAlertStatus = (typeof SignalAlertStatus)[keyof typeof SignalAlertStatus]
-
-
-export const SignalOutcome = {
-  WIN_FULL: 'WIN_FULL',
-  BREAKEVEN: 'BREAKEVEN',
-  LOSS: 'LOSS',
-  INVALIDATED: 'INVALIDATED',
-  EXPIRED: 'EXPIRED'
-} as const
-
-export type SignalOutcome = (typeof SignalOutcome)[keyof typeof SignalOutcome]
-
-
-export const SignalZoneStatus = {
-  WATCHING: 'WATCHING',
-  TRIGGERED: 'TRIGGERED',
-  MISSED: 'MISSED'
-} as const
-
-export type SignalZoneStatus = (typeof SignalZoneStatus)[keyof typeof SignalZoneStatus]
-
-
 export const NotificationType = {
   STRATEGY_REMINDER: 'STRATEGY_REMINDER',
   SESSION_START: 'SESSION_START',
@@ -199,29 +112,7 @@ export const NotificationType = {
   TRADING_DAYS_CRITICAL: 'TRADING_DAYS_CRITICAL',
   ACCOUNT_GENERAL: 'ACCOUNT_GENERAL',
   SYSTEM_UPDATE: 'SYSTEM_UPDATE',
-  TRADE_EXECUTED: 'TRADE_EXECUTED',
-  POSITION_OPENED: 'POSITION_OPENED',
-  POSITION_CLOSED: 'POSITION_CLOSED',
-  SOCIAL_SENTIMENT_SPIKE: 'SOCIAL_SENTIMENT_SPIKE',
-  NEWS_ALERT: 'NEWS_ALERT',
-  SIGNAL_PENDING: 'SIGNAL_PENDING',
-  SIGNAL_TRIGGERED: 'SIGNAL_TRIGGERED',
-  SIGNAL_TP1_HIT: 'SIGNAL_TP1_HIT',
-  SIGNAL_TP2_HIT: 'SIGNAL_TP2_HIT',
-  SIGNAL_SL_HIT: 'SIGNAL_SL_HIT',
-  SIGNAL_INVALIDATED: 'SIGNAL_INVALIDATED',
-  SIGNAL_EXPIRED: 'SIGNAL_EXPIRED'
+  JOURNAL_REVIEW_DUE: 'JOURNAL_REVIEW_DUE'
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
-
-
-export const ReferralStatus = {
-  pending: 'pending',
-  signed_up: 'signed_up',
-  subscribed: 'subscribed',
-  active: 'active',
-  rejected: 'rejected'
-} as const
-
-export type ReferralStatus = (typeof ReferralStatus)[keyof typeof ReferralStatus]

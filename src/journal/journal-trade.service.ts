@@ -10,23 +10,32 @@ export interface CreateJournalTradeDto {
   direction: 'long' | 'short';
   entryPrice: number;
   exitPrice?: number;
+  stopLoss?: number;
+  takeProfit?: number;
+  riskReward?: number;
   quantity: number;
-  ticketId?: string;
+  positionSize?: number;
   pnl?: number;
   commission?: number;
   swap?: number;
+  fees?: number;
   followedPlan?: boolean;
   convictionLevel?: string;
   emotionBefore?: string;
   emotionAfter?: string;
   notesBefore?: string;
   notesAfter?: string;
+  setupNotes?: string;
+  mistakeNotes?: string;
+  reviewStatus?: string;
+  tags?: string[];
+  mistakes?: string[];
   screenshotUrls?: string[];
   tradeDate?: string;
+  openedAt?: string;
   closedAt?: string;
   status?: string;
   result?: string;
-  source?: string;
   checklistItems?: { text: string; answeredYes: boolean; note?: string }[];
 }
 
@@ -97,22 +106,31 @@ export class JournalTradeService {
         result: data.result as any,
         entryPrice: data.entryPrice,
         exitPrice: data.exitPrice,
+        stopLoss: data.stopLoss,
+        takeProfit: data.takeProfit,
+        riskReward: data.riskReward,
         quantity: data.quantity,
-        ticketId: data.ticketId,
+        positionSize: data.positionSize,
         pnl,
         pnlPercent,
         commission: data.commission ?? 0,
         swap: data.swap ?? 0,
+        fees: data.fees ?? 0,
         followedPlan: data.followedPlan,
         convictionLevel: data.convictionLevel as any,
         emotionBefore: data.emotionBefore as any,
         emotionAfter: data.emotionAfter as any,
         notesBefore: data.notesBefore,
         notesAfter: data.notesAfter,
+        setupNotes: data.setupNotes,
+        mistakeNotes: data.mistakeNotes,
+        reviewStatus: data.reviewStatus as any,
+        tags: data.tags ?? [],
+        mistakes: data.mistakes ?? [],
         screenshotUrls: data.screenshotUrls ?? [],
         tradeDate: data.tradeDate ? new Date(data.tradeDate) : new Date(),
+        openedAt: data.openedAt ? new Date(data.openedAt) : undefined,
         closedAt: data.closedAt ? new Date(data.closedAt) : undefined,
-        source: data.source ?? 'manual',
       },
     });
 
@@ -149,7 +167,9 @@ export class JournalTradeService {
         convictionLevel: data.convictionLevel as any,
         emotionBefore: data.emotionBefore as any,
         emotionAfter: data.emotionAfter as any,
+        reviewStatus: data.reviewStatus as any,
         tradeDate: data.tradeDate ? new Date(data.tradeDate) : undefined,
+        openedAt: data.openedAt ? new Date(data.openedAt) : undefined,
         closedAt: data.closedAt ? new Date(data.closedAt) : undefined,
         pnl,
       },

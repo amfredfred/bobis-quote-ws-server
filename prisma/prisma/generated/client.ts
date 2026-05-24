@@ -50,16 +50,6 @@ export type Profile = Prisma.ProfileModel
  */
 export type TradingAccount = Prisma.TradingAccountModel
 /**
- * Model Signal
- * 
- */
-export type Signal = Prisma.SignalModel
-/**
- * Model Trade
- * 
- */
-export type Trade = Prisma.TradeModel
-/**
  * Model JournalTrade
  * 
  */
@@ -74,21 +64,6 @@ export type JournalChecklistItem = Prisma.JournalChecklistItemModel
  * 
  */
 export type TradingStrategy = Prisma.TradingStrategyModel
-/**
- * Model SignalAlert
- * 
- */
-export type SignalAlert = Prisma.SignalAlertModel
-/**
- * Model SignalZone
- * 
- */
-export type SignalZone = Prisma.SignalZoneModel
-/**
- * Model UserSignalSubscription
- * 
- */
-export type UserSignalSubscription = Prisma.UserSignalSubscriptionModel
 /**
  * Model NotificationLog
  * 
@@ -114,28 +89,3 @@ export type MetricsCounter = Prisma.MetricsCounterModel
  * 
  */
 export type MetricsGauge = Prisma.MetricsGaugeModel
-/**
- * Model ReferralLink
- * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
- */
-export type ReferralLink = Prisma.ReferralLinkModel
-/**
- * Model Referral
- * 
- */
-export type Referral = Prisma.ReferralModel
-/**
- * Model ReferralReward
- * 
- */
-export type ReferralReward = Prisma.ReferralRewardModel
-/**
- * Model referral_link_clicks
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type referral_link_clicks = Prisma.referral_link_clicksModel
-/**
- * Model referral_milestone_events
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type referral_milestone_events = Prisma.referral_milestone_eventsModel

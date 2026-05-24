@@ -13,13 +13,9 @@ export class DashboardService {
   constructor(private readonly prisma: PrismaService) { }
 
   async get(userId: string, accountId: string) {
-
-    const subs = { symbols: (await this.prisma.userSignalSubscription.findMany({ where: { userId } })).map(s => s.symbol) };
-
-    const [accounts, trades, signals] = await Promise.all([
+    const [accounts, trades] = await Promise.all([
       this.prisma.tradingAccount.findMany({ where: { userId, id: accountId } }),
       this.prisma.journalTrade.findMany({ where: { userId, accountId }, orderBy: { tradeDate: 'desc' }, take: 500 }),
-      this.prisma.signalAlert.findMany({ orderBy: { createdAt: 'desc' }, take: 100 , where:{symbol: { in: subs.symbols.length > 0 ? subs.symbols : undefined }}}),
     ]);
 
     const closedTrades = trades.filter(t => t.status === 'closed');
@@ -57,10 +53,6 @@ export class DashboardService {
       const day = toLocalDateString(t.tradeDate, tz);
       dailyPnl[day] = (dailyPnl[day] ?? 0) + (t.pnl ?? 0);
     }
-
-    // Signal stats
-    const closedSignals = signals.filter(s => ['TP2_HIT', 'SL_HIT', 'INVALIDATED', 'EXPIRED'].includes(s.status));
-    const signalWins = signals.filter(s => s.status === 'TP2_HIT').length;
 
     return {
       // Balance
@@ -101,13 +93,6 @@ export class DashboardService {
       })),
       recentTrades: trades.slice(0, 10),
       dailyPnl,
-
-      // Signals summary
-      signals: {
-        total: signals.length,
-        active: signals.filter(s => s.status === 'TRIGGERED').length,
-        winRate: closedSignals.length > 0 ? Math.round((signalWins / closedSignals.length) * 100 * 10) / 10 : 0,
-      },
     };
   }
 

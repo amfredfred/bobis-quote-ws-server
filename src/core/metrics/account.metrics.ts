@@ -4,8 +4,8 @@ import { MetricsService } from './metrics.service';
  * Thin wrapper around MetricsService that namespaces every key under
  * `account.<accountId>.<metric>`.
  *
- * All per-account components (ExecutionEngine, PositionManager, RiskEngine)
- * receive an AccountMetrics instance instead of the global MetricsService.
+ * Per-account journal and analytics components can receive an AccountMetrics
+ * instance instead of the global MetricsService.
  * The admin layer calls MetricsService.aggregateByAccount() to roll up.
  */
 export class AccountMetrics {

@@ -39,7 +39,6 @@
     "expo-server-sdk": "^6.1.0",
     "firebase-admin": "^12.0.0",
     "jose": "^5.9.3",
-    "metaapi.cloud-sdk": "^27.0.0",
     "prisma": "^7.4.2",
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.8.1",

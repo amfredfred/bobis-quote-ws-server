@@ -13,7 +13,7 @@ export class NotificationsController {
 
   /**
    * POST /notifications/test
-   * Sends a real push through the full Expo pipeline to the calling user's
+   * Sends a real push through Expo to the calling user's
    * device. Uses SYSTEM_UPDATE type so it bypasses all preference flags
    * (only respects pushEnabled) — we want to verify the token works
    * regardless of what the user has toggled off.

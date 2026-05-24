@@ -29,25 +29,31 @@ export type AggregateJournalTrade = {
 export type JournalTradeAvgAggregateOutputType = {
   entryPrice: number | null
   exitPrice: number | null
+  stopLoss: number | null
+  takeProfit: number | null
+  riskReward: number | null
   quantity: number | null
+  positionSize: number | null
   pnl: number | null
   pnlPercent: number | null
   commission: number | null
   swap: number | null
-  entryLots: number | null
-  realizedRR: number | null
+  fees: number | null
 }
 
 export type JournalTradeSumAggregateOutputType = {
   entryPrice: number | null
   exitPrice: number | null
+  stopLoss: number | null
+  takeProfit: number | null
+  riskReward: number | null
   quantity: number | null
+  positionSize: number | null
   pnl: number | null
   pnlPercent: number | null
   commission: number | null
   swap: number | null
-  entryLots: number | null
-  realizedRR: number | null
+  fees: number | null
 }
 
 export type JournalTradeMinAggregateOutputType = {
@@ -61,34 +67,30 @@ export type JournalTradeMinAggregateOutputType = {
   result: $Enums.JournalTradeResult | null
   entryPrice: number | null
   exitPrice: number | null
+  stopLoss: number | null
+  takeProfit: number | null
+  riskReward: number | null
   quantity: number | null
-  ticketId: string | null
+  positionSize: number | null
   pnl: number | null
   pnlPercent: number | null
   commission: number | null
   swap: number | null
+  fees: number | null
   followedPlan: boolean | null
   convictionLevel: $Enums.Conviction | null
   emotionBefore: $Enums.Emotion | null
   emotionAfter: $Enums.Emotion | null
   notesBefore: string | null
   notesAfter: string | null
+  setupNotes: string | null
+  mistakeNotes: string | null
+  reviewStatus: $Enums.ReviewStatus | null
   tradeDate: Date | null
+  openedAt: Date | null
   closedAt: Date | null
-  source: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  profileUserId: string | null
-  closeReason: $Enums.CloseReason | null
-  entryLots: number | null
-  realizedRR: number | null
-  signalId: string | null
-  slHit: boolean | null
-  slHitAt: Date | null
-  tp1Hit: boolean | null
-  tp1HitAt: Date | null
-  tp2Hit: boolean | null
-  tp2HitAt: Date | null
 }
 
 export type JournalTradeMaxAggregateOutputType = {
@@ -102,34 +104,30 @@ export type JournalTradeMaxAggregateOutputType = {
   result: $Enums.JournalTradeResult | null
   entryPrice: number | null
   exitPrice: number | null
+  stopLoss: number | null
+  takeProfit: number | null
+  riskReward: number | null
   quantity: number | null
-  ticketId: string | null
+  positionSize: number | null
   pnl: number | null
   pnlPercent: number | null
   commission: number | null
   swap: number | null
+  fees: number | null
   followedPlan: boolean | null
   convictionLevel: $Enums.Conviction | null
   emotionBefore: $Enums.Emotion | null
   emotionAfter: $Enums.Emotion | null
   notesBefore: string | null
   notesAfter: string | null
+  setupNotes: string | null
+  mistakeNotes: string | null
+  reviewStatus: $Enums.ReviewStatus | null
   tradeDate: Date | null
+  openedAt: Date | null
   closedAt: Date | null
-  source: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  profileUserId: string | null
-  closeReason: $Enums.CloseReason | null
-  entryLots: number | null
-  realizedRR: number | null
-  signalId: string | null
-  slHit: boolean | null
-  slHitAt: Date | null
-  tp1Hit: boolean | null
-  tp1HitAt: Date | null
-  tp2Hit: boolean | null
-  tp2HitAt: Date | null
 }
 
 export type JournalTradeCountAggregateOutputType = {
@@ -143,35 +141,33 @@ export type JournalTradeCountAggregateOutputType = {
   result: number
   entryPrice: number
   exitPrice: number
+  stopLoss: number
+  takeProfit: number
+  riskReward: number
   quantity: number
-  ticketId: number
+  positionSize: number
   pnl: number
   pnlPercent: number
   commission: number
   swap: number
+  fees: number
   followedPlan: number
   convictionLevel: number
   emotionBefore: number
   emotionAfter: number
   notesBefore: number
   notesAfter: number
+  setupNotes: number
+  mistakeNotes: number
+  reviewStatus: number
+  tags: number
+  mistakes: number
   screenshotUrls: number
   tradeDate: number
+  openedAt: number
   closedAt: number
-  source: number
   createdAt: number
   updatedAt: number
-  profileUserId: number
-  closeReason: number
-  entryLots: number
-  realizedRR: number
-  signalId: number
-  slHit: number
-  slHitAt: number
-  tp1Hit: number
-  tp1HitAt: number
-  tp2Hit: number
-  tp2HitAt: number
   _all: number
 }
 
@@ -179,25 +175,31 @@ export type JournalTradeCountAggregateOutputType = {
 export type JournalTradeAvgAggregateInputType = {
   entryPrice?: true
   exitPrice?: true
+  stopLoss?: true
+  takeProfit?: true
+  riskReward?: true
   quantity?: true
+  positionSize?: true
   pnl?: true
   pnlPercent?: true
   commission?: true
   swap?: true
-  entryLots?: true
-  realizedRR?: true
+  fees?: true
 }
 
 export type JournalTradeSumAggregateInputType = {
   entryPrice?: true
   exitPrice?: true
+  stopLoss?: true
+  takeProfit?: true
+  riskReward?: true
   quantity?: true
+  positionSize?: true
   pnl?: true
   pnlPercent?: true
   commission?: true
   swap?: true
-  entryLots?: true
-  realizedRR?: true
+  fees?: true
 }
 
 export type JournalTradeMinAggregateInputType = {
@@ -211,34 +213,30 @@ export type JournalTradeMinAggregateInputType = {
   result?: true
   entryPrice?: true
   exitPrice?: true
+  stopLoss?: true
+  takeProfit?: true
+  riskReward?: true
   quantity?: true
-  ticketId?: true
+  positionSize?: true
   pnl?: true
   pnlPercent?: true
   commission?: true
   swap?: true
+  fees?: true
   followedPlan?: true
   convictionLevel?: true
   emotionBefore?: true
   emotionAfter?: true
   notesBefore?: true
   notesAfter?: true
+  setupNotes?: true
+  mistakeNotes?: true
+  reviewStatus?: true
   tradeDate?: true
+  openedAt?: true
   closedAt?: true
-  source?: true
   createdAt?: true
   updatedAt?: true
-  profileUserId?: true
-  closeReason?: true
-  entryLots?: true
-  realizedRR?: true
-  signalId?: true
-  slHit?: true
-  slHitAt?: true
-  tp1Hit?: true
-  tp1HitAt?: true
-  tp2Hit?: true
-  tp2HitAt?: true
 }
 
 export type JournalTradeMaxAggregateInputType = {
@@ -252,34 +250,30 @@ export type JournalTradeMaxAggregateInputType = {
   result?: true
   entryPrice?: true
   exitPrice?: true
+  stopLoss?: true
+  takeProfit?: true
+  riskReward?: true
   quantity?: true
-  ticketId?: true
+  positionSize?: true
   pnl?: true
   pnlPercent?: true
   commission?: true
   swap?: true
+  fees?: true
   followedPlan?: true
   convictionLevel?: true
   emotionBefore?: true
   emotionAfter?: true
   notesBefore?: true
   notesAfter?: true
+  setupNotes?: true
+  mistakeNotes?: true
+  reviewStatus?: true
   tradeDate?: true
+  openedAt?: true
   closedAt?: true
-  source?: true
   createdAt?: true
   updatedAt?: true
-  profileUserId?: true
-  closeReason?: true
-  entryLots?: true
-  realizedRR?: true
-  signalId?: true
-  slHit?: true
-  slHitAt?: true
-  tp1Hit?: true
-  tp1HitAt?: true
-  tp2Hit?: true
-  tp2HitAt?: true
 }
 
 export type JournalTradeCountAggregateInputType = {
@@ -293,35 +287,33 @@ export type JournalTradeCountAggregateInputType = {
   result?: true
   entryPrice?: true
   exitPrice?: true
+  stopLoss?: true
+  takeProfit?: true
+  riskReward?: true
   quantity?: true
-  ticketId?: true
+  positionSize?: true
   pnl?: true
   pnlPercent?: true
   commission?: true
   swap?: true
+  fees?: true
   followedPlan?: true
   convictionLevel?: true
   emotionBefore?: true
   emotionAfter?: true
   notesBefore?: true
   notesAfter?: true
+  setupNotes?: true
+  mistakeNotes?: true
+  reviewStatus?: true
+  tags?: true
+  mistakes?: true
   screenshotUrls?: true
   tradeDate?: true
+  openedAt?: true
   closedAt?: true
-  source?: true
   createdAt?: true
   updatedAt?: true
-  profileUserId?: true
-  closeReason?: true
-  entryLots?: true
-  realizedRR?: true
-  signalId?: true
-  slHit?: true
-  slHitAt?: true
-  tp1Hit?: true
-  tp1HitAt?: true
-  tp2Hit?: true
-  tp2HitAt?: true
   _all?: true
 }
 
@@ -422,35 +414,33 @@ export type JournalTradeGroupByOutputType = {
   result: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice: number | null
+  stopLoss: number | null
+  takeProfit: number | null
+  riskReward: number | null
   quantity: number
-  ticketId: string | null
+  positionSize: number | null
   pnl: number | null
   pnlPercent: number | null
   commission: number
   swap: number
+  fees: number
   followedPlan: boolean | null
   convictionLevel: $Enums.Conviction | null
   emotionBefore: $Enums.Emotion | null
   emotionAfter: $Enums.Emotion | null
   notesBefore: string | null
   notesAfter: string | null
+  setupNotes: string | null
+  mistakeNotes: string | null
+  reviewStatus: $Enums.ReviewStatus
+  tags: string[]
+  mistakes: string[]
   screenshotUrls: string[]
   tradeDate: Date | null
+  openedAt: Date | null
   closedAt: Date | null
-  source: string
   createdAt: Date
   updatedAt: Date | null
-  profileUserId: string | null
-  closeReason: $Enums.CloseReason | null
-  entryLots: number | null
-  realizedRR: number | null
-  signalId: string | null
-  slHit: boolean | null
-  slHitAt: Date | null
-  tp1Hit: boolean | null
-  tp1HitAt: Date | null
-  tp2Hit: boolean | null
-  tp2HitAt: Date | null
   _count: JournalTradeCountAggregateOutputType | null
   _avg: JournalTradeAvgAggregateOutputType | null
   _sum: JournalTradeSumAggregateOutputType | null
@@ -487,38 +477,36 @@ export type JournalTradeWhereInput = {
   result?: Prisma.EnumJournalTradeResultNullableFilter<"JournalTrade"> | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFilter<"JournalTrade"> | number
   exitPrice?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
+  stopLoss?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
+  takeProfit?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
+  riskReward?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   quantity?: Prisma.FloatFilter<"JournalTrade"> | number
-  ticketId?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  positionSize?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   pnl?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   pnlPercent?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   commission?: Prisma.FloatFilter<"JournalTrade"> | number
   swap?: Prisma.FloatFilter<"JournalTrade"> | number
+  fees?: Prisma.FloatFilter<"JournalTrade"> | number
   followedPlan?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
   convictionLevel?: Prisma.EnumConvictionNullableFilter<"JournalTrade"> | $Enums.Conviction | null
   emotionBefore?: Prisma.EnumEmotionNullableFilter<"JournalTrade"> | $Enums.Emotion | null
   emotionAfter?: Prisma.EnumEmotionNullableFilter<"JournalTrade"> | $Enums.Emotion | null
   notesBefore?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
   notesAfter?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  setupNotes?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  mistakeNotes?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFilter<"JournalTrade"> | $Enums.ReviewStatus
+  tags?: Prisma.StringNullableListFilter<"JournalTrade">
+  mistakes?: Prisma.StringNullableListFilter<"JournalTrade">
   screenshotUrls?: Prisma.StringNullableListFilter<"JournalTrade">
   tradeDate?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
+  openedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
   closedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  source?: Prisma.StringFilter<"JournalTrade"> | string
   createdAt?: Prisma.DateTimeFilter<"JournalTrade"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  profileUserId?: Prisma.UuidNullableFilter<"JournalTrade"> | string | null
-  closeReason?: Prisma.EnumCloseReasonNullableFilter<"JournalTrade"> | $Enums.CloseReason | null
-  entryLots?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
-  realizedRR?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
-  signalId?: Prisma.UuidNullableFilter<"JournalTrade"> | string | null
-  slHit?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
-  slHitAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  tp1Hit?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
-  tp1HitAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  tp2Hit?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
-  tp2HitAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
   checklistItems?: Prisma.JournalChecklistItemListRelationFilter
   account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
-  profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
+  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
   strategy?: Prisma.XOR<Prisma.TradingStrategyNullableScalarRelationFilter, Prisma.TradingStrategyWhereInput> | null
 }
 
@@ -533,35 +521,33 @@ export type JournalTradeOrderByWithRelationInput = {
   result?: Prisma.SortOrderInput | Prisma.SortOrder
   entryPrice?: Prisma.SortOrder
   exitPrice?: Prisma.SortOrderInput | Prisma.SortOrder
+  stopLoss?: Prisma.SortOrderInput | Prisma.SortOrder
+  takeProfit?: Prisma.SortOrderInput | Prisma.SortOrder
+  riskReward?: Prisma.SortOrderInput | Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  ticketId?: Prisma.SortOrderInput | Prisma.SortOrder
+  positionSize?: Prisma.SortOrderInput | Prisma.SortOrder
   pnl?: Prisma.SortOrderInput | Prisma.SortOrder
   pnlPercent?: Prisma.SortOrderInput | Prisma.SortOrder
   commission?: Prisma.SortOrder
   swap?: Prisma.SortOrder
+  fees?: Prisma.SortOrder
   followedPlan?: Prisma.SortOrderInput | Prisma.SortOrder
   convictionLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   emotionBefore?: Prisma.SortOrderInput | Prisma.SortOrder
   emotionAfter?: Prisma.SortOrderInput | Prisma.SortOrder
   notesBefore?: Prisma.SortOrderInput | Prisma.SortOrder
   notesAfter?: Prisma.SortOrderInput | Prisma.SortOrder
+  setupNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  mistakeNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  mistakes?: Prisma.SortOrder
   screenshotUrls?: Prisma.SortOrder
   tradeDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  openedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   closedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  profileUserId?: Prisma.SortOrderInput | Prisma.SortOrder
-  closeReason?: Prisma.SortOrderInput | Prisma.SortOrder
-  entryLots?: Prisma.SortOrderInput | Prisma.SortOrder
-  realizedRR?: Prisma.SortOrderInput | Prisma.SortOrder
-  signalId?: Prisma.SortOrderInput | Prisma.SortOrder
-  slHit?: Prisma.SortOrderInput | Prisma.SortOrder
-  slHitAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  tp1Hit?: Prisma.SortOrderInput | Prisma.SortOrder
-  tp1HitAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  tp2Hit?: Prisma.SortOrderInput | Prisma.SortOrder
-  tp2HitAt?: Prisma.SortOrderInput | Prisma.SortOrder
   checklistItems?: Prisma.JournalChecklistItemOrderByRelationAggregateInput
   account?: Prisma.TradingAccountOrderByWithRelationInput
   profile?: Prisma.ProfileOrderByWithRelationInput
@@ -570,8 +556,6 @@ export type JournalTradeOrderByWithRelationInput = {
 
 export type JournalTradeWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  ticketId?: string
-  ticketId_accountId?: Prisma.JournalTradeTicketIdAccountIdCompoundUniqueInput
   AND?: Prisma.JournalTradeWhereInput | Prisma.JournalTradeWhereInput[]
   OR?: Prisma.JournalTradeWhereInput[]
   NOT?: Prisma.JournalTradeWhereInput | Prisma.JournalTradeWhereInput[]
@@ -584,39 +568,38 @@ export type JournalTradeWhereUniqueInput = Prisma.AtLeast<{
   result?: Prisma.EnumJournalTradeResultNullableFilter<"JournalTrade"> | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFilter<"JournalTrade"> | number
   exitPrice?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
+  stopLoss?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
+  takeProfit?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
+  riskReward?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   quantity?: Prisma.FloatFilter<"JournalTrade"> | number
+  positionSize?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   pnl?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   pnlPercent?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   commission?: Prisma.FloatFilter<"JournalTrade"> | number
   swap?: Prisma.FloatFilter<"JournalTrade"> | number
+  fees?: Prisma.FloatFilter<"JournalTrade"> | number
   followedPlan?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
   convictionLevel?: Prisma.EnumConvictionNullableFilter<"JournalTrade"> | $Enums.Conviction | null
   emotionBefore?: Prisma.EnumEmotionNullableFilter<"JournalTrade"> | $Enums.Emotion | null
   emotionAfter?: Prisma.EnumEmotionNullableFilter<"JournalTrade"> | $Enums.Emotion | null
   notesBefore?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
   notesAfter?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  setupNotes?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  mistakeNotes?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFilter<"JournalTrade"> | $Enums.ReviewStatus
+  tags?: Prisma.StringNullableListFilter<"JournalTrade">
+  mistakes?: Prisma.StringNullableListFilter<"JournalTrade">
   screenshotUrls?: Prisma.StringNullableListFilter<"JournalTrade">
   tradeDate?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
+  openedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
   closedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  source?: Prisma.StringFilter<"JournalTrade"> | string
   createdAt?: Prisma.DateTimeFilter<"JournalTrade"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  profileUserId?: Prisma.UuidNullableFilter<"JournalTrade"> | string | null
-  closeReason?: Prisma.EnumCloseReasonNullableFilter<"JournalTrade"> | $Enums.CloseReason | null
-  entryLots?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
-  realizedRR?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
-  signalId?: Prisma.UuidNullableFilter<"JournalTrade"> | string | null
-  slHit?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
-  slHitAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  tp1Hit?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
-  tp1HitAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  tp2Hit?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
-  tp2HitAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
   checklistItems?: Prisma.JournalChecklistItemListRelationFilter
   account?: Prisma.XOR<Prisma.TradingAccountScalarRelationFilter, Prisma.TradingAccountWhereInput>
-  profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
+  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
   strategy?: Prisma.XOR<Prisma.TradingStrategyNullableScalarRelationFilter, Prisma.TradingStrategyWhereInput> | null
-}, "id" | "ticketId" | "ticketId_accountId">
+}, "id">
 
 export type JournalTradeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -629,35 +612,33 @@ export type JournalTradeOrderByWithAggregationInput = {
   result?: Prisma.SortOrderInput | Prisma.SortOrder
   entryPrice?: Prisma.SortOrder
   exitPrice?: Prisma.SortOrderInput | Prisma.SortOrder
+  stopLoss?: Prisma.SortOrderInput | Prisma.SortOrder
+  takeProfit?: Prisma.SortOrderInput | Prisma.SortOrder
+  riskReward?: Prisma.SortOrderInput | Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  ticketId?: Prisma.SortOrderInput | Prisma.SortOrder
+  positionSize?: Prisma.SortOrderInput | Prisma.SortOrder
   pnl?: Prisma.SortOrderInput | Prisma.SortOrder
   pnlPercent?: Prisma.SortOrderInput | Prisma.SortOrder
   commission?: Prisma.SortOrder
   swap?: Prisma.SortOrder
+  fees?: Prisma.SortOrder
   followedPlan?: Prisma.SortOrderInput | Prisma.SortOrder
   convictionLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   emotionBefore?: Prisma.SortOrderInput | Prisma.SortOrder
   emotionAfter?: Prisma.SortOrderInput | Prisma.SortOrder
   notesBefore?: Prisma.SortOrderInput | Prisma.SortOrder
   notesAfter?: Prisma.SortOrderInput | Prisma.SortOrder
+  setupNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  mistakeNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  mistakes?: Prisma.SortOrder
   screenshotUrls?: Prisma.SortOrder
   tradeDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  openedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   closedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  profileUserId?: Prisma.SortOrderInput | Prisma.SortOrder
-  closeReason?: Prisma.SortOrderInput | Prisma.SortOrder
-  entryLots?: Prisma.SortOrderInput | Prisma.SortOrder
-  realizedRR?: Prisma.SortOrderInput | Prisma.SortOrder
-  signalId?: Prisma.SortOrderInput | Prisma.SortOrder
-  slHit?: Prisma.SortOrderInput | Prisma.SortOrder
-  slHitAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  tp1Hit?: Prisma.SortOrderInput | Prisma.SortOrder
-  tp1HitAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  tp2Hit?: Prisma.SortOrderInput | Prisma.SortOrder
-  tp2HitAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.JournalTradeCountOrderByAggregateInput
   _avg?: Prisma.JournalTradeAvgOrderByAggregateInput
   _max?: Prisma.JournalTradeMaxOrderByAggregateInput
@@ -679,77 +660,73 @@ export type JournalTradeScalarWhereWithAggregatesInput = {
   result?: Prisma.EnumJournalTradeResultNullableWithAggregatesFilter<"JournalTrade"> | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatWithAggregatesFilter<"JournalTrade"> | number
   exitPrice?: Prisma.FloatNullableWithAggregatesFilter<"JournalTrade"> | number | null
+  stopLoss?: Prisma.FloatNullableWithAggregatesFilter<"JournalTrade"> | number | null
+  takeProfit?: Prisma.FloatNullableWithAggregatesFilter<"JournalTrade"> | number | null
+  riskReward?: Prisma.FloatNullableWithAggregatesFilter<"JournalTrade"> | number | null
   quantity?: Prisma.FloatWithAggregatesFilter<"JournalTrade"> | number
-  ticketId?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  positionSize?: Prisma.FloatNullableWithAggregatesFilter<"JournalTrade"> | number | null
   pnl?: Prisma.FloatNullableWithAggregatesFilter<"JournalTrade"> | number | null
   pnlPercent?: Prisma.FloatNullableWithAggregatesFilter<"JournalTrade"> | number | null
   commission?: Prisma.FloatWithAggregatesFilter<"JournalTrade"> | number
   swap?: Prisma.FloatWithAggregatesFilter<"JournalTrade"> | number
+  fees?: Prisma.FloatWithAggregatesFilter<"JournalTrade"> | number
   followedPlan?: Prisma.BoolNullableWithAggregatesFilter<"JournalTrade"> | boolean | null
   convictionLevel?: Prisma.EnumConvictionNullableWithAggregatesFilter<"JournalTrade"> | $Enums.Conviction | null
   emotionBefore?: Prisma.EnumEmotionNullableWithAggregatesFilter<"JournalTrade"> | $Enums.Emotion | null
   emotionAfter?: Prisma.EnumEmotionNullableWithAggregatesFilter<"JournalTrade"> | $Enums.Emotion | null
   notesBefore?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
   notesAfter?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  setupNotes?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  mistakeNotes?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  reviewStatus?: Prisma.EnumReviewStatusWithAggregatesFilter<"JournalTrade"> | $Enums.ReviewStatus
+  tags?: Prisma.StringNullableListFilter<"JournalTrade">
+  mistakes?: Prisma.StringNullableListFilter<"JournalTrade">
   screenshotUrls?: Prisma.StringNullableListFilter<"JournalTrade">
   tradeDate?: Prisma.DateTimeNullableWithAggregatesFilter<"JournalTrade"> | Date | string | null
+  openedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"JournalTrade"> | Date | string | null
   closedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"JournalTrade"> | Date | string | null
-  source?: Prisma.StringWithAggregatesFilter<"JournalTrade"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"JournalTrade"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"JournalTrade"> | Date | string | null
-  profileUserId?: Prisma.UuidNullableWithAggregatesFilter<"JournalTrade"> | string | null
-  closeReason?: Prisma.EnumCloseReasonNullableWithAggregatesFilter<"JournalTrade"> | $Enums.CloseReason | null
-  entryLots?: Prisma.FloatNullableWithAggregatesFilter<"JournalTrade"> | number | null
-  realizedRR?: Prisma.FloatNullableWithAggregatesFilter<"JournalTrade"> | number | null
-  signalId?: Prisma.UuidNullableWithAggregatesFilter<"JournalTrade"> | string | null
-  slHit?: Prisma.BoolNullableWithAggregatesFilter<"JournalTrade"> | boolean | null
-  slHitAt?: Prisma.DateTimeNullableWithAggregatesFilter<"JournalTrade"> | Date | string | null
-  tp1Hit?: Prisma.BoolNullableWithAggregatesFilter<"JournalTrade"> | boolean | null
-  tp1HitAt?: Prisma.DateTimeNullableWithAggregatesFilter<"JournalTrade"> | Date | string | null
-  tp2Hit?: Prisma.BoolNullableWithAggregatesFilter<"JournalTrade"> | boolean | null
-  tp2HitAt?: Prisma.DateTimeNullableWithAggregatesFilter<"JournalTrade"> | Date | string | null
 }
 
 export type JournalTradeCreateInput = {
   id?: string
-  userId: string
   symbol: string
   direction: $Enums.TradeDirection
   status?: $Enums.JournalTradeStatus
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
   checklistItems?: Prisma.JournalChecklistItemCreateNestedManyWithoutTradeInput
   account: Prisma.TradingAccountCreateNestedOneWithoutJournalTradesInput
-  profile?: Prisma.ProfileCreateNestedOneWithoutJournalTradesInput
+  profile: Prisma.ProfileCreateNestedOneWithoutJournalTradesInput
   strategy?: Prisma.TradingStrategyCreateNestedOneWithoutJournalTradesInput
 }
 
@@ -764,78 +741,74 @@ export type JournalTradeUncheckedCreateInput = {
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  profileUserId?: string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedCreateNestedManyWithoutTradeInput
 }
 
 export type JournalTradeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   status?: Prisma.EnumJournalTradeStatusFieldUpdateOperationsInput | $Enums.JournalTradeStatus
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   checklistItems?: Prisma.JournalChecklistItemUpdateManyWithoutTradeNestedInput
   account?: Prisma.TradingAccountUpdateOneRequiredWithoutJournalTradesNestedInput
-  profile?: Prisma.ProfileUpdateOneWithoutJournalTradesNestedInput
+  profile?: Prisma.ProfileUpdateOneRequiredWithoutJournalTradesNestedInput
   strategy?: Prisma.TradingStrategyUpdateOneWithoutJournalTradesNestedInput
 }
 
@@ -850,35 +823,33 @@ export type JournalTradeUncheckedUpdateInput = {
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedUpdateManyWithoutTradeNestedInput
 }
 
@@ -893,74 +864,70 @@ export type JournalTradeCreateManyInput = {
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  profileUserId?: string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
 }
 
 export type JournalTradeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   status?: Prisma.EnumJournalTradeStatusFieldUpdateOperationsInput | $Enums.JournalTradeStatus
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type JournalTradeUncheckedUpdateManyInput = {
@@ -974,35 +941,33 @@ export type JournalTradeUncheckedUpdateManyInput = {
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type JournalTradeListRelationFilter = {
@@ -1015,9 +980,12 @@ export type JournalTradeOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type JournalTradeTicketIdAccountIdCompoundUniqueInput = {
-  ticketId: string
-  accountId: string
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type JournalTradeCountOrderByAggregateInput = {
@@ -1031,47 +999,48 @@ export type JournalTradeCountOrderByAggregateInput = {
   result?: Prisma.SortOrder
   entryPrice?: Prisma.SortOrder
   exitPrice?: Prisma.SortOrder
+  stopLoss?: Prisma.SortOrder
+  takeProfit?: Prisma.SortOrder
+  riskReward?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  ticketId?: Prisma.SortOrder
+  positionSize?: Prisma.SortOrder
   pnl?: Prisma.SortOrder
   pnlPercent?: Prisma.SortOrder
   commission?: Prisma.SortOrder
   swap?: Prisma.SortOrder
+  fees?: Prisma.SortOrder
   followedPlan?: Prisma.SortOrder
   convictionLevel?: Prisma.SortOrder
   emotionBefore?: Prisma.SortOrder
   emotionAfter?: Prisma.SortOrder
   notesBefore?: Prisma.SortOrder
   notesAfter?: Prisma.SortOrder
+  setupNotes?: Prisma.SortOrder
+  mistakeNotes?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  mistakes?: Prisma.SortOrder
   screenshotUrls?: Prisma.SortOrder
   tradeDate?: Prisma.SortOrder
+  openedAt?: Prisma.SortOrder
   closedAt?: Prisma.SortOrder
-  source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  profileUserId?: Prisma.SortOrder
-  closeReason?: Prisma.SortOrder
-  entryLots?: Prisma.SortOrder
-  realizedRR?: Prisma.SortOrder
-  signalId?: Prisma.SortOrder
-  slHit?: Prisma.SortOrder
-  slHitAt?: Prisma.SortOrder
-  tp1Hit?: Prisma.SortOrder
-  tp1HitAt?: Prisma.SortOrder
-  tp2Hit?: Prisma.SortOrder
-  tp2HitAt?: Prisma.SortOrder
 }
 
 export type JournalTradeAvgOrderByAggregateInput = {
   entryPrice?: Prisma.SortOrder
   exitPrice?: Prisma.SortOrder
+  stopLoss?: Prisma.SortOrder
+  takeProfit?: Prisma.SortOrder
+  riskReward?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
+  positionSize?: Prisma.SortOrder
   pnl?: Prisma.SortOrder
   pnlPercent?: Prisma.SortOrder
   commission?: Prisma.SortOrder
   swap?: Prisma.SortOrder
-  entryLots?: Prisma.SortOrder
-  realizedRR?: Prisma.SortOrder
+  fees?: Prisma.SortOrder
 }
 
 export type JournalTradeMaxOrderByAggregateInput = {
@@ -1085,34 +1054,30 @@ export type JournalTradeMaxOrderByAggregateInput = {
   result?: Prisma.SortOrder
   entryPrice?: Prisma.SortOrder
   exitPrice?: Prisma.SortOrder
+  stopLoss?: Prisma.SortOrder
+  takeProfit?: Prisma.SortOrder
+  riskReward?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  ticketId?: Prisma.SortOrder
+  positionSize?: Prisma.SortOrder
   pnl?: Prisma.SortOrder
   pnlPercent?: Prisma.SortOrder
   commission?: Prisma.SortOrder
   swap?: Prisma.SortOrder
+  fees?: Prisma.SortOrder
   followedPlan?: Prisma.SortOrder
   convictionLevel?: Prisma.SortOrder
   emotionBefore?: Prisma.SortOrder
   emotionAfter?: Prisma.SortOrder
   notesBefore?: Prisma.SortOrder
   notesAfter?: Prisma.SortOrder
+  setupNotes?: Prisma.SortOrder
+  mistakeNotes?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
   tradeDate?: Prisma.SortOrder
+  openedAt?: Prisma.SortOrder
   closedAt?: Prisma.SortOrder
-  source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  profileUserId?: Prisma.SortOrder
-  closeReason?: Prisma.SortOrder
-  entryLots?: Prisma.SortOrder
-  realizedRR?: Prisma.SortOrder
-  signalId?: Prisma.SortOrder
-  slHit?: Prisma.SortOrder
-  slHitAt?: Prisma.SortOrder
-  tp1Hit?: Prisma.SortOrder
-  tp1HitAt?: Prisma.SortOrder
-  tp2Hit?: Prisma.SortOrder
-  tp2HitAt?: Prisma.SortOrder
 }
 
 export type JournalTradeMinOrderByAggregateInput = {
@@ -1126,46 +1091,45 @@ export type JournalTradeMinOrderByAggregateInput = {
   result?: Prisma.SortOrder
   entryPrice?: Prisma.SortOrder
   exitPrice?: Prisma.SortOrder
+  stopLoss?: Prisma.SortOrder
+  takeProfit?: Prisma.SortOrder
+  riskReward?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  ticketId?: Prisma.SortOrder
+  positionSize?: Prisma.SortOrder
   pnl?: Prisma.SortOrder
   pnlPercent?: Prisma.SortOrder
   commission?: Prisma.SortOrder
   swap?: Prisma.SortOrder
+  fees?: Prisma.SortOrder
   followedPlan?: Prisma.SortOrder
   convictionLevel?: Prisma.SortOrder
   emotionBefore?: Prisma.SortOrder
   emotionAfter?: Prisma.SortOrder
   notesBefore?: Prisma.SortOrder
   notesAfter?: Prisma.SortOrder
+  setupNotes?: Prisma.SortOrder
+  mistakeNotes?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
   tradeDate?: Prisma.SortOrder
+  openedAt?: Prisma.SortOrder
   closedAt?: Prisma.SortOrder
-  source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  profileUserId?: Prisma.SortOrder
-  closeReason?: Prisma.SortOrder
-  entryLots?: Prisma.SortOrder
-  realizedRR?: Prisma.SortOrder
-  signalId?: Prisma.SortOrder
-  slHit?: Prisma.SortOrder
-  slHitAt?: Prisma.SortOrder
-  tp1Hit?: Prisma.SortOrder
-  tp1HitAt?: Prisma.SortOrder
-  tp2Hit?: Prisma.SortOrder
-  tp2HitAt?: Prisma.SortOrder
 }
 
 export type JournalTradeSumOrderByAggregateInput = {
   entryPrice?: Prisma.SortOrder
   exitPrice?: Prisma.SortOrder
+  stopLoss?: Prisma.SortOrder
+  takeProfit?: Prisma.SortOrder
+  riskReward?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
+  positionSize?: Prisma.SortOrder
   pnl?: Prisma.SortOrder
   pnlPercent?: Prisma.SortOrder
   commission?: Prisma.SortOrder
   swap?: Prisma.SortOrder
-  entryLots?: Prisma.SortOrder
-  realizedRR?: Prisma.SortOrder
+  fees?: Prisma.SortOrder
 }
 
 export type JournalTradeScalarRelationFilter = {
@@ -1257,6 +1221,14 @@ export type JournalTradeUncheckedUpdateManyWithoutAccountNestedInput = {
   deleteMany?: Prisma.JournalTradeScalarWhereInput | Prisma.JournalTradeScalarWhereInput[]
 }
 
+export type JournalTradeCreatetagsInput = {
+  set: string[]
+}
+
+export type JournalTradeCreatemistakesInput = {
+  set: string[]
+}
+
 export type JournalTradeCreatescreenshotUrlsInput = {
   set: string[]
 }
@@ -1283,6 +1255,20 @@ export type NullableEnumConvictionFieldUpdateOperationsInput = {
 
 export type NullableEnumEmotionFieldUpdateOperationsInput = {
   set?: $Enums.Emotion | null
+}
+
+export type EnumReviewStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ReviewStatus
+}
+
+export type JournalTradeUpdatetagsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type JournalTradeUpdatemistakesInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type JournalTradeUpdatescreenshotUrlsInput = {
@@ -1348,41 +1334,39 @@ export type JournalTradeUncheckedUpdateManyWithoutStrategyNestedInput = {
 
 export type JournalTradeCreateWithoutProfileInput = {
   id?: string
-  userId: string
   symbol: string
   direction: $Enums.TradeDirection
   status?: $Enums.JournalTradeStatus
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
   checklistItems?: Prisma.JournalChecklistItemCreateNestedManyWithoutTradeInput
   account: Prisma.TradingAccountCreateNestedOneWithoutJournalTradesInput
   strategy?: Prisma.TradingStrategyCreateNestedOneWithoutJournalTradesInput
@@ -1390,7 +1374,6 @@ export type JournalTradeCreateWithoutProfileInput = {
 
 export type JournalTradeUncheckedCreateWithoutProfileInput = {
   id?: string
-  userId: string
   accountId: string
   strategyId?: string | null
   symbol: string
@@ -1399,34 +1382,33 @@ export type JournalTradeUncheckedCreateWithoutProfileInput = {
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedCreateNestedManyWithoutTradeInput
 }
 
@@ -1470,76 +1452,72 @@ export type JournalTradeScalarWhereInput = {
   result?: Prisma.EnumJournalTradeResultNullableFilter<"JournalTrade"> | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFilter<"JournalTrade"> | number
   exitPrice?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
+  stopLoss?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
+  takeProfit?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
+  riskReward?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   quantity?: Prisma.FloatFilter<"JournalTrade"> | number
-  ticketId?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  positionSize?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   pnl?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   pnlPercent?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
   commission?: Prisma.FloatFilter<"JournalTrade"> | number
   swap?: Prisma.FloatFilter<"JournalTrade"> | number
+  fees?: Prisma.FloatFilter<"JournalTrade"> | number
   followedPlan?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
   convictionLevel?: Prisma.EnumConvictionNullableFilter<"JournalTrade"> | $Enums.Conviction | null
   emotionBefore?: Prisma.EnumEmotionNullableFilter<"JournalTrade"> | $Enums.Emotion | null
   emotionAfter?: Prisma.EnumEmotionNullableFilter<"JournalTrade"> | $Enums.Emotion | null
   notesBefore?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
   notesAfter?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  setupNotes?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  mistakeNotes?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFilter<"JournalTrade"> | $Enums.ReviewStatus
+  tags?: Prisma.StringNullableListFilter<"JournalTrade">
+  mistakes?: Prisma.StringNullableListFilter<"JournalTrade">
   screenshotUrls?: Prisma.StringNullableListFilter<"JournalTrade">
   tradeDate?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
+  openedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
   closedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  source?: Prisma.StringFilter<"JournalTrade"> | string
   createdAt?: Prisma.DateTimeFilter<"JournalTrade"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  profileUserId?: Prisma.UuidNullableFilter<"JournalTrade"> | string | null
-  closeReason?: Prisma.EnumCloseReasonNullableFilter<"JournalTrade"> | $Enums.CloseReason | null
-  entryLots?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
-  realizedRR?: Prisma.FloatNullableFilter<"JournalTrade"> | number | null
-  signalId?: Prisma.UuidNullableFilter<"JournalTrade"> | string | null
-  slHit?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
-  slHitAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  tp1Hit?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
-  tp1HitAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
-  tp2Hit?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
-  tp2HitAt?: Prisma.DateTimeNullableFilter<"JournalTrade"> | Date | string | null
 }
 
 export type JournalTradeCreateWithoutAccountInput = {
   id?: string
-  userId: string
   symbol: string
   direction: $Enums.TradeDirection
   status?: $Enums.JournalTradeStatus
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
   checklistItems?: Prisma.JournalChecklistItemCreateNestedManyWithoutTradeInput
-  profile?: Prisma.ProfileCreateNestedOneWithoutJournalTradesInput
+  profile: Prisma.ProfileCreateNestedOneWithoutJournalTradesInput
   strategy?: Prisma.TradingStrategyCreateNestedOneWithoutJournalTradesInput
 }
 
@@ -1553,35 +1531,33 @@ export type JournalTradeUncheckedCreateWithoutAccountInput = {
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  profileUserId?: string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedCreateNestedManyWithoutTradeInput
 }
 
@@ -1613,43 +1589,41 @@ export type JournalTradeUpdateManyWithWhereWithoutAccountInput = {
 
 export type JournalTradeCreateWithoutChecklistItemsInput = {
   id?: string
-  userId: string
   symbol: string
   direction: $Enums.TradeDirection
   status?: $Enums.JournalTradeStatus
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
   account: Prisma.TradingAccountCreateNestedOneWithoutJournalTradesInput
-  profile?: Prisma.ProfileCreateNestedOneWithoutJournalTradesInput
+  profile: Prisma.ProfileCreateNestedOneWithoutJournalTradesInput
   strategy?: Prisma.TradingStrategyCreateNestedOneWithoutJournalTradesInput
 }
 
@@ -1664,35 +1638,33 @@ export type JournalTradeUncheckedCreateWithoutChecklistItemsInput = {
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  profileUserId?: string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
 }
 
 export type JournalTradeCreateOrConnectWithoutChecklistItemsInput = {
@@ -1713,43 +1685,41 @@ export type JournalTradeUpdateToOneWithWhereWithoutChecklistItemsInput = {
 
 export type JournalTradeUpdateWithoutChecklistItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   status?: Prisma.EnumJournalTradeStatusFieldUpdateOperationsInput | $Enums.JournalTradeStatus
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   account?: Prisma.TradingAccountUpdateOneRequiredWithoutJournalTradesNestedInput
-  profile?: Prisma.ProfileUpdateOneWithoutJournalTradesNestedInput
+  profile?: Prisma.ProfileUpdateOneRequiredWithoutJournalTradesNestedInput
   strategy?: Prisma.TradingStrategyUpdateOneWithoutJournalTradesNestedInput
 }
 
@@ -1764,77 +1734,73 @@ export type JournalTradeUncheckedUpdateWithoutChecklistItemsInput = {
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type JournalTradeCreateWithoutStrategyInput = {
   id?: string
-  userId: string
   symbol: string
   direction: $Enums.TradeDirection
   status?: $Enums.JournalTradeStatus
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
   checklistItems?: Prisma.JournalChecklistItemCreateNestedManyWithoutTradeInput
   account: Prisma.TradingAccountCreateNestedOneWithoutJournalTradesInput
-  profile?: Prisma.ProfileCreateNestedOneWithoutJournalTradesInput
+  profile: Prisma.ProfileCreateNestedOneWithoutJournalTradesInput
 }
 
 export type JournalTradeUncheckedCreateWithoutStrategyInput = {
@@ -1847,35 +1813,33 @@ export type JournalTradeUncheckedCreateWithoutStrategyInput = {
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  profileUserId?: string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedCreateNestedManyWithoutTradeInput
 }
 
@@ -1907,7 +1871,6 @@ export type JournalTradeUpdateManyWithWhereWithoutStrategyInput = {
 
 export type JournalTradeCreateManyProfileInput = {
   id?: string
-  userId: string
   accountId: string
   strategyId?: string | null
   symbol: string
@@ -1916,73 +1879,70 @@ export type JournalTradeCreateManyProfileInput = {
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
 }
 
 export type JournalTradeUpdateWithoutProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   status?: Prisma.EnumJournalTradeStatusFieldUpdateOperationsInput | $Enums.JournalTradeStatus
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   checklistItems?: Prisma.JournalChecklistItemUpdateManyWithoutTradeNestedInput
   account?: Prisma.TradingAccountUpdateOneRequiredWithoutJournalTradesNestedInput
   strategy?: Prisma.TradingStrategyUpdateOneWithoutJournalTradesNestedInput
@@ -1990,7 +1950,6 @@ export type JournalTradeUpdateWithoutProfileInput = {
 
 export type JournalTradeUncheckedUpdateWithoutProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   accountId?: Prisma.StringFieldUpdateOperationsInput | string
   strategyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1999,40 +1958,38 @@ export type JournalTradeUncheckedUpdateWithoutProfileInput = {
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedUpdateManyWithoutTradeNestedInput
 }
 
 export type JournalTradeUncheckedUpdateManyWithoutProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   accountId?: Prisma.StringFieldUpdateOperationsInput | string
   strategyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2041,34 +1998,33 @@ export type JournalTradeUncheckedUpdateManyWithoutProfileInput = {
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type JournalTradeCreateManyAccountInput = {
@@ -2081,76 +2037,72 @@ export type JournalTradeCreateManyAccountInput = {
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  profileUserId?: string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
 }
 
 export type JournalTradeUpdateWithoutAccountInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   status?: Prisma.EnumJournalTradeStatusFieldUpdateOperationsInput | $Enums.JournalTradeStatus
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   checklistItems?: Prisma.JournalChecklistItemUpdateManyWithoutTradeNestedInput
-  profile?: Prisma.ProfileUpdateOneWithoutJournalTradesNestedInput
+  profile?: Prisma.ProfileUpdateOneRequiredWithoutJournalTradesNestedInput
   strategy?: Prisma.TradingStrategyUpdateOneWithoutJournalTradesNestedInput
 }
 
@@ -2164,35 +2116,33 @@ export type JournalTradeUncheckedUpdateWithoutAccountInput = {
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedUpdateManyWithoutTradeNestedInput
 }
 
@@ -2206,35 +2156,33 @@ export type JournalTradeUncheckedUpdateManyWithoutAccountInput = {
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type JournalTradeCreateManyStrategyInput = {
@@ -2247,77 +2195,73 @@ export type JournalTradeCreateManyStrategyInput = {
   result?: $Enums.JournalTradeResult | null
   entryPrice: number
   exitPrice?: number | null
+  stopLoss?: number | null
+  takeProfit?: number | null
+  riskReward?: number | null
   quantity: number
-  ticketId?: string | null
+  positionSize?: number | null
   pnl?: number | null
   pnlPercent?: number | null
   commission?: number
   swap?: number
+  fees?: number
   followedPlan?: boolean | null
   convictionLevel?: $Enums.Conviction | null
   emotionBefore?: $Enums.Emotion | null
   emotionAfter?: $Enums.Emotion | null
   notesBefore?: string | null
   notesAfter?: string | null
+  setupNotes?: string | null
+  mistakeNotes?: string | null
+  reviewStatus?: $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeCreatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
   tradeDate?: Date | string | null
+  openedAt?: Date | string | null
   closedAt?: Date | string | null
-  source?: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  profileUserId?: string | null
-  closeReason?: $Enums.CloseReason | null
-  entryLots?: number | null
-  realizedRR?: number | null
-  signalId?: string | null
-  slHit?: boolean | null
-  slHitAt?: Date | string | null
-  tp1Hit?: boolean | null
-  tp1HitAt?: Date | string | null
-  tp2Hit?: boolean | null
-  tp2HitAt?: Date | string | null
 }
 
 export type JournalTradeUpdateWithoutStrategyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   status?: Prisma.EnumJournalTradeStatusFieldUpdateOperationsInput | $Enums.JournalTradeStatus
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   checklistItems?: Prisma.JournalChecklistItemUpdateManyWithoutTradeNestedInput
   account?: Prisma.TradingAccountUpdateOneRequiredWithoutJournalTradesNestedInput
-  profile?: Prisma.ProfileUpdateOneWithoutJournalTradesNestedInput
+  profile?: Prisma.ProfileUpdateOneRequiredWithoutJournalTradesNestedInput
 }
 
 export type JournalTradeUncheckedUpdateWithoutStrategyInput = {
@@ -2330,35 +2274,33 @@ export type JournalTradeUncheckedUpdateWithoutStrategyInput = {
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   checklistItems?: Prisma.JournalChecklistItemUncheckedUpdateManyWithoutTradeNestedInput
 }
 
@@ -2372,35 +2314,33 @@ export type JournalTradeUncheckedUpdateManyWithoutStrategyInput = {
   result?: Prisma.NullableEnumJournalTradeResultFieldUpdateOperationsInput | $Enums.JournalTradeResult | null
   entryPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  stopLoss?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  takeProfit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  riskReward?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
-  ticketId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  positionSize?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnl?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   pnlPercent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   commission?: Prisma.FloatFieldUpdateOperationsInput | number
   swap?: Prisma.FloatFieldUpdateOperationsInput | number
+  fees?: Prisma.FloatFieldUpdateOperationsInput | number
   followedPlan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   convictionLevel?: Prisma.NullableEnumConvictionFieldUpdateOperationsInput | $Enums.Conviction | null
   emotionBefore?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   emotionAfter?: Prisma.NullableEnumEmotionFieldUpdateOperationsInput | $Enums.Emotion | null
   notesBefore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notesAfter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  tags?: Prisma.JournalTradeUpdatetagsInput | string[]
+  mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
   tradeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closeReason?: Prisma.NullableEnumCloseReasonFieldUpdateOperationsInput | $Enums.CloseReason | null
-  entryLots?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  realizedRR?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  signalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slHit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  slHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp1Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp1HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tp2Hit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tp2HitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -2445,38 +2385,36 @@ export type JournalTradeSelect<ExtArgs extends runtime.Types.Extensions.Internal
   result?: boolean
   entryPrice?: boolean
   exitPrice?: boolean
+  stopLoss?: boolean
+  takeProfit?: boolean
+  riskReward?: boolean
   quantity?: boolean
-  ticketId?: boolean
+  positionSize?: boolean
   pnl?: boolean
   pnlPercent?: boolean
   commission?: boolean
   swap?: boolean
+  fees?: boolean
   followedPlan?: boolean
   convictionLevel?: boolean
   emotionBefore?: boolean
   emotionAfter?: boolean
   notesBefore?: boolean
   notesAfter?: boolean
+  setupNotes?: boolean
+  mistakeNotes?: boolean
+  reviewStatus?: boolean
+  tags?: boolean
+  mistakes?: boolean
   screenshotUrls?: boolean
   tradeDate?: boolean
+  openedAt?: boolean
   closedAt?: boolean
-  source?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  profileUserId?: boolean
-  closeReason?: boolean
-  entryLots?: boolean
-  realizedRR?: boolean
-  signalId?: boolean
-  slHit?: boolean
-  slHitAt?: boolean
-  tp1Hit?: boolean
-  tp1HitAt?: boolean
-  tp2Hit?: boolean
-  tp2HitAt?: boolean
   checklistItems?: boolean | Prisma.JournalTrade$checklistItemsArgs<ExtArgs>
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
-  profile?: boolean | Prisma.JournalTrade$profileArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.JournalTrade$strategyArgs<ExtArgs>
   _count?: boolean | Prisma.JournalTradeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalTrade"]>
@@ -2492,37 +2430,35 @@ export type JournalTradeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   result?: boolean
   entryPrice?: boolean
   exitPrice?: boolean
+  stopLoss?: boolean
+  takeProfit?: boolean
+  riskReward?: boolean
   quantity?: boolean
-  ticketId?: boolean
+  positionSize?: boolean
   pnl?: boolean
   pnlPercent?: boolean
   commission?: boolean
   swap?: boolean
+  fees?: boolean
   followedPlan?: boolean
   convictionLevel?: boolean
   emotionBefore?: boolean
   emotionAfter?: boolean
   notesBefore?: boolean
   notesAfter?: boolean
+  setupNotes?: boolean
+  mistakeNotes?: boolean
+  reviewStatus?: boolean
+  tags?: boolean
+  mistakes?: boolean
   screenshotUrls?: boolean
   tradeDate?: boolean
+  openedAt?: boolean
   closedAt?: boolean
-  source?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  profileUserId?: boolean
-  closeReason?: boolean
-  entryLots?: boolean
-  realizedRR?: boolean
-  signalId?: boolean
-  slHit?: boolean
-  slHitAt?: boolean
-  tp1Hit?: boolean
-  tp1HitAt?: boolean
-  tp2Hit?: boolean
-  tp2HitAt?: boolean
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
-  profile?: boolean | Prisma.JournalTrade$profileArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.JournalTrade$strategyArgs<ExtArgs>
 }, ExtArgs["result"]["journalTrade"]>
 
@@ -2537,37 +2473,35 @@ export type JournalTradeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   result?: boolean
   entryPrice?: boolean
   exitPrice?: boolean
+  stopLoss?: boolean
+  takeProfit?: boolean
+  riskReward?: boolean
   quantity?: boolean
-  ticketId?: boolean
+  positionSize?: boolean
   pnl?: boolean
   pnlPercent?: boolean
   commission?: boolean
   swap?: boolean
+  fees?: boolean
   followedPlan?: boolean
   convictionLevel?: boolean
   emotionBefore?: boolean
   emotionAfter?: boolean
   notesBefore?: boolean
   notesAfter?: boolean
+  setupNotes?: boolean
+  mistakeNotes?: boolean
+  reviewStatus?: boolean
+  tags?: boolean
+  mistakes?: boolean
   screenshotUrls?: boolean
   tradeDate?: boolean
+  openedAt?: boolean
   closedAt?: boolean
-  source?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  profileUserId?: boolean
-  closeReason?: boolean
-  entryLots?: boolean
-  realizedRR?: boolean
-  signalId?: boolean
-  slHit?: boolean
-  slHitAt?: boolean
-  tp1Hit?: boolean
-  tp1HitAt?: boolean
-  tp2Hit?: boolean
-  tp2HitAt?: boolean
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
-  profile?: boolean | Prisma.JournalTrade$profileArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.JournalTrade$strategyArgs<ExtArgs>
 }, ExtArgs["result"]["journalTrade"]>
 
@@ -2582,53 +2516,51 @@ export type JournalTradeSelectScalar = {
   result?: boolean
   entryPrice?: boolean
   exitPrice?: boolean
+  stopLoss?: boolean
+  takeProfit?: boolean
+  riskReward?: boolean
   quantity?: boolean
-  ticketId?: boolean
+  positionSize?: boolean
   pnl?: boolean
   pnlPercent?: boolean
   commission?: boolean
   swap?: boolean
+  fees?: boolean
   followedPlan?: boolean
   convictionLevel?: boolean
   emotionBefore?: boolean
   emotionAfter?: boolean
   notesBefore?: boolean
   notesAfter?: boolean
+  setupNotes?: boolean
+  mistakeNotes?: boolean
+  reviewStatus?: boolean
+  tags?: boolean
+  mistakes?: boolean
   screenshotUrls?: boolean
   tradeDate?: boolean
+  openedAt?: boolean
   closedAt?: boolean
-  source?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  profileUserId?: boolean
-  closeReason?: boolean
-  entryLots?: boolean
-  realizedRR?: boolean
-  signalId?: boolean
-  slHit?: boolean
-  slHitAt?: boolean
-  tp1Hit?: boolean
-  tp1HitAt?: boolean
-  tp2Hit?: boolean
-  tp2HitAt?: boolean
 }
 
-export type JournalTradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "accountId" | "strategyId" | "symbol" | "direction" | "status" | "result" | "entryPrice" | "exitPrice" | "quantity" | "ticketId" | "pnl" | "pnlPercent" | "commission" | "swap" | "followedPlan" | "convictionLevel" | "emotionBefore" | "emotionAfter" | "notesBefore" | "notesAfter" | "screenshotUrls" | "tradeDate" | "closedAt" | "source" | "createdAt" | "updatedAt" | "profileUserId" | "closeReason" | "entryLots" | "realizedRR" | "signalId" | "slHit" | "slHitAt" | "tp1Hit" | "tp1HitAt" | "tp2Hit" | "tp2HitAt", ExtArgs["result"]["journalTrade"]>
+export type JournalTradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "accountId" | "strategyId" | "symbol" | "direction" | "status" | "result" | "entryPrice" | "exitPrice" | "stopLoss" | "takeProfit" | "riskReward" | "quantity" | "positionSize" | "pnl" | "pnlPercent" | "commission" | "swap" | "fees" | "followedPlan" | "convictionLevel" | "emotionBefore" | "emotionAfter" | "notesBefore" | "notesAfter" | "setupNotes" | "mistakeNotes" | "reviewStatus" | "tags" | "mistakes" | "screenshotUrls" | "tradeDate" | "openedAt" | "closedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["journalTrade"]>
 export type JournalTradeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   checklistItems?: boolean | Prisma.JournalTrade$checklistItemsArgs<ExtArgs>
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
-  profile?: boolean | Prisma.JournalTrade$profileArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.JournalTrade$strategyArgs<ExtArgs>
   _count?: boolean | Prisma.JournalTradeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type JournalTradeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
-  profile?: boolean | Prisma.JournalTrade$profileArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.JournalTrade$strategyArgs<ExtArgs>
 }
 export type JournalTradeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
-  profile?: boolean | Prisma.JournalTrade$profileArgs<ExtArgs>
+  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
   strategy?: boolean | Prisma.JournalTrade$strategyArgs<ExtArgs>
 }
 
@@ -2637,7 +2569,7 @@ export type $JournalTradePayload<ExtArgs extends runtime.Types.Extensions.Intern
   objects: {
     checklistItems: Prisma.$JournalChecklistItemPayload<ExtArgs>[]
     account: Prisma.$TradingAccountPayload<ExtArgs>
-    profile: Prisma.$ProfilePayload<ExtArgs> | null
+    profile: Prisma.$ProfilePayload<ExtArgs>
     strategy: Prisma.$TradingStrategyPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -2651,35 +2583,33 @@ export type $JournalTradePayload<ExtArgs extends runtime.Types.Extensions.Intern
     result: $Enums.JournalTradeResult | null
     entryPrice: number
     exitPrice: number | null
+    stopLoss: number | null
+    takeProfit: number | null
+    riskReward: number | null
     quantity: number
-    ticketId: string | null
+    positionSize: number | null
     pnl: number | null
     pnlPercent: number | null
     commission: number
     swap: number
+    fees: number
     followedPlan: boolean | null
     convictionLevel: $Enums.Conviction | null
     emotionBefore: $Enums.Emotion | null
     emotionAfter: $Enums.Emotion | null
     notesBefore: string | null
     notesAfter: string | null
+    setupNotes: string | null
+    mistakeNotes: string | null
+    reviewStatus: $Enums.ReviewStatus
+    tags: string[]
+    mistakes: string[]
     screenshotUrls: string[]
     tradeDate: Date | null
+    openedAt: Date | null
     closedAt: Date | null
-    source: string
     createdAt: Date
     updatedAt: Date | null
-    profileUserId: string | null
-    closeReason: $Enums.CloseReason | null
-    entryLots: number | null
-    realizedRR: number | null
-    signalId: string | null
-    slHit: boolean | null
-    slHitAt: Date | null
-    tp1Hit: boolean | null
-    tp1HitAt: Date | null
-    tp2Hit: boolean | null
-    tp2HitAt: Date | null
   }, ExtArgs["result"]["journalTrade"]>
   composites: {}
 }
@@ -3076,7 +3006,7 @@ export interface Prisma__JournalTradeClient<T, Null = never, ExtArgs extends run
   readonly [Symbol.toStringTag]: "PrismaPromise"
   checklistItems<T extends Prisma.JournalTrade$checklistItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JournalTrade$checklistItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalChecklistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   account<T extends Prisma.TradingAccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccountDefaultArgs<ExtArgs>>): Prisma.Prisma__TradingAccountClient<runtime.Types.Result.GetResult<Prisma.$TradingAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  profile<T extends Prisma.JournalTrade$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JournalTrade$profileArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  profile<T extends Prisma.ProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   strategy<T extends Prisma.JournalTrade$strategyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JournalTrade$strategyArgs<ExtArgs>>): Prisma.Prisma__TradingStrategyClient<runtime.Types.Result.GetResult<Prisma.$TradingStrategyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3117,35 +3047,33 @@ export interface JournalTradeFieldRefs {
   readonly result: Prisma.FieldRef<"JournalTrade", 'JournalTradeResult'>
   readonly entryPrice: Prisma.FieldRef<"JournalTrade", 'Float'>
   readonly exitPrice: Prisma.FieldRef<"JournalTrade", 'Float'>
+  readonly stopLoss: Prisma.FieldRef<"JournalTrade", 'Float'>
+  readonly takeProfit: Prisma.FieldRef<"JournalTrade", 'Float'>
+  readonly riskReward: Prisma.FieldRef<"JournalTrade", 'Float'>
   readonly quantity: Prisma.FieldRef<"JournalTrade", 'Float'>
-  readonly ticketId: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly positionSize: Prisma.FieldRef<"JournalTrade", 'Float'>
   readonly pnl: Prisma.FieldRef<"JournalTrade", 'Float'>
   readonly pnlPercent: Prisma.FieldRef<"JournalTrade", 'Float'>
   readonly commission: Prisma.FieldRef<"JournalTrade", 'Float'>
   readonly swap: Prisma.FieldRef<"JournalTrade", 'Float'>
+  readonly fees: Prisma.FieldRef<"JournalTrade", 'Float'>
   readonly followedPlan: Prisma.FieldRef<"JournalTrade", 'Boolean'>
   readonly convictionLevel: Prisma.FieldRef<"JournalTrade", 'Conviction'>
   readonly emotionBefore: Prisma.FieldRef<"JournalTrade", 'Emotion'>
   readonly emotionAfter: Prisma.FieldRef<"JournalTrade", 'Emotion'>
   readonly notesBefore: Prisma.FieldRef<"JournalTrade", 'String'>
   readonly notesAfter: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly setupNotes: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly mistakeNotes: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly reviewStatus: Prisma.FieldRef<"JournalTrade", 'ReviewStatus'>
+  readonly tags: Prisma.FieldRef<"JournalTrade", 'String[]'>
+  readonly mistakes: Prisma.FieldRef<"JournalTrade", 'String[]'>
   readonly screenshotUrls: Prisma.FieldRef<"JournalTrade", 'String[]'>
   readonly tradeDate: Prisma.FieldRef<"JournalTrade", 'DateTime'>
+  readonly openedAt: Prisma.FieldRef<"JournalTrade", 'DateTime'>
   readonly closedAt: Prisma.FieldRef<"JournalTrade", 'DateTime'>
-  readonly source: Prisma.FieldRef<"JournalTrade", 'String'>
   readonly createdAt: Prisma.FieldRef<"JournalTrade", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"JournalTrade", 'DateTime'>
-  readonly profileUserId: Prisma.FieldRef<"JournalTrade", 'String'>
-  readonly closeReason: Prisma.FieldRef<"JournalTrade", 'CloseReason'>
-  readonly entryLots: Prisma.FieldRef<"JournalTrade", 'Float'>
-  readonly realizedRR: Prisma.FieldRef<"JournalTrade", 'Float'>
-  readonly signalId: Prisma.FieldRef<"JournalTrade", 'String'>
-  readonly slHit: Prisma.FieldRef<"JournalTrade", 'Boolean'>
-  readonly slHitAt: Prisma.FieldRef<"JournalTrade", 'DateTime'>
-  readonly tp1Hit: Prisma.FieldRef<"JournalTrade", 'Boolean'>
-  readonly tp1HitAt: Prisma.FieldRef<"JournalTrade", 'DateTime'>
-  readonly tp2Hit: Prisma.FieldRef<"JournalTrade", 'Boolean'>
-  readonly tp2HitAt: Prisma.FieldRef<"JournalTrade", 'DateTime'>
 }
     
 
@@ -3563,25 +3491,6 @@ export type JournalTrade$checklistItemsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.JournalChecklistItemScalarFieldEnum | Prisma.JournalChecklistItemScalarFieldEnum[]
-}
-
-/**
- * JournalTrade.profile
- */
-export type JournalTrade$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Profile
-   */
-  select?: Prisma.ProfileSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Profile
-   */
-  omit?: Prisma.ProfileOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProfileInclude<ExtArgs> | null
-  where?: Prisma.ProfileWhereInput
 }
 
 /**

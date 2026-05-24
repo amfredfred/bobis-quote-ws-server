@@ -697,6 +697,14 @@ export type NullableEnumTradingStyleFieldUpdateOperationsInput = {
   set?: $Enums.TradingStyle | null
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type TradingStrategyCreateWithoutProfileInput = {
   id?: string
   name: string

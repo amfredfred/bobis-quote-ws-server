@@ -28,7 +28,7 @@ export class ProGuard implements CanActivate {
         select: { subscriptionTier: true, trialEndsAt: true },
       });
     } catch (err) {
-      throw new AppError('ACCOUNT_SYNC_FAILED', err);
+      throw new AppError('OPERATION_FAILED', err);
     }
 
     const hasPaidSub = profile?.subscriptionTier != null;

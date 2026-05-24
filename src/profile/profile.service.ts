@@ -14,7 +14,6 @@ export interface UpdateProfileDto {
   sessionReminders?: boolean;
   drawdownWarnings?: boolean;
   profitTargetAlerts?: boolean;
-  signalAlertsEnabled?: boolean;
   maxTradesWarnings?: boolean;
   tradingDaysReminders?: boolean;
   timezone?: string;
@@ -24,7 +23,6 @@ const avatarStyles = [
   "avataaars",
   "identicon",
   "micah",
-  "bottts",
   "lorelei",
   "notionists",
   "adventurer",
@@ -61,7 +59,6 @@ const traderAdjectives = [
 /** Trading-themed nouns */
 const traderNouns = [
   "Trader",
-  "Broker",
   "Bull",
   "Bear",
   "Whale",

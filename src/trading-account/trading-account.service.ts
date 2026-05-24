@@ -1,14 +1,7 @@
 'use strict';
 
-import { Injectable, NotFoundException, ForbiddenException, ConflictException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { AccountRiskConfig, DEFAULT_RISK_CONFIG } from '../common/types/account.types';
-import { toJson } from '../common/utils/json.util';
-import { createLogger } from '../common/logger/logger';
-
-const logger = createLogger('trading-account.service');
-
-// ── Types ─────────────────────────────────────────────────────────────────────
 
 export interface TradingAccount {
   id: string;
@@ -19,12 +12,6 @@ export interface TradingAccount {
   startBalance: number;
   currentBalance: number | null;
   platform: string | null;
-  metaApiAccountId: string | null;
-  autoTradeEnabled: boolean;
-  riskConfig: AccountRiskConfig | null;
-  lastSyncAt: string | null;
-  lastError: string | null;
-  lastErrorAt: string | null;
   todayTradeCount: number;
   todayPnl: number;
   isActive: boolean;
@@ -39,79 +26,38 @@ export interface CreateTradingAccountDto {
   startBalance: number;
   currentBalance?: number;
   platform?: string;
-  // Broker fields — set when importing via MetaApi
-  metaApiAccountId?: string;
-  autoTradeEnabled?: boolean;
-  riskConfig?: Partial<AccountRiskConfig>;
 }
 
 export interface UpdateTradingAccountDto extends Partial<CreateTradingAccountDto> {
   isActive?: boolean;
   todayTradeCount?: number;
   todayPnl?: number;
-  currentBalance?: number;
-  lastSyncAt?: string;
-  lastError?: string | null;
-  lastErrorAt?: string | null;
 }
-
-// ── Service ───────────────────────────────────────────────────────────────────
 
 @Injectable()
 export class TradingAccountService {
-  constructor(private readonly prisma: PrismaService) { }
-
-  // ── Queries ────────────────────────────────────────────────────────────────
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(userId: string, includeInactive = false): Promise<TradingAccount[]> {
     const rows = await this.prisma.tradingAccount.findMany({
       where: { userId, ...(includeInactive ? {} : { isActive: true }) },
       orderBy: { createdAt: 'asc' },
     });
-    return rows.map(r => this._map(r));
+    return rows.map(r => this.map(r));
   }
 
   async findOne(id: string, userId: string): Promise<TradingAccount> {
     const row = await this.prisma.tradingAccount.findUnique({ where: { id } });
     if (!row) throw new NotFoundException('Account not found');
     if (row.userId !== userId) throw new ForbiddenException();
-    return this._map(row);
+    return this.map(row);
   }
-
-  /** Used by BrokerSyncService on startup — finds all broker-connected accounts without auto-trade. */
-  async findAllSync(): Promise<TradingAccount[]> {
-    const rows = await this.prisma.tradingAccount.findMany({
-      where: { metaApiAccountId: { not: null }, autoTradeEnabled: false, isActive: true },
-      orderBy: { createdAt: 'asc' },
-    });
-    return rows.map(r => this._map(r));
-  }
-
-  /** Used by PipelineManager on startup — finds all accounts with auto-trade enabled */
-  async findAllAutoTrade(): Promise<TradingAccount[]> {
-    const rows = await this.prisma.tradingAccount.findMany({
-      where: { autoTradeEnabled: true, metaApiAccountId: { not: null }, isActive: true },
-      orderBy: { createdAt: 'asc' },
-    });
-    return rows.map(r => this._map(r));
-  }
-
-  async findByMetaApiId(metaApiAccountId: string): Promise<TradingAccount | null> {
-    const row = await this.prisma.tradingAccount.findUnique({ where: { metaApiAccountId } });
-    return row ? this._map(row) : null;
-  }
-
-  // ── Mutations ──────────────────────────────────────────────────────────────
 
   async create(userId: string, dto: CreateTradingAccountDto): Promise<TradingAccount> {
     const existing = await this.prisma.tradingAccount.findFirst({
       where: { userId, accountNumber: dto.accountNumber },
     });
     if (existing) throw new ConflictException('Account number already exists');
-
-    const riskConfig = dto.metaApiAccountId
-      ? toJson({ ...DEFAULT_RISK_CONFIG, ...(dto.riskConfig ?? {}) })
-      : null;
 
     const row = await this.prisma.tradingAccount.create({
       data: {
@@ -121,67 +67,28 @@ export class TradingAccountService {
         currency: dto.currency ?? 'usd',
         startBalance: dto.startBalance,
         currentBalance: dto.currentBalance ?? dto.startBalance,
-        platform: dto.platform,
-        metaApiAccountId: dto.metaApiAccountId ?? null,
-        autoTradeEnabled: dto.autoTradeEnabled ?? false,
-        riskConfig: toJson(riskConfig),
+        platform: dto.platform ?? null,
       },
     });
-
-    logger.info('TradingAccount created', { id: row.id, name: row.name, imported: !!dto.metaApiAccountId });
-    return this._map(row);
+    return this.map(row);
   }
 
   async update(id: string, userId: string, dto: UpdateTradingAccountDto): Promise<TradingAccount> {
-    await this.findOne(id, userId); // ownership check
-
-    const data: Record<string, unknown> = { ...dto };
-
-    // Merge riskConfig instead of replacing
-    if (dto.riskConfig) {
-      const existing = await this.prisma.tradingAccount.findUnique({ where: { id }, select: { riskConfig: true } });
-      data['riskConfig'] = toJson({ ...(existing?.riskConfig as object ?? {}), ...dto.riskConfig });
-      delete data['riskConfig']; // remove partial, set merged below
-      data.riskConfig = toJson({ ...(existing?.riskConfig as object ?? {}), ...dto.riskConfig });
-    }
-
-    if (dto.platform) data['platform'] = dto.platform;
-
-    const row = await this.prisma.tradingAccount.update({ where: { id }, data });
-    return this._map(row);
+    await this.findOne(id, userId);
+    const row = await this.prisma.tradingAccount.update({ where: { id }, data: dto });
+    return this.map(row);
   }
 
-  /** Soft delete */
   async delete(id: string, userId: string): Promise<TradingAccount> {
     await this.findOne(id, userId);
     const row = await this.prisma.tradingAccount.update({ where: { id }, data: { isActive: false } });
-    return this._map(row);
+    return this.map(row);
   }
-
-  /**
-   * Toggle autoTradeEnabled.
-   * Returns the updated account — caller (gateway) is responsible for
-   * starting / stopping the pipeline based on the new value.
-   */
-  async setAutoTrade(id: string, userId: string, enabled: boolean): Promise<TradingAccount> {
-    const account = await this.findOne(id, userId);
-    if (!account.metaApiAccountId) {
-      throw new ForbiddenException('Auto-trade requires a connected broker account');
-    }
-    const row = await this.prisma.tradingAccount.update({
-      where: { id },
-      data: { autoTradeEnabled: enabled },
-    });
-    logger.info('AutoTrade toggled', { id, enabled });
-    return this._map(row);
-  }
-
-  // ── Stats ──────────────────────────────────────────────────────────────────
 
   async getStats(id: string, userId: string) {
     const account = await this.findOne(id, userId);
     const trades = await this.prisma.journalTrade.findMany({
-      where: { accountId: id, status: 'closed' },
+      where: { accountId: id, userId, status: 'closed' },
       orderBy: { tradeDate: 'asc' },
     });
 
@@ -189,28 +96,26 @@ export class TradingAccountService {
     const wins = trades.filter(t => t.result === 'profit').length;
     const totalPnl = trades.reduce((s, t) => s + (t.pnl ?? 0), 0);
 
-    const startBalance = account.startBalance;
-    const currentBal = account.currentBalance ?? startBalance;
-
-    // Drawdown from peak — not from start balance
-    let peak = startBalance;
-    let equity = startBalance;
+    let peak = account.startBalance;
+    let equity = account.startBalance;
     for (const t of trades) {
       equity += t.pnl ?? 0;
       if (equity > peak) peak = equity;
     }
-    const drawdownAbs = Math.max(0, peak - currentBal);
-    const drawdownPct = peak > 0 ? (drawdownAbs / peak) * 100 : 0;
+
+    const currentBalance = account.currentBalance ?? equity;
+    const drawdownAbs = Math.max(0, peak - currentBalance);
+    const drawdownPercent = peak > 0 ? (drawdownAbs / peak) * 100 : 0;
 
     return {
       accountId: id,
       accountName: account.name,
       accountNumber: account.accountNumber,
-      startBalance,
-      currentBalance: currentBal,
+      startBalance: account.startBalance,
+      currentBalance,
       profitLoss: totalPnl,
-      profitLossPercent: startBalance > 0 ? (totalPnl / startBalance) * 100 : 0,
-      drawdownPercent: drawdownPct,
+      profitLossPercent: account.startBalance > 0 ? (totalPnl / account.startBalance) * 100 : 0,
+      drawdownPercent,
       drawdownAbs,
       winRate: closed > 0 ? (wins / closed) * 100 : 0,
       totalTrades: closed,
@@ -220,9 +125,7 @@ export class TradingAccountService {
     };
   }
 
-  // ── Mapper ─────────────────────────────────────────────────────────────────
-
-  private _map(row: any): TradingAccount {
+  private map(row: any): TradingAccount {
     return {
       id: row.id,
       userId: row.userId,
@@ -232,12 +135,6 @@ export class TradingAccountService {
       startBalance: row.startBalance,
       currentBalance: row.currentBalance ?? null,
       platform: row.platform ?? null,
-      metaApiAccountId: row.metaApiAccountId ?? null,
-      autoTradeEnabled: row.autoTradeEnabled,
-      riskConfig: row.riskConfig as AccountRiskConfig ?? null,
-      lastSyncAt: row.lastSyncAt?.toISOString() ?? null,
-      lastError: row.lastError ?? null,
-      lastErrorAt: row.lastErrorAt?.toISOString() ?? null,
       todayTradeCount: row.todayTradeCount,
       todayPnl: row.todayPnl,
       isActive: row.isActive,
