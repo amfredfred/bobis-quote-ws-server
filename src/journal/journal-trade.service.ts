@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 
 export interface CreateJournalTradeDto {
   accountId: string;
-  strategyId: string;
+  strategyId?: string;
   symbol: string;
   direction: 'long' | 'short';
   entryPrice: number;
@@ -28,6 +28,17 @@ export interface CreateJournalTradeDto {
   setupNotes?: string;
   mistakeNotes?: string;
   reviewStatus?: string;
+  timeframe?: string;
+  sessionName?: string;
+  marketMood?: string;
+  biasBeforeTrading?: string;
+  whatINoticed?: string;
+  whatIDidWell?: string;
+  whatIDidWrong?: string;
+  sessionLesson?: string;
+  emotionalState?: string;
+  executionQuality?: string;
+  wouldTakeAgain?: boolean;
   tags?: string[];
   mistakes?: string[];
   screenshotUrls?: string[];
@@ -125,6 +136,17 @@ export class JournalTradeService {
         setupNotes: data.setupNotes,
         mistakeNotes: data.mistakeNotes,
         reviewStatus: data.reviewStatus as any,
+        timeframe: data.timeframe,
+        sessionName: data.sessionName,
+        marketMood: data.marketMood,
+        biasBeforeTrading: data.biasBeforeTrading,
+        whatINoticed: data.whatINoticed,
+        whatIDidWell: data.whatIDidWell,
+        whatIDidWrong: data.whatIDidWrong,
+        sessionLesson: data.sessionLesson,
+        emotionalState: data.emotionalState,
+        executionQuality: data.executionQuality,
+        wouldTakeAgain: data.wouldTakeAgain,
         tags: data.tags ?? [],
         mistakes: data.mistakes ?? [],
         screenshotUrls: data.screenshotUrls ?? [],

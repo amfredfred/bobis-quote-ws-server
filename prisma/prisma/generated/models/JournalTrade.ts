@@ -86,6 +86,17 @@ export type JournalTradeMinAggregateOutputType = {
   setupNotes: string | null
   mistakeNotes: string | null
   reviewStatus: $Enums.ReviewStatus | null
+  timeframe: string | null
+  sessionName: string | null
+  marketMood: string | null
+  biasBeforeTrading: string | null
+  whatINoticed: string | null
+  whatIDidWell: string | null
+  whatIDidWrong: string | null
+  sessionLesson: string | null
+  emotionalState: string | null
+  executionQuality: string | null
+  wouldTakeAgain: boolean | null
   tradeDate: Date | null
   openedAt: Date | null
   closedAt: Date | null
@@ -123,6 +134,17 @@ export type JournalTradeMaxAggregateOutputType = {
   setupNotes: string | null
   mistakeNotes: string | null
   reviewStatus: $Enums.ReviewStatus | null
+  timeframe: string | null
+  sessionName: string | null
+  marketMood: string | null
+  biasBeforeTrading: string | null
+  whatINoticed: string | null
+  whatIDidWell: string | null
+  whatIDidWrong: string | null
+  sessionLesson: string | null
+  emotionalState: string | null
+  executionQuality: string | null
+  wouldTakeAgain: boolean | null
   tradeDate: Date | null
   openedAt: Date | null
   closedAt: Date | null
@@ -160,6 +182,17 @@ export type JournalTradeCountAggregateOutputType = {
   setupNotes: number
   mistakeNotes: number
   reviewStatus: number
+  timeframe: number
+  sessionName: number
+  marketMood: number
+  biasBeforeTrading: number
+  whatINoticed: number
+  whatIDidWell: number
+  whatIDidWrong: number
+  sessionLesson: number
+  emotionalState: number
+  executionQuality: number
+  wouldTakeAgain: number
   tags: number
   mistakes: number
   screenshotUrls: number
@@ -232,6 +265,17 @@ export type JournalTradeMinAggregateInputType = {
   setupNotes?: true
   mistakeNotes?: true
   reviewStatus?: true
+  timeframe?: true
+  sessionName?: true
+  marketMood?: true
+  biasBeforeTrading?: true
+  whatINoticed?: true
+  whatIDidWell?: true
+  whatIDidWrong?: true
+  sessionLesson?: true
+  emotionalState?: true
+  executionQuality?: true
+  wouldTakeAgain?: true
   tradeDate?: true
   openedAt?: true
   closedAt?: true
@@ -269,6 +313,17 @@ export type JournalTradeMaxAggregateInputType = {
   setupNotes?: true
   mistakeNotes?: true
   reviewStatus?: true
+  timeframe?: true
+  sessionName?: true
+  marketMood?: true
+  biasBeforeTrading?: true
+  whatINoticed?: true
+  whatIDidWell?: true
+  whatIDidWrong?: true
+  sessionLesson?: true
+  emotionalState?: true
+  executionQuality?: true
+  wouldTakeAgain?: true
   tradeDate?: true
   openedAt?: true
   closedAt?: true
@@ -306,6 +361,17 @@ export type JournalTradeCountAggregateInputType = {
   setupNotes?: true
   mistakeNotes?: true
   reviewStatus?: true
+  timeframe?: true
+  sessionName?: true
+  marketMood?: true
+  biasBeforeTrading?: true
+  whatINoticed?: true
+  whatIDidWell?: true
+  whatIDidWrong?: true
+  sessionLesson?: true
+  emotionalState?: true
+  executionQuality?: true
+  wouldTakeAgain?: true
   tags?: true
   mistakes?: true
   screenshotUrls?: true
@@ -433,6 +499,17 @@ export type JournalTradeGroupByOutputType = {
   setupNotes: string | null
   mistakeNotes: string | null
   reviewStatus: $Enums.ReviewStatus
+  timeframe: string | null
+  sessionName: string | null
+  marketMood: string | null
+  biasBeforeTrading: string | null
+  whatINoticed: string | null
+  whatIDidWell: string | null
+  whatIDidWrong: string | null
+  sessionLesson: string | null
+  emotionalState: string | null
+  executionQuality: string | null
+  wouldTakeAgain: boolean | null
   tags: string[]
   mistakes: string[]
   screenshotUrls: string[]
@@ -496,6 +573,17 @@ export type JournalTradeWhereInput = {
   setupNotes?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
   mistakeNotes?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
   reviewStatus?: Prisma.EnumReviewStatusFilter<"JournalTrade"> | $Enums.ReviewStatus
+  timeframe?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  sessionName?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  marketMood?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  biasBeforeTrading?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  whatINoticed?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  whatIDidWell?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  whatIDidWrong?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  sessionLesson?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  emotionalState?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  executionQuality?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  wouldTakeAgain?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
   tags?: Prisma.StringNullableListFilter<"JournalTrade">
   mistakes?: Prisma.StringNullableListFilter<"JournalTrade">
   screenshotUrls?: Prisma.StringNullableListFilter<"JournalTrade">
@@ -540,6 +628,17 @@ export type JournalTradeOrderByWithRelationInput = {
   setupNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   mistakeNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewStatus?: Prisma.SortOrder
+  timeframe?: Prisma.SortOrderInput | Prisma.SortOrder
+  sessionName?: Prisma.SortOrderInput | Prisma.SortOrder
+  marketMood?: Prisma.SortOrderInput | Prisma.SortOrder
+  biasBeforeTrading?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatINoticed?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatIDidWell?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatIDidWrong?: Prisma.SortOrderInput | Prisma.SortOrder
+  sessionLesson?: Prisma.SortOrderInput | Prisma.SortOrder
+  emotionalState?: Prisma.SortOrderInput | Prisma.SortOrder
+  executionQuality?: Prisma.SortOrderInput | Prisma.SortOrder
+  wouldTakeAgain?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
   mistakes?: Prisma.SortOrder
   screenshotUrls?: Prisma.SortOrder
@@ -587,6 +686,17 @@ export type JournalTradeWhereUniqueInput = Prisma.AtLeast<{
   setupNotes?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
   mistakeNotes?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
   reviewStatus?: Prisma.EnumReviewStatusFilter<"JournalTrade"> | $Enums.ReviewStatus
+  timeframe?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  sessionName?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  marketMood?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  biasBeforeTrading?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  whatINoticed?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  whatIDidWell?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  whatIDidWrong?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  sessionLesson?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  emotionalState?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  executionQuality?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  wouldTakeAgain?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
   tags?: Prisma.StringNullableListFilter<"JournalTrade">
   mistakes?: Prisma.StringNullableListFilter<"JournalTrade">
   screenshotUrls?: Prisma.StringNullableListFilter<"JournalTrade">
@@ -631,6 +741,17 @@ export type JournalTradeOrderByWithAggregationInput = {
   setupNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   mistakeNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewStatus?: Prisma.SortOrder
+  timeframe?: Prisma.SortOrderInput | Prisma.SortOrder
+  sessionName?: Prisma.SortOrderInput | Prisma.SortOrder
+  marketMood?: Prisma.SortOrderInput | Prisma.SortOrder
+  biasBeforeTrading?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatINoticed?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatIDidWell?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatIDidWrong?: Prisma.SortOrderInput | Prisma.SortOrder
+  sessionLesson?: Prisma.SortOrderInput | Prisma.SortOrder
+  emotionalState?: Prisma.SortOrderInput | Prisma.SortOrder
+  executionQuality?: Prisma.SortOrderInput | Prisma.SortOrder
+  wouldTakeAgain?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
   mistakes?: Prisma.SortOrder
   screenshotUrls?: Prisma.SortOrder
@@ -679,6 +800,17 @@ export type JournalTradeScalarWhereWithAggregatesInput = {
   setupNotes?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
   mistakeNotes?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
   reviewStatus?: Prisma.EnumReviewStatusWithAggregatesFilter<"JournalTrade"> | $Enums.ReviewStatus
+  timeframe?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  sessionName?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  marketMood?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  biasBeforeTrading?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  whatINoticed?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  whatIDidWell?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  whatIDidWrong?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  sessionLesson?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  emotionalState?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  executionQuality?: Prisma.StringNullableWithAggregatesFilter<"JournalTrade"> | string | null
+  wouldTakeAgain?: Prisma.BoolNullableWithAggregatesFilter<"JournalTrade"> | boolean | null
   tags?: Prisma.StringNullableListFilter<"JournalTrade">
   mistakes?: Prisma.StringNullableListFilter<"JournalTrade">
   screenshotUrls?: Prisma.StringNullableListFilter<"JournalTrade">
@@ -716,6 +848,17 @@ export type JournalTradeCreateInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -760,6 +903,17 @@ export type JournalTradeUncheckedCreateInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -798,6 +952,17 @@ export type JournalTradeUpdateInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -842,6 +1007,17 @@ export type JournalTradeUncheckedUpdateInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -883,6 +1059,17 @@ export type JournalTradeCreateManyInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -920,6 +1107,17 @@ export type JournalTradeUpdateManyMutationInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -960,6 +1158,17 @@ export type JournalTradeUncheckedUpdateManyInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -1018,6 +1227,17 @@ export type JournalTradeCountOrderByAggregateInput = {
   setupNotes?: Prisma.SortOrder
   mistakeNotes?: Prisma.SortOrder
   reviewStatus?: Prisma.SortOrder
+  timeframe?: Prisma.SortOrder
+  sessionName?: Prisma.SortOrder
+  marketMood?: Prisma.SortOrder
+  biasBeforeTrading?: Prisma.SortOrder
+  whatINoticed?: Prisma.SortOrder
+  whatIDidWell?: Prisma.SortOrder
+  whatIDidWrong?: Prisma.SortOrder
+  sessionLesson?: Prisma.SortOrder
+  emotionalState?: Prisma.SortOrder
+  executionQuality?: Prisma.SortOrder
+  wouldTakeAgain?: Prisma.SortOrder
   tags?: Prisma.SortOrder
   mistakes?: Prisma.SortOrder
   screenshotUrls?: Prisma.SortOrder
@@ -1073,6 +1293,17 @@ export type JournalTradeMaxOrderByAggregateInput = {
   setupNotes?: Prisma.SortOrder
   mistakeNotes?: Prisma.SortOrder
   reviewStatus?: Prisma.SortOrder
+  timeframe?: Prisma.SortOrder
+  sessionName?: Prisma.SortOrder
+  marketMood?: Prisma.SortOrder
+  biasBeforeTrading?: Prisma.SortOrder
+  whatINoticed?: Prisma.SortOrder
+  whatIDidWell?: Prisma.SortOrder
+  whatIDidWrong?: Prisma.SortOrder
+  sessionLesson?: Prisma.SortOrder
+  emotionalState?: Prisma.SortOrder
+  executionQuality?: Prisma.SortOrder
+  wouldTakeAgain?: Prisma.SortOrder
   tradeDate?: Prisma.SortOrder
   openedAt?: Prisma.SortOrder
   closedAt?: Prisma.SortOrder
@@ -1110,6 +1341,17 @@ export type JournalTradeMinOrderByAggregateInput = {
   setupNotes?: Prisma.SortOrder
   mistakeNotes?: Prisma.SortOrder
   reviewStatus?: Prisma.SortOrder
+  timeframe?: Prisma.SortOrder
+  sessionName?: Prisma.SortOrder
+  marketMood?: Prisma.SortOrder
+  biasBeforeTrading?: Prisma.SortOrder
+  whatINoticed?: Prisma.SortOrder
+  whatIDidWell?: Prisma.SortOrder
+  whatIDidWrong?: Prisma.SortOrder
+  sessionLesson?: Prisma.SortOrder
+  emotionalState?: Prisma.SortOrder
+  executionQuality?: Prisma.SortOrder
+  wouldTakeAgain?: Prisma.SortOrder
   tradeDate?: Prisma.SortOrder
   openedAt?: Prisma.SortOrder
   closedAt?: Prisma.SortOrder
@@ -1359,6 +1601,17 @@ export type JournalTradeCreateWithoutProfileInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -1401,6 +1654,17 @@ export type JournalTradeUncheckedCreateWithoutProfileInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -1471,6 +1735,17 @@ export type JournalTradeScalarWhereInput = {
   setupNotes?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
   mistakeNotes?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
   reviewStatus?: Prisma.EnumReviewStatusFilter<"JournalTrade"> | $Enums.ReviewStatus
+  timeframe?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  sessionName?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  marketMood?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  biasBeforeTrading?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  whatINoticed?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  whatIDidWell?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  whatIDidWrong?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  sessionLesson?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  emotionalState?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  executionQuality?: Prisma.StringNullableFilter<"JournalTrade"> | string | null
+  wouldTakeAgain?: Prisma.BoolNullableFilter<"JournalTrade"> | boolean | null
   tags?: Prisma.StringNullableListFilter<"JournalTrade">
   mistakes?: Prisma.StringNullableListFilter<"JournalTrade">
   screenshotUrls?: Prisma.StringNullableListFilter<"JournalTrade">
@@ -1508,6 +1783,17 @@ export type JournalTradeCreateWithoutAccountInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -1550,6 +1836,17 @@ export type JournalTradeUncheckedCreateWithoutAccountInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -1614,6 +1911,17 @@ export type JournalTradeCreateWithoutChecklistItemsInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -1657,6 +1965,17 @@ export type JournalTradeUncheckedCreateWithoutChecklistItemsInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -1710,6 +2029,17 @@ export type JournalTradeUpdateWithoutChecklistItemsInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -1753,6 +2083,17 @@ export type JournalTradeUncheckedUpdateWithoutChecklistItemsInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -1790,6 +2131,17 @@ export type JournalTradeCreateWithoutStrategyInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -1832,6 +2184,17 @@ export type JournalTradeUncheckedCreateWithoutStrategyInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -1898,6 +2261,17 @@ export type JournalTradeCreateManyProfileInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -1935,6 +2309,17 @@ export type JournalTradeUpdateWithoutProfileInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -1977,6 +2362,17 @@ export type JournalTradeUncheckedUpdateWithoutProfileInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -2017,6 +2413,17 @@ export type JournalTradeUncheckedUpdateManyWithoutProfileInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -2056,6 +2463,17 @@ export type JournalTradeCreateManyAccountInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -2093,6 +2511,17 @@ export type JournalTradeUpdateWithoutAccountInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -2135,6 +2564,17 @@ export type JournalTradeUncheckedUpdateWithoutAccountInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -2175,6 +2615,17 @@ export type JournalTradeUncheckedUpdateManyWithoutAccountInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -2214,6 +2665,17 @@ export type JournalTradeCreateManyStrategyInput = {
   setupNotes?: string | null
   mistakeNotes?: string | null
   reviewStatus?: $Enums.ReviewStatus
+  timeframe?: string | null
+  sessionName?: string | null
+  marketMood?: string | null
+  biasBeforeTrading?: string | null
+  whatINoticed?: string | null
+  whatIDidWell?: string | null
+  whatIDidWrong?: string | null
+  sessionLesson?: string | null
+  emotionalState?: string | null
+  executionQuality?: string | null
+  wouldTakeAgain?: boolean | null
   tags?: Prisma.JournalTradeCreatetagsInput | string[]
   mistakes?: Prisma.JournalTradeCreatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeCreatescreenshotUrlsInput | string[]
@@ -2251,6 +2713,17 @@ export type JournalTradeUpdateWithoutStrategyInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -2293,6 +2766,17 @@ export type JournalTradeUncheckedUpdateWithoutStrategyInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -2333,6 +2817,17 @@ export type JournalTradeUncheckedUpdateManyWithoutStrategyInput = {
   setupNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mistakeNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  timeframe?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketMood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  biasBeforeTrading?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatINoticed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWell?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatIDidWrong?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessionLesson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalState?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  executionQuality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wouldTakeAgain?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tags?: Prisma.JournalTradeUpdatetagsInput | string[]
   mistakes?: Prisma.JournalTradeUpdatemistakesInput | string[]
   screenshotUrls?: Prisma.JournalTradeUpdatescreenshotUrlsInput | string[]
@@ -2404,6 +2899,17 @@ export type JournalTradeSelect<ExtArgs extends runtime.Types.Extensions.Internal
   setupNotes?: boolean
   mistakeNotes?: boolean
   reviewStatus?: boolean
+  timeframe?: boolean
+  sessionName?: boolean
+  marketMood?: boolean
+  biasBeforeTrading?: boolean
+  whatINoticed?: boolean
+  whatIDidWell?: boolean
+  whatIDidWrong?: boolean
+  sessionLesson?: boolean
+  emotionalState?: boolean
+  executionQuality?: boolean
+  wouldTakeAgain?: boolean
   tags?: boolean
   mistakes?: boolean
   screenshotUrls?: boolean
@@ -2449,6 +2955,17 @@ export type JournalTradeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   setupNotes?: boolean
   mistakeNotes?: boolean
   reviewStatus?: boolean
+  timeframe?: boolean
+  sessionName?: boolean
+  marketMood?: boolean
+  biasBeforeTrading?: boolean
+  whatINoticed?: boolean
+  whatIDidWell?: boolean
+  whatIDidWrong?: boolean
+  sessionLesson?: boolean
+  emotionalState?: boolean
+  executionQuality?: boolean
+  wouldTakeAgain?: boolean
   tags?: boolean
   mistakes?: boolean
   screenshotUrls?: boolean
@@ -2492,6 +3009,17 @@ export type JournalTradeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   setupNotes?: boolean
   mistakeNotes?: boolean
   reviewStatus?: boolean
+  timeframe?: boolean
+  sessionName?: boolean
+  marketMood?: boolean
+  biasBeforeTrading?: boolean
+  whatINoticed?: boolean
+  whatIDidWell?: boolean
+  whatIDidWrong?: boolean
+  sessionLesson?: boolean
+  emotionalState?: boolean
+  executionQuality?: boolean
+  wouldTakeAgain?: boolean
   tags?: boolean
   mistakes?: boolean
   screenshotUrls?: boolean
@@ -2535,6 +3063,17 @@ export type JournalTradeSelectScalar = {
   setupNotes?: boolean
   mistakeNotes?: boolean
   reviewStatus?: boolean
+  timeframe?: boolean
+  sessionName?: boolean
+  marketMood?: boolean
+  biasBeforeTrading?: boolean
+  whatINoticed?: boolean
+  whatIDidWell?: boolean
+  whatIDidWrong?: boolean
+  sessionLesson?: boolean
+  emotionalState?: boolean
+  executionQuality?: boolean
+  wouldTakeAgain?: boolean
   tags?: boolean
   mistakes?: boolean
   screenshotUrls?: boolean
@@ -2545,7 +3084,7 @@ export type JournalTradeSelectScalar = {
   updatedAt?: boolean
 }
 
-export type JournalTradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "accountId" | "strategyId" | "symbol" | "direction" | "status" | "result" | "entryPrice" | "exitPrice" | "stopLoss" | "takeProfit" | "riskReward" | "quantity" | "positionSize" | "pnl" | "pnlPercent" | "commission" | "swap" | "fees" | "followedPlan" | "convictionLevel" | "emotionBefore" | "emotionAfter" | "notesBefore" | "notesAfter" | "setupNotes" | "mistakeNotes" | "reviewStatus" | "tags" | "mistakes" | "screenshotUrls" | "tradeDate" | "openedAt" | "closedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["journalTrade"]>
+export type JournalTradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "accountId" | "strategyId" | "symbol" | "direction" | "status" | "result" | "entryPrice" | "exitPrice" | "stopLoss" | "takeProfit" | "riskReward" | "quantity" | "positionSize" | "pnl" | "pnlPercent" | "commission" | "swap" | "fees" | "followedPlan" | "convictionLevel" | "emotionBefore" | "emotionAfter" | "notesBefore" | "notesAfter" | "setupNotes" | "mistakeNotes" | "reviewStatus" | "timeframe" | "sessionName" | "marketMood" | "biasBeforeTrading" | "whatINoticed" | "whatIDidWell" | "whatIDidWrong" | "sessionLesson" | "emotionalState" | "executionQuality" | "wouldTakeAgain" | "tags" | "mistakes" | "screenshotUrls" | "tradeDate" | "openedAt" | "closedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["journalTrade"]>
 export type JournalTradeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   checklistItems?: boolean | Prisma.JournalTrade$checklistItemsArgs<ExtArgs>
   account?: boolean | Prisma.TradingAccountDefaultArgs<ExtArgs>
@@ -2602,6 +3141,17 @@ export type $JournalTradePayload<ExtArgs extends runtime.Types.Extensions.Intern
     setupNotes: string | null
     mistakeNotes: string | null
     reviewStatus: $Enums.ReviewStatus
+    timeframe: string | null
+    sessionName: string | null
+    marketMood: string | null
+    biasBeforeTrading: string | null
+    whatINoticed: string | null
+    whatIDidWell: string | null
+    whatIDidWrong: string | null
+    sessionLesson: string | null
+    emotionalState: string | null
+    executionQuality: string | null
+    wouldTakeAgain: boolean | null
     tags: string[]
     mistakes: string[]
     screenshotUrls: string[]
@@ -3066,6 +3616,17 @@ export interface JournalTradeFieldRefs {
   readonly setupNotes: Prisma.FieldRef<"JournalTrade", 'String'>
   readonly mistakeNotes: Prisma.FieldRef<"JournalTrade", 'String'>
   readonly reviewStatus: Prisma.FieldRef<"JournalTrade", 'ReviewStatus'>
+  readonly timeframe: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly sessionName: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly marketMood: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly biasBeforeTrading: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly whatINoticed: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly whatIDidWell: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly whatIDidWrong: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly sessionLesson: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly emotionalState: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly executionQuality: Prisma.FieldRef<"JournalTrade", 'String'>
+  readonly wouldTakeAgain: Prisma.FieldRef<"JournalTrade", 'Boolean'>
   readonly tags: Prisma.FieldRef<"JournalTrade", 'String[]'>
   readonly mistakes: Prisma.FieldRef<"JournalTrade", 'String[]'>
   readonly screenshotUrls: Prisma.FieldRef<"JournalTrade", 'String[]'>
